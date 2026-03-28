@@ -1,151 +1,722 @@
-# Stokeridge Tavern and Grill - Website Review & Suggestions
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stokeridge Tavern and Grill — Oak Ridge, NC</title>
+    <meta name="description" content="Come for the food, Stay for the fun!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Tavern Palette */
+            --mahogany: #1c1512;
+            --bar-top: #241c16;
+            --wood: #322518;
+            --wood-light: #4a3828;
+            --bourbon: #d4952a;
+            --bourbon-glow: #e8ab3a;
+            --bourbon-dim: rgba(212,149,42,0.12);
+            --leather: #6b4c30;
+            --cream: #f0e8dc;
+            --parchment: #e8ddd0;
+            --salt: #faf7f2;
+            --smoke: #a89880;
+            --slate: #786858;
+            --ash: #c4b8a8;
 
-This is a well-crafted, professional restaurant website with excellent design and UX. Here are observations and suggestions:
+            --font-display: 'Bricolage Grotesque', 'Trebuchet MS', sans-serif;
+            --font-serif: 'Libre Baskerville', 'Georgia', serif;
+            --font-body: 'IBM Plex Sans', 'Helvetica Neue', sans-serif;
+        }
 
-## ✅ Strengths
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: var(--font-body);
+            background: var(--mahogany);
+            color: var(--cream);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; }
 
-1. **Beautiful Visual Design** - Warm, sophisticated tavern aesthetic with excellent color palette
-2. **Smooth Animations** - Hero animations and scroll reveal effects are polished
-3. **Mobile Responsive** - Good breakpoints and adaptive layouts
-4. **Typography** - Font choices are excellent and hierarchy is clear
-5. **Navigation** - Fixed nav with scroll effect and mobile hamburger menu
+        /* Wood grain texture */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)' opacity='0.02'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 9999;
+        }
 
-## 🔧 Suggestions & Issues
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 0 2rem;
+            transition: all 0.4s ease;
+        }
+        .nav.scrolled {
+            background: rgba(28,21,18,0.95);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+        .nav-inner {
+            max-width: 1140px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 78px;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--bourbon);
+            letter-spacing: -0.01em;
+        }
+        .nav-logo span {
+            color: var(--ash);
+            font-weight: 500;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--smoke);
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--bourbon); }
+        .nav-cta {
+            font-weight: 500 !important;
+            padding: 10px 24px !important;
+            background: var(--bourbon) !important;
+            color: var(--mahogany) !important;
+            border-radius: 5px !important;
+            transition: all 0.3s ease !important;
+        }
+        .nav-cta:hover { background: var(--bourbon-glow) !important; transform: translateY(-1px) !important; }
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .nav-toggle span { width: 22px; height: 1.5px; background: var(--cream); }
 
-### 1. **Incomplete Content**
-```html
-<!-- Stats bar is empty - add actual stats -->
-<div class="stats-bar"><div class="stats-grid"></div></div>
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 35%, rgba(212,149,42,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 80%, rgba(107,76,48,0.08) 0%, transparent 40%),
+                linear-gradient(180deg, var(--mahogany) 0%, var(--bar-top) 40%, var(--wood) 65%, var(--bar-top) 85%, var(--mahogany) 100%);
+        }
+        /* Warm ambient glow */
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 40%;
+            background: radial-gradient(ellipse, rgba(212,149,42,0.04) 0%, transparent 70%);
+            animation: bar-glow 12s ease-in-out infinite;
+        }
+        @keyframes bar-glow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+        }
 
-<!-- Menu section has no items - needs full menu -->
-<div class="menu-container">
-    <p class="menu-note">Full menu available in-store...</p>
-</div>
-```
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 2rem;
+        }
+        .hero-tagline-top {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--bourbon);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            opacity: 0;
+            animation: fade-up 0.8s ease forwards 0.3s;
+        }
+        .hero-tagline-top::before, .hero-tagline-top::after {
+            content: '';
+            width: 35px;
+            height: 1px;
+            background: var(--bourbon);
+            opacity: 0.4;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            line-height: 0.95;
+            color: var(--cream);
+            margin-bottom: 0.3rem;
+            opacity: 0;
+            animation: fade-up 0.8s ease forwards 0.5s;
+        }
+        .hero-title em {
+            font-style: normal;
+            color: var(--bourbon);
+        }
+        .hero-subtitle {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-weight: 400;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--smoke);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fade-up 0.8s ease forwards 0.7s;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fade-up 0.8s ease forwards 0.9s;
+        }
+        .btn {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.8rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 14px 34px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+        .btn-primary { background: var(--bourbon); color: var(--mahogany); }
+        .btn-primary:hover {
+            background: var(--bourbon-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(212,149,42,0.2);
+        }
+        .btn-outline { background: transparent; color: var(--cream); border: 1px solid rgba(232,213,192,0.2); }
+        .btn-outline:hover { border-color: var(--bourbon); color: var(--bourbon); }
 
-**Fix:** Populate these sections with real data:
-```html
-<div class="stats-grid">
-    <div class="stat-item">
-        <div class="stat-number">20+</div>
-        <div class="stat-label">Years Serving</div>
-    </div>
-    <div class="stat-item">
-        <div class="stat-number">500+</div>
-        <div class="stat-label">Happy Guests Weekly</div>
-    </div>
-    <!-- etc -->
-</div>
-```
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-### 2. **Missing Information**
-- Phone number in "Call Us" button is empty: `href="tel:"`
-- Hours only show Monday-Thursday (missing Fri-Sun)
-- Address is incomplete: "Oak Ridge NC" needs street address
+        /* STATS */
+        .stats-bar {
+            background: var(--bar-top);
+            border-top: 1px solid rgba(212,149,42,0.1);
+            border-bottom: 1px solid rgba(212,149,42,0.1);
+            padding: 2.5rem 2rem;
+        }
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .stat-item { position: relative; }
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -1rem; top: 15%; height: 70%; width: 1px;
+            background: rgba(212,149,42,0.1);
+        }
+        .stat-number {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 2.2rem;
+            color: var(--bourbon);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+        .stat-label {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--smoke);
+        }
 
-**Fix:**
-```html
-<a href="tel:+13365551234" class="btn btn-primary">Call Us</a>
-```
+        /* SECTION */
+        .section { padding: 6rem 2rem; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--bourbon);
+            margin-bottom: 0.75rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            color: var(--cream);
+            line-height: 1.05;
+        }
+        .section-title em { font-style: normal; color: var(--bourbon); }
 
-### 3. **About Section Text is Minimal**
-The about text is just a welcome message. Consider adding:
-- Restaurant history/founding story
-- Owner personality
-- What makes you unique
-- House specialties
+        /* ABOUT */
+        .about {
+            background: linear-gradient(180deg, var(--mahogany) 0%, var(--bar-top) 50%, var(--mahogany) 100%);
+        }
+        .about-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-image {
+            position: relative;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+        }
+        .about-image-inner {
+            width: 100%; height: 100%;
+            background:
+                radial-gradient(ellipse at 30% 30%, var(--wood-light) 0%, transparent 70%),
+                radial-gradient(ellipse at 70% 70%, rgba(212,149,42,0.1) 0%, transparent 50%),
+                var(--wood);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212,149,42,0.08);
+        }
+        .about-image-inner .placeholder-icon { font-size: 4rem; opacity: 0.08; }
+        /* Subtle corner frame */
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px;
+            right: 10px; bottom: 10px;
+            border: 1px solid rgba(212,149,42,0.08);
+            pointer-events: none;
+            z-index: 1;
+        }
 
-### 4. **No Menu Items Displayed**
-The menu section should showcase signature dishes. Consider:
-```html
-<div class="menu-grid">
-    <div class="menu-category">
-        <div class="menu-category-title">Appetizers</div>
-        <div class="menu-item">
-            <div class="menu-item-info">
-                <div class="menu-item-name">Wings</div>
-                <div class="menu-item-desc">Crispy wings with bourbon glaze</div>
-            </div>
-            <div class="menu-item-price">$12</div>
+        .about-text .label {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--bourbon);
+            margin-bottom: 1rem;
+        }
+        .about-text h2 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: var(--cream);
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+        .about-text h2 em { font-style: normal; color: var(--bourbon); }
+        .about-text p {
+            font-size: 1rem;
+            color: var(--smoke);
+            line-height: 1.85;
+            margin-bottom: 1.25rem;
+            font-weight: 300;
+        }
+        .about-text .drop-cap::first-letter {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 4rem;
+            float: left;
+            line-height: 0.8;
+            margin-right: 0.4rem;
+            margin-top: 0.1rem;
+            color: var(--bourbon);
+        }
+        .about-signature {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--bourbon);
+            margin-top: 2rem;
+        }
+
+        /* QUOTE */
+        .quote-section {
+            background: var(--wood);
+            padding: 4.5rem 2rem;
+            text-align: center;
+            position: relative;
+            border-top: 1px solid rgba(212,149,42,0.08);
+            border-bottom: 1px solid rgba(212,149,42,0.08);
+        }
+        .quote-section::before {
+            content: '\201C';
+            font-family: var(--font-serif);
+            font-size: 12rem;
+            position: absolute;
+            top: -1.5rem; left: 50%;
+            transform: translateX(-50%);
+            color: rgba(212,149,42,0.05);
+            line-height: 1;
+        }
+        .quote-section blockquote {
+            max-width: 650px;
+            margin: 0 auto;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: clamp(1.2rem, 3vw, 1.7rem);
+            color: var(--parchment);
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+        .quote-section cite {
+            display: block;
+            font-family: var(--font-body);
+            font-style: normal;
+            font-weight: 300;
+            font-size: 0.7rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--bourbon);
+            margin-top: 1.5rem;
+        }
+
+        /* MENU */
+        .menu-section { background: var(--mahogany); }
+        .menu-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .menu-category { margin-bottom: 2rem; }
+        .menu-category-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--bourbon);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .menu-category-title::before, .menu-category-title::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212,149,42,0.15), transparent);
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(212,149,42,0.04);
+        }
+        .menu-item-info { flex: 1; }
+        .menu-item-name {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--cream);
+        }
+        .menu-item-desc {
+            font-family: var(--font-body);
+            font-weight: 300;
+            font-size: 0.82rem;
+            color: var(--slate);
+            margin-top: 0.15rem;
+        }
+        .menu-item-price {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--bourbon);
+            margin-left: 1.5rem;
+            white-space: nowrap;
+        }
+        .menu-note {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--slate);
+            margin-top: 2rem;
+        }
+
+        /* INFO */
+        .info-section {
+            background: linear-gradient(180deg, var(--mahogany) 0%, var(--bar-top) 100%);
+        }
+        .info-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+        .info-divider {
+            background: rgba(212,149,42,0.1);
+            height: 100%;
+        }
+        .info-card { text-align: center; }
+        .info-card h3 {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--bourbon);
+            margin-bottom: 1.5rem;
+        }
+        .hours-list { list-style: none; }
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(212,149,42,0.04);
+        }
+        .hours-list .day { color: var(--smoke); }
+        .hours-list .time { color: var(--cream); font-weight: 500; }
+        .location-text {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--smoke);
+        }
+        .location-text strong {
+            color: var(--cream);
+            display: block;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .location-phone {
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--mahogany);
+            background: var(--bourbon);
+            padding: 10px 24px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .location-phone:hover { background: var(--bourbon-glow); transform: translateY(-1px); }
+
+        /* CTA */
+        .cta-section {
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(212,149,42,0.06) 0%, transparent 50%),
+                var(--wood);
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212,149,42,0.08);
+        }
+        .cta-inner { max-width: 600px; margin: 0 auto; }
+        .cta-title {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--cream);
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        .cta-title em { font-style: normal; color: var(--bourbon); }
+        .cta-text {
+            font-weight: 300;
+            font-size: 1rem;
+            color: var(--smoke);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--mahogany);
+            border-top: 1px solid rgba(212,149,42,0.06);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--bourbon);
+            margin-bottom: 0.5rem;
+        }
+        .footer-tagline {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--smoke);
+            margin-bottom: 2rem;
+        }
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-social a {
+            width: 38px; height: 38px;
+            border: 1px solid rgba(212,149,42,0.1);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--smoke);
+            transition: all 0.3s ease;
+        }
+        .footer-social a:hover { border-color: var(--bourbon); color: var(--bourbon); }
+        .footer-copy { font-size: 0.65rem; color: rgba(168,152,128,0.3); letter-spacing: 0.05em; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-toggle { display: flex; }
+            .nav-links.active {
+                display: flex; flex-direction: column;
+                position: absolute; top: 78px; left: 0; right: 0;
+                background: rgba(28,21,18,0.98);
+                padding: 2rem; gap: 1.5rem;
+                border-bottom: 1px solid rgba(212,149,42,0.1);
+            }
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-image { aspect-ratio: 16/9; }
+            .menu-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .info-divider { height: 1px; width: 60%; margin: 0 auto; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:not(:last-child)::after { display: none; }
+            .section { padding: 4rem 1.25rem; }
+            .menu-item { flex-direction: column; gap: 0.2rem; }
+            .menu-item-price { margin-left: 0; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(25px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Stokeridge Tavern and Grill</a>
+            <ul class="nav-links" id="navLinks"><li><a href="#about">Our Story</a></li><li><a href="#menu">Menu</a></li><li><a href="#info">Visit</a></li><li><a href="#cta" class="nav-cta">Stop By</a></li></ul>
+            <div class="nav-toggle" onclick="document.getElementById('navLinks').classList.toggle('active')"><span></span><span></span><span></span></div>
         </div>
-        <!-- More items -->
-    </div>
-</div>
-```
+    </nav>
+    <section class="hero"><div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-tagline-top">Oak Ridge, NC</div>
+            <h1 class="hero-title">Stokeridge Tavern <em>and Grill</em></h1>
+            <p class="hero-subtitle">Come for the food, Stay for the fun!</p>
+            <div class="hero-actions"><a href="#menu" class="btn btn-primary">View the Menu</a><a href="#info" class="btn btn-outline">Find Us</a></div>
+        </div>
+    </section>
+    <div class="stats-bar"><div class="stats-grid"></div></div>
+    <section class="about section" id="about">
+        <div class="section-header"><div class="section-label">Our Story</div><h2 class="section-title">Where <em>Everybody</em> Knows Your Name</h2></div>
+        <div class="about-grid">
+            <div class="about-image reveal"><div class="about-image-inner"><div class="about-image-placeholder">
+                    <div class="placeholder-icon">&#127866;</div>
+                </div></div></div>
+            <div class="about-text reveal"><p class="drop-cap">Welcome to Stokeridge Tavern and Grill. We look forward to serving you in Oak Ridge, NC.</p><div class="about-signature">&#8212; Stokeridge Tavern and Grill</div></div>
+        </div>
+    </section>
+    <div class="quote-section"><blockquote>Come for the food, Stay for the fun!<cite>Stokeridge Tavern and Grill</cite></blockquote></div>
+    <section class="menu-section section" id="menu">
+        <div class="section-header"><div class="section-label">From the Kitchen &amp; Bar</div><h2 class="section-title">Our <em>Menu</em></h2></div>
+        <div class="menu-container"><p class="menu-note">Full menu available in-store. Give us a call for details.</p><p class="menu-note">Prices and availability may vary. Please ask your server about daily specials.</p></div>
+    </section>
+    <section class="info-section section" id="info">
+        <div class="section-header"><div class="section-label">Come See Us</div><h2 class="section-title">Hours &amp; <em>Location</em></h2></div>
+        <div class="info-grid">
+            <div class="info-card reveal"><h3>Hours</h3><ul class="hours-list"><li><span class="day">Hours</span><span class="time">Monday-Thursday: 11am - 10pm</span></li></ul></div>
+            <div class="info-divider"></div>
+            <div class="info-card reveal"><h3>Location</h3><div class="location-text"><strong>Stokeridge Tavern and Grill</strong>
+                    Oak Ridge<br>
+                    NC</div></div>
+        </div>
+    </section>
+    <section class="cta-section" id="cta">
+        <div class="cta-inner reveal"><div class="section-label">Your Table's Waiting</div><h2 class="cta-title">Pull up a stool. <em>Stay a while.</em></h2><p class="cta-text">Give us a call or stop by. We'd love to see you.</p>
+            <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;"><a href="tel:" class="btn btn-primary">Call Us</a><a href="#menu" class="btn btn-outline">See the Menu</a></div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-logo">Stokeridge Tavern and Grill</div><div class="footer-tagline">Come for the food, Stay for the fun!</div>
+        <div class="footer-social"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">ig</a></div>
+        <div class="footer-copy">&copy; 2026 Stokeridge Tavern and Grill. All rights reserved.</div>
+    </footer>
 
-### 5. **Missing Image Placeholders**
-```html
-<!-- About section image is just a placeholder emoji -->
-<div class="about-image-inner">
-    <div class="placeholder-icon">&#127866;</div>
-</div>
-```
+    <script>
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
+        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
 
-**Fix:** Replace with actual restaurant photo:
-```html
-<div class="about-image-inner">
-    <img src="restaurant-interior.jpg" alt="Stokeridge Tavern Interior">
-</div>
-```
-
-### 6. **Navigation Issues**
-Mobile menu toggle doesn't close when clicking a link:
-```javascript
-// Add to nav link clicks
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        document.getElementById('navLinks').classList.remove('active');
-    });
-});
-```
-
-### 7. **Missing SEO Elements**
-```html
-<!-- Add these to <head> -->
-<meta name="keywords" content="tavern, grill, Oak Ridge NC, restaurant">
-<meta property="og:title" content="Stokeridge Tavern and Grill">
-<meta property="og:description" content="Come for the food, Stay for the fun!">
-<meta property="og:image" content="path-to-image.jpg">
-```
-
-### 8. **Accessibility Improvements**
-```html
-<!-- Add alt text to all images -->
-<img src="image.jpg" alt="Description of image">
-
-<!-- Add aria-labels to social links -->
-<a href="#" aria-label="Visit us on Facebook">f</a>
-```
-
-### 9. **No Contact Form**
-Consider adding an email signup or reservation form in the CTA section.
-
-### 10. **Missing Business Details**
-- No parking information
-- No dietary restrictions/allergen info
-- No reservation system link
-- No catering/events information
-
-## 📋 Priority Checklist
-
-- [ ] Fill in actual phone number
-- [ ] Complete hours for all days
-- [ ] Add full street address
-- [ ] Add real restaurant photos
-- [ ] Populate menu with actual items
-- [ ] Fix mobile menu close functionality
-- [ ] Add more substantial About section text
-- [ ] Consider adding reservation system
-- [ ] Add contact form or email signup
-- [ ] Update social media links
-
-## 💡 Nice-to-Have Additions
-
-1. **Photo Gallery** - Showcase food and atmosphere
-2. **Reviews/Testimonials** - Social proof section
-3. **Events Calendar** - Live music, trivia nights, etc.
-4. **Reservation System** - OpenTable or similar integration
-5. **News/Blog** - Seasonal specials, chef features
-6. **Team Page** - Humanize the business
-
-The design foundation is excellent—now it just needs the content filled in! 🍺
+</body>
+</html>
