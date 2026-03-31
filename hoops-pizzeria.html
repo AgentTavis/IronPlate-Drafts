@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoops Pizzeria - Pittsboro's Eco-Friendly, Delicious Pizzas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN SYSTEM - COLORS */
+        :root {
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-color: #FF5733;
+            --accent-color: #4CAF50; /* Eco-friendly green */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --star-color: gold;
+        }
+
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 5.5rem; line-height: 1.1; font-weight: 900; } /* Hero */
+        h2 { font-size: 3rem; line-height: 1.2; } /* Section Headlines */
+        h3 { font-size: 1.8rem; line-height: 1.3; } /* Card Titles */
+        p { font-size: 1.1rem; }
+        small { font-size: 0.9rem; color: var(--text-secondary); }
+
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* LAYOUT & CONTAINERS */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* FLEX UTILITIES */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-around { justify-content: space-around; }
+        .items-center { align-items: center; }
+        .gap-10 { gap: 40px; }
+        .gap-5 { gap: 20px; }
+        .text-center { text-align: center; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 87, 51, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        /* CARDS */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* VISUAL EFFECTS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SPECIFIC COMPONENTS */
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .logo-wrapper {
+            flex-shrink: 0; /* Prevent logo from shrinking */
+        }
+        .sticky-header .logo-wrapper img {
+            height: 40px; /* Adjust logo size */
+            display: block;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .sticky-header nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .sticky-header .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-right: auto; /* Push CTA to right */
+            margin-left: 40px; /* Space between logo and nav */
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap; /* Prevent phone number from breaking */
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+        .sticky-header .call-button:hover {
+            background-color: #e64c2e; /* Darker shade of FF5733 */
+            transform: scale(1.05);
+        }
+
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-heading);
+            background: radial-gradient(circle at center, rgba(17,17,17,0.9) 0%, rgba(17,17,17,0.8) 40%, rgba(255,87,51,0.2) 80%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.05"><circle cx="50" cy="50" r="40" fill="%23FF5733"/><circle cx="20" cy="80" r="15" fill="%23FF5733"/><circle cx="80" cy="20" r="15" fill="%23FF5733"/></svg>'); /* Subtle radial gradient with brand color hint + background pattern */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax effect */
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero h1 {
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin-bottom: 2rem;
+            color: var(--text-body);
+            font-weight: 300;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+        .hero .rating-badge .star {
+            color: var(--star-color);
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: var(--bg-section);
+            padding: 25px 0;
+            color: var(--text-heading);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof .proof-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .social-proof .proof-item .icon {
+            font-size: 1.5rem;
+            color: var(--brand-color); /* Or gold for stars */
+        }
+        .social-proof .proof-item .star {
+            color: var(--star-color);
+        }
+
+        /* OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-section);
+        }
+        .our-story .content-wrapper {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        .our-story .left-col {
+            flex: 2;
+        }
+        .our-story .right-col {
+            flex: 1;
+        }
+        .our-story h2 {
+            margin-bottom: 1.5rem;
+        }
+        .our-story p {
+            margin-bottom: 1rem;
+        }
+        .our-story .testimonial-card {
+            background-color: rgba(255,255,255,0.05);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--text-body);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .our-story .testimonial-card p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+        .our-story .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-style: normal;
+        }
+
+        .our-story .stats-grid {
+            display: flex;
+            gap: 20px;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .our-story .stat-item {
+            flex: 1;
+            padding: 25px;
+            border-radius: 12px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .our-story .stat-item .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .our-story .stat-item .stat-text {
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .our-story .stat-item:nth-child(2) .stat-number { color: var(--accent-color); } /* Use accent color for middle stat */
+
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+        .menu-section h2 {
+            margin-bottom: 3rem;
+        }
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-section .menu-item-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            padding: 25px;
+        }
+        .menu-section .menu-item-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-section .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+        .menu-section .menu-note {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .menu-section .btn {
+            margin-top: 40px;
+        }
+
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-section);
+        }
+        .why-choose-us h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .why-choose-us .feature-card {
+            text-align: center;
+            padding: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .why-choose-us .feature-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+        .why-choose-us .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.7rem;
+        }
+        .why-choose-us .feature-card p {
+            font-size: 1.05rem;
+        }
+        .why-choose-us .feature-card:nth-child(2) .icon { color: var(--accent-color); } /* Use accent color for middle icon */
+
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+        .testimonials-section h2 {
+            margin-bottom: 3rem;
+        }
+        .testimonials-section .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonials-section .review-card {
+            text-align: left;
+            padding: 30px;
+            border-left: 4px solid var(--brand-color);
+            position: relative;
+        }
+        .testimonials-section .review-card .stars {
+            color: var(--star-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .testimonials-section .review-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        .testimonials-section .review-card .reviewer-info {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-style: normal;
+            font-size: 0.95rem;
+        }
+        .testimonials-section .review-card .reviewer-info small {
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 5px;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-section);
+        }
+        .location-hours h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .location-hours .content-wrapper {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap; /* For mobile stacking */
+        }
+        .location-hours .location-info,
+        .location-hours .hours-info {
+            flex: 1;
+            min-width: 300px; /* Ensure columns don't get too narrow */
+        }
+
+        .location-hours .info-block {
+            margin-bottom: 30px;
+        }
+        .location-hours .info-block h3 {
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            font-size: 1.7rem;
+        }
+        .location-hours .info-block p,
+        .location-hours .info-block a {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .location-hours .info-block a.phone-link {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        .location-hours .info-block a.phone-link:hover {
+            text-decoration: underline;
+        }
+        .location-hours .btn-directions {
+            margin-top: 20px;
+        }
+
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.05rem;
+        }
+        .location-hours .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .location-hours .hours-table td {
+            color: var(--text-body);
+        }
+        .location-hours .hours-table tr:last-child td,
+        .location-hours .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours .pro-tip {
+            background-color: rgba(255, 87, 51, 0.1);
+            border-left: 4px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            color: var(--text-body);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .location-hours .pro-tip .icon {
+            font-size: 1.5rem;
+            color: var(--brand-color);
+        }
+        .location-hours .call-to-order-btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #e64c2e 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--text-heading);
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            font-weight: 300;
+        }
+        .final-cta .btn-primary {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+        }
+        .final-cta .btn-primary:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 60px 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer .logo-wrapper {
+            margin-bottom: 20px;
+        }
+        .footer .logo-wrapper img {
+            height: 60px; /* Larger logo for footer */
+            display: block;
+            margin: 0 auto;
+        }
+        .footer .tagline {
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+        .footer .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .footer .social-icons a {
+            color: var(--text-secondary);
+            font-size: 2rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-icons a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVENESS */
+        @media (max-width: 1024px) {
+            .our-story .content-wrapper,
+            .location-hours .content-wrapper {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .our-story .testimonial-card {
+                margin-top: 0; /* Adjust for stacked layout */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .section-label { font-size: 0.8rem; letter-spacing: 2px; }
+
+            .sticky-header {
+                height: auto;
+                flex-wrap: wrap;
+                padding: 10px 20px;
+                justify-content: center;
+                gap: 15px;
+            }
+            .sticky-header .logo-wrapper {
+                flex-basis: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .sticky-header .nav-links {
+                flex-basis: 100%;
+                justify-content: center;
+                gap: 20px;
+                margin-left: 0;
+                order: 2; /* Put nav below logo and button */
+            }
+            .sticky-header .call-button {
+                margin-left: 0;
+                order: 1; /* Put button next to logo or below */
+                flex-basis: auto; /* Allow button to shrink/grow as needed */
+            }
+
+            .hero {
+                padding-top: 100px; /* Adjust for taller sticky header on mobile */
+            }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1.05rem; max-width: 90%; }
+            .hero .hero-ctas { flex-direction: column; gap: 15px; }
+            .hero .btn { width: 80%; }
+
+            .social-proof {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .our-story .stats-grid { flex-direction: column; }
+
+            .menu-section .menu-grid,
+            .why-choose-us .cards-grid,
+            .testimonials-section .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta p { font-size: 1.05rem; max-width: 90%; }
+            .final-cta .btn-primary { padding: 15px 30px; font-size: 1.1rem; }
+
+            .footer .logo-wrapper img { height: 50px; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            .sticky-header .call-button { font-size: 0.8rem; padding: 6px 12px; }
+            .sticky-header nav a { font-size: 0.85rem; }
+            .hero .btn { width: 95%; }
+            .container { padding: 0 15px; }
+            section { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo-wrapper">
+            <img src="https://hoopspizzeria.com/wp-content/uploads/2024/07/logo-2x.png" alt="Hoops Pizzeria Logo">
+        </a>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+19195336675" class="call-button">CALL (919) 533-6675</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="container text-center animate-on-scroll">
+                <p class="location">PITTSBORO, NC</p>
+                <h1>HOOPS PIZZERIA</h1>
+                <p class="tagline">Discover Hoops Pizzeria's eco-friendly, delicious pizzas in Pittsboro. Order now for a sustainable taste experience.</p>
+                <div class="rating-badge">
+                    <span class="star">★★★★★</span> 4.6 Stars | 175 Reviews
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container flex justify-around items-center animate-on-scroll">
+                <div class="proof-item">
+                    <span class="icon star">★</span> 4.6-Star Rating
+                </div>
+                <div class="proof-item">
+                    <span class="icon">💬</span> 175+ Happy Customers
+                </div>
+                <div class="proof-item">
+                    <span class="icon">❤️</span> Pittsboro's Local Favorite
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container animate-on-scroll">
+                <div class="content-wrapper">
+                    <div class="left-col">
+                        <span class="section-label">OUR STORY</span>
+                        <h2>Rooted in Quality, Crafted with Care</h2>
+                        <p>Located in the heart of Pittsboro, North Carolina, Hoops Pizzeria stands out for its commitment to quality and flavor. We believe that a great pizza starts with great ingredients, which is why we meticulously source only the freshest, highest-quality produce, meats, and cheeses.</p>
+                        <p>Our dedication goes beyond just delicious taste; we're passionate about crafting pizzas that delight every palate while also caring for our community and the environment. Every slice reflects our sustainable approach and love for Pittsboro.</p>
+                    </div>
+                    <div class="right-col">
+                        <div class="testimonial-card">
+                            <p>"Hoops Pizzeria is more than just pizza; it's a commitment to fresh, quality ingredients that you can truly taste. A must-visit in Pittsboro!"</p>
+                            <span class="author">Emily K. <small>Local Foodie</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-grid animate-on-scroll">
+                    <div class="stat-item">
+                        <div class="stat-number">4.6</div>
+                        <div class="stat-text">Star Average</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">175+</div>
+                        <div class="stat-text">Raving Reviews</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">🌱</div>
+                        <div class="stat-text">Sustainable Sourcing</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container animate-on-scroll">
+                <span class="section-label">THE MENU</span>
+                <h2>Our Delicious Creations</h2>
+                <div class="menu-grid">
+                    <div class="card menu-item-card card-hover">
+                        <h3>Classic Pizzas</h3>
+                        <p>Timeless favorites crafted with our signature sauce, premium mozzarella, and your choice of fresh toppings.</p>
+                        <!-- No prices as per data -->
+                    </div>
+                    <div class="card menu-item-card card-hover">
+                        <h3>Specialty Pizzas</h3>
+                        <p>Unique flavor combinations and gourmet ingredients designed to surprise and delight your taste buds.</p>
+                    </div>
+                    <div class="card menu-item-card card-hover">
+                        <h3>Sides & Drinks</h3>
+                        <p>Perfect accompaniments to your pizza feast, from fresh salads to refreshing beverages.</p>
+                    </div>
+                </div>
+                <a href="tel:+19195336675" class="btn btn-primary">VIEW FULL MENU & ORDER</a>
+                <p class="menu-note">Prices may vary. Call (919) 533-6675 for daily specials and our complete menu options.</p>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container animate-on-scroll">
+                <span class="section-label">OUR PROMISE</span>
+                <h2>Why Hoops Pizzeria is Pittsboro's Best Choice</h2>
+                <div class="cards-grid">
+                    <div class="card feature-card">
+                        <span class="icon">🔥</span>
+                        <h3>Uncompromising Quality</h3>
+                        <p>We hand-select the freshest, highest-quality ingredients, ensuring every pizza is a masterpiece of flavor and satisfaction, from crust to topping.</p>
+                    </div>
+                    <div class="card feature-card">
+                        <span class="icon">🌱</span>
+                        <h3>Eco-Friendly Commitment</h3>
+                        <p>Beyond taste, we're dedicated to sustainable practices, offering you a delicious pizza experience that's kind to our planet and our community.</p>
+                    </div>
+                    <div class="card feature-card">
+                        <span class="icon">⭐</span>
+                        <h3>Community Favorite</h3>
+                        <p>With 175+ glowing reviews and a 4.6-star rating, Hoops Pizzeria is a beloved spot for families and friends in the heart of Pittsboro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container animate-on-scroll">
+                <span class="section-label">HEAR FROM OUR FANS</span>
+                <h2>What Our Customers Say</h2>
+                <div class="reviews-grid">
+                    <div class="card review-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"Absolutely love the fresh ingredients here! Every pizza from Hoops Pizzeria never disappoints."</p>
+                        <div class="reviewer-info">Sarah L. <small>Regular Customer</small></div>
+                    </div>
+                    <div class="card review-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"This place truly stands out! Every pizza is crafted with such care, and you can taste the quality. Pittsboro is lucky to have Hoops!"</p>
+                        <div class="reviewer-info">David M. <small>Local Family</small></div>
+                    </div>
+                    <div class="card review-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
+                        <p>"I visited Hoops Pizzeria based on a friend's recommendation, and I'm so glad I did. The commitment to fresh, high-quality ingredients shines through in every bite. It's truly a sustainable taste experience that makes you feel good. Highly recommend!"</p>
+                        <div class="reviewer-info">Jessica R. <small>First-Time Visitor</small></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container animate-on-scroll">
+                <span class="section-label">GET IN TOUCH</span>
+                <h2>Find Us in Pittsboro</h2>
+                <div class="content-wrapper">
+                    <div class="location-info">
+                        <div class="info-block">
+                            <h3>Our Location</h3>
+                            <p>Hoops Pizzeria</p>
+                            <p>697 Hillsboro St</p>
+                            <p>Pittsboro, NC 27312, USA</p>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=697+Hillsboro+St,+Pittsboro,+NC+27312" target="_blank" class="btn btn-secondary btn-directions">GET DIRECTIONS</a>
+                        </div>
+                        <div class="info-block">
+                            <h3>Give Us a Call</h3>
+                            <a href="tel:+19195336675" class="phone-link">(919) 533-6675</a>
+                            <p>Reach out for orders, catering, or any questions!</p>
+                        </div>
+                    </div>
+                    <div class="hours-info">
+                        <div class="info-block">
+                            <h3>Opening Hours</h3>
+                            <table class="hours-table">
+                                <tr><th>Monday:</th><td>Closed</td></tr>
+                                <tr><th>Tuesday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                                <tr><th>Wednesday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                                <tr><th>Thursday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                                <tr><th>Friday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                                <tr><th>Saturday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                                <tr><th>Sunday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                            </table>
+                        </div>
+                        <div class="pro-tip">
+                            <span class="icon">💡</span>
+                            <p><strong>Pro Tip:</strong> We get busy on Friday and Saturday evenings – for larger groups, consider calling ahead to reserve your spot!</p>
+                        </div>
+                        <a href="tel:+19195336675" class="btn btn-primary call-to-order-btn">CALL TO ORDER NOW</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container animate-on-scroll">
+                <h2>Don't Just Crave It — Taste Pittsboro's Best Pizza!</h2>
+                <p>Experience Hoops Pizzeria's commitment to quality and sustainable flavor today. Your perfect pizza is just a call away.</p>
+                <a href="tel:+19195336675" class="btn btn-primary">ORDER YOUR PIZZA NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo-wrapper">
+                <img src="https://hoopspizzeria.com/wp-content/uploads/2024/07/logo-2x.png" alt="Hoops Pizzeria Logo">
+            </a>
+            <p class="tagline">Discover Hoops Pizzeria's eco-friendly, delicious pizzas in Pittsboro. Order now for a sustainable taste experience.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.18 0-4 2.15-4 4v2H9.5v4H14v6z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2A4.8 4.8 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8c1.99 0 3.6-1.61 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4zm9.65 1.5A1.25 1.25 0 0 1 17.25 7A1.25 1.25 0 0 1 16 5.75A1.25 1.25 0 0 1 17.25 4.5A1.25 1.25 0 0 1 18.5 5.75M12 7a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3"/></svg></a>
+            </div>
+            <p class="copyright">© 2026 Hoops Pizzeria. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, {
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        });
+
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
