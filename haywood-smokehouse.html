@@ -3,28 +3,1165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haywood Smokehouse — Waynesville, NC</title>
+    <title>Haywood Smokehouse - Old School BBQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Georgia, serif; background: #1a1a1a; color: #f0f0f0; }
-        .hero { text-align: center; padding: 100px 20px; }
-        .hero h1 { font-size: 3em; margin-bottom: 20px; }
-        .hero p { font-size: 1.2em; color: #aaa; }
-        .section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        .section h2 { font-size: 2em; margin-bottom: 20px; color: #e65100; }
-        .section p { line-height: 1.8; color: #ccc; }
-        a { color: #e65100; }
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-primary: #BB480F;
+            --brand-accent: #82320A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            /* Typography */
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Outfit', sans-serif;
+            --h1-size: 4.8rem; /* Adjusted for larger impact */
+            --h2-size: 2.8rem;
+            --h3-size: 1.8rem;
+            --body-size: 1.1rem;
+            --line-height: 1.7;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: var(--line-height);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: var(--h1-size); }
+        h2 { font-size: var(--h2-size); }
+        h3 { font-size: var(--h3-size); }
+        h4 { font-size: 1.4rem; }
+        h5 { font-size: 1.2rem; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        section:nth-of-type(odd) {
+            background-color: var(--bg-section);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .button:hover {
+            transform: scale(1.02);
+        }
+
+        .button--primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .button--primary:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+        }
+
+        .button--secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .button--secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Dark semi-transparent */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            margin-left: auto; /* Pushes nav to the right of logo */
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta {
+            margin-left: 40px; /* Space between nav and CTA */
+        }
+
+        .header-cta .button {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Account for sticky header */
+            background: radial-gradient(circle at top left, rgba(var(--brand-accent-rgb), 0.3) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(var(--brand-primary-rgb), 0.2) 0%, transparent 50%),
+                        linear-gradient(180deg, #111111 0%, #0a0a0a 100%);
+        }
+
+        .hero h1 {
+            font-size: var(--h1-size);
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1;
+            max-width: 900px;
+            letter-spacing: -2px;
+        }
+
+        .hero .location {
+            font-family: var(--font-sans);
+            font-size: 1.1rem;
+            color: var(--brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-family: var(--font-serif);
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+        }
+
+        .hero .rating-badge .star {
+            color: gold;
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: var(--bg-main);
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item .icon {
+            font-size: 1.8rem;
+            color: var(--brand-primary);
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .our-story-text p {
+            margin-bottom: 20px;
+            font-size: var(--body-size);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card blockquote {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 3rem;
+            font-family: var(--font-serif);
+            color: var(--brand-primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .menu-item-card .item-price {
+            font-family: var(--font-sans);
+            font-size: 1.4rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .menu-note {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .vip-offer-card {
+            grid-column: 1 / -1; /* Spans full width */
+            background: linear-gradient(45deg, var(--brand-primary), var(--brand-accent));
+            border: none;
+            color: var(--text-heading);
+            padding: 35px;
+            text-align: center;
+            margin-top: 30px; /* Separates from general menu items */
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        .vip-offer-card h3 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .vip-offer-card p {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 25px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .vip-offer-card .button {
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+            border-color: var(--text-heading);
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+        .vip-offer-card .button:hover {
+            background-color: var(--text-body);
+            color: var(--brand-accent);
+            transform: scale(1.05);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .why-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .why-card h4 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-review-card .stars {
+            color: gold;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-review-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-author {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+        }
+
+        .testimonial-descriptor {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: var(--h3-size);
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-details p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .location-details a {
+            color: var(--brand-primary);
+            font-weight: 500;
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+
+        .location-details .button {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 250px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .hours-table td:first-child {
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--text-body);
+        }
+
+        .pro-tip {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-left: 3px solid var(--brand-accent);
+        }
+
+        .hours-info .button {
+            width: 100%;
+            max-width: 250px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-primary), var(--brand-accent));
+            padding: 100px 20px;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            line-height: 1.1;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            font-family: var(--font-serif);
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-cta .button {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+            border-color: var(--text-heading);
+        }
+
+        .final-cta .button:hover {
+            background-color: var(--text-body);
+            color: var(--brand-accent);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-logo img {
+            height: 80px;
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        .social-icons {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--brand-primary);
+        }
+
+        /* Utility classes for flexbox based on requirements */
+        .flex-row {
+            display: flex;
+            gap: 30px; /* Default gap for nav links */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+            .header-nav {
+                gap: 20px;
+                margin-left: 20px;
+            }
+            .header-cta {
+                margin-left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.2rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            .section { padding: 80px 0; }
+            .container { padding: 0 15px; }
+
+            .header {
+                height: 80px; /* Taller for mobile to prevent crunching */
+                flex-wrap: wrap; /* Allow items to wrap */
+                justify-content: center;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 5px;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+                gap: 15px;
+                margin-left: 0;
+            }
+            .header-cta {
+                display: none; /* Hide CTA button in header on small screens */
+            }
+
+            .hero {
+                padding-top: 100px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: -1px;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .our-story-content {
+                grid-template-columns: 1fr;
+            }
+            .testimonial-card {
+                margin-top: 40px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-card h3 {
+                font-size: 1.3rem;
+            }
+            .vip-offer-card h3 {
+                font-size: 1.8rem;
+            }
+            .vip-offer-card p {
+                font-size: 1rem;
+            }
+
+            .why-choose-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .why-card .icon {
+                font-size: 3rem;
+            }
+            .why-card h4 {
+                font-size: 1.3rem;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-details .button, .hours-info .button {
+                max-width: 100%;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+            .final-cta .button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+
+            .footer-logo img {
+                height: 60px;
+            }
+            .social-icons {
+                gap: 15px;
+            }
+            .social-icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* RGB conversions for gradients */
+        :root {
+            --brand-primary-rgb: 187, 72, 15;
+            --brand-accent-rgb: 130, 50, 10;
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>Haywood Smokehouse</h1>
-        <p>Old School BBQ</p>
-        <p><a href="tel:(828) 456-7275">(828) 456-7275</a></p>
-    </div>
-    <div class="section">
-        <h2>About Us</h2>
-        <p>Our premium specialty meats; fresh, house-made sausages, house-made sauces and fall-off-the-bone ribs and smoked brisket will have you coming back again and again.  Or enjoy our melt-in-your-mouth smoked pork or turkey breast. Our family-friendly place features daily lunch and dinner specials that will knock your socks off.</p>
-    </div>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="#hero">
+                <img src="https://popmenucloud.com/cdn-cgi/image/width=300,height=300,format=auto,fit=scale-down/hexzprmf/c551951b-4b09-4e0c-b395-9a6aa4eaa89e.png" alt="Haywood Smokehouse Logo">
+            </a>
+        </div>
+        <nav class="header-nav">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:+18284567275" class="button button--primary">CALL (828) 456-7275</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero fade-in-up">
+        <div class="location fade-in-up" style="--delay: 0.1s;">Waynesville, NC</div>
+        <h1 class="fade-in-up" style="--delay: 0.2s;">Haywood<br>Smokehouse</h1>
+        <p class="tagline fade-in-up" style="--delay: 0.3s;">Old School BBQ</p>
+        <div class="rating-badge fade-in-up" style="--delay: 0.4s;">
+            <span class="star">★★★★★</span> 4.8 Stars | 2898 Reviews
+        </div>
+        <div class="hero-ctas fade-in-up" style="--delay: 0.5s;">
+            <a href="#menu" class="button button--primary">VIEW MENU</a>
+            <a href="#find-us" class="button button--secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up" style="--delay: 0.1s;">
+            <div class="social-proof-item">
+                <span class="icon">⭐</span>
+                <span>4.8 Star Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">💬</span>
+                <span>2800+ Happy Customers</span>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">❤️</span>
+                <span>Waynesville's Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Story</span>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Rooted in Tradition</h2>
+            <div class="our-story-content">
+                <div class="our-story-text fade-in-up" style="--delay: 0.2s;">
+                    <p>At Haywood Smokehouse, we believe true BBQ is an art passed down through generations. Our journey began with a simple desire: to bring authentic, old-school barbecue to Waynesville. Every dish we serve is a testament to this commitment, crafted with passion and time-honored techniques.</p>
+                    <p>We pride ourselves on our premium specialty meats, carefully selected and slow-smoked to perfection. From our fresh, house-made sausages to our rich, house-made sauces, every element is prepared with care. Our fall-off-the-bone ribs and melt-in-your-mouth smoked brisket aren't just meals; they're an experience that will have you coming back again and again.</p>
+                    <p>Whether you crave our tender smoked pork or succulent turkey breast, you'll find a plate that satisfies. Haywood Smokehouse is more than just a restaurant; it's a family-friendly place where memories are made over unforgettable flavors. Join us for daily lunch and dinner specials that are guaranteed to knock your socks off!</p>
+                </div>
+                <div class="our-story-sidebar fade-in-up" style="--delay: 0.3s;">
+                    <div class="testimonial-card">
+                        <blockquote>"Haywood Smokehouse truly captures the essence of classic BBQ. Their brisket is a game-changer!"</blockquote>
+                        <cite>Michael B. - Local Foodie</cite>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-up" style="--delay: 0.4s;">
+                <div class="stat-card">
+                    <div class="number">4.8</div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">2898</div>
+                    <div class="label">Satisfied Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">House-Made Sauces</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">The Menu</span>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Our Best Sellers</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up" style="--delay: 0.2s;">
+                    <h3><span>Smoked Brisket Plate</span> <span class="item-price">See Menu</span></h3>
+                    <p>Melt-in-your-mouth tender brisket, smoked for hours over local hardwoods to achieve a rich, smoky flavor.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.3s;">
+                    <h3><span>Fall-Off-The-Bone Ribs</span> <span class="item-price">See Menu</span></h3>
+                    <p>Our signature slow-smoked ribs, seasoned to perfection until they're impossibly tender and bursting with flavor.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.4s;">
+                    <h3><span>Haywood Pulled Pork</span> <span class="item-price">See Menu</span></h3>
+                    <p>Classic smoked pork, slow-cooked and hand-pulled, served juicy and tender, perfect with our house-made sauces.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.5s;">
+                    <h3><span>House-Made Sausage Plate</span> <span class="item-price">See Menu</span></h3>
+                    <p>Savory and perfectly spiced, our fresh, house-made sausages are a true specialty you won't find anywhere else.</p>
+                </div>
+                <!-- Franklin VIP Offer -->
+                <div class="vip-offer-card fade-in-up" style="--delay: 0.6s;">
+                    <h3>Franklin $1.00</h3>
+                    <p>Become a VIP! Be the first to receive updates on exclusive events, secret menus, special offers/discounts, loyalty rewards & more! Join for free!</p>
+                    <a href="tel:+18284567275" class="button">CALL TO JOIN</a>
+                </div>
+            </div>
+            <p class="menu-note fade-in-up" style="--delay: 0.7s;">Prices may vary. Call for daily specials and full menu availability.</p>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Promise</span>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Why Haywood Smokehouse is Waynesville's Best Choice</h2>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up" style="--delay: 0.2s;">
+                    <div class="icon">🔥</div>
+                    <h4>Uncompromising Quality Meats</h4>
+                    <p>We source only premium specialty meats for our smoked brisket, ribs, pork, and turkey, ensuring every bite is rich in flavor and perfectly tender. Our commitment to quality is unmatched.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.3s;">
+                    <div class="icon">👨‍👩‍👧</div>
+                    <h4>Warm, Family-Friendly Atmosphere</h4>
+                    <p>Haywood Smokehouse is designed to be a welcoming space for everyone. Bring your whole family to enjoy our delicious meals and create lasting memories together.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.4s;">
+                    <div class="icon">🏆</div>
+                    <h4>Award-Winning Reputation</h4>
+                    <p>With a stellar 4.8-star rating from nearly 2900 reviews, our community has spoken. We're proud to be a local favorite known for exceptional BBQ and consistent service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">Hear From Locals</span>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-review-card fade-in-up" style="--delay: 0.2s;">
+                    <div class="stars">★★★★★</div>
+                    <p>“The ribs here are truly fall-off-the-bone amazing! And those house-made sauces? Unbelievable. We drive over an hour just for them.”</p>
+                    <div>
+                        <div class="testimonial-author">Sarah L.</div>
+                        <div class="testimonial-descriptor">Regular Customer</div>
+                    </div>
+                </div>
+                <div class="testimonial-review-card fade-in-up" style="--delay: 0.3s;">
+                    <div class="stars">★★★★★</div>
+                    <p>“First time trying the smoked brisket and I was absolutely blown away. So tender, so flavorful. This is my new go-to BBQ spot in Waynesville.”</p>
+                    <div>
+                        <div class="testimonial-author">David R.</div>
+                        <div class="testimonial-descriptor">First-Time Visitor</div>
+                    </div>
+                </div>
+                <div class="testimonial-review-card fade-in-up" style="--delay: 0.4s;">
+                    <div class="stars">★★★★★</div>
+                    <p>“The Haywood Smokehouse is a gem! We always bring out-of-town guests here. Their smoked pork is fantastic, and the daily specials are always a delightful surprise. A true family favorite!”</p>
+                    <div>
+                        <div class="testimonial-author">Emily P.</div>
+                        <div class="testimonial-descriptor">Local Family</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Find Your Way To Great BBQ</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up" style="--delay: 0.2s;">
+                    <h3>Our Location</h3>
+                    <div class="location-details">
+                        <p><strong>Haywood Smokehouse</strong></p>
+                        <p>79 Elysinia Ave,<br>Waynesville, NC 28786, USA</p>
+                        <p>Questions or Orders?</p>
+                        <a href="tel:+18284567275" class="phone-link">(828) 456-7275</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=79+Elysinia+Ave,+Waynesville,+NC+28786,+USA" target="_blank" class="button button--primary">GET DIRECTIONS</a>
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up" style="--delay: 0.3s;">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr><td>Monday</td><td>Closed</td></tr>
+                        <tr><td>Tuesday</td><td>Closed</td></tr>
+                        <tr><td>Wednesday</td><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><td>Thursday</td><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><td>Friday</td><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><td>Saturday</td><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><td>Sunday</td><td>Closed</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy Friday and Saturday evenings! Call ahead for larger groups or to place your order for pickup to skip the wait.
+                    </div>
+                    <a href="tel:+18284567275" class="button button--primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Just Crave It — Come Taste It</h2>
+            <p class="fade-in-up" style="--delay: 0.1s;">Experience Waynesville's finest Old School BBQ at Haywood Smokehouse today.</p>
+            <a href="tel:+18284567275" class="button button--primary fade-in-up" style="--delay: 0.2s;">CALL NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                <a href="#hero">
+                    <img src="https://popmenucloud.com/cdn-cgi/image/width=300,height=300,format=auto,fit=scale-down/hexzprmf/c551951b-4b09-4e0c-b395-9a6aa4eaa89e.png" alt="Haywood Smokehouse Logo">
+                </a>
+            </div>
+            <p class="footer-tagline">Old School BBQ</p>
+            <div class="social-icons">
+                <a href="#" target="_blank" aria-label="Facebook" class="social-icon">F</a>
+                <a href="#" target="_blank" aria-label="Instagram" class="social-icon">I</a>
+            </div>
+            <p>&copy; 2026 Haywood Smokehouse. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element 10% visible */
+                rootMargin: "0px 0px -50px 0px" /* Adjust when it appears relative to viewport bottom */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
 </body>
 </html>
