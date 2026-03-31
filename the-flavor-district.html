@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flavor District | Wake Forest's Premier Ghost Kitchen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-color: #FF6A00;
+            --accent-color: #BB4842; /* Available but primarily using brand-color as per instructions */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        /* Global Resets */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; } /* Will be overridden in Hero */
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 1.75rem; }
+        h4 { font-size: 1.25rem; }
+
+        p {
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden; /* For animations */
+            background-color: var(--bg-section); /* Default section background */
+        }
+        
+        .hero {
+            background-color: var(--bg-main); /* Hero has specific gradient */
+        }
+        .social-proof {
+            background-color: var(--bg-main); /* Slightly different shade as requested */
+        }
+        .final-cta {
+             background-color: unset; /* Override for gradient */
+        }
+        .footer {
+            background-color: var(--bg-footer);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #e65c00; /* Slightly darker */
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 106, 0, 0.1);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--header-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure container fills header width */
+            padding: 0; /* Remove container padding here, handle in header padding */
+        }
+
+        .header .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            /* margin-left: auto; */ /* Let justify-content: space-between handle spacing */
+        }
+
+        .header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .cta-button {
+            margin-left: auto; /* Push button to the far right */
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: none;
+        }
+        .header .cta-button:hover {
+            background-color: #e65c00;
+            transform: scale(1.02);
+        }
+
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+            background: radial-gradient(circle at top left, rgba(255,106,0,0.1) 0%, rgba(17,17,17,0.8) 50%, #111111 100%);
+            /* Subtle parallax/gradient animation - implemented via background-position */
+            background-size: 200% 200%;
+            animation: gradient-shift 15s ease infinite alternate;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+
+        .hero-content {
+            z-index: 1; /* Ensure content is above any background animations */
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold, unmissable */
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-top: -10px; /* bring closer to name */
+            margin-bottom: 30px;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255,255,255,0.08);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero .rating-badge .star {
+            color: gold;
+            margin-right: 5px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: var(--bg-main); /* Per instructions: slightly different background shade */
+            padding: 25px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item .icon {
+            font-size: 1.4rem;
+            margin-right: 10px;
+            color: var(--brand-color);
+        }
+
+        /* Our Story Section */
+        .our-story .container:first-of-type { /* Target the first container for flex layout */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: center; /* Center content when it wraps */
+        }
+
+        .our-story-content {
+            flex: 2;
+            min-width: 300px;
+        }
+        .our-story-content h2 {
+            margin-bottom: 25px;
+        }
+        .our-story-content p:not(:last-child) {
+            margin-bottom: 15px;
+        }
+
+        .our-story-quote {
+            flex: 1;
+            background-color: rgba(255,255,255,0.05);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            min-width: 300px;
+            margin-bottom: 0; /* Adjust for mobile stacking, specific to this layout */
+            max-width: 500px; /* Prevent it from getting too wide next to text */
+        }
+
+        .our-story-quote p {
+            margin-bottom: 15px;
+        }
+
+        .our-story-quote footer {
+            font-style: normal;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .our-story-quote footer strong {
+            color: var(--brand-color);
+        }
+
+        .story-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+            justify-content: center;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px; /* Constraint width */
+            padding: 30px;
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,106,0,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+
+        .stat-card .number {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            display: block;
+            position: relative;
+            z-index: 1;
+            line-height: 1; /* Adjust for multi-line conceptual numbers */
+        }
+        .stat-card .description {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Menu Section */
+        .menu .section-label,
+        .menu h2 {
+            text-align: center;
+        }
+        .menu h2 {
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space out content vertically */
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1; /* Allow descriptions to take available space */
+        }
+
+        .menu-item-card .btn {
+            margin-top: 15px; /* Space above button */
+            padding: 10px 20px;
+            font-size: 0.95rem;
+        }
+        .menu-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 40px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .section-label,
+        .why-choose-us h2 {
+            text-align: center;
+        }
+        .why-choose-us h2 {
+            margin-bottom: 60px;
+        }
+
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 40px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .why-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials .section-label,
+        .testimonials h2 {
+            text-align: center;
+        }
+        .testimonials h2 {
+            margin-bottom: 60px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card .stars {
+            color: gold;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows varied lengths to push footer down */
+        }
+
+        .testimonial-card .reviewer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .testimonial-card .reviewer-info strong {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .section-label,
+        .location-hours h2 {
+            text-align: center;
+        }
+        .location-hours h2 {
+            margin-bottom: 60px;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            justify-content: center;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .location-info a.phone-link {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-bottom: 30px;
+            display: block;
+        }
+        .location-info a.phone-link:hover {
+            text-decoration: underline;
+        }
+
+        .location-info .btn {
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+        .hours-table th {
+            color: var(--brand-color);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tbody tr:last-child td,
+        .hours-table tbody tr:last-child th {
+            border-bottom: none;
+        }
+
+
+        .pro-tip {
+            background-color: rgba(255,106,0,0.1);
+            border-left: 5px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: left;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+        }
+        .pro-tip strong {
+            color: var(--brand-color);
+            margin-right: 5px;
+        }
+        .hours-info .btn {
+            margin-top: 30px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #e65c00 100%);
+            text-align: center;
+            padding: 100px 20px;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            color: rgba(255,255,255,0.9);
+            font-family: var(--font-serif);
+        }
+
+        .final-cta .btn {
+            font-size: 1.2rem;
+            padding: 18px 40px;
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-main);
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--bg-section);
+            border-color: var(--bg-section);
+            color: var(--brand-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer .logo img {
+            height: 60px; /* Larger than header */
+            margin-bottom: 20px;
+        }
+
+        .footer .tagline {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+            width: 40px; /* Make them visually like circles */
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-sans); /* Use sans-serif for icon characters */
+            font-weight: 500;
+        }
+
+        .social-icon:hover {
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header {
+                height: auto; /* Allow height to adjust for stacked items */
+                flex-direction: column;
+                padding: 15px 20px;
+                position: static; /* Make header static on mobile to avoid content overlap */
+                box-shadow: none;
+            }
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header nav ul {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+                margin-left: 0;
+            }
+            .header .cta-button {
+                margin-left: 0;
+                width: 100%;
+                max-width: 200px; /* Keep button from being too wide */
+                padding: 12px 20px; /* Slightly larger hit area */
+                font-size: 1rem;
+            }
+            
+            /* Adjust hero padding since header is static */
+            .hero {
+                padding-top: 60px; 
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero .cta-group .btn {
+                width: 100%;
+            }
+
+            .social-proof .container {
+                flex-direction: column;
+            }
+
+            .our-story .container:first-of-type {
+                flex-direction: column;
+            }
+            .our-story-quote {
+                max-width: 100%;
+            }
+
+            .story-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-card {
+                min-width: unset;
+                width: 100%; /* Full width for stat cards on mobile */
+            }
+
+            .menu-grid, .why-cards, .testimonial-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://static.spotapps.co/website_images/ab_websites/233244_website_v1/logo.png" alt="The Flavor District Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+19192638837" class="btn cta-button">CALL (919) 263-8837</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in-up">
+                <span class="location">Wake Forest, NC</span>
+                <h1 class="fade-in-up">The Flavor<br>District</h1>
+                <p class="tagline fade-in-up">Tap to unmute</p>
+                <div class="rating-badge fade-in-up">
+                    <span class="star">★★★★★</span> 4.3 Stars | 314 Reviews
+                </div>
+                <div class="cta-group fade-in-up">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container">
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon">★</span> 4.3 Star Rating
+                </div>
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon">💬</span> 314+ Happy Customers
+                </div>
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon">❤️</span> Local Favorite
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container fade-in-up">
+                <div class="our-story-content">
+                    <span class="section-label">Our Story</span>
+                    <h2>Redefining Online Ordering</h2>
+                    <p>Flavor District is a ghost kitchen service that’s changing how people order food online. We believe everyone deserves to enjoy exactly what they crave, without compromise or multiple bills.</p>
+                    <p>Now, you can order exactly what you want from multiple restaurants, all on the same bill. Our innovative model ensures that whether the kids want ice cream, or you’re craving a classic burger, or your partner desires something entirely different, Flavor District has all the variety you crave, delivered seamlessly.</p>
+                </div>
+                <div class="our-story-quote fade-in-up">
+                    <p>"The future of family dinner is here! Finally, a place where everyone's cravings are satisfied with one easy order. Flavor District makes mealtime a joy, not a debate."</p>
+                    <footer>&mdash; <strong>Emily R.</strong>, Local Mom</footer>
+                </div>
+            </div>
+            <div class="container story-stats">
+                <div class="stat-card fade-in-up">
+                    <span class="number">314</span>
+                    <span class="description">Verified Reviews</span>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <span class="number">Multi-<br>Cuisine</span>
+                    <span class="description">Restaurant Choices</span>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <span class="number">One<br>Bill</span>
+                    <span class="description">Convenient Order</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu">
+            <div class="container">
+                <span class="section-label fade-in-up">The Menu</span>
+                <h2 class="fade-in-up">Your Cravings, Unified</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Gourmet Burgers & Fries</h3>
+                        <p>Savor juicy, perfectly cooked burgers with all your favorite toppings, paired with crispy, golden fries. Classic comfort food done right.</p>
+                        <a href="tel:+19192638837" class="btn btn-secondary">ORDER BURGERS</a>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Sweet Treats & Ice Cream</h3>
+                        <p>Indulge in a delightful selection of desserts, from creamy ice cream to rich cakes and pastries – the perfect ending to any meal.</p>
+                        <a href="tel:+19192638837" class="btn btn-secondary">GET DESSERT</a>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Global Flavors & More</h3>
+                        <p>Explore a rotating selection of international dishes and diverse cuisines, offering exciting options for every adventurous palate.</p>
+                        <a href="tel:+19192638837" class="btn btn-secondary">EXPLORE CUISINES</a>
+                    </div>
+                </div>
+                <p class="menu-note fade-in-up">Prices may vary. Call (919) 263-8837 for daily specials and full menu options.</p>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <span class="section-label fade-in-up">Why Flavor District?</span>
+                <h2 class="fade-in-up">Why Wake Forest Chooses Us</h2>
+                <div class="why-cards">
+                    <div class="why-card fade-in-up">
+                        <span class="icon">⭐</span>
+                        <h3>Unbeatable Variety for Every Craving</h3>
+                        <p>Tired of compromising? Our ghost kitchen model brings you an unparalleled selection from multiple restaurant concepts, ensuring everyone, from the pickiest eater to the adventurous gourmet, finds exactly what they desire.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <span class="icon">💳</span>
+                        <h3>Seamless Ordering, Single Bill</h3>
+                        <p>Experience the ultimate convenience. Order from different kitchens—burgers, ice cream, and more—all with one easy online process and a single, transparent bill. Simplify your mealtime, effortlessly.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <span class="icon">🚀</span>
+                        <h3>The Future of Takeout is Here</h3>
+                        <p>As a pioneering ghost kitchen service, The Flavor District is revolutionizing how Wake Forest enjoys food. We offer a modern, efficient, and diverse dining experience designed for today's busy lifestyles.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <span class="section-label fade-in-up">Voices of Our Customers</span>
+                <h2 class="fade-in-up">What Our Customers Say</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"The perfect solution for family dinner! Everyone got what they wanted, from my delicious burger to the kids' much-loved ice cream. It's a game-changer!"</p>
+                        <div class="reviewer-info">
+                            <strong>Sarah L.</strong>
+                            <span>Regular Customer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"I love the concept here. Being able to order a gourmet burger for myself and a delicious dessert for my partner, all in one go, is incredibly convenient. The quality is consistently fantastic across the board."</p>
+                        <div class="reviewer-info">
+                            <strong>Mark T.</strong>
+                            <span>First-Time Visitor</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"I was skeptical about a ghost kitchen at first, but The Flavor District completely won me over. The convenience of picking multiple restaurant styles, especially when our group has different tastes, is unmatched. Their take on classic burgers is fantastic, and the ice cream selection is a huge hit with my kids. A definite five stars for innovation and flavor!"</p>
+                        <div class="reviewer-info">
+                            <strong>Jessica P.</strong>
+                            <span>Local Family</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="location-hours">
+            <div class="container">
+                <span class="section-label fade-in-up">Find Us</span>
+                <h2 class="fade-in-up">Visit Us & Order</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>11016 Capital Blvd,<br>Wake Forest, NC 27587, USA</p>
+                        <a href="tel:+19192638837" class="phone-link">(919) 263-8837</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=11016%20Capital%20Blvd,%20Wake%20Forest,%20NC%2027587" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Operating Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday:</td>
+                                    <td>Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday:</td>
+                                    <td>11:00 AM – 8:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday:</td>
+                                    <td>11:00 AM – 8:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday:</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday:</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday:</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday:</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pro-tip">
+                            <strong>Pro Tip:</strong> We get busy on Friday, Saturday, and Sunday evenings – consider ordering ahead to beat the rush and enjoy seamless pick-up!
+                        </div>
+                        <a href="tel:+19192638837" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="fade-in-up">Don't Just Crave It &mdash; Order It!</h2>
+                <p class="fade-in-up">Experience the future of flexible dining at The Flavor District in Wake Forest.</p>
+                <a href="tel:+19192638837" class="btn fade-in-up">ORDER TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/233244_website_v1/logo.png" alt="The Flavor District Logo">
+            </div>
+            <p class="tagline">Tap to unmute</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook" class="social-icon">F</a>
+                <a href="#" aria-label="Instagram" class="social-icon">I</a>
+            </div>
+            <p>&copy; 2026 The Flavor District. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"], .hero .cta-group a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const header = document.querySelector('.header');
+                let headerOffset = 0;
+                // Only apply offset if header is fixed (e.g., on desktop)
+                if (window.getComputedStyle(header).position === 'fixed') {
+                    headerOffset = header.offsetHeight; 
+                }
+                
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - headerOffset - 20; // Add some extra padding
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in-up animation on scroll
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0.1, /* Element is 10% in view */
+            rootMargin: "0px 0px -50px 0px" /* Start animating slightly before it hits the bottom */
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+    </script>
+</body>
+</html>
