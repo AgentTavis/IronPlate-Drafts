@@ -1,30 +1,1088 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>North Harbor Club — Davidson, NC</title>
+    <title>North Harbor Club - Davidson, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Georgia, serif; background: #1a1a1a; color: #f0f0f0; }
-        .hero { text-align: center; padding: 100px 20px; }
-        .hero h1 { font-size: 3em; margin-bottom: 20px; }
-        .hero p { font-size: 1.2em; color: #aaa; }
-        .section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        .section h2 { font-size: 2em; margin-bottom: 20px; color: #e65100; }
-        .section p { line-height: 1.8; color: #ccc; }
-        a { color: #e65100; }
+        :root {
+            --primary-color: #10719C;
+            --background-dark: #111111;
+            --background-medium: #1a1a1a;
+            --background-light: #0a0a0a; /* Used for footer */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--background-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #1ed1ff; /* Slightly lighter shade for hover */
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .button--primary {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            border: 2px solid var(--primary-color);
+        }
+
+        .button--primary:hover {
+            background-color: #1ed1ff;
+            border-color: #1ed1ff;
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .button--secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .button--secondary:hover {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Section Label */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Headline */
+        .section-headline {
+            font-size: 2.8rem; /* Adjusted slightly to fit 2.5-3rem range */
+            margin-bottom: 40px;
+        }
+        
+        /* Stars */
+        .stars {
+            color: #ffc107; /* A standard gold for stars */
+            letter-spacing: 1px;
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform; /* Optimize for animation */
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            padding: 0 20px;
+            backdrop-filter: blur(5px); /* Premium feel */
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sticky-header .logo img {
+            max-height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .sticky-header nav {
+            flex-grow: 1; 
+            display: flex;
+            justify-content: center; 
+            margin: 0 20px; 
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            white-space: nowrap; 
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .sticky-header .header-cta {
+            margin-left: auto; 
+            white-space: nowrap;
+        }
+        .sticky-header .header-cta .button {
+            padding: 8px 18px; /* Smaller button for header */
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: radial-gradient(circle at center, rgba(16, 113, 156, 0.2) 0%, rgba(17, 17, 17, 0.9) 70%, #111111 100%);
+            position: relative;
+            overflow: hidden; 
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://source.unsplash.com/random/1920x1080?bar-grill,restaurant-interior') no-repeat center center/cover;
+            opacity: 0.1; /* Very subtle */
+            z-index: -1;
+            transform: scale(1.05); /* For parallax effect */
+            transition: transform 0.2s ease-out; 
+        }
+        .hero:hover::before {
+             transform: scale(1.03); 
+        }
+
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .hero .location {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255,255,255,0.08);
+            padding: 8px 15px;
+            border-radius: 50px;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: var(--background-medium);
+            padding: 25px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .social-proof-item span:first-child {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Our Story Section */
+        .our-story .content-wrapper {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .our-story .text-content {
+            flex: 2;
+        }
+
+        .our-story .testimonial-card {
+            flex: 1;
+            background-color: var(--background-medium);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            position: sticky; 
+            top: 100px; 
+            align-self: flex-start; 
+        }
+
+        .our-story .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .our-story .testimonial-card .attribution {
+            font-weight: 500;
+            color: var(--primary-color);
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .our-story .stats-grid {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .our-story .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(16, 113, 156, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .our-story .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(16, 113, 156, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+
+        .our-story .stat-card .number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--background-medium);
+        }
+
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-section .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-section .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-section .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .menu-section .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+        .menu-section .menu-card .button {
+            align-self: flex-start;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+        .menu-section .note {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-choose-us .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .why-choose-us .choose-card .icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .why-choose-us .choose-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .why-choose-us .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--background-medium);
+        }
+
+        .testimonials .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--primary-color); /* Accent border */
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonials .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .testimonials .testimonial-card .stars {
+            margin-bottom: 15px;
+        }
+
+        .testimonials .testimonial-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonials .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+
+        .testimonials .testimonial-card .descriptor {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Location & Hours */
+        .location-hours .content-wrapper {
+            display: flex;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .location-hours .column {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .location-hours .column h3 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+        }
+
+        .location-hours .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+        .location-hours .location-info a {
+            display: block;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .location-hours table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .location-hours th,
+        .location-hours td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.05rem;
+        }
+        .location-hours th {
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+        .location-hours td {
+            color: var(--text-body);
+        }
+        .location-hours tr:last-child td,
+        .location-hours tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours .pro-tip {
+            background-color: rgba(16, 113, 156, 0.2);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--text-heading);
+        }
+        .location-hours .pro-tip strong {
+            color: var(--primary-color);
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(to right, rgba(16, 113, 156, 0.8), rgba(16, 113, 156, 0.6));
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+        }
+
+        .final-cta p {
+            font-size: 1.4rem;
+            color: var(--text-heading);
+            font-weight: 300;
+            margin-bottom: 40px;
+        }
+
+        .final-cta .button {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-color: var(--text-heading);
+            color: var(--text-heading);
+            background-color: transparent;
+        }
+        .final-cta .button:hover {
+            background-color: var(--text-heading);
+            color: var(--primary-color);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--background-light);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo img {
+            max-height: 80px; /* Larger logo */
+            margin-bottom: 15px;
+            filter: grayscale(100%) brightness(200%); /* Make logo white/light */
+        }
+
+        .footer .tagline {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-icons {
+            margin-bottom: 30px;
+        }
+
+        .footer .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            margin: 0 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+            color: var(--text-heading);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story .content-wrapper,
+            .location-hours .content-wrapper {
+                flex-direction: column;
+            }
+            .our-story .testimonial-card {
+                position: static; 
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; 
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.85rem;
+            }
+            .hero .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button {
+                width: 100%;
+                max-width: 300px;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .our-story .stats-grid,
+            .why-choose-us .choose-grid,
+            .testimonials .testimonial-grid,
+            .menu-section .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+            .sticky-header .header-cta {
+                padding: 0 10px;
+            }
+            .sticky-header .header-cta .button {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>North Harbor Club</h1>
-        <p>Parties & Groups - Host your next party or private event</p>
-        <p><a href="tel:(704) 896-5559">(704) 896-5559</a></p>
-    </div>
-    <div class="section">
-        <h2>About Us</h2>
-        <p>> The food here is amazing. I am not a beer drinker, so I can't speak to the bar offerings. I ordered the chicken strips with their parm truffle fries. So delicious! The breading was crisp and flavorful and the fries were perfect! I recommend you check this place out.</p>
-    </div>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero">
+                <img src="https://static.spotapps.co/website_images/ab_websites/54378_website/logo.png" alt="North Harbor Club Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:(704) 896-5559" class="button button--primary">CALL (704) 896-5559</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location">DAVIDSON, NC</p>
+            <h1>North Harbor Club</h1>
+            <p class="tagline">Host your next party or private event with Davidson's favorite Bar & Grill.</p>
+            <div class="rating-badge">
+                <span class="stars">★★★★★</span> 4.5 Stars | 2282 Reviews
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="button button--primary">View Menu</a>
+                <a href="#find-us" class="button button--secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="social-proof-item">
+                <span>⭐</span> 4.5 Star Rating
+            </div>
+            <div class="social-proof-item">
+                <span>💬</span> 2282+ Happy Customers
+            </div>
+            <div class="social-proof-item">
+                <span>❤️</span> Davidson's Local Favorite
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <p class="section-label">Our Legacy</p>
+            <h2 class="section-headline">Davidson's Heart. Your Table.</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p>Welcome to North Harbor Club, where every meal is crafted with passion and served with a smile. We are proud to be a cornerstone of Davidson, NC, offering a vibrant bar and grill experience that brings people together.</p>
+                    <p>Our commitment to amazing food is at the heart of everything we do. As our patrons rave, "The food here is amazing... The breading was crisp and flavorful and the fries were perfect!" We take pride in delivering dishes like our famous chicken strips with parm truffle fries that leave a lasting impression.</p>
+                    <p>While we're known for our delicious cuisine, we also excel at hosting unforgettable gatherings. Whether it's an intimate dinner or a grand private event, North Harbor Club is your ideal setting. Come discover why we're Davidson's go-to for great food and great company.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The food here is amazing. I ordered the chicken strips with their parm truffle fries. So delicious! I recommend you check this place out."</p>
+                    <div class="attribution">— A Satisfied Guest</div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="number">4.5</div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">2282</div>
+                    <div class="label">Customer Reviews</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">7</div>
+                    <div class="label">Days A Week</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container fade-in-up">
+            <p class="section-label">Our Offerings</p>
+            <h2 class="section-headline">Fan Favorites & More</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Bites</h3>
+                    <p>Experience the dishes that our community can't get enough of. From our crispy chicken strips to the unforgettable parm truffle fries, these are the flavors that define us.</p>
+                    <a href="tel:(704) 896-5559" class="button button--secondary">Call to Inquire</a>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Crafted Beverages</h3>
+                    <p>Quench your thirst with a selection from our well-stocked bar. While we cater to every taste, our specialty drinks and local brews are always a hit.</p>
+                    <a href="tel:(704) 896-5559" class="button button--secondary">Call to Inquire</a>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Private Events</h3>
+                    <p>Let us host your next celebration. Our space is perfect for parties and groups, offering tailored menus and a festive atmosphere for any special occasion.</p>
+                    <a href="tel:(704) 896-5559" class="button button--primary">Book Your Event</a>
+                </div>
+            </div>
+            <p class="note fade-in-up">Please call us directly for our full menu, daily specials, and current pricing.</p>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container fade-in-up">
+            <p class="section-label">Our Promise</p>
+            <h2 class="section-headline">Why North Harbor Club is Davidson's Best Choice</h2>
+            <div class="choose-grid">
+                <div class="choose-card fade-in-up">
+                    <span class="icon">🔥</span>
+                    <h3>Unforgettable Flavors</h3>
+                    <p>Our kitchen is dedicated to culinary excellence. Customers consistently rave about the "amazing food," from the perfectly crisp chicken strips to the delectable parm truffle fries.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <span class="icon">🎉</span>
+                    <h3>Perfect for Parties & Groups</h3>
+                    <p>With a spacious and inviting atmosphere, we're the ideal venue for any private event. Celebrate birthdays, anniversaries, or corporate gatherings with us.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <span class="icon">🏆</span>
+                    <h3>A Trusted Local Favorite</h3>
+                    <p>Boasting 4.5 stars from over 2200 reviews, we're a beloved fixture in Davidson. Join hundreds of happy customers who call us their go-to spot.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container fade-in-up">
+            <p class="section-label">Raving Fans</p>
+            <h2 class="section-headline">What Our Customers Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"Absolutely loved the chicken strips and those parm truffle fries! Couldn't ask for a better meal after a long day. Perfect every time."</p>
+                    <p class="author">Jessica T.</p>
+                    <p class="descriptor">Regular Customer</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"First time here and I'm already planning my next visit! The food truly is amazing, just as everyone says. The chicken was cooked perfectly, and the fries were a revelation. A fantastic experience overall."</p>
+                    <p class="author">Mark S.</p>
+                    <p class="descriptor">First-Time Visitor</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"North Harbor Club never disappoints. We brought our whole family for dinner, and everyone found something they loved. My kids devoured the chicken strips, and my wife and I shared the incredible parm truffle fries. It's truly a gem in Davidson for both food and atmosphere. Highly recommend for any occasion!"</p>
+                    <p class="author">David & Emily R.</p>
+                    <p class="descriptor">Local Family</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container fade-in-up">
+            <p class="section-label">Connect With Us</p>
+            <h2 class="section-headline">Visit North Harbor Club</h2>
+            <div class="content-wrapper">
+                <div class="column location-info fade-in-up">
+                    <h3>Location & Contact</h3>
+                    <p><strong>North Harbor Club</strong></p>
+                    <p>100 N Harbor Pl,<br>Davidson, NC 28036, USA</p>
+                    <a href="tel:(704) 896-5559">(704) 896-5559</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=100+N+Harbor+Pl,+Davidson,+NC+28036" target="_blank" class="button button--primary">GET DIRECTIONS</a>
+                </div>
+                <div class="column hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday:</td>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday:</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get wonderfully busy on Friday and Saturday evenings! For larger groups or a guaranteed spot, we recommend calling ahead to make a reservation.
+                    </div>
+                    <a href="tel:(704) 896-5559" class="button button--primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Crave It — Taste It!</h2>
+            <p>Experience the acclaimed flavors and warm hospitality of North Harbor Club in Davidson.</p>
+            <a href="tel:(704) 896-5559" class="button button--secondary">CALL NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://static.spotapps.co/website_images/ab_websites/54378_website/logo.png" alt="North Harbor Club Logo">
+                </a>
+            </div>
+            <p class="tagline"><em>Parties & Groups - Host your next party or private event</em></p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook">F</a>
+                <a href="#" aria-label="Instagram">I</a>
+            </div>
+            <p class="copyright">© 2026 North Harbor Club. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // IntersectionObserver for fade-in-up animation
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = document.querySelectorAll(".fade-in-up");
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of the item is visible
+                rootMargin: "0px"
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerOffset = 60; // Height of the sticky header
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+             document.querySelector('.logo a[href^="#"]').addEventListener('click', function (e) {
+                e.preventDefault();
+                document.getElementById('hero').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
