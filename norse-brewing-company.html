@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Norse Brewing Company - Wake Forest Bar & Grill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-color: #FF6A00;
+            --accent-color: #BE3300; /* Used for subtle highlights where needed, but primary brand color for most CTAs */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap; /* Prevent text wrapping inside buttons */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(255, 106, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 106, 0, 0.1);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(255, 106, 0, 0.1);
+        }
+
+        /* Animations (for IntersectionObserver) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0;
+        }
+
+        .header-logo {
+            flex-shrink: 0;
+        }
+
+        .header-logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-left: auto;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta {
+            margin-left: 40px;
+            flex-shrink: 0;
+        }
+
+        .header-cta .btn {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 10%, rgba(255, 106, 0, 0.1), rgba(17, 17, 17, 0.9) 70%),
+                        radial-gradient(circle at 80% 90%, rgba(190, 51, 0, 0.05), rgba(17, 17, 17, 0.9) 70%),
+                        linear-gradient(to bottom, #111111, #0a0a0a);
+            background-size: 120% 120%;
+            animation: heroPan 60s linear infinite alternate;
+        }
+
+        @keyframes heroPan {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            line-height: 1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .hero-rating span {
+            color: var(--brand-color);
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: var(--bg-section);
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .social-proof-item span {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: var(--brand-color);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-main);
+        }
+
+        .our-story-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .story-text {
+            max-width: 800px;
+        }
+
+        .our-story h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .our-story p {
+            margin-bottom: 15px;
+        }
+
+        .testimonial-quote {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--text-heading);
+            max-width: 600px;
+            align-self: flex-end;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-quote p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-quote span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 106, 0, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .stat-card h3 {
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: var(--bg-section);
+        }
+
+        .menu h2 {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 106, 0, 0.4);
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--brand-color);
+            transition: transform 0.3s ease;
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .menu-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .menu-note {
+            text-align: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 40px;
+            font-style: italic;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-main);
+        }
+
+        .why-choose-us h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-section);
+        }
+
+        .testimonials h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card .stars {
+            color: var(--brand-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .reviewer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .reviewer-info .name {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-main);
+        }
+
+        .location-hours h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info,
+        .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-info h3,
+        .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info a.phone-link {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 25px;
+            font-size: 1.2rem;
+        }
+
+        .location-info .btn {
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+
+        .hours-table th,
+        .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-body);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .pro-tip {
+            background-color: rgba(255, 106, 0, 0.1);
+            border-left: 4px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+        }
+
+        .pro-tip strong {
+            color: var(--brand-color);
+            margin-right: 5px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: var(--text-heading);
+            box-shadow: inset 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            font-weight: 700;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .final-cta p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+            padding: 18px 40px;
+            font-size: 1.2rem;
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--text-heading);
+            color: var(--accent-color);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            transition: all 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .social-icons a:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 106, 0, 0.3);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.4rem;
+            }
+
+            .section-padding {
+                padding: 80px 0;
+            }
+
+            .our-story h2,
+            .menu h2,
+            .why-choose-us h2,
+            .testimonials h2,
+            .location-hours h2 {
+                font-size: 2.5rem;
+            }
+            .stats-grid, .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 80px;
+            }
+            .header .container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .header-cta {
+                margin-left: 0;
+                order: 1;
+                width: 100%;
+                text-align: center;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                order: 0;
+            }
+            .header-cta .btn {
+                width: 100%;
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+
+            .hero {
+                height: auto;
+                padding: 120px 20px 60px;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-name {
+                font-size: 3rem;
+                margin-bottom: 20px;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+                margin-bottom: 25px;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 6px 15px;
+                margin-bottom: 30px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .our-story h2,
+            .menu h2,
+            .why-choose-us h2,
+            .testimonials h2,
+            .location-hours h2 {
+                font-size: 2rem;
+            }
+
+            .testimonial-quote {
+                align-self: center;
+                max-width: 100%;
+            }
+
+            .stat-card h3 {
+                font-size: 2.8rem;
+            }
+            .stat-card p {
+                font-size: 1rem;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1.2rem;
+            }
+            .final-cta .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                padding: 5px 12px;
+                font-size: 0.85rem;
+            }
+            .header-logo img {
+                height: 35px;
+            }
+            .header-cta .btn {
+                font-size: 0.85rem;
+            }
+
+            .our-story h2,
+            .menu h2,
+            .why-choose-us h2,
+            .testimonials h2,
+            .location-hours h2 {
+                font-size: 1.8rem;
+            }
+            .testimonial-quote p {
+                font-size: 1.05rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .final-cta p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/108179_website/logo_1.png" alt="Norse Brewing Company Logo">
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+19195544555" class="btn btn-primary">CALL (919) 554-4555</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">WAKE FOREST, NC</p>
+                <h1 class="hero-name">Norse<br>Brewing Company</h1>
+                <p class="hero-tagline">"If you’re hungry you have no time to talk at the table."</p>
+                <div class="hero-rating">
+                    <span>★★★★☆</span> 4.4 Stars | 683 Reviews
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container social-proof-grid fade-in-up">
+                <div class="social-proof-item"><span>★</span> 4.4 Star Rating</div>
+                <div class="social-proof-item"><span>❤️</span> 683+ Happy Customers</div>
+                <div class="social-proof-item"><span>🏡</span> Wake Forest's Local Favorite</div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story section-padding">
+            <div class="container fade-in-up">
+                <p class="section-label">OUR STORY</p>
+                <h2>Where Great Brews & Good Company Began</h2>
+                <div class="our-story-content">
+                    <div class="story-text">
+                        <p>Friends and neighbors for over 20 years, our story started when Brad brought over a couple of six-packs of Chris' favorite Bourbon Barrel Aged Tavern Ale one Saturday afternoon on a beautiful sunny summer day. They quickly made sure the beer didn't get warm and soon had to find another beverage to stay hydrated. Bourbon seemed like a logical choice, so Chris went to get some ice and a bottle of Basil Hayden.</p>
+                        <p>Ribeyes and potatoes went on the grill, and by the time Jenni and Lynn joined at 10 o'clock, the idea for Norse Brewing Company was simmering as beautifully as the summer evening. From those shared moments of good company, great food, and even better drinks, our dream to create Wake Forest's ultimate gathering spot was born.</p>
+                        <div class="testimonial-quote">
+                            <p>"The best Bourbon Barrel Aged Tavern Ale I've ever tasted! Truly a local gem with an incredible atmosphere and a story you can feel."</p>
+                            <span>— A Satisfied Customer</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <h3>20+</h3>
+                        <p>Years of Friendship & Flavor</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3>683</h3>
+                        <p>Positive Reviews & Counting</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3>🥃</h3>
+                        <p>Curated Basil Hayden Selections</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu section-padding">
+            <div class="container fade-in-up">
+                <p class="section-label">THE MENU</p>
+                <h2>Taste the Nordic Difference</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Craft Ales & Lagers</h3>
+                        <p>Explore our rotating selection of finely crafted beers, including Chris's favorite Bourbon Barrel Aged Tavern Ale, brewed with passion right here in Wake Forest.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Grill House Favorites</h3>
+                        <p>From perfectly grilled ribeyes and hearty potatoes to classic bar bites, our kitchen serves up delicious comfort food to satisfy any Viking-sized hunger.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Spirits & Crafted Cocktails</h3>
+                        <p>Beyond our beers, enjoy a full bar featuring a logical choice of bourbons, including premium Basil Hayden, and expertly mixed drinks.</p>
+                    </div>
+                </div>
+                <div class="menu-note fade-in-up">
+                    <p>Prices may vary. Call for daily specials.</p>
+                </div>
+                <div style="text-align: center; margin-top: 40px;" class="fade-in-up">
+                    <a href="tel:+19195544555" class="btn btn-primary">CALL FOR FULL MENU</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us section-padding">
+            <div class="container fade-in-up">
+                <p class="section-label">WHY NORSE BREWING?</p>
+                <h2>Why Wake Forest Craves Norse Brewing Company</h2>
+                <div class="why-grid">
+                    <div class="why-card fade-in-up">
+                        <div class="icon">🍻</div>
+                        <h3>Exceptional Brews & Grill</h3>
+                        <p>From our renowned Bourbon Barrel Aged Tavern Ale to our hearty grill house specialties, every item is crafted for peak flavor and satisfaction. A true bar and grill experience.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">👨‍👩‍👧</div>
+                        <h3>A Story of Friendship</h3>
+                        <p>Born from over 20 years of friendship, good food, and great bourbon, we offer more than a meal – we offer a warm, welcoming community hub for friends and family alike.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">⭐</div>
+                        <h3>Local Favorite, Top-Rated</h3>
+                        <p>With a stellar 4.4-star rating from over 680 reviews, we're a beloved destination in Wake Forest, known for our quality, atmosphere, and friendly service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials section-padding">
+            <div class="container fade-in-up">
+                <p class="section-label">HEAR FROM OUR PATRONS</p>
+                <h2>What Our Customers Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"The Basil Hayden selection is top-notch! Always a great evening here with friendly staff and excellent vibes. Truly a Wake Forest gem."</p>
+                        <div class="reviewer-info">
+                            <span class="name">Alex T.</span>
+                            <span>Local Enthusiast</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"Came for the Bourbon Barrel Aged Tavern Ale, stayed for the incredible atmosphere. Norse Brewing never disappoints, it feels like coming home every time!"</p>
+                        <div class="reviewer-info">
+                            <span class="name">Maria S.</span>
+                            <span>Regular Visitor</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="stars">★★★★★</div>
+                        <p>"My go-to spot in Wake Forest. The friends-and-neighbors vibe is real, and their Bourbon Barrel Aged Tavern Ale is truly outstanding. Pair it with good company and you've got a perfect night out. Highly recommend the food too!"</p>
+                        <div class="reviewer-info">
+                            <span class="name">John P.</span>
+                            <span>Longtime Patron</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours section-padding">
+            <div class="container fade-in-up">
+                <p class="section-label">VISIT US SOON</p>
+                <h2>Find Your Way to Norse Brewing Company</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>Come and experience the warmth and flavors of Norse Brewing Company!</p>
+                        <p><strong>Address:</strong> 203 Brooks St, Wake Forest, NC 27587, USA</p>
+                        <a href="tel:+19195544555" class="phone-link">(919) 554-4555</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=203+Brooks+St,+Wake+Forest,+NC+27587" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr><th>Monday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Tuesday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                            <tr><th>Wednesday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                            <tr><th>Thursday:</th><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><th>Friday:</th><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><th>Saturday:</th><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><th>Sunday:</th><td>10:00 AM – 8:00 PM</td></tr>
+                        </table>
+                        <div class="pro-tip">
+                            <strong>Pro Tip:</strong> We get busy Thursday-Saturday evenings! For larger groups or specific seating, calling ahead is a logical choice to ensure the best experience.
+                        </div>
+                        <a href="tel:+19195544555" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Don't Just Crave It — Come Taste It!</h2>
+                <p>Experience Wake Forest's Top-Rated Bar & Grill Today.</p>
+                <a href="tel:+19195544555" class="btn">CALL NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container fade-in-up">
+            <div class="footer-logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/108179_website/logo_1.png" alt="Norse Brewing Company Logo">
+            </div>
+            <p class="footer-tagline">"If you’re hungry you have no time to talk at the table."</p>
+            <div class="social-icons">
+                <a href="https://facebook.com/norsebrewing" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/norsebrewing" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p>© 2026 Norse Brewing Company. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
