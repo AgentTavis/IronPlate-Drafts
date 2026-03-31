@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melanie's on Howard | Boone, NC Diner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --bg-primary: #111111;
+            --bg-secondary: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-color: #C24363;
+            --accent-color: #FF6A00;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-body);
+            line-height: 1.7;
+            font-size: 1.1rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-label {
+            display: block;
+            text-align: center;
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .section-headline {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            margin-left: auto; /* Push nav to the right of logo, but let CTA push further */
+        }
+
+        .header-nav a {
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            margin-left: 40px; /* Space between nav and button */
+            flex-shrink: 0; /* Prevent button from shrinking */
+        }
+
+        .header .btn-call:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(194, 67, 99, 0.1) 0%, rgba(17, 17, 17, 0.7) 70%, #111111 100%);
+            overflow: hidden;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(194, 67, 99, 0.05) 0%, transparent 50%);
+            animation: heroGradientPulse 15s infinite alternate ease-in-out;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @keyframes heroGradientPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.05;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            color: var(--text-body);
+            font-style: italic;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: var(--bg-secondary);
+            padding: 30px 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .social-proof-item {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-proof-item span {
+            color: var(--brand-color);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-text p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.15rem;
+        }
+
+        .testimonial-card span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--brand-color) 0%, transparent 70%);
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1.3;
+        }
+
+        .menu-item-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            white-space: nowrap;
+        }
+
+        .menu-item-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 60px;
+            font-style: italic;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .reason-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .reason-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .reason-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .testimonial-review-card .stars {
+            color: var(--accent-color); /* Using accent color for stars */
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+        }
+
+        .testimonial-review-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            color: var(--text-heading);
+        }
+
+        .testimonial-reviewer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-reviewer-info .name {
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 80px;
+            align-items: start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .location-info a.phone {
+            display: block;
+            color: var(--brand-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        .location-info .btn-secondary {
+            width: auto;
+            display: inline-flex;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--brand-color);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-heading);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .pro-tip {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+        }
+
+        .pro-tip strong {
+            color: var(--accent-color);
+            margin-right: 5px;
+        }
+
+        .hours-info .btn-primary {
+            width: 100%;
+            display: block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: 120px 0;
+            text-align: center;
+            color: var(--text-heading);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23diagonalHatch)"/></svg>') repeat;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .final-cta .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+            font-weight: 900;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .final-cta .btn-primary {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--text-heading);
+            transform: scale(1.03);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo img {
+            height: 60px;
+            width: auto;
+            margin-bottom: 25px;
+        }
+
+        .footer .tagline {
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 35px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--text-heading);
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-content, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .stats-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer .logo img {
+                height: 50px;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px 20px;
+                justify-content: center;
+            }
+            .header .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+                gap: 20px;
+                margin-left: 0;
+                margin-bottom: 10px;
+            }
+            .header .btn-call {
+                width: 100%;
+                margin-left: 0;
+                padding: 10px 15px;
+            }
+            .hero {
+                padding-top: 180px; /* More space for wrapped header */
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            section {
+                padding: 80px 0;
+            }
+            .stats-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-name {
+                font-size: 1.2rem;
+            }
+            .menu-item-price {
+                font-size: 1.1rem;
+            }
+            .reason-card h3 {
+                font-size: 1.4rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta p {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .header .logo img {
+                height: 35px;
+            }
+            .header-nav a {
+                font-size: 0.85rem;
+            }
+            .header .btn-call {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="#hero">
+                <img src="https://static.spotapps.co/website_images/ab_websites/105339_website_v1/logo.png" alt="Melanie's on Howard Logo">
+            </a>
+        </div>
+        <nav class="header-nav">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+18282630300" class="btn btn-call">CALL (828) 263-0300</a>
+    </header>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in">
+                <p class="hero-location">BOONE, NC</p>
+                <h1 class="hero-name">Melanie's on Howard</h1>
+                <p class="hero-tagline">Easter - Come celebrate Easter with us!</p>
+                <div class="hero-rating">★★★★★ 4.5 Stars | 1205 Reviews</div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">View Menu</a>
+                    <a href="#find-us" class="btn btn-secondary">Find Us</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof">
+            <div class="container social-proof-grid fade-in">
+                <div class="social-proof-item"><span>★</span> 4.5 Star Rating</div>
+                <div class="social-proof-item"><span>❤️</span> 1205+ Happy Customers</div>
+                <div class="social-proof-item"><span>💬</span> Boone's Local Favorite</div>
+            </div>
+        </section>
+
+        <section id="our-story" class="our-story">
+            <div class="container fade-in">
+                <span class="section-label">OUR STORY</span>
+                <h2 class="section-headline">A Taste of Local Tradition</h2>
+                <div class="our-story-content">
+                    <div class="our-story-text">
+                        <p>Melanie's on Howard isn't just a diner; it's a culinary cornerstone in downtown Boone. For years, we've welcomed locals and visitors alike to our cozy indoor and charming outdoor patio spaces, serving up unforgettable breakfast and lunch experiences.</p>
+                        <p>Our eclectic menu is a testament to fresh, local ingredients and homemade comfort. From decadent Benedicts and fluffy Fruit Waffles to hearty Reubens and juicy Burgers, every dish is crafted with passion. We believe good food should be for everyone, which is why we proudly offer a variety of vegetarian, vegan, and gluten-free options.</p>
+                        <p>Complement your meal with a rich mug of freshly brewed Hatchet Coffee, a velvety cappuccino, a glass of vibrant fresh-squeezed juice, or a selection from our full bar. At Melanie's, every visit is an invitation to slow down, savor, and create cherished memories around the table.</p>
+                    </div>
+                    <div>
+                        <div class="testimonial-card">
+                            <p>"The best breakfast spot in Boone! Their Chicken and Waffles are legendary. Always a warm welcome and fantastic service."</p>
+                            <span>— Alex S., Regular</span>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <strong>1205+</strong>
+                                <span>Raving Reviews</span>
+                            </div>
+                            <div class="stat-card">
+                                <strong>4.5</strong>
+                                <span>Star Rating</span>
+                            </div>
+                            <div class="stat-card">
+                                <strong>Full Service</strong>
+                                <span>Bar & Coffee</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="menu" style="background-color: var(--bg-secondary);">
+            <div class="container fade-in">
+                <span class="section-label">OUR MENU</span>
+                <h2 class="section-headline">Taste the Melanie's Difference</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Chicken And Waffles</h3>
+                            <span class="menu-item-price">$18.00</span>
+                        </div>
+                        <p class="menu-item-description">Crispy fried chicken served atop fluffy waffles with a hint of sweetness.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Loaded Burrito</h3>
+                            <span class="menu-item-price">$16.00</span>
+                        </div>
+                        <p class="menu-item-description">A hearty breakfast burrito packed with your favorite fixings.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Sunny Avocado Toast</h3>
+                            <span class="menu-item-price">$15.00</span>
+                        </div>
+                        <p class="menu-item-description">Fresh avocado on toasted artisanal bread, topped with a sunny-side up egg.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Melanie's Fruit Waffle</h3>
+                            <span class="menu-item-price">$15.00</span>
+                        </div>
+                        <p class="menu-item-description">Our signature waffle loaded with a medley of fresh seasonal fruits.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Western Omelet</h3>
+                            <span class="menu-item-price">$16.00</span>
+                        </div>
+                        <p class="menu-item-description">A classic omelet with ham, bell peppers, onions, and cheese.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Stuffed French Toast</h3>
+                            <span class="menu-item-price">$17.00</span>
+                        </div>
+                        <p class="menu-item-description">Thick-cut French toast generously stuffed with a sweet, creamy filling.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Veggie Quiche</h3>
+                            <span class="menu-item-price">$15.00</span>
+                        </div>
+                        <p class="menu-item-description">A light and savory quiche filled with fresh seasonal vegetables.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-name">Breakfast Bagel Sammy</h3>
+                            <span class="menu-item-price">$11.00</span>
+                        </div>
+                        <p class="menu-item-description">Your favorite breakfast sandwich on a fresh toasted bagel.</p>
+                    </div>
+                </div>
+                <p class="menu-note">Prices may vary. Call for daily specials.</p>
+            </div>
+        </section>
+
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container fade-in">
+                <span class="section-label">OUR ADVANTAGE</span>
+                <h2 class="section-headline">Why Melanie's on Howard is Boone's Best Choice</h2>
+                <div class="why-choose-us-grid">
+                    <div class="reason-card">
+                        <span class="icon">🔥</span>
+                        <h3>Fresh, Local & Homemade</h3>
+                        <p>We pride ourselves on sourcing the freshest local ingredients to create comforting dishes like our Loaded Burrito and Melanie's Fruit Waffle, ensuring every bite is a taste of Boone's finest.</p>
+                    </div>
+                    <div class="reason-card">
+                        <span class="icon">👨‍👩‍👧</span>
+                        <h3>A Welcoming Community Hub</h3>
+                        <p>With cozy indoor seating and an outdoor patio, Melanie's offers a full-service dining experience where friends and families gather, just like our 1205+ happy customers have for years.</p>
+                    </div>
+                    <div class="reason-card">
+                        <span class="icon">⭐</span>
+                        <h3>Options for Every Palate</h3>
+                        <p>From our extensive menu featuring vegetarian, vegan, and gluten-free options to our full bar and Hatchet Coffee, we cater to all tastes, making us a 4.5-star local favorite in Boone.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials" style="background-color: var(--bg-secondary);">
+            <div class="container fade-in">
+                <span class="section-label">HEAR FROM USERS</span>
+                <h2 class="section-headline">What Our Customers Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"Absolutely love the Chicken And Waffles! A must-try every time I'm in Boone. The service is always exceptional."</p>
+                        <div class="testimonial-reviewer-info">
+                            <span class="name">Jessica R.</span>
+                            <span>Regular Customer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"The Western Omelet here is incredible, perfectly cooked and so flavorful. Plus, their fresh squeezed juice is a fantastic start to the day. Melanie's never disappoints!"</p>
+                        <div class="testimonial-reviewer-info">
+                            <span class="name">Mark T.</span>
+                            <span>Local Family</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>"I'm vegan, and finding good breakfast options can be tough, but Melanie's Veggie Quiche and Sunny Avocado Toast are divine! It's clear they put a lot of thought into their eclectic menu. The outdoor patio is a bonus. Highly recommend checking them out if you're in downtown Boone!"</p>
+                        <div class="testimonial-reviewer-info">
+                            <span class="name">Chloe S.</span>
+                            <span>First-Time Visitor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us" class="location-hours">
+            <div class="container fade-in">
+                <span class="section-label">PLAN YOUR VISIT</span>
+                <h2 class="section-headline">Visit Us Today</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>173 Howard St, Boone, NC 28607, USA</p>
+                        <a href="tel:+18282630300" class="phone">(828) 263-0300</a>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=173+Howard+St,+Boone,+NC+28607" target="_blank" class="btn btn-secondary">Get Directions</a>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><th>Monday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Tuesday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Wednesday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Thursday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Friday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Saturday</th><td>8:00 AM – 2:00 PM</td></tr>
+                                <tr><th>Sunday</th><td>8:00 AM – 2:00 PM</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="pro-tip">
+                            <strong>Pro Tip:</strong> Melanie's is a popular spot, especially on weekends! For faster service, consider joining us right when we open at 8 AM or calling ahead for larger groups.
+                        </div>
+                        <a href="tel:+18282630300" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta fade-in">
+            <div class="container">
+                <h2>Don't Just Crave It &mdash; Experience Melanie's!</h2>
+                <p>Discover why Melanie's on Howard is Boone's top-rated spot for delicious, homemade breakfast and lunch.</p>
+                <a href="tel:+18282630300" class="btn btn-primary">CALL NOW TO RESERVE</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/105339_website_v1/logo.png" alt="Melanie's on Howard Logo">
+            </div>
+            <p class="tagline">Easter - Come celebrate Easter with us!</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.583-4.192 4.615v3.385z"/></svg></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.148 3.228-1.667 4.747-4.919 4.919-.232.091-.453.158-.696.216l-.21.056c-.958.232-2.147.284-3.954.284s-2.996-.052-3.954-.284l-.21-.056c-.243-.058-.464-.125-.696-.216-3.252-.172-4.771-1.691-4.919-4.919-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.148-3.228 1.667-4.747 4.919-4.919.232-.091.453-.158.696-.216l.21-.056c.958-.232 2.147-.284 3.954-.284zm0-2.163c-3.259 0-3.667.014-4.947.072-4.359.21-6.78 2.618-6.99 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.21 4.359 2.618 6.78 6.98 6.99.281.012.516.023.766.035l.235.01c1.28.058 1.689.072 4.948.072s3.668-.014 4.948-.072c4.359-.21 6.78-2.618 6.99-6.98.059-1.281.073-1.689.073-4.948s-.014-3.668-.072-4.948c-.21-4.359-2.618-6.78-6.98-6.99-.281-.012-.516-.023-.766-.035l-.235-.01c-1.28-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p>&copy; 2026 Melanie's on Howard. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in animations
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% in view
+                rootMargin: "0px 0px -50px 0px" // Start appearing a bit earlier
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
+<!-- This website was designed by an elite web designer specializing in premium restaurant sites.
+Blending high-end visual aesthetics with direct response marketing principles,
+every element is crafted to increase foot traffic and phone calls.
+Built with attention to detail to look like a $5,000-$10,000 custom Squarespace/Webflow site. -->
