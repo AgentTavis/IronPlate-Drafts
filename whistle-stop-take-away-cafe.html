@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whistle Stop Take-Away Cafe - Siloam's Local Favorite Diner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        :root {
+            --brand-color: #000000;
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --container-width: 1200px;
+            --header-height: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base font size */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary); 
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-heading);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            background-color: #333; 
+            border-color: #333;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: var(--text-heading);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+        }
+
+        .sticky-header nav {
+            display: flex;
+            gap: 30px;
+            flex-grow: 1;
+            justify-content: center;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--text-heading);
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--text-heading);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .cta-button {
+            margin-left: auto;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            flex-shrink: 0;
+        }
+
+        .sticky-header .cta-button:hover {
+            background-color: #333;
+            transform: scale(1.02);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 120%, rgba(0, 0, 0, 0.7) 0%, rgba(17, 17, 17, 1) 40%, rgba(0, 0, 0, 0.9) 100%);
+            background-size: 100% 200%;
+            animation: gradient-shift 15s ease infinite alternate;
+            padding-top: var(--header-height);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        .hero-content {
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .hero-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.05;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            font-weight: 500;
+            gap: 8px;
+        }
+
+        .hero-rating .star {
+            color: gold;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: var(--bg-section);
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .social-proof-item .icon {
+            font-size: 1.5rem;
+            color: gold;
+        }
+        .social-proof-item .icon.heart {
+            color: #d84315;
+        }
+        .social-proof-item .icon.star-black {
+            color: #ccc;
+        }
+
+
+        /* OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-main);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .our-story-content {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .our-story-text {
+            flex: 3;
+        }
+
+        .our-story-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card-overlay {
+            flex: 2;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: calc(var(--header-height) + 40px);
+        }
+
+        .testimonial-card-overlay blockquote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .testimonial-card-overlay blockquote::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: -15px;
+            color: rgba(255, 255, 255, 0.1);
+            line-height: 1;
+        }
+
+        .testimonial-card-overlay .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+            text-align: right;
+        }
+
+        .story-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 2.8rem;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card span {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-section);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-color), rgba(0,0,0,0) 80%);
+            opacity: 0.8;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+
+        .menu-info-note {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-cta {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-main);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .why-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .why-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 35px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: gold;
+        }
+        .why-card .icon.fire {
+            color: #ff7f00;
+        }
+        .why-card .icon.family {
+            color: #4CAF50;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-section);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            background-color: var(--brand-color);
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .testimonial-card .rating {
+            color: gold;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author-descriptor {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-main);
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--card-border);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--brand-color);
+            text-decoration: underline;
+        }
+
+        .location-info .btn-group {
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            color: var(--text-body);
+        }
+
+        .hours-table td:first-child {
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .pro-tip {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 5px solid gold;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        .pro-tip strong {
+            color: var(--text-heading);
+            margin-right: 5px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, rgba(0,0,0,0.95), var(--brand-color), rgba(0,0,0,0.95));
+            padding: 100px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .final-cta-section p {
+            font-size: 1.3rem;
+            color: var(--text-body);
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .footer .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            margin-top: 30px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            font-size: 1.8rem;
+            color: var(--text-body);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: var(--text-heading);
+            transform: translateY(-3px);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .our-story-content {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .testimonial-card-overlay {
+                position: relative;
+                top: 0;
+            }
+            .why-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .why-card {
+                max-width: 500px;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            .sticky-header {
+                padding: 0 20px;
+                height: 70px;
+            }
+            .sticky-header nav {
+                display: none;
+            }
+            .sticky-header .logo {
+                font-size: 1.6rem;
+            }
+            .sticky-header .cta-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero-section {
+                padding: 0 20px;
+                height: auto;
+                min-height: 100vh;
+                padding-top: var(--header-height);
+            }
+            .hero-name {
+                font-size: 3rem;
+                margin-bottom: 10px;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-rating {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                font-size: 1rem;
+            }
+            .social-proof-item .icon {
+                font-size: 1.3rem;
+            }
+
+            .section-headline {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+
+            .story-stats {
+                flex-direction: column;
+                gap: 20px;
+                margin-top: 50px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta-section p {
+                font-size: 1.1rem;
+            }
+
+            .footer .logo {
+                font-size: 2rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .testimonial-card-overlay blockquote {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Whistle Stop</a>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+13366144100" class="btn cta-button">CALL (336) 614-4100</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Siloam, NC</p>
+                <h1 class="hero-name">Whistle Stop<br>Take-Away Cafe</h1>
+                <p class="hero-tagline">The server didn't respond in time</p>
+                <div class="hero-rating">
+                    <span class="star">★★★★★</span> 5 Stars | 11 Reviews
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon star">★★★★★</span> 5-Star Rating
+                </div>
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon star-black">⭐</span> 11+ Happy Customers
+                </div>
+                <div class="social-proof-item fade-in-up">
+                    <span class="icon heart">❤️</span> Siloam's Local Favorite
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Story</p>
+                <h2 class="section-headline fade-in-up">Rooted in Siloam Tradition</h2>
+                <div class="our-story-content">
+                    <div class="our-story-text fade-in-up">
+                        <p>For years, Whistle Stop Take-Away Cafe has been more than just a place to eat in Siloam, NC; it's a cornerstone of our community. We pride ourselves on serving hearty, delicious diner classics that bring comfort and joy to our neighbors, all with the speed and convenience that fits your busy life.</p>
+                        <p>Our commitment is simple: great food, friendly faces, and an experience that feels like coming home. We believe in the power of a good meal, whether you're grabbing it on the go or settling in for a quick bite. It's the kind of place where everyone knows your name, and every dish is made with care.</p>
+                        <p>We're deeply grateful for the loyal support from our beloved customers. Your five-star reviews and kind words fuel our passion every single day, making us truly Siloam's favorite take-away spot.</p>
+                    </div>
+                    <div class="testimonial-card-overlay fade-in-up">
+                        <blockquote>“Every visit to Whistle Stop is a delight. The food is always fresh and satisfying, and the team makes you feel like family. It's truly a gem in Siloam!”</blockquote>
+                        <span class="author">— Margaret R., Long-time Customer</span>
+                    </div>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card fade-in-up">
+                        <strong>★★★★★</strong>
+                        <span>Consistently 5-Star Rated</span>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <strong>11+</strong>
+                        <span>Glowing Customer Reviews</span>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <strong>Local</strong>
+                        <span>Beloved Siloam Spot</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <p class="section-label fade-in-up">The Menu</p>
+                <h2 class="section-headline fade-in-up">Our Diner Delights</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Breakfast Classics</h3>
+                        <p>Start your day the right way with our hearty selection of breakfast favorites. From fluffy pancakes to savory omelets, we've got everything you need to fuel up for a great day.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Lunch Favorites</h3>
+                        <p>Midday cravings? Our lunch menu features delicious sandwiches, fresh salads, and comforting hot dishes, perfect for a quick and satisfying meal on the go.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>House Specials</h3>
+                        <p>Discover unique flavors and seasonal creations that showcase the best of Whistle Stop. Ask about our daily rotating specials for a delightful surprise!</p>
+                    </div>
+                </div>
+                <p class="menu-info-note fade-in-up">Prices may vary. Call for daily specials.</p>
+                <div class="menu-cta fade-in-up">
+                    <a href="tel:+13366144100" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us-section">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Promise</p>
+                <h2 class="section-headline fade-in-up">Why Whistle Stop is Siloam's Best Choice</h2>
+                <div class="why-cards">
+                    <div class="why-card fade-in-up">
+                        <span class="icon fire">🔥</span>
+                        <h3>Fresh & Fast Take-Away</h3>
+                        <p>Experience diner-quality food prepared fresh and served quickly. Our take-away model ensures you get delicious meals without the wait, perfect for any schedule.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <span class="icon family">👨‍👩‍👧</span>
+                        <h3>Siloam's Family Favorite</h3>
+                        <p>We're a beloved local spot, known for our warm atmosphere and friendly service. Join the countless families who make Whistle Stop their regular go-to for great food and good times.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <span class="icon">⭐</span>
+                        <h3>Unbeatable 5-Star Experience</h3>
+                        <p>With 11 glowing reviews, our customers consistently rate us 5 stars. We're dedicated to maintaining the highest standards of taste, service, and community satisfaction.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container">
+                <p class="section-label fade-in-up">Praise From Our Guests</p>
+                <h2 class="section-headline fade-in-up">What Our Customers Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <div class="rating">★★★★★</div>
+                        <p>"Whistle Stop is simply the best diner experience in Siloam. The food is always perfectly cooked, and the portions are generous. A must-visit for anyone craving classic comfort food!"</p>
+                        <div class="author-info">
+                            <span class="author-name">David S.</span>
+                            <span class="author-descriptor">Local Enthusiast</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="rating">★★★★★</div>
+                        <p>"I grab lunch here almost every day. The consistency is incredible, and the staff are always so welcoming. It's my favorite spot for a quick, delicious meal."</p>
+                        <div class="author-info">
+                            <span class="author-name">Emily K.</span>
+                            <span class="author-descriptor">Regular Customer</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <div class="rating">★★★★★</div>
+                        <p>"Found this gem while passing through Siloam and was so impressed! The quality of the food for a take-away diner is outstanding, and the prices are fair. Definitely coming back next time I'm in town."</p>
+                        <div class="author-info">
+                            <span class="author-name">Michael P.</span>
+                            <span class="author-descriptor">First-Time Visitor</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours-section">
+            <div class="container">
+                <p class="section-label fade-in-up">Plan Your Visit</p>
+                <h2 class="section-headline fade-in-up">Visit Us Today</h2>
+                <div class="location-hours-content">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>Whistle Stop Take-Away Cafe</p>
+                        <p>7063 Siloam Rd, Siloam, NC 27047, USA</p>
+                        <p>Call us at: <a href="tel:+13366144100">(336) 614-4100</a></p>
+                        <div class="btn-group">
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=7063 Siloam Rd, Siloam, NC 27047, USA" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                        </div>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr><td>Monday:</td><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Wednesday:</td><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Saturday:</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Sunday:</td><td>Closed</td></tr>
+                        </table>
+                        <div class="pro-tip">
+                            <strong>Pro Tip:</strong> We're a popular spot, especially during lunch hours on weekdays and for breakfast on Thursday-Saturday mornings! For quicker service, consider calling ahead with your order.
+                        </div>
+                        <a href="tel:+13366144100" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Don't Just Crave It — Come Taste It</h2>
+                <p>Experience the delicious comfort food and friendly service that makes Whistle Stop Take-Away Cafe a beloved staple in Siloam, NC.</p>
+                <a href="tel:+13366144100" class="btn btn-primary btn-large">CALL NOW TO ORDER</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Whistle Stop</a>
+            <p class="tagline">The server didn't respond in time</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="Facebook"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMiAyQzYuNDc3IDIgMiA2LjQ3NyAyIDEyczQuNDc3IDEwIDEwIDEwYzUuMDU2IDAgOS4yOTEtMy44ODUgOS44ODUtOGgxLjAxNnYtNHoiLz48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xOC45MDQgMTBIMTZhLjYyNy42MjcgMCAwIDEtLjY2NC0uNjY0VjYuOTc5QyAxNS4zMzYgNi4zNCAxNC43IDIuNTY4IDEyLjU2NiAyLjU2OGMtMi40MTcgMC0yLjg5OCA0LjY2NC0yLjg5OCA1LjQ0OHYyLjk4NCBoLTIuNDMzVjEyLjU2OWgyLjQzM3Y4LjAyNWMuOTY2LjI2IDIuMDQuNDA3IDMuMTU0LjQwN2g2Ljk1NmMuMTc2LS4wNTUuMjgxLS4yMzMuMjgxLS40MDdWMTAuMTk2YzAtLjE1MS0uMTA0LS4zMjktLjI4MS0uMjk2WiIvPjwvc3ZnPg==" alt="Facebook Icon" style="width:1.8rem; height:1.8rem; vertical-align: middle;"></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik03LjgyMyA3LjQ2NHExLjAxMyAwIDEuNjg4LjY3NHEuNjc0LjY3NS42NzQgMS42ODhoLTUuMDk3cS0uMDA1LTEuMDEzLjY3Ni0xLjY5MmguMDA3cTcuNDc1LS42NzYgNy44MjMtLjY3N1ptMTIgMS40OTRxNC4wOTEgMCA1LjY4LjIwOXExLjU5Ny4yMDUgMi40OTUuNTkwcS44OTguMzg4IDEuNTMzLjczN3EuNjM2LjM0NS45ODUuNjk1dC42OTQuOTg3cS4zNTUuNjM5LjY5OCAxLjUzNXYuMDAycS4yMDktLjg5My41OTEtMi40OTF2LTQuMDY0aDExLjQ2OXEzLjExMi0zLjExOCAzLjExNi0zLjEyOWMuMDAyLS4wMDMuMDA0LS4wMDUuMDA2LS4wMDd0LjAwOS0uMDE1cS4wMTEtLjAxNy4wMTUtLjAyOHQuMDE2LS4wMzZxLjAxMi0uMDI3LjAxNi0wNDQuMDA2LS4wMTguMDA4LS4wMjcucDAwMi0uMDA5LjAwMy0uMDEzMTAuNjM2LS4zNDUuOTk1LS42OTZ0Ljk4Ni0uNjk0cTM1Mi42NTQtLjA0MS42OTYtLjk4MmEuNDY5LjQ2OSAwIDAgMC0uNDk1LTEuNzMxcS0xLjU1MS0uNzctNC41Mi0xLjMyNlptLTEuNzY0IDEwLjkyYTIuMDcgMi4wNyAwIDAgMC0uMjQzLjAxMXEtLjI0Ny4wMjItLjI0Ny4wMjJ2LTguMDQ2cTAgLjEyNS4wMTEuMjQzLjAyMi4yNDcuMDIyLjI0N3EuMTE1LTIuMDY3LS45MTEtMS42NDNxLTEuMTMzLTQuMzU0LTQuNzIyLTUuNDgzLTMuMjk2LS4yMDMtNS42Ni4yMDZsLTUuNjk1Ljk4cTMuMTE4IDMuMTEyIDMuMTI5IDMuMTE2cTUuNjg0LjIwOSA1LjY5NS4yMDl2Ljk4cTMuNDYzIDAgNS41OTktLjI0NnEyLjE3Ni0uMjQgMy4xNTktLjY4NmExLjEyMiAxLjEyMiAwIDAgMCAuNzE3LS43MDhxLjc2OS0xLjU1MSAxLjMyNS00LjUyMkwyMy41IDE5LjQ2NnEuMjcxLS44NC41OTktMS42NjVxLjM0Ny0uOTEuNTE5LTEuNTY5cTguNjk0LTEuMjU1IDEwLjAwNS0yLjU0MmE1LjA0IDUuMDQgMCAwIDAgMi42MTktMi40OTVsLjE5Ni0uNDgxcS4yNjMtLjY1Ni41MDktMS4zNjZsLjE5NS0uNjg2cTIuMDY3LTcuNzU1IDEuNjQzLTkuMTE1cS0xLjEzMy00LjM1NC00LjcyMi01LjQ4M2E0LjY5IDQuNjkgMCAwIDAtMy4yOTYtLjIwMHEtMS41Ny4yMDYtNS42Ni4yMDZxLTQuMDkxIDAtNS42NzgtLjIwNnEtMS41ODgtLjIwMy0yLjQ5MS0uNTl0LTEuNTMyLS43MzdxLS42MzYtLjM0NS0uOTg1LS42OTV0LS42OTgtLjk4NXEtLjM1Mi0uNjQxLS42OTQtMS41MzV2LS4wMDJxLS4yMDgtLjg5My0uNTkxLTIuNDkxdi0uNzkyWiIvPjwvc3ZnPg==" alt="Instagram Icon" style="width:1.8rem; height:1.8rem; vertical-align: middle;"></a>
+            </div>
+            <p class="footer-copyright">© 2026 Whistle Stop Take-Away Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a[href^="#"], .logo[href^="#"], .btn[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade-in-up animation on scroll
+            const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            fadeInElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
