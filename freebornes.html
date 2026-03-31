@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freeborne's - Bar And Grill in Laurel Springs, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Body Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: #cccccc;
+            background-color: #111111;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Design System Variables */
+        :root {
+            --brand-color: #000000;
+            --bg-main: #111111;
+            --bg-sections: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Base for 80-120px */
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+
+        .section-label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* Layout & Spacing */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: #ffffff;
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: rgba(0,0,0,0.8);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.6);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            white-space: nowrap; /* Prevent logo text from wrapping */
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            margin: 0 20px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transition: color 0.3s ease;
+            white-space: nowrap; /* Prevent nav links from wrapping */
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta {
+            background-color: var(--brand-color);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: background-color 0.3s ease;
+            margin-left: auto; /* CRITICAL: Pushes button to the far right */
+            white-space: nowrap;
+        }
+
+        .header-cta:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.8), var(--bg-main) 70%);
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero-location {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5.5rem;
+            font-weight: 900;
+            color: var(--text-heading);
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-top: 1rem;
+            max-width: 800px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .hero-rating span {
+            margin-right: 5px;
+            color: gold; /* Stars color */
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: var(--bg-sections);
+            padding: 25px 0;
+            text-align: center;
+            color: var(--text-body);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item span {
+            margin-right: 8px;
+            color: var(--brand-color);
+        }
+
+        /* General Section Styles */
+        .section-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .section-content > * {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .card h3 {
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        .card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--brand-color);
+            line-height: 1;
+            display: block;
+        }
+
+        /* Our Story Specifics */
+        .our-story .text-content {
+            flex: 2;
+            min-width: 400px;
+        }
+
+        .testimonial-card {
+            background-color: var(--brand-color);
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.2);
+            line-height: 1;
+            font-family: serif;
+        }
+        .testimonial-card p {
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-size: 1.2rem;
+        }
+        .testimonial-card small {
+            display: block;
+            text-align: right;
+            font-weight: 700;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .stat-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-category-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .menu-category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+        .menu-category-card h3 {
+            margin-bottom: 0.8rem;
+            font-size: 1.8rem;
+        }
+        .menu-category-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+        .menu-note {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 4rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+        }
+
+        .testimonial-review-card .rating {
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        .testimonial-review-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .testimonial-meta {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .location-hours-content > div {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: #ffffff;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .pro-tip {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+        .pro-tip strong {
+            color: var(--text-heading);
+        }
+        .location-hours-cta {
+            margin-top: 30px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(to right, var(--brand-color), #222222);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+            color: #ffffff;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .final-cta .btn-primary {
+            background-color: #ffffff;
+            color: var(--brand-color);
+            border-color: #ffffff;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--brand-color);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1rem;
+        }
+
+        .social-icons {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            display: inline-flex;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--brand-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .section-padding-y {
+                padding: 80px 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .header-logo {
+                flex-basis: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .header-nav {
+                flex-basis: 100%;
+                justify-content: center;
+                gap: 15px;
+            }
+            .header-cta {
+                margin-left: 0;
+                flex-basis: 100%;
+                text-align: center;
+            }
+            .hero {
+                padding-top: 120px; /* Adjust for taller header */
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+            }
+
+            .section-content {
+                flex-direction: column;
+            }
+            .our-story .text-content, .testimonial-card {
+                min-width: unset;
+                flex: none;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                flex-direction: column;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+            .footer-logo {
+                font-size: 2rem;
+            }
+            .footer-tagline {
+                font-size: 0.9rem;
+            }
+            .section-padding-y {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .testimonial-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <a href="#hero" class="header-logo">Freeborne's</a>
+        <nav class="header-nav">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+13363598008" class="header-cta">CALL (336) 359-8008</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <p class="hero-location animate-on-scroll">Laurel Springs, NC</p>
+        <h1 class="hero-name animate-on-scroll">FREEBORNE'S</h1>
+        <p class="hero-tagline animate-on-scroll">Rustic charm, hearty meals, and genuine Southern hospitality.</p>
+        <div class="hero-rating animate-on-scroll">
+            <span>★★★★★</span> 4.5 Stars | 591 Reviews
+        </div>
+        <div class="hero-ctas animate-on-scroll">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid animate-on-scroll">
+            <div class="social-proof-item"><span>★</span> 4.5 Star Rating</div>
+            <div class="social-proof-item"><span>❤️</span> 591 Happy Customers</div>
+            <div class="social-proof-item"><span>🏠</span> Local Laurel Springs Favorite</div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story bg-main">
+        <div class="container animate-on-scroll">
+            <span class="section-label">OUR STORY</span>
+            <h2>Where Every Visit Feels Like Home</h2>
+            <div class="section-content">
+                <div class="text-content">
+                    <p>Freeborne's is more than just a place to eat; it's a cherished local gathering spot. Nestled within an unassuming motel, our rustic quarters offer a cozy escape from the everyday. We pride ourselves on being a truly down-to-earth restaurant, where the focus is on hearty, comforting meals and genuine, welcoming service.</p>
+                    <p>Step onto our charming veranda and experience the tranquility of Laurel Springs. Whether you're a long-time local or just passing through, Freeborne's offers an authentic taste of community and delicious food that keeps our customers coming back for more. It's where memories are made, one plate at a time.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The veranda at Freeborne's is simply magical. Great food, even better company – it's our favorite spot for a relaxed evening."</p>
+                    <small>&mdash; Alex T., Local Resident</small>
+                </div>
+            </div>
+            <div class="stats-grid animate-on-scroll">
+                <div class="stat-item">
+                    <h3>4.5</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-item">
+                    <h3>591</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="stat-item">
+                    <h3>Warm</h3>
+                    <p>Hospitality</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu bg-sections">
+        <div class="container animate-on-scroll">
+            <span class="section-label">THE MENU</span>
+            <h2>Hearty Plates, Local Flavors</h2>
+            <div class="menu-grid">
+                <div class="menu-category-card">
+                    <h3>Grill Favorites</h3>
+                    <p>Savor our classic burgers, sandwiches, and local specialties, cooked to perfection on the grill.</p>
+                </div>
+                <div class="menu-category-card">
+                    <h3>Bar Bites</h3>
+                    <p>Delicious appetizers and snacks perfect for sharing with friends or enjoying with your drink of choice.</p>
+                </div>
+                <div class="menu-category-card">
+                    <h3>Daily Specials</h3>
+                    <p>Ask your server about our chef's rotating seasonal creations and fresh catches.</p>
+                </div>
+            </div>
+            <p class="menu-note">Prices may vary. Call for daily specials.</p>
+            <div style="text-align:center; margin-top: 40px;" class="animate-on-scroll">
+                <a href="tel:+13363598008" class="btn btn-primary">CALL FOR FULL MENU</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us bg-main">
+        <div class="container animate-on-scroll">
+            <span class="section-label">OUR PROMISE</span>
+            <h2>Why Freeborne's is Laurel Springs' Favorite Spot</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <span class="icon">🔥</span>
+                    <h3>Unbeatable Comfort Food</h3>
+                    <p>Our down-to-earth dishes are crafted to satisfy, bringing you the true taste of Laurel Springs with every bite.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">👨‍👩‍👧</span>
+                    <h3>A Welcoming Veranda</h3>
+                    <p>Enjoy your meal on our rustic veranda, offering a relaxing and family-friendly atmosphere perfect for any occasion.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">⭐</span>
+                    <h3>Community's Top Choice</h3>
+                    <p>With 4.5 stars and 591 reviews, we're a proven local favorite for good reason – come experience it yourself.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="testimonials bg-sections">
+        <div class="container animate-on-scroll">
+            <span class="section-label">HEAR FROM OUR GUESTS</span>
+            <h2>What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-review-card">
+                    <div class="rating">★★★★★</div>
+                    <p>"Always a great time at Freeborne's! The atmosphere is perfect for a casual meal."</p>
+                    <div class="testimonial-author">John D.</div>
+                    <span class="testimonial-meta">Regular Customer</span>
+                </div>
+                <div class="testimonial-review-card">
+                    <div class="rating">★★★★★</div>
+                    <p>"Love the casual vibe and friendly service here. It's our go-to spot in Laurel Springs for a relaxed evening out. The food is consistently good!"</p>
+                    <div class="testimonial-author">Sarah L.</div>
+                    <span class="testimonial-meta">Local Family</span>
+                </div>
+                <div class="testimonial-review-card">
+                    <div class="rating">★★★★★</div>
+                    <p>"The veranda is truly a highlight, especially on a nice day. The meals are hearty and delicious, and the team always makes you feel welcome. Highly recommend for anyone looking for a genuine local experience."</p>
+                    <div class="testimonial-author">Emily R.</div>
+                    <span class="testimonial-meta">First-Time Visitor</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours bg-main">
+        <div class="container animate-on-scroll">
+            <span class="section-label">VISIT US</span>
+            <h2>Find Us & Our Hours</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>14300 NC-18 South,<br>Laurel Springs, NC 28644, USA</p>
+                    <p>Call us at: <a href="tel:+13363598008">(336) 359-8008</a></p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Freeborne's,14300+NC-18+South,Laurel+Springs,NC,28644,USA" target="_blank" class="btn btn-primary" style="margin-top: 20px;">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>Closed</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:00 AM – 6:00 PM</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy Friday and Saturday evenings — call ahead for larger groups or to check wait times!
+                    </div>
+                    <div class="location-hours-cta">
+                        <a href="tel:+13363598008" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container animate-on-scroll">
+            <h2>Don't Just Crave It — Come Taste the Freeborne's Difference</h2>
+            <p>Experience Laurel Springs' favorite bar and grill, where good food and great times meet on our welcoming veranda.</p>
+            <a href="tel:+13363598008" class="btn btn-primary">VISIT FREEBORNE'S TODAY</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Freeborne's</a>
+            <p class="footer-tagline">Rustic quarters in an unassuming motel featuring a down-to-earth restaurant with a veranda.</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="footer-copyright">© 2026 Freeborne's. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- JavaScript for scroll animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1 /* Trigger when 10% of the element is visible */
+            });
+
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('.header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
