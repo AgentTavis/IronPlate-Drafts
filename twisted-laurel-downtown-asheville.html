@@ -3,28 +3,1088 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Twisted Laurel Downtown Asheville — Asheville, NC</title>
+    <title>Twisted Laurel Downtown Asheville</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: Georgia, serif; background: #1a1a1a; color: #f0f0f0; }
-        .hero { text-align: center; padding: 100px 20px; }
-        .hero h1 { font-size: 3em; margin-bottom: 20px; }
-        .hero p { font-size: 1.2em; color: #aaa; }
-        .section { max-width: 800px; margin: 60px auto; padding: 0 20px; }
-        .section h2 { font-size: 2em; margin-bottom: 20px; color: #e65100; }
-        .section p { line-height: 1.8; color: #ccc; }
-        a { color: #e65100; }
+        :root {
+            --primary-bg: #111111;
+            --section-bg: #1a1a1a;
+            --footer-bg: #0a0a0a;
+            --brand-color: #041130;
+            --accent-color: #FF6A00;
+            --heading-color: #ffffff;
+            --body-text-color: #cccccc;
+            --secondary-text-color: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+        }
+
+        /* General Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--body-text-color);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body text size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--heading-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; font-weight: 900; } /* Hero H1 */
+        h2 { font-size: 2.8rem; font-weight: 700; } /* Section Headlines */
+        h3 { font-size: 1.8rem; font-weight: 600; }
+        h4 { font-size: 1.4rem; font-weight: 500; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--section-bg);
+        }
+
+        /* Section Labels */
+        .section-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--heading-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--heading-color);
+            border: 2px solid var(--heading-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.fade-in-up-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(4, 17, 48, 0.9); /* Semi-transparent brand color */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px; /* Ensure header content aligns with main container */
+            padding: 0; /* Remove container padding as header already has it */
+        }
+
+        .sticky-header .logo img {
+            height: 40px; /* Adjust logo size */
+            width: auto;
+            display: block;
+        }
+
+        .sticky-header nav {
+            margin-left: auto; /* Push nav to the right of logo */
+            margin-right: 30px; /* Space between nav and button */
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--heading-color);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .sticky-header .call-btn {
+            background-color: var(--accent-color);
+            color: var(--heading-color);
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-left: auto; /* Push button to far right */
+        }
+
+        .sticky-header .call-btn:hover {
+            background-color: #E65C00;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 10%, #041130 0%, #111111 60%, #041130 100%);
+            position: relative;
+            padding-top: var(--header-height); /* Account for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzQwIiBoZWlnaHQ9Ijc0MCIgdmlld0JveD0iMCAwIDc0MCA3NDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0wIDBINzQwdjU2NUM3NDAgNjk4LjYyIDY0Ni45NDQgNzQwIDUyOS4xMiA3NDBDNDEwLjQ4IDc0MCAzMTggNzY5LjkgMCA3NDBWMEwiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcl8xMjJfMTI1MzUpIiBmaWxsLW9wYWNpdHk9IjAuMDgiLz4KPC9zdmc+') center/cover no-repeat;
+            opacity: 0.1;
+            animation: hero-parallax 20s infinite alternate linear;
+        }
+
+        @keyframes hero-parallax {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-5%) scale(1.05); }
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--body-text-color);
+            max-width: 600px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--heading-color);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero .rating-badge span {
+            color: gold; /* Stars color */
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: var(--section-bg); /* Slightly different shade */
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--heading-color);
+        }
+
+        .social-proof-item span {
+            margin-right: 10px;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        .social-proof-item:first-child span { color: gold; }
+
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            color: var(--body-text-color);
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--heading-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        .stat-card:nth-child(even) .number { color: var(--accent-color); }
+
+        .stat-card .label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--heading-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-header .name {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        .menu-item-card:nth-child(odd) .menu-item-header .name { color: var(--accent-color); }
+
+
+        .menu-item-header .price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--heading-color);
+        }
+
+        .menu-item-card .description {
+            font-size: 1rem;
+            color: var(--body-text-color);
+            line-height: 1.5;
+        }
+
+        .menu-note {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.95rem;
+            color: var(--secondary-text-color);
+            font-style: italic;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .reason-card .icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: block;
+            line-height: 1; /* Ensure icon is vertically centered */
+        }
+        .reason-card:nth-child(even) .icon { color: var(--brand-color); }
+
+
+        .reason-card .title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--heading-color);
+            margin-bottom: 15px;
+        }
+
+        .reason-card .description {
+            font-size: 1rem;
+            color: var(--body-text-color);
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Left border accent */
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .review-card:nth-child(even) { border-left-color: var(--accent-color); }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .review-card .stars {
+            color: gold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--body-text-color);
+            margin-bottom: 15px;
+        }
+
+        .review-card .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reviewer-info .name {
+            font-weight: 600;
+            color: var(--heading-color);
+            font-size: 1rem;
+        }
+
+        .reviewer-info .descriptor {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 40px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--heading-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info address {
+            font-style: normal;
+            font-size: 1.15rem;
+            color: var(--body-text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 25px;
+        }
+        .location-info .phone-number:hover { color: var(--accent-color); }
+
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--heading-color);
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--body-text-color);
+        }
+
+        .pro-tip {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px 25px;
+            border-radius: 4px;
+            margin-top: 30px;
+            font-size: 0.95rem;
+            color: var(--body-text-color);
+        }
+
+        .pro-tip strong {
+            color: var(--heading-color);
+            margin-right: 5px;
+        }
+
+        .call-to-order-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 16px 28px;
+            font-size: 1.1rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(4, 17, 48, 0.8) 100%);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--heading-color);
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta p {
+            font-size: 1.3rem;
+            color: var(--heading-color);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+        .final-cta .btn:hover {
+            background-color: #E65C00;
+            border-color: #E65C00;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            padding: 80px 0 40px 0;
+            text-align: center;
+        }
+
+        .footer .logo img {
+            height: 60px; /* Larger logo for footer */
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        .footer .tagline {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--secondary-text-color);
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background-color: var(--card-bg);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--heading-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--accent-color);
+            color: var(--heading-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 4rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .stats-grid, .why-choose-us-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .hero {
+                height: auto;
+                min-height: 80vh;
+                padding-top: calc(var(--header-height) + 50px);
+                padding-bottom: 50px;
+            }
+            .hero h1 { font-size: 3rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1rem; }
+            .hero .rating-badge { font-size: 0.85rem; padding: 6px 15px; }
+            .hero-ctas { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; }
+
+            section { padding: 60px 0; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            .social-proof-strip .container { flex-direction: column; }
+            .social-proof-item { font-size: 1rem; }
+            .social-proof-item span { font-size: 1.3rem; }
+
+            .stats-grid { grid-template-columns: 1fr; }
+            .menu-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .why-choose-us-grid { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta p { font-size: 1.1rem; }
+            .final-cta .btn { padding: 14px 30px; font-size: 1.1rem; }
+
+            .location-info .phone-number { font-size: 1.1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo img { height: 35px; }
+            .sticky-header .call-btn { padding: 8px 15px; font-size: 0.85rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 0.9rem; }
+            h2 { font-size: 1.8rem; }
+            .section-label { font-size: 0.8rem; letter-spacing: 2px; }
+            .testimonial-card p { font-size: 1.1rem; }
+            .stat-card .number { font-size: 2.5rem; }
+            .menu-item-header .name { font-size: 1.2rem; }
+            .menu-item-header .price { font-size: 1.1rem; }
+            .reason-card .title { font-size: 1.2rem; }
+            .final-cta h2 { font-size: 2rem; }
+            .footer .logo img { height: 50px; }
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>Twisted Laurel Downtown Asheville</h1>
-        <p>Plan your next event in our 3,000 square foot space, The Loft</p>
-        <p><a href="tel:(828) 552-3240">(828) 552-3240</a></p>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#hero" class="logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/118625_website_v1/logo_new_2.png" alt="Twisted Laurel Downtown Asheville Logo">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+18285523240" class="btn call-btn">CALL (828) 552-3240</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location">Asheville, NC</p>
+            <h1>Twisted Laurel<br>Downtown Asheville</h1>
+            <p class="tagline">Plan your next event in our 3,000 square foot space, The Loft</p>
+            <div class="rating-badge">
+                <span>★★★★★</span> 4.4 Stars | 2395 Reviews
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <div class="social-proof-strip">
+        <div class="container fade-in-up">
+            <div class="social-proof-item"><span>★</span> 4.4 Star Rating</div>
+            <div class="social-proof-item"><span>💬</span> 2395+ Happy Customers</div>
+            <div class="social-proof-item"><span>❤️</span> Local Asheville Favorite</div>
+        </div>
     </div>
-    <div class="section">
-        <h2>About Us</h2>
-        <p>> I had an excellent Jersey Cheese personal pizza with wild mushrooms and bacon that was huge! It will make for great leftovers, too! I also enjoyed a cold Ginger's Revenge. Everything about my experience was perfect.</p>
-    </div>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">OUR STORY</p>
+            <h2 class="fade-in-up">Asheville's Culinary Heartbeat</h2>
+            <div class="our-story-grid">
+                <div class="about-text fade-in-up">
+                    <p>Nestled in the vibrant heart of Downtown Asheville, Twisted Laurel is more than just a destination for incredible food – it's a place where passion for flavor meets genuine hospitality. We pride ourselves on crafting delicious dishes, from our signature Stone Hearth Pizzas loaded with fresh toppings to our hearty handhelds, all served with a commitment to quality ingredients.</p>
+                    <p>Our mission is simple: to create memorable moments for every guest, whether you're enjoying a casual meal with friends or celebrating a special occasion in our versatile 3,000 square foot Loft space. Come experience the warmth, the flavors, and the friendly atmosphere that makes us a true Asheville favorite.</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"I had an excellent Jersey Cheese personal pizza with wild mushrooms and bacon that was huge! It will make for great leftovers, too! I also enjoyed a cold Ginger's Revenge. Everything about my experience was perfect."</p>
+                    <p class="author">— A Happy Customer</p>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="number">2395+</div>
+                    <div class="label">Glowing Reviews</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">100%</div>
+                    <div class="label">Handcrafted Daily</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">3000</div>
+                    <div class="label">SQ FT Event Space</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <p class="section-label fade-in-up">OUR MENU</p>
+            <h2 class="fade-in-up">Flavor for Every Craving</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Meatballs</span>
+                    </div>
+                    <p class="description">Whipped ricotta, parm, basil</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Hummus</span>
+                    </div>
+                    <p class="description">Horiatiki, marinated feta, pita</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Arancini</span>
+                    </div>
+                    <p class="description">Pepperoni & parmesan risotto, marinara</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Kale Caesar Salad</span>
+                    </div>
+                    <p class="description">Traditional dressing, croutons, parm</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Meatball Hero</span>
+                        <span class="price">$5</span>
+                    </div>
+                    <p class="description">Plum tomato sauce, parm</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <div class="menu-item-header">
+                        <span class="name">Cheese OR Build Your Own Pizza</span>
+                    </div>
+                    <p class="description">Just cheese or add your favorite toppings</p>
+                </div>
+            </div>
+            <p class="menu-note fade-in-up">Prices may vary. Call for daily specials.</p>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <p class="section-label fade-in-up">THE DIFFERENCE</p>
+            <h2 class="fade-in-up">Why Twisted Laurel is Asheville's Best Choice</h2>
+            <div class="why-choose-us-grid">
+                <div class="reason-card fade-in-up">
+                    <span class="icon">🔥</span>
+                    <h3 class="title">Quality Ingredients, Unforgettable Taste</h3>
+                    <p class="description">From our "huge" Jersey Cheese pizzas with fresh wild mushrooms and bacon, to our perfectly crafted Meatballs, every dish is prepared with care and the finest ingredients.</p>
+                </div>
+                <div class="reason-card fade-in-up">
+                    <span class="icon">⭐</span>
+                    <h3 class="title">Local Favorite, Glowing Reviews</h3>
+                    <p class="description">With an outstanding 4.4-star rating from over 2395 reviews, Twisted Laurel is a beloved local gem, consistently delivering excellent experiences and delicious food.</p>
+                </div>
+                <div class="reason-card fade-in-up">
+                    <span class="icon">🎉</span>
+                    <h3 class="title">Perfect for Any Occasion</h3>
+                    <p class="description">Whether it's a casual lunch or a grand celebration, our versatile restaurant and expansive 3,000 sq ft Loft space are ideal for creating lasting memories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <p class="section-label fade-in-up">HEAR FROM OUR GUESTS</p>
+            <h2 class="fade-in-up">What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Jersey Cheese pizza was divine! Loved the crispy crust and those wild mushrooms were a fantastic addition. Easily the best pizza in Asheville!"</p>
+                    <div class="reviewer-info">
+                        <span class="name">Sarah L.</span>
+                        <span class="descriptor">First-Time Visitor</span>
+                    </div>
+                </div>
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"I always get the Meatballs – the whipped ricotta is a game changer. And the Angus Burger is a solid choice when I'm feeling like something hearty. Twisted Laurel is a true Asheville gem!"</p>
+                    <div class="reviewer-info">
+                        <span class="name">Mark T.</span>
+                        <span class="descriptor">Regular Customer</span>
+                    </div>
+                </div>
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"We held an event in The Loft, and everything was seamless from start to finish. Our guests raved about the Arancini and the Kale Caesar Salad. Service was impeccable, and the atmosphere was perfect for our celebration. Highly recommend!"</p>
+                    <div class="reviewer-info">
+                        <span class="name">Emily P.</span>
+                        <span class="descriptor">Event Organizer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours">
+        <div class="container">
+            <p class="section-label fade-in-up">VISIT US</p>
+            <h2 class="fade-in-up">Find Us in Downtown Asheville</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Location</h3>
+                    <address>
+                        130 College St<br>
+                        Asheville, NC 28801, USA
+                    </address>
+                    <a href="tel:+18285523240" class="phone-number">(828) 552-3240</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=130+College+St,+Asheville,+NC+28801,+USA" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td>Closed</td></tr>
+                        <tr><th>Tuesday</th><td>11:30 AM – 8:30 PM</td></tr>
+                        <tr><th>Wednesday</th><td>11:30 AM – 8:30 PM</td></tr>
+                        <tr><th>Thursday</th><td>11:30 AM – 8:30 PM</td></tr>
+                        <tr><th>Friday</th><td>11:30 AM – 9:30 PM</td></tr>
+                        <tr><th>Saturday</th><td>11:30 AM – 9:30 PM</td></tr>
+                        <tr><th>Sunday</th><td>Closed</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy Friday & Saturday evenings, especially if there's an event in The Loft – call ahead for reservations or large groups!
+                    </div>
+                    <a href="tel:+18285523240" class="btn btn-primary call-to-order-btn">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Just Crave It — Come Taste Asheville's Best Pizza!</h2>
+            <p class="fade-in-up">Experience the unique flavors and warm hospitality of Twisted Laurel Downtown Asheville today.</p>
+            <a href="tel:+18285523240" class="btn btn-primary fade-in-up">CALL NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">
+                <img src="https://static.spotapps.co/website_images/ab_websites/118625_website_v1/logo_new_2.png" alt="Twisted Laurel Downtown Asheville Logo">
+            </a>
+            <p class="tagline">Plan your next event in our 3,000 square foot space, The Loft</p>
+            <div class="social-icons">
+                <a href="#" target="_blank" class="social-icon">F</a>
+                <a href="#" target="_blank" class="social-icon">I</a>
+            </div>
+            <p class="copyright">© 2026 Twisted Laurel Downtown Asheville. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('.sticky-header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the item is visible
+                rootMargin: "0px 0px -50px 0px" // Optional: start animation a bit earlier
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('fade-in-up-active');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
 </body>
 </html>
