@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Tiny's BBQ - Mooresville, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --brand-color: #223F91;
+            --accent-color: #FF6A00;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            /* Typography */
+            --font-heading: 'Lora', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            margin: 0;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            margin-top: 0;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        .section-label {
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--brand-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Fade-in-up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* CRITICAL: as per instructions */
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .sticky-header .logo img {
+            height: 40px; /* Adjust logo size */
+            width: auto;
+            display: block;
+        }
+        
+        .sticky-header nav {
+            display: flex;
+            gap: 30px; /* CRITICAL: as per instructions */
+        }
+
+        .sticky-header nav a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+        
+        .sticky-header .header-cta {
+            margin-left: auto; /* CRITICAL: as per instructions */
+            padding: 8px 20px;
+            border-radius: 5px;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            border: none;
+        }
+
+        .sticky-header .header-cta:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at top left, var(--brand-color) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 106, 0, 0.3) 0%, transparent 50%),
+                        var(--bg-main); /* Rich dark gradient */
+            padding-top: 60px; /* Offset for sticky header */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(34, 63, 145, 0.1) 0%, rgba(255, 106, 0, 0.1) 100%);
+            z-index: 0;
+            opacity: 0.2;
+            animation: gradient-shift 20s ease infinite alternate;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold, unmissable */
+            font-weight: 900;
+            margin: 0;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            line-height: 0.9;
+        }
+        
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-top: 20px;
+            max-width: 800px;
+        }
+
+        .hero-rating-badge {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 50px;
+            margin-top: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .hero-rating-badge span {
+            color: var(--accent-color); /* Stars color */
+        }
+
+        .hero-ctas {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: var(--bg-section);
+            padding: 25px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item span {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: var(--brand-color);
+        }
+
+        /* Our Story Section */
+        .our-story .container {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        
+        .our-story-content {
+            flex: 2;
+        }
+
+        .our-story-content p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .story-quote-card {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 60px; /* Aligns with second paragraph generally */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: sticky; /* Make it sticky for better visual */
+            top: 100px; /* Offset from sticky header */
+            align-self: flex-start; /* Ensure sticky card aligns to top */
+        }
+
+        .story-quote-card blockquote {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+            margin: 0 0 20px 0;
+            line-height: 1.5;
+        }
+
+        .story-quote-card cite {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+        .story-stats {
+            margin-top: 80px;
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px 20px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .stat-card .number::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-section);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .menu-item-card .icon {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .menu-item-card .btn {
+            padding: 10px 25px;
+            font-size: 0.95rem;
+            align-self: center;
+        }
+        
+        .menu-note {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .container {
+            text-align: center;
+        }
+        
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .why-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .why-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-section);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .testimonials-section .container {
+            text-align: center;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Left border accent */
+            border-radius: 12px;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .review-card .stars {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .review-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1; /* Make paragraphs grow to push author to bottom */
+        }
+
+        .review-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-top: auto; /* Push author to bottom */
+        }
+
+        .review-card .author span {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .location-info .address {
+            margin-bottom: 25px;
+        }
+
+        .location-info .phone a {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .location-info .btn-secondary {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--card-border);
+            font-size: 1.05rem;
+        }
+        
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .pro-tip {
+            background-color: rgba(255, 106, 0, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .pro-tip strong {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .hours-info .btn-primary {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), rgba(34, 63, 145, 0.8)),
+                        linear-gradient(45deg, var(--accent-color), rgba(255, 106, 0, 0.6));
+            background-blend-mode: multiply;
+            padding: 120px 0;
+            text-align: center;
+            color: var(--text-heading);
+            border-top: 1px solid var(--card-border);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .final-cta p {
+            font-size: 1.4rem;
+            font-weight: 300;
+            margin-bottom: 50px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .final-cta .btn {
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            border-width: 3px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer .logo img {
+            height: 60px; /* Larger than header */
+            width: auto;
+            margin-bottom: 25px;
+        }
+
+        .footer .tagline {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 35px;
+        }
+
+        .social-icons {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-heading);
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+            transform: translateY(-3px);
+            color: var(--text-heading);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story .container {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .story-quote-card {
+                margin-top: 0;
+                position: static;
+                width: auto;
+            }
+            .location-hours-section .container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-wrap: wrap;
+                justify-content: center; /* Center items when wrapped */
+                height: auto;
+                padding: 10px 15px;
+            }
+            .sticky-header .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .sticky-header nav {
+                margin-left: 0;
+                margin-top: 0;
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            .sticky-header .header-cta {
+                margin-left: 0; /* Remove auto margin on small screens */
+                margin-top: 15px;
+                width: 100%;
+                padding: 12px 0;
+            }
+            .hero {
+                padding: 100px 20px;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            
+            .story-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .menu-grid, .why-cards, .review-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .sticky-header nav {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .story-quote-card blockquote {
+                font-size: 1.1rem;
+            }
+            .stat-card .number {
+                font-size: 3rem;
+            }
+            .footer .logo img {
+                height: 45px;
+            }
+            .footer .tagline {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero"><img src="https://static.spotapps.co/web/bigtinysbbq--com/custom/logo_2.png" alt="Big Tiny's BBQ Logo"></a>
+        </div>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#location-hours">Find Us</a>
+        </nav>
+        <a href="tel:+17046581409" class="btn header-cta">CALL (704) 658-1409</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-bg-overlay"></div>
+            <p class="hero-location fade-in-up">MOORESVILLE, NC</p>
+            <h1 class="hero-name fade-in-up" style="animation-delay: 0.2s;">BIG TINY'S<br>BBQ</h1>
+            <p class="hero-tagline fade-in-up" style="animation-delay: 0.4s;">Come taste the history, passion, and jam-packed flavor of Big Tiny's Dog Gone Good BBQ for yourself!</p>
+            <div class="hero-rating-badge fade-in-up" style="animation-delay: 0.6s;">
+                <span>★★★★★</span> 4.7 Stars | 1590 Reviews
+            </div>
+            <div class="hero-ctas fade-in-up" style="animation-delay: 0.8s;">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip fade-in-up">
+            <div class="container">
+                <div class="social-proof-item">
+                    <span>★</span> 4.7 Star Rating
+                </div>
+                <div class="social-proof-item">
+                    <span>💬</span> 1590+ Happy Customers
+                </div>
+                <div class="social-proof-item">
+                    <span>❤️</span> Mooresville's Local Favorite
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story fade-in-up">
+            <div class="container">
+                <div class="our-story-content">
+                    <span class="section-label">OUR STORY</span>
+                    <h2 class="section-headline">A Taste of Tradition</h2>
+                    <p>Welcome to Big Tiny's BBQ, where every meal tells a story. We pride ourselves on creating an awesome dining experience, combining great food with warm, attentive service in a nostalgic, old-time setting right here in Mooresville.</p>
+                    <p>Our commitment to authentic BBQ shines through in every bite. From our perfectly smoked brisket to our tender, flavorful pulled pork, we believe in crafting dishes that are truly some of the best you'll ever taste. Our sides are just as thoughtfully prepared, complementing our meats with fresh, delicious flavors that keep our customers coming back for more.</p>
+                    <p>We invite you to step into our home, savor the rich flavors of our Dog Gone Good BBQ, and become a part of the Big Tiny's family. Come taste the passion and history that go into every plate!</p>
+                </div>
+                <div class="story-quote-card fade-in-up" style="animation-delay: 0.2s;">
+                    <blockquote>"The atmosphere at Big Tiny's feels like stepping back in time. The brisket is absolutely incredible – melt-in-your-mouth perfection every single time!"</blockquote>
+                    <cite>— Emily R., Regular Customer</cite>
+                </div>
+            </div>
+            <div class="container story-stats fade-in-up" style="animation-delay: 0.4s;">
+                <div class="stat-card">
+                    <div class="number">4.7</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">1590+</div>
+                    <div class="label">Happy Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">😋</div>
+                    <div class="label">Dog Gone Good BBQ</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu-section fade-in-up">
+            <div class="container">
+                <span class="section-label">THE MENU</span>
+                <h2 class="section-headline">Taste Our Legacy</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <span class="icon">🍖</span>
+                        <h3>Smoked Meats</h3>
+                        <p>Our heart and soul. Experience the tender, smoky perfection of our slow-cooked brisket and succulent pulled pork, crafted with passion and traditional BBQ techniques.</p>
+                        <a href="#location-hours" class="btn btn-secondary">VIEW OUR MEATS</a>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="icon">🥗</span>
+                        <h3>Classic Sides</h3>
+                        <p>The perfect companions to our BBQ masterpieces. From creamy mac & cheese to tangy coleslaw, our sides are homemade and packed with flavor.</p>
+                        <a href="#location-hours" class="btn btn-secondary">DISCOVER SIDES</a>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="icon">🍰</span>
+                        <h3>Sweet Endings</h3>
+                        <p>Save room for a delightful finish! While you haven't tried dessert yet, our sweet treats are the perfect way to cap off your Big Tiny's experience.</p>
+                        <a href="#location-hours" class="btn btn-secondary">EXPLORE DESSERTS</a>
+                    </div>
+                </div>
+                <p class="menu-note">Prices may vary. Call for daily specials.</p>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us fade-in-up">
+            <div class="container">
+                <span class="section-label">OUR COMMITMENT</span>
+                <h2 class="section-headline">Why Big Tiny's is Mooresville's Best Choice</h2>
+                <div class="why-cards">
+                    <div class="why-card">
+                        <span class="icon">🔥</span>
+                        <h3>Unmatched BBQ Flavor</h3>
+                        <p>Our brisket and pulled pork are consistently praised as some of the best around. We slow-smoke to perfection, ensuring every bite is tender, juicy, and full of that "Dog Gone Good" BBQ taste.</p>
+                    </div>
+                    <div class="why-card">
+                        <span class="icon">🏡</span>
+                        <h3>Authentic Old-Time Setting</h3>
+                        <p>Step back in time and enjoy a meal in our charming, old-time atmosphere. It's more than just food; it's an experience that feels like coming home, perfect for families and friends.</p>
+                    </div>
+                    <div class="why-card">
+                        <span class="icon">⭐</span>
+                        <h3>Trusted Local Favorite</h3>
+                        <p>With a 4.7-star rating from over 1590 reviews, Big Tiny's BBQ is a proven local gem. Our community trusts us for great food, excellent service, and a memorable dining experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials-section fade-in-up">
+            <div class="container">
+                <span class="section-label">HEAR FROM OUR FANS</span>
+                <h2 class="section-headline">What Our Customers Say</h2>
+                <div class="review-grid">
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>“Absolutely the best brisket I've had in years! Cooked perfectly, melts in your mouth. Big Tiny's never disappoints.”</p>
+                        <div class="author">
+                            Michael B.
+                            <span>First-Time Visitor</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>“The pulled pork is fantastic, and the service is always top-notch. It's truly an awesome place with great food and a friendly atmosphere. My go-to for BBQ in Mooresville!”</p>
+                        <div class="author">
+                            Sarah L.
+                            <span>Local Family</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="stars">★★★★★</div>
+                        <p>“I love the old-time setting here. The brisket and pulled pork are consistently excellent, and the sides are always on point. I still need to try the dessert, but I'm sure it'll be just as good! Highly recommend.”</p>
+                        <div class="author">
+                            David P.
+                            <span>Regular Customer</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="location-hours-section fade-in-up">
+            <div class="container">
+                <div class="location-info">
+                    <span class="section-label">FIND US</span>
+                    <h3>Visit Our Mooresville Home</h3>
+                    <p class="address">179 N Main St,<br>Mooresville, NC 28115, USA</p>
+                    <p class="phone">
+                        <a href="tel:+17046581409">(704) 658-1409</a>
+                    </p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Big+Tiny%27s+BBQ+179+N+Main+St+Mooresville,+NC+28115" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <span class="section-label">OPENING HOURS</span>
+                    <h3>When to Find Us</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td>12:00 – 8:00 PM</td>
+                        </tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy, especially Friday and Saturday evenings! For larger groups or quicker service, consider calling ahead or arriving earlier.
+                    </div>
+                    <a href="tel:+17046581409" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta fade-in-up">
+            <div class="container">
+                <h2>Don't Just Crave It — Come Taste It</h2>
+                <p>Experience Mooresville's authentic, Dog Gone Good BBQ today. Your taste buds will thank you.</p>
+                <a href="tel:+17046581409" class="btn btn-primary">CALL NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://static.spotapps.co/web/bigtinysbbq--com/custom/logo_2.png" alt="Big Tiny's BBQ Logo">
+            </div>
+            <p class="tagline">Come taste the history, passion, and jam-packed flavor of Big Tiny's Dog Gone Good BBQ for yourself!</p>
+            <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="Facebook"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/100px-2021_Facebook_icon.svg.png" alt="Facebook" style="width: 25px; height: 25px; filter: invert(1); opacity: 0.9;"></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/100px-Instagram_icon.png" alt="Instagram" style="width: 25px; height: 25px; filter: invert(1); opacity: 0.9;"></a>
+            </div>
+            <p class="copyright">© 2026 Big Tiny's BBQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = 60; // Height of sticky header
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Fade-in-up animation on scroll
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is considered visible when 10% is in viewport */
+                rootMargin: "0px 0px -50px 0px" /* Start appearing slightly earlier as it comes into view */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
