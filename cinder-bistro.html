@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinder Bistro - North Wilkesboro's Finest BBQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #111111;
+            --section-bg: #1a1a1a;
+            --footer-bg: #0a0a0a;
+            --brand-color: #FF0000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --header-height: 60px;
+            --section-padding: 80px 0;
+            --section-padding-mobile: 60px 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--text-heading);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            background-color: var(--section-bg);
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .uppercase { text-transform: uppercase; }
+        .letter-spacing-3 { letter-spacing: 3px; }
+        .fw-bold { font-weight: 700; }
+        .fw-black { font-weight: 900; }
+        .star-rating { color: gold; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: darken(var(--brand-color), 10%);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: 2.7rem; /* Adjusted from 2.5-3rem */
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        /* Specific element styling */
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent dark */
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0; /* Remove container padding for header internal flex */
+        }
+
+        .header-logo img {
+            height: 45px; /* Adjust logo size */
+            width: auto;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            margin: 0 30px; /* Give some space */
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .call-button {
+            margin-left: auto;
+            white-space: nowrap; /* Prevent phone number from wrapping */
+            padding: 10px 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(17, 17, 17, 1) 100%),
+                        linear-gradient(to top right, var(--brand-color) 0%, transparent 40%),
+                        linear-gradient(to bottom left, rgba(0,0,0,0.2) 0%, transparent 50%);
+            background-size: cover;
+            background-position: center;
+            color: var(--text-heading);
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: var(--text-body);
+            margin-bottom: 10px;
+            font-weight: 300;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem; /* 4-6rem */
+            font-weight: 900; /* Black weight */
+            line-height: 1.05;
+            margin-bottom: 20px;
+            max-width: 900px;
+            animation: fadeInScale 1s ease-out forwards;
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .hero-rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            letter-spacing: 0.5px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.5s forwards;
+        }
+
+        .hero-rating-badge .star-rating {
+            font-size: 1.1em;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 0.7s forwards;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: var(--primary-bg); /* Slightly darker than section-bg to differentiate */
+            padding: 25px 0;
+            color: var(--text-body);
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), inset 0 -1px 0 rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .social-proof-item .icon {
+            font-size: 1.4rem;
+            color: var(--brand-color);
+            line-height: 1;
+        }
+
+        /* Our Story Section */
+        #our-story {
+            background-color: var(--section-bg);
+            position: relative;
+            overflow: hidden; /* For any potential absolute positioning elements */
+        }
+
+        #our-story .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 80px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        #our-story .text-content {
+            padding-right: 30px;
+        }
+
+        #our-story .text-content h3 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        #our-story .about-text {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        
+        .testimonial-card-story {
+            background-color: rgba(0,0,0,0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            color: var(--text-heading);
+            font-style: italic;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-card-story::before {
+            content: "“";
+            font-family: serif;
+            font-size: 5rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.3;
+            line-height: 0.5;
+            z-index: -1;
+        }
+
+        .testimonial-card-story p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-card-story .author {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-brand);
+            font-size: 1.05rem;
+        }
+
+        .stats-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 350px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-card .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        #menu {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .menu-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-category-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .menu-category-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .menu-category-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+
+        .menu-category-card .btn {
+            padding: 10px 25px;
+            font-size: 0.95rem;
+        }
+
+        .menu-note {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 50px;
+        }
+
+        /* Why Choose Us Section */
+        #why-choose-us {
+            background-color: var(--section-bg);
+            text-align: center;
+        }
+
+        #why-choose-us .section-headline {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .choice-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .choice-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+            display: block;
+        }
+
+        .choice-card h3 {
+            font-size: 1.7rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .choice-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+        }
+
+        /* Testimonials Section */
+        #testimonials {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Accent border */
+            border-radius: 12px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card .stars {
+            font-size: 1.2rem;
+            color: gold;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-card .author-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        /* Location & Hours Section */
+        #location-hours {
+            background-color: var(--section-bg);
+            text-align: center;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin-top: 60px;
+            text-align: left;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+        
+        .location-info .btn {
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pro-tip {
+            background-color: rgba(255, 0, 0, 0.1);
+            border-left: 5px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .pro-tip strong {
+            color: var(--text-heading);
+        }
+
+        .hours-info .btn {
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        /* Final CTA Section */
+        #final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(255,0,0,0.8) 50%, rgba(255,0,0,0.6) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        #final-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        #final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+        }
+
+        #final-cta .btn {
+            font-size: 1.25rem;
+            padding: 16px 40px;
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        #final-cta .btn:hover {
+            background-color: var(--primary-bg);
+            color: var(--text-heading);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--footer-bg);
+            padding: var(--section-padding-mobile);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo img {
+            height: 90px; /* Larger logo */
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--text-heading);
+            font-size: 1.4rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header .call-button {
+                margin-left: 0; /* Remove auto margin */
+                width: auto;
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+            .header .container {
+                justify-content: space-between; /* Ensure logo and call button are spaced */
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+
+            #our-story .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            #our-story .text-content {
+                padding-right: 0;
+            }
+            #our-story .text-content h3 {
+                text-align: center;
+            }
+            .stats-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-card {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .menu-categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .choice-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-info h3, .hours-info h3 {
+                text-align: center;
+            }
+
+            #final-cta h2 {
+                font-size: 2.5rem;
+            }
+            #final-cta p {
+                font-size: 1.1rem;
+            }
+            #final-cta .btn {
+                max-width: 300px;
+                width: 100%;
+            }
+
+            section {
+                padding: var(--section-padding-mobile);
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="header-logo">
+                <img src="https://img1.wsimg.com/isteam/ip/d7cf1965-58db-4a0e-9d98-8660286f7a67/Cinder%20Bistro%20-%20Single%20Line%20Logo%20(WHITE)%2020230.png/:/rs=h:75,cg:true,m/qt=q:95" alt="Cinder Bistro Logo">
+            </a>
+            <nav class="header-nav">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#location-hours">Find Us</a>
+            </nav>
+            <a href="tel:+13368272739" class="btn btn-primary call-button">CALL (336) 827-2739</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <p class="hero-location fade-in-up">North Wilkesboro, NC</p>
+        <h1 class="hero-name font-playfair fw-black">Cinder Bistro</h1>
+        <p class="hero-tagline fade-in-up">Wilkes County's finest BBQ joint... and soon to be brewery.<br>Our brisket, chicken and pork are all seasoned and smoked to perfection daily.</p>
+        <div class="hero-rating-badge">
+            <span class="star-rating">★★★★★</span> 4.7 Stars | 300 Reviews
+        </div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="social-proof-item fade-in-up">
+                <span class="icon">★</span> 4.7 Star Rating
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <span class="icon">💬</span> 300+ Happy Customers
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <span class="icon">❤️</span> Wilkes County Favorite
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container fade-in-up">
+            <p class="section-label">OUR STORY</p>
+            <h2 class="section-headline font-playfair">Rooted in Flavor</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p class="about-text">
+                        Welcome to Cinder Bistro, where mouthwatering BBQ and smoked meats are at the heart of everything we do. We're proud to bring Wilkes County a culinary experience that blends tradition with innovative new dishes. Every day, our brisket, chicken, and pork are seasoned and smoked to perfection, a testament to our commitment to flavor and quality.
+                    </p>
+                    <p class="about-text">
+                        But Cinder Bistro is more than just exceptional BBQ. We also offer an array of delectable new dishes complemented by a curated selection of craft beer, cocktails, and fine wines – perfect for any occasion. And beyond our restaurant walls, we're your premier catering service, ready to elevate any event with our exquisite cuisine and exceptional beverages. Join us today to discover why we're the top choice in Wilkes County for food and drinks!
+                    </p>
+                </div>
+                <div class="testimonial-card-story fade-in-up">
+                    <p>“Cinder Bistro truly delivers the best BBQ in Wilkes County. Their smoked brisket is simply incredible, always tender and flavorful. It's our go-to spot for a reason!”</p>
+                    <p class="author">— Mark T., Regular Customer</p>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="number">4.7</div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">300+</div>
+                    <div class="label">Customer Reviews</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">100%</div>
+                    <div class="label">Smoked Fresh Daily</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container fade-in-up">
+            <p class="section-label">THE MENU</p>
+            <h2 class="section-headline font-playfair">Our Smoked Favorites</h2>
+            <div class="menu-categories-grid">
+                <div class="menu-category-card fade-in-up">
+                    <h3>Smoked Meats</h3>
+                    <p>Experience the rich, smoky flavors of our signature brisket, tender pulled pork, and perfectly grilled chicken, all seasoned and slow-smoked daily.</p>
+                    <a href="#" class="btn btn-secondary">Explore Smoked</a>
+                </div>
+                <div class="menu-category-card fade-in-up">
+                    <h3>Delectable New Dishes</h3>
+                    <p>Beyond BBQ, discover an exciting array of fresh, innovative dishes crafted with the finest ingredients and a touch of Cinder Bistro creativity.</p>
+                    <a href="#" class="btn btn-secondary">Discover More</a>
+                </div>
+                <div class="menu-category-card fade-in-up">
+                    <h3>Craft Drinks & More</h3>
+                    <p>Complement your meal with our curated selection of craft beers, handcrafted cocktails, and fine wines, chosen to elevate your dining experience.</p>
+                    <a href="#" class="btn btn-secondary">View Drinks</a>
+                </div>
+            </div>
+            <p class="menu-note fade-in-up">Prices may vary. Call for daily specials and full menu availability.</p>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container fade-in-up">
+            <p class="section-label">THE CINDER DIFFERENCE</p>
+            <h2 class="section-headline font-playfair">Why Cinder Bistro is Wilkes County's Best Choice</h2>
+            <div class="choice-cards-grid">
+                <div class="choice-card fade-in-up">
+                    <span class="icon">🔥</span>
+                    <h3>Unrivaled Smoked Perfection</h3>
+                    <p>Our commitment to authentic, slow-smoked BBQ is evident in every bite. From tender brisket to juicy chicken and flavorful pork, it's smoked fresh daily.</p>
+                </div>
+                <div class="choice-card fade-in-up">
+                    <span class="icon">👨‍🍳</span>
+                    <h3>Beyond Just BBQ</h3>
+                    <p>While our BBQ is legendary, our menu expands to include delectable new dishes, craft beers, cocktails, and fine wines for every palate. Soon to be a brewery!</p>
+                </div>
+                <div class="choice-card fade-in-up">
+                    <span class="icon">⭐</span>
+                    <h3>Local Favorite & Catering Experts</h3>
+                    <p>With a 4.7-star rating and 300+ reviews, we're a beloved local spot. Let us bring our exquisite cuisine and beverages to your next event with our premier catering service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container fade-in-up">
+            <p class="section-label">HEAR FROM OUR GUESTS</p>
+            <h2 class="section-headline font-playfair">What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"The pulled pork at Cinder Bistro is hands down the best I've ever had. So tender, juicy, and packed with smoky flavor. A true North Wilkesboro gem!"</p>
+                    <div class="author-info">
+                        <span class="author-name">Sarah L.</span>
+                        <span>Local Foodie</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"We tried the smoked chicken and some of their new dishes, and everything was fantastic. Great selection of craft beers too. Cinder Bistro never disappoints."</p>
+                    <div class="author-info">
+                        <span class="author-name">David P.</span>
+                        <span>First-Time Visitor</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"Absolutely love the brisket at Cinder Bistro! It's always perfectly cooked, with that ideal bark and melt-in-your-mouth tenderness. We often order their catering for family events, and it's always a huge hit. The quality and taste are consistently top-notch. Highly recommend for any BBQ lover!"</p>
+                    <div class="author-info">
+                        <span class="author-name">Jessica R.</span>
+                        <span>Regular Catering Client</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours">
+        <div class="container fade-in-up">
+            <p class="section-label">PLAN YOUR VISIT</p>
+            <h2 class="section-headline font-playfair">Find Us & Our Hours</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>532 Main St,<br>North Wilkesboro, NC 28659, USA</p>
+                    <p>Phone: <a href="tel:+13368272739">(336) 827-2739</a></p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=532+Main+St,+North+Wilkesboro,+NC+28659" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>11:30 AM – 9:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>11:30 AM – 9:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>11:30 AM – 9:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:30 AM – 9:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>11:30 AM – 9:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:30 AM – 3:00 PM</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy Friday and Saturday evenings – especially with our mouthwatering smoked meats. Call ahead for large groups or to place a takeout order!
+                    </div>
+                    <a href="tel:+13368272739" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section id="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Crave It — Come Taste It</h2>
+            <p>Experience the finest BBQ, smoked meats, and delectable new dishes that make Cinder Bistro the top choice in North Wilkesboro.</p>
+            <a href="tel:+13368272739" class="btn">CALL NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">
+                <img src="https://img1.wsimg.com/isteam/ip/d7cf1965-58db-4a0e-9d98-8660286f7a67/Cinder%20Bistro%20-%20Single%20Line%20Logo%20(WHITE)%2020230.png/:/rs=h:75,cg:true,m/qt=q:95" alt="Cinder Bistro Logo">
+            </a>
+            <p class="footer-tagline">Wilkes County's finest BBQ joint... and soon to be brewery.</p>
+            <div class="social-icons">
+                <a href="#" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="footer-copyright">© 2026 Cinder Bistro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    const headerOffset = document.querySelector('.header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                });
+            });
+
+            // Fade-in-up animation on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
