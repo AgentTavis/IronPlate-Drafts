@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Cabin BBQ - Albemarle's Best Slow-Cooked BBQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-dark: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #4a9b7f;
+            --accent-color: #ffffff;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+
+            /* Typography */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4.5rem; } /* Hero section name */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; } /* Body text */
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0; /* Generous whitespace */
+        }
+        
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 60px 0;
+            }
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary { color: var(--brand-color); }
+        .text-white { color: var(--accent-color); }
+        .text-secondary { color: var(--text-secondary); }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            color: var(--bg-dark);
+            border-color: var(--accent-color);
+        }
+
+        .section-label {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        /* Fade-in-up animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px); /* Premium blur effect */
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .header-logo span {
+            color: var(--brand-color);
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 35px;
+        }
+
+        .main-nav a {
+            color: var(--accent-color);
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 1.05rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: #3b8067; /* A slightly darker shade for hover */
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 900px) {
+            .main-nav {
+                display: none; /* Hide nav on smaller screens, could be a hamburger menu */
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(74, 155, 127, 0.1) 40%, var(--bg-dark) 100%);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(74, 155, 127, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(74, 155, 127, 0.08) 0%, transparent 40%);
+            opacity: 0.6;
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero-section h1 {
+            font-size: 6rem; /* Massive text */
+            margin-bottom: 10px;
+            line-height: 0.9;
+            text-shadow: 0 0 15px rgba(0,0,0,0.5), 0 0 30px rgba(74, 155, 127, 0.3);
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+        
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.4;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(74, 155, 127, 0.2);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+            border: 1px solid rgba(74, 155, 127, 0.4);
+        }
+
+        .rating-badge svg {
+            margin-right: 8px;
+            color: #FFD700; /* Gold star */
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-section h1 {
+                font-size: 4.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                padding: 12px 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 0.95rem;
+            }
+            .rating-badge {
+                padding: 6px 14px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(74, 155, 127, 0.05);
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .proof-item {
+            flex-basis: calc(33% - 40px);
+            max-width: 300px;
+            text-align: center;
+            color: var(--accent-color);
+        }
+        
+        .proof-item h3 {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .proof-item p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin-bottom: 0;
+            letter-spacing: 0.02em;
+        }
+
+        @media (max-width: 768px) {
+            .social-proof-strip {
+                padding: 30px 0;
+            }
+            .proof-item {
+                flex-basis: 100%;
+            }
+            .proof-item h3 {
+                font-size: 2rem;
+            }
+            .proof-item p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--bg-light-dark); /* Alternating section background */
+        }
+        .our-story-content {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .our-story-text {
+            flex: 2;
+        }
+        .our-story-text h2 {
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+            text-align: left;
+        }
+        .our-story-text p {
+            margin-bottom: 1.5em;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .our-story-aside {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        @media (max-width: 900px) {
+            .our-story-content {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .our-story-text h2 {
+                text-align: center;
+                font-size: 2.2rem;
+            }
+            .our-story-text {
+                order: 2; /* Text below testimonial on mobile */
+                text-align: center;
+            }
+            .our-story-aside {
+                order: 1;
+                width: 100%;
+                max-width: 500px;
+            }
+            .stats-grid {
+                margin-top: 40px;
+            }
+        }
+        @media (max-width: 480px) {
+            .stat-card .number {
+                font-size: 2.2rem;
+            }
+            .stat-card .label {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Menu Section */
+        .menu-section .section-label { margin-bottom: 10px; }
+        .menu-section h2 { margin-bottom: 50px; text-align: center; }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(74, 155, 127, 0.05) 0%, transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.2;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+            flex-grow: 1; /* Pushes description to fill space */
+        }
+        
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-light-dark); /* Alternating section background */
+        }
+        .why-choose-us-section .section-label { margin-bottom: 10px; }
+        .why-choose-us-section h2 { margin-bottom: 50px; text-align: center; }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            background-color: rgba(74, 155, 127, 0.1);
+        }
+
+        .feature-card svg, .feature-card i {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover svg, .feature-card:hover i {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section .section-label { margin-bottom: 10px; }
+        .testimonials-section h2 { margin-bottom: 50px; text-align: center; }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-item p.quote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .testimonial-item .author-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .testimonial-item .author-avatar {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-family: var(--font-heading);
+        }
+        .testimonial-item .author-name {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        .testimonial-item .rating {
+            font-size: 0.9rem;
+            color: #FFD700;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-light-dark); /* Alternating section background */
+        }
+        .location-hours-section .section-label { margin-bottom: 10px; }
+        .location-hours-section h2 { margin-bottom: 50px; text-align: center; }
+
+        .location-hours-content {
+            display: flex;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .location-info, .hours-info {
+            flex: 1;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.2em;
+            color: var(--text-body);
+            text-align: center;
+        }
+        .location-info a {
+            display: block;
+            text-align: center;
+            font-size: 1.15rem;
+            margin-bottom: 1.5em;
+            color: var(--brand-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+        .location-info .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            height: 250px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 1rem;
+            margin-top: 20px;
+            border: 1px dashed var(--card-border);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.05rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            color: var(--text-body);
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            width: 40%;
+            padding-left: 10px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+            padding-right: 10px;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table tr.closed td {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .hours-info .btn-primary {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .location-hours-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+        @media (max-width: 480px) {
+            .location-info, .hours-info {
+                padding: 20px;
+            }
+            .location-info h3, .hours-info h3 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            .hours-table th, .hours-table td {
+                padding: 12px 0;
+                font-size: 1rem;
+            }
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #3b8067 100%); /* Brand color gradient */
+            padding: 100px 20px;
+            text-align: center;
+            color: var(--accent-color);
+        }
+        .final-cta-section h2 {
+            color: var(--accent-color);
+            font-size: 3.2rem;
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            line-height: 1.1;
+        }
+        .final-cta-section .btn-secondary { /* Note: Using btn-secondary for contrast on brand background */
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+        }
+        .final-cta-section .btn-secondary:hover {
+            background-color: var(--bg-dark); /* Darker on hover */
+            color: var(--accent-color);
+            border-color: var(--bg-dark);
+        }
+        @media (max-width: 768px) {
+            .final-cta-section {
+                padding: 60px 20px;
+            }
+            .final-cta-section h2 {
+                font-size: 2.2rem;
+                margin-bottom: 30px;
+            }
+        }
+        @media (max-width: 480px) {
+            .final-cta-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+        }
+        .footer-logo span {
+            color: var(--brand-color);
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        @media (max-width: 768px) {
+            .footer {
+                padding: 50px 0 30px;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+            .footer-tagline {
+                font-size: 0.9rem;
+                padding: 0 20px;
+            }
+            .social-links {
+                gap: 20px;
+            }
+            .social-links a {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">Log Cabin <span>BBQ</span></div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17049825257" class="header-call-btn">CALL (704) 982-5257</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content fade-in-section">
+            <p class="hero-location">ALBEMARLE, NC</p>
+            <h1>LOG CABIN BBQ</h1>
+            <p class="hero-tagline">
+                Our holiday meal deal is now available until the end of the year! It will feed around 10 people and cost approximately $58.00 after the discount is applied.
+            </p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="16" height="16" fill="currentColor"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.2-22.6 21.2s-.2 23.4 8.2 32.2L123.3 329 103.1 474.7c-2.2 10.7 0 21.8 6.9 30.2s16.6 12.5 27.2 12.5c11.2 0 22-5.7 27.5-16.1L288.1 416l109.9 66.5c5.5 10.4 16.3 16.1 27.5 16.1c10.6 0 20.2-3.9 27.2-12.5s9.1-19.5 6.9-30.2L449.6 329l91.1-95.3c8.4-8.9 10.7-21.2 8.2-32.2s-11.2-19.5-22.6-21.2L381.2 150.3 316.9 18z"/></svg>
+                4.5 Stars (775 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-item">
+                <h3>4.5/5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>775+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="proof-item">
+                <h3>Local Favorite</h3>
+                <p>Albemarle's Authentic BBQ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section section-padding">
+        <div class="container fade-in-section">
+            <span class="section-label">Our Heritage</span>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <h2>Authentic BBQ, Crafted with Passion for Generations.</h2>
+                    <p>At Log Cabin BBQ, we believe in the timeless tradition of slow-cooked perfection. For years, we've been a beloved fixture in Albemarle, dedicated to serving the most tender, flavorful BBQ you'll find anywhere. Our secret lies in patience and expertise &mdash; every Boston butt and pork shoulder is slow-cooked to juicy perfection, infused with a smoky flavor that tells a story of dedication.</p>
+                    <p>Whether you prefer your BBQ hand chopped, lovingly pulled apart, or precisely sliced, we prepare it your way. It's more than just a meal; it's a taste of home, a gathering place for families, and a commitment to quality that has earned us the loyalty of our community. Come experience the rich flavors and warm hospitality that define Log Cabin BBQ.</p>
+                </div>
+                <div class="our-story-aside">
+                    <div class="testimonial-card">
+                        <p>"Log Cabin BBQ is a true Albemarle gem! Their pulled pork is always incredibly tender and the smoky flavor is unmatched. Every visit feels like coming home."</p>
+                        <div class="author">&ndash; Sarah L., Local Foodie</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-section">
+                <div class="stat-card">
+                    <div class="number">4.5</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">775+</div>
+                    <div class="label">Customer Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Decades</div>
+                    <div class="label">Of Tradition</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section section-padding">
+        <div class="container fade-in-section">
+            <span class="section-label">Our Flavors</span>
+            <h2>Our Signature BBQ & More</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Hand Chopped Pork BBQ</h3>
+                    <p>Our classic pork BBQ, slow-cooked and chopped by hand, seasoned to perfection for that authentic taste.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Pulled Pork Platter</h3>
+                    <p>Tender, juicy pulled pork, smoked for hours until it falls apart, served with your choice of sides.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Sliced Pork Plate</h3>
+                    <p>Thick-cut slices of our perfectly smoked pork shoulder, savory and melt-in-your-mouth delicious.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Boston Butt Sandwich</h3>
+                    <p>A generous serving of our flavorful Boston butt, slow-cooked and piled high on a fresh bun.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Holiday Family Meal Deal</h3>
+                    <p>Feed around 10 people for approximately $58.00! Available until the end of the year.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Smoked Pork Shoulder</h3>
+                    <p>Experience the rich, deep smoky flavor of our expertly prepared pork shoulder, slow-smoked daily.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section section-padding">
+        <div class="container fade-in-section">
+            <span class="section-label">Why Log Cabin?</span>
+            <h2>More Than Just BBQ, It's an Experience</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-smog"></i>
+                    <h3>Authentic Slow-Cooked BBQ</h3>
+                    <p>We pride ourselves on the traditional method of slow-cooking Boston butts and pork shoulders, ensuring every bite is rich with smoky flavor and fall-off-the-bone tenderness.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-hand-sparkles"></i>
+                    <h3>Your BBQ, Your Way</h3>
+                    <p>Whether you prefer your pork hand chopped, perfectly pulled, or thinly sliced, our commitment is to serve your BBQ exactly how you love it, fresh every time.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-award"></i>
+                    <h3>Albemarle's Top-Rated Favorite</h3>
+                    <p>With a stellar 4.5-star rating from over 775 reviews, we're a beloved local establishment, trusted for our quality, consistency, and genuine Southern hospitality.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section section-padding">
+        <div class="container fade-in-section">
+            <span class="section-label">Hear From Our Fans</span>
+            <h2>What Our Valued Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <p class="quote">"I can't get enough of their Hand Chopped Pork BBQ! It's consistently delicious, moist, and perfectly smoky. Best BBQ in Stanly County, hands down!"</p>
+                    <div class="author-info">
+                        <div class="author-avatar">J.D.</div>
+                        <div>
+                            <div class="author-name">John D.</div>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <p class="quote">"We ordered the Holiday Family Meal Deal, and it was a huge hit! Plenty of food for everyone, and the pulled pork was a crowd-pleaser. So convenient and delicious for the price!"</p>
+                    <div class="author-info">
+                        <div class="author-avatar">M.R.</div>
+                        <div>
+                            <div class="author-name">Maria R.</div>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <p class="quote">"The Sliced Pork Plate is my go-to. The meat is so tender you barely need a fork, and the flavor is just incredible. Log Cabin BBQ never disappoints!"</p>
+                    <div class="author-info">
+                        <div class="author-avatar">T.K.</div>
+                        <div>
+                            <div class="author-name">Thomas K.</div>
+                            <div class="rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section section-padding">
+        <div class="container fade-in-section">
+            <span class="section-label">Visit Us</span>
+            <h2>Find Us & Our Hours</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>Come on down and experience Log Cabin BBQ for yourself. We're easy to find!</p>
+                    <p><strong>2322 US-52, Albemarle, NC 28001, USA</strong></p>
+                    <a href="https://maps.google.com/?q=2322+US-52,+Albemarle,+NC+28001" target="_blank" class="text-primary">Get Directions <i class="fas fa-map-marker-alt"></i></a>
+                    <a href="tel:+17049825257" class="text-primary">Call Us: (704) 982-5257 <i class="fas fa-phone"></i></a>
+                    <div class="map-placeholder">
+                        [Placeholder for Google Maps Embed]
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <p>We're open most days to serve you the best BBQ in Albemarle!</p>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>10:00 AM &ndash; 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>10:00 AM &ndash; 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>10:00 AM &ndash; 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>10:00 AM &ndash; 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>10:00 AM &ndash; 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+17049825257" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container fade-in-section">
+            <h2>Don't Miss Out on Albemarle's Best BBQ!</h2>
+            <p class="hero-tagline" style="margin-bottom: 40px; color: var(--accent-color);">
+                Treat your family to the unforgettable taste of Log Cabin BBQ. Our Holiday Meal Deal is available for a limited time!
+            </p>
+            <a href="#menu" class="btn btn-secondary">VIEW OUR MENU & DEALS</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Log Cabin <span>BBQ</span></div>
+            <p class="footer-tagline">
+                Slow-cooked perfection, served fresh daily. Your local source for authentic Southern BBQ in Albemarle, NC.
+            </p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Log Cabin BBQ. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const fadeSections = document.querySelectorAll('.fade-in-section');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Adjust as needed, 15% of section needs to be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeSections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initial check for elements already in viewport on page load
+        window.addEventListener('load', () => {
+            fadeSections.forEach(section => {
+                if (section.getBoundingClientRect().top < window.innerHeight) {
+                    section.classList.add('is-visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
