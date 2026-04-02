@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEX-MEX RIVERSIDE - Authentic Mexican Fare in Sparta, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-alt: #1a1a1a;
+            --brand-primary: #228B22; /* Forest Green */
+            --brand-accent: #FFD700; /* Gold */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Archivo Black', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        /* Base Styles & Resets */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero text, massive */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+        p { margin-bottom: 1em; }
+        strong { color: var(--text-heading); }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-heading);
+            color: var(--bg-dark);
+            border-color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-primary);
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Observer Target for Fade-in-up */
+        .observer-target {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .observer-target.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* semi-transparent dark */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease-out;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header .call-btn {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header .call-btn:hover {
+            background-color: var(--brand-accent);
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 120%, rgba(34, 139, 34, 0.1) 0%, rgba(17, 17, 17, 1) 50%);
+            background-color: var(--bg-dark); /* Fallback */
+            animation: backgroundShift 15s ease infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--brand-accent);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            color: var(--text-heading);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            animation: textGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 10px rgba(34, 139, 34, 0.5), 0 0 20px rgba(34, 139, 34, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(34, 139, 34, 0.8), 0 0 30px rgba(34, 139, 34, 0.5); }
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 18px;
+            margin-bottom: 40px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+        }
+
+        .hero-rating svg {
+            color: var(--brand-accent);
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(34, 139, 34, 0.05); /* Brand color at low opacity */
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .proof-item {
+            text-align: center;
+            flex: 1 1 250px; /* Allow items to grow/shrink, minimum width 250px */
+            max-width: 300px;
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-accent);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* GENERAL SECTION STYLES */
+        section {
+            padding: var(--section-padding-y) 0;
+            background-color: var(--bg-dark);
+            position: relative;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-light-alt);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .story-text {
+            flex: 2;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        .story-testimonial {
+            flex: 1;
+            min-width: 280px;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .story-testimonial p {
+            font-style: italic;
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+        .story-testimonial .author {
+            font-weight: 600;
+            color: var(--brand-accent);
+            font-size: 0.95rem;
+            display: block;
+            text-align: right;
+        }
+
+        .story-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1 1 250px;
+            max-width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            color: var(--brand-accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            justify-content: center;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            color: var(--brand-accent);
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            justify-content: center;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .choose-card svg {
+            color: var(--brand-primary);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .choose-card h3 {
+            color: var(--brand-accent);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .choose-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            justify-content: center;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-style: italic;
+        }
+
+        .testimonial-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--brand-accent);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card .rating-stars {
+            color: var(--brand-accent);
+            font-size: 1.1rem;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-details p {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        .contact-details a {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: #e74c3c; /* A distinct color for closed */
+            font-weight: 600;
+        }
+
+        .location-cta {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, rgba(34, 139, 34, 0.8) 50%, rgba(34, 139, 34, 0.6) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-heading);
+            position: relative;
+            overflow: hidden;
+        }
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0.5;
+            animation: pulseGlow 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.95); opacity: 0.4; }
+            100% { transform: scale(1.05); opacity: 0.6; }
+        }
+
+        .final-cta .container {
+            z-index: 1;
+            position: relative;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-cta .btn {
+            font-size: 1.2rem;
+            padding: 16px 32px;
+            border-color: var(--text-heading);
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            color: var(--bg-dark);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--text-body);
+        }
+
+        .social-icons {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-icons a {
+            color: var(--text-body);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.5rem; }
+
+            .our-story-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .story-text, .story-testimonial {
+                max-width: 100%;
+            }
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            .header-logo {
+                margin-bottom: 10px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .nav-links a {
+                font-size: 0.95rem;
+            }
+            .header .call-btn {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .hero {
+                padding-top: calc(var(--header-height) + 80px); /* Adjust for larger header on mobile */
+                height: auto;
+                min-height: 100vh;
+                padding-bottom: 60px;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.3rem; }
+            p { font-size: 1rem; }
+
+            .social-proof-grid, .story-stats, .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .section-label {
+                font-size: 0.8rem;
+            }
+            .section-header {
+                margin-bottom: 40px;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 0.9rem;
+            }
+            .hero-rating {
+                font-size: 0.85rem;
+                padding: 6px 14px;
+            }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.2rem; }
+            .stat-card h3 { font-size: 2rem; }
+            .stat-card p { font-size: 1rem; }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="header-logo">TEX-MEX RIVERSIDE</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13363721955" class="btn call-btn">CALL (336) 372-1955</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content container observer-target">
+            <p class="hero-location">Sparta, NC</p>
+            <h1 class="hero-name">TEX-MEX RIVERSIDE</h1>
+            <p class="hero-tagline">Authentic Mexican fare in a casual riverside setting</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.006Z" clip-rule="evenodd" />
+                </svg>
+                4.6 Stars (22 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof observer-target">
+        <div class="container social-proof-grid">
+            <div class="proof-item">
+                <h3>4.6 / 5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>22+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="proof-item">
+                <h3>A</h3>
+                <p>Sparta Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <div class="section-header observer-target">
+                <span class="section-label">Our Journey</span>
+                <h2>Taste the Tradition, Feel the Warmth</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="story-text observer-target">
+                    <p>Welcome to TEX-MEX RIVERSIDE, where every dish tells a story of authentic flavors and a passion for Mexican cuisine. Nestled in the heart of Sparta, NC, we're proud to be a beloved local spot offering delicious Mexican fare in a truly casual and inviting riverside setting.</p>
+                    <p>Our journey began with a simple vision: to bring the vibrant tastes of Mexico to our community, prepared with fresh ingredients and served with a smile. We believe in generous portions, ensuring every guest leaves feeling satisfied and eager to return.</p>
+                    <p>From sizzling burritos to cheesy quesadillas and unique Cuban-inspired dishes, our menu is crafted to delight every palate. We're more than just a restaurant; we're a gathering place where friends and family can share laughter, good food, and unforgettable memories.</p>
+                </div>
+                <div class="story-testimonial observer-target">
+                    <p>"At Tex-Mex Riverside, we pour our heart into every recipe. It's about more than just food; it's about sharing a piece of our culture, creating joy, and building a community around the table. That's the secret ingredient."</p>
+                    <span class="author">— The TEX-MEX RIVERSIDE Family</span>
+                </div>
+            </div>
+            <div class="story-stats observer-target">
+                <div class="stat-card">
+                    <h3>4.6 / 5</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card">
+                    <h3>22+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Generous</h3>
+                    <p>Portions Guaranteed</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <div class="section-header observer-target">
+                <span class="section-label">Our Culinary Delights</span>
+                <h2>Explore Our Flavorful Menu</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card observer-target">
+                    <h3>Burritos</h3>
+                    <p>Our legendary burritos, packed with your choice of savory fillings, fresh ingredients, and perfectly seasoned rice and beans. A true Tex-Mex classic!</p>
+                </div>
+                <div class="menu-card observer-target">
+                    <h3>Quesadillas</h3>
+                    <p>Crispy, gooey, and utterly delicious quesadillas, filled with melted cheese and your favorite protein. Simple, yet profoundly satisfying.</p>
+                </div>
+                <div class="menu-card observer-target">
+                    <h3>Cuban</h3>
+                    <p>Experience a unique twist with our authentic Cuban selections, offering rich flavors and a taste of the Caribbean right here in Sparta.</p>
+                </div>
+            </div>
+            <div class="location-cta observer-target" style="margin-top: 60px;">
+                <a href="#find-us" class="btn btn-primary">Visit Us Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <div class="section-header observer-target">
+                <span class="section-label">Beyond the Plate</span>
+                <h2>The TEX-MEX RIVERSIDE Difference</h2>
+            </div>
+            <div class="why-choose-grid">
+                <div class="choose-card observer-target">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 0 1 1.5 18.375V5.625ZM3 16.052l5.12-3.669a1.125 1.125 0 0 1 1.44-.067l3.861 3.119L17.97 6.18a1.125 1.125 0 0 1 1.668 1.403l-5.412 6.846a1.125 1.125 0 0 1-1.44.067L9.75 12.87l-4.717 3.375A.75.75 0 0 0 3 16.052Z" clip-rule="evenodd" />
+                    </svg>
+                    <h3>Riverside Charm</h3>
+                    <p>Enjoy your meal in a relaxed and inviting atmosphere, steps away from the tranquil riverside. Perfect for family dinners or a casual lunch with friends.</p>
+                </div>
+                <div class="choose-card observer-target">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M9.401 3.003c1.155-2.186 4.043-2.186 5.198 0 .691 1.304 2.28 2.119 4.036 2.119H20.5a.75.75 0 0 1 .75.75v11.25a.75.75 0 0 1-.75.75h-4.036c-1.756 0-3.345.815-4.036 2.119-.691 1.304-2.28 2.119-4.036 2.119H3.5a.75.75 0 0 1-.75-.75V6A.75.75 0 0 1 3.5 5.25h4.036c1.756 0 3.345-.815 4.036-2.119ZM14.25 8.625c0-.966-.784-1.75-1.75-1.75s-1.75.784-1.75 1.75 1.75 1.75 1.75 1.75 1.75-.784 1.75-1.75Zm-5 3.375a.75.75 0 0 0 0 1.5h1.25a.75.75 0 0 0 0-1.5H9.25Zm-1.5 3.375c0-.414.336-.75.75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                    <h3>Generous Portions</h3>
+                    <p>Known for our commitment to satisfying appetites! Every burrito, quesadilla, and Cuban dish is prepared with ample servings, ensuring you get great value and a full belly.</p>
+                </div>
+                <div class="choose-card observer-target">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 1 1-1.06 1.06L12 5.06l-6.97 6.97a.75.75 0 0 1-1.06-1.06l7.5-7.5a.75.75 0 0 1 1.06 0ZM7.5 17.25c0-1.619 1.31-2.929 2.929-2.929h3.142c1.619 0 2.929 1.31 2.929 2.929v1.5a.75.75 0 0 1-1.5 0v-1.5A1.429 1.429 0 0 0 13.571 15H10.429A1.429 1.429 0 0 0 9 16.5v1.5a.75.75 0 0 1-1.5 0v-1.5Z" clip-rule="evenodd" />
+                        <path d="M12 11.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V12a.75.75 0 0 1 .75-.75Z" />
+                    </svg>
+                    <h3>Authentic Flavors</h3>
+                    <p>From the spices in our burritos to the unique taste of our Cuban dishes, we are dedicated to serving genuinely authentic Mexican and Latin flavors that transport you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-header observer-target">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Loved by the Sparta Community</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card observer-target">
+                    <p>"I absolutely love the burritos at Tex-Mex Riverside! They're huge, incredibly flavorful, and always hit the spot. Plus, the atmosphere by the river is so relaxing. My go-to spot in Sparta!"</p>
+                    <div class="author-info">
+                        <span class="author-name">— Sarah L.</span>
+                        <span class="rating-stars">★★★★★</span>
+                    </div>
+                </div>
+                <div class="testimonial-card observer-target">
+                    <p>"The quesadillas here are simply the best! Perfectly cheesy and crispy every time. I was also pleasantly surprised by their Cuban selection – a fantastic and authentic taste you won't find anywhere else locally."</p>
+                    <div class="author-info">
+                        <span class="author-name">— Michael P.</span>
+                        <span class="rating-stars">★★★★★</span>
+                    </div>
+                </div>
+                <div class="testimonial-card observer-target">
+                    <p>"If you're looking for generous portions and delicious Mexican fare, this is the place. I always leave full and happy. Their Cuban dishes are a must-try – a delightful surprise on the menu!"</p>
+                    <div class="author-info">
+                        <span class="author-name">— Emily R.</span>
+                        <span class="rating-stars">★★★★★</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <div class="section-header observer-target">
+                <span class="section-label">Visit Us Soon</span>
+                <h2>Your Table Awaits</h2>
+            </div>
+            <div class="location-grid">
+                <div class="location-map observer-target">
+                    <h3>Find Us Here</h3>
+                    <p>1046 US-21, Sparta, NC 28675, USA</p>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.8876483163155!2d-81.12781878864775!3d36.50531547228966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8850616b713606a1%3A0xc3910c4fb6255757!2sTex-Mex%20Riverside!5e0!3m2!1sen!2sus!4v1704231808604!5m2!1sen!2sus"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="contact-details" style="margin-top: 20px;">
+                        <p><strong>Phone:</strong> <a href="tel:+13363721955">(336) 372-1955</a></p>
+                    </div>
+                </div>
+                <div class="location-info observer-target">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Wednesday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Saturday:</td><td>10:30 AM – 3:00 PM</td></tr>
+                            <tr><td>Sunday:</td><td class="closed">Closed</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="location-cta">
+                        <a href="tel:+13363721955" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container observer-target">
+            <h2>Ready for an Unforgettable Tex-Mex Experience?</h2>
+            <a href="tel:+13363721955" class="btn">Call Us to Plan Your Visit!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">TEX-MEX RIVERSIDE</span>
+            <p class="footer-tagline">Authentic Mexican fare in a casual riverside setting.</p>
+            <ul class="social-icons">
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.096-1.092 1.055-1.092h2.945l.004-4h-3.998c-2.159 0-3.232 1.272-3.232 3.555v2.445z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.993 6.074c-.261-.349-.854-.457-1.272-.25-.418.206-2.923 1.573-2.923 1.573s-.103-.274-.29-.461c-1.571-1.63-3.957-1.695-5.352-.164l-.248.261-.177-.076c-.534-.23-1.111-.348-1.698-.348-2.668 0-4.832 2.162-4.832 4.83 0 1.348.552 2.569 1.446 3.424l-.15.111c-1.011 1.096-1.547 2.459-1.547 3.868.001 2.378 1.93 4.307 4.309 4.307 1.334 0 2.56-.604 3.393-1.597l.102.04c.854.341 1.83.535 2.859.535 1.71 0 3.284-.666 4.47-1.75l.138.083c1.071-.856 1.761-2.112 1.761-3.52 0-.001 0-.001 0-.002 0-2.484-2.015-4.499-4.498-4.499zm-4.444 6.779c-.042 0-.083.001-.125.003-1.564.088-2.836-1.127-2.836-2.698 0-.909.43-1.718 1.125-2.227l.48-.356-.166-.174c-.815-.856-2.03-1.39-3.376-1.39-2.203 0-3.993 1.79-3.993 3.993 0 1.13.469 2.146 1.233 2.872l.487.46-.243.272c-.896 1.002-1.371 2.29-1.371 3.65 0 2.019 1.636 3.655 3.655 3.655 1.047 0 2.023-.442 2.684-1.22l.144-.153.256.096c.646.242 1.349.378 2.083.378 1.493 0 2.87-1.028 3.33-2.58l.128-.444-.199-.187c-1.077-.996-1.767-2.383-1.767-3.877 0-.001 0-.001 0-.002z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 TEX-MEX RIVERSIDE. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.observer-target').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
