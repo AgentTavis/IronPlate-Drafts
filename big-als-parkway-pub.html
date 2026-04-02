@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Big Al’s Parkway Pub - Newland's Favorite Bar & Grill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #C41E3A;
+            --accent-color: #8B4513;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4.5rem; } /* Hero name */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+        small { font-size: 0.9rem; color: var(--text-secondary); }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(196, 30, 58, 0.1);
+            color: var(--text-heading);
+        }
+
+        /* Section Labels */
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card.accent-border-left {
+            border-left: 4px solid var(--brand-color);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Visibility for fade-in-up (JS would handle adding/removing 'is-visible' class) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 0 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        .sticky-header .logo {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        .sticky-header .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header .nav-links a {
+            color: var(--text-body);
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(var(--brand-color-rgb), 0.1) 30%, rgba(var(--accent-color-rgb), 0.1) 70%, var(--bg-main) 100%);
+            --brand-color-rgb: 196, 30, 58;
+            --accent-color-rgb: 139, 69, 19;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at top left, rgba(var(--brand-color-rgb), 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(var(--accent-color-rgb), 0.05) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            line-height: 1.5;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            gap: 8px;
+            line-height: 1;
+        }
+
+        .hero .rating-badge svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .social-proof-strip .proof-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-item h3 {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .social-proof-strip .proof-item p {
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-alt); /* Alternating background */
+            text-align: center;
+        }
+
+        .our-story .story-content {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+        }
+
+        .our-story h2 {
+            margin-bottom: 40px;
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 60px auto;
+            font-style: italic;
+            position: relative;
+            color: var(--text-heading);
+        }
+
+        .our-story .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 6rem;
+            color: rgba(var(--brand-color-rgb), 0.2);
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .our-story .testimonial-card p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .our-story .testimonial-card small {
+            display: block;
+            text-align: right;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-color);
+            position: relative;
+            z-index: 1;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .our-story .stat-card {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .our-story .stat-card h3 {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin: 0;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            text-align: center;
+        }
+
+        .menu h2 {
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .menu-item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--brand-color);
+        }
+
+        .menu-item-card h3 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            padding-left: 10px; /* Offset for border */
+        }
+
+        .menu-item-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin: 0;
+            padding-left: 10px; /* Offset for border */
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-alt); /* Alternating background */
+            text-align: center;
+        }
+
+        .why-choose-us h2 {
+            margin-bottom: 60px;
+        }
+
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-us-card {
+            text-align: left;
+        }
+
+        .choose-us-card h3 {
+            color: var(--brand-color);
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .choose-us-card h3 svg {
+            color: var(--accent-color);
+            width: 35px;
+            height: 35px;
+            flex-shrink: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card-grid {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card-grid:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .testimonial-card-grid .stars {
+            color: gold;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .testimonial-card-grid .quote {
+            font-style: italic;
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card-grid .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-alt); /* Alternating background */
+            text-align: center;
+        }
+
+        .location-hours h2 {
+            margin-bottom: 60px;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            text-align: left;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.15rem;
+        }
+
+        .location-info a {
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .location-info .map-embed {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .location-info .map-embed iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            display: block;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.15rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+            text-transform: uppercase;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+        }
+
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--text-heading); /* White button */
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            padding: 18px 40px;
+            font-size: 1.15rem;
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--accent-color);
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 80px 0 40px 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer .footer-logo {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+        }
+
+        .footer .footer-tagline {
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer .social-links a {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .footer .social-links a:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* SVG Icons - for aesthetic only, as FontAwesome/SVG libraries are external */
+        .icon {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+            display: inline-block;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.3rem; }
+            .sticky-header .nav-links { gap: 20px; }
+            .sticky-header .call-button { padding: 8px 15px; font-size: 0.9rem; }
+            .location-hours-content { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .sticky-header .nav-links { display: none; } /* Hide nav links on mobile */
+            .sticky-header .header-content { justify-content: space-between; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .btn { padding: 12px 25px; font-size: 1rem; }
+            .social-proof-strip .proof-grid { flex-direction: column; }
+            .social-proof-strip .proof-item { min-width: unset; width: 100%; }
+            .our-story .stats-grid,
+            .menu-grid,
+            .choose-us-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 { font-size: 2.5rem; }
+            .footer { padding: 60px 0 30px 0; }
+            .footer .social-links { margin-bottom: 30px; }
+            .sticky-header .logo { font-size: 1.6rem; }
+            .section-label { margin-bottom: 10px; }
+            .hero .location { font-size: 1rem; margin-bottom: 10px;}
+            .hero .rating-badge { padding: 6px 12px; font-size: 0.9rem; }
+            .hero .rating-badge svg { width: 16px; height: 16px; }
+            .section-padding-y { padding: 60px 0; }
+        }
+
+        /* Fade-in-up transition (JS is required to trigger this via adding/removing 'is-visible') */
+        /* For this static HTML, elements will have initial opacity and transform */
+        [data-animate] {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        [data-animate].animate-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <h3 class="logo">Big Al's Parkway Pub</h3>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:8287424424" class="call-button">
+                <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M164.9 24.6c-7.7-18.6-28-32.1-49.8-32.1C28 0 0 28.1 0 64V448c0 35.9 28 64 64 64c21.8 0 42.1-13.6 49.8-32.1L247.4 371.4c1.1-2.9 2.3-5.7 3.6-8.5l6.3-13.7c1.4-3.1 2.8-6.1 4.2-9.2L378 152.1c11.8-25.5 1.7-55.6-23.8-67.4s-55.6-1.7-67.4 23.8L205.7 202.2c-5.8 12.5-5.6 26.6 .6 38.9s16.3 21.2 30 24.1l80.2 16.2c6.9 1.4 13.9 .9 20.7-1.3s13.3-6 18.5-11.2l40-40c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-40 40c-3.8 3.8-8.9 5.8-14.1 6.1s-10.4-.6-15.2-3.6l-80.2-16.2c-29.3-5.9-54.7-25.1-69.8-50.6L164.9 24.6z"/></svg>
+                CALL (828) 742-4424
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content" data-animate>
+            <p class="location">Newland, NC</p>
+            <h1>Big Al's Parkway Pub</h1>
+            <p class="tagline">Happy Wednesday! Head on over to Al's on this beautiful day for some of Al's favorite features ! All of our regular menu items are available ...</p>
+            <div class="rating-badge">
+                <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                4.4 Stars (71 Reviews)
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container proof-grid" data-animate>
+            <div class="proof-item">
+                <h3>4.4 / 5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>71+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="proof-item">
+                <h3>Newland's</h3>
+                <p>Local Favorite Pub</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <p class="section-label" data-animate>Our Roots</p>
+            <h2 data-animate>The Story Behind Big Al's Parkway Pub</h2>
+            <div class="story-content" data-animate>
+                <p>Nestled in the heart of Newland, NC, Big Al's Parkway Pub is more than just a bar and grill – it's a community hub built on good food, great company, and genuine hospitality. Founded by the Johnson bros., our pub has become a beloved spot for locals and visitors alike to unwind and enjoy the simple pleasures of life.</p>
+                <p>We pride ourselves on crafting a welcoming atmosphere where every guest feels like family. From our meticulously prepared dishes to our handcrafted beverages, including the famous Watermelon Mojito, every detail is considered to ensure a memorable experience. We believe in serving up joy, one plate and one drink at a time.</p>
+            </div>
+
+            <div class="testimonial-card" data-animate>
+                <p>"You can truly feel the local charm and passion at Big Al's. The Johnson bros. have created something special here. Always a fantastic time!"</p>
+                <small>– A Loyal Customer</small>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card" data-animate>
+                    <h3>71+</h3>
+                    <p>Glowing Reviews</p>
+                </div>
+                <div class="stat-card" data-animate data-delay="0.1">
+                    <h3>Community</h3>
+                    <p>Heart of Newland</p>
+                </div>
+                <div class="stat-card" data-animate data-delay="0.2">
+                    <h3>Home of</h3>
+                    <p>Happy Wednesday</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <p class="section-label" data-animate>Our Delicious Creations</p>
+            <h2 data-animate>Taste The Best of Big Al's</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card" data-animate>
+                    <h3>The Johnson Bros. Watermelon Mojito</h3>
+                    <p>Our signature refreshing mojito, a local legend.</p>
+                </div>
+                <div class="menu-item-card" data-animate data-delay="0.1">
+                    <h3>Parkway Burger</h3>
+                    <p>Classic pub burger with all the fixings, perfectly grilled.</p>
+                </div>
+                <div class="menu-item-card" data-animate data-delay="0.2">
+                    <h3>Al's Signature Wings</h3>
+                    <p>Crispy, saucy, and full of flavor. Choose your heat!</p>
+                </div>
+                <div class="menu-item-card" data-animate data-delay="0.3">
+                    <h3>Loaded Nachos</h3>
+                    <p>Piled high with cheese, jalapeños, and your choice of protein.</p>
+                </div>
+                <div class="menu-item-card" data-animate data-delay="0.4">
+                    <h3>Crispy Chicken Tenders</h3>
+                    <p>Golden fried chicken tenders, served with your favorite dipping sauce.</p>
+                </div>
+                <div class="menu-item-card" data-animate data-delay="0.5">
+                    <h3>Chef's Daily Special</h3>
+                    <p>Ask about today's unique creation from our kitchen.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <p class="section-label" data-animate>Why We're Your Go-To</p>
+            <h2 data-animate>More Than Just a Meal, It's an Experience</h2>
+            <div class="choose-us-grid">
+                <div class="card choose-us-card" data-animate>
+                    <h3>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M547.6 170.2C542.4 163.6 534.6 160 526.4 160H432V128C432 57.3 374.7 0 304 0H272 240C169.3 0 112 57.3 112 128V160H19.6C11.4 160 3.6 163.6-1.6 170.2s-2.5 15.2 4.4 21L69.3 268.5c1.6 1.6 2.8 3.5 3.6 5.6L144 448c3.9 9.3 12.4 15.6 22 15.9l80.1 2.3c6.3 .2 12.5-1.9 17.2-5.9L288 436.4l24.7 24.7c4.8 4 10.9 6.1 17.2 5.9l80.1-2.3c9.6-.3 18.1-6.6 22-15.9l71.1-173.9c.9-2.1 2-4 3.6-5.6l74.9-77.3c6.9-5.8 8-15.9 2.5-22.7zM304 480c-2.7 0-5.3-.4-7.9-1.2L240 464c-28.7-8.2-48-35.3-48-66.8V224H384V397.2c0 31.5-19.3 58.6-48 66.8l-56.1 14.8c-2.5 .7-5.2 1.1-7.9 1.1zM240 160V128c0-26.5 21.5-48 48-48h32c26.5 0 48 21.5 48 48v32H240z"/></svg>
+                        Unforgettable Flavors
+                    </h3>
+                    <p>From our locally famous Johnson bros. Watermelon Mojito to hearty pub classics like the Parkway Burger, every dish is crafted with fresh ingredients and a passion for taste that keeps you coming back.</p>
+                </div>
+                <div class="card choose-us-card" data-animate data-delay="0.1">
+                    <h3>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 168V344c0 13.3 10.7 24 24 24h48c13.3 0 24-10.7 24-24V168c0-13.3-10.7-24-24-24H240c-13.3 0-24 10.7-24 24z"/></svg>
+                        Weekly Delights
+                    </h3>
+                    <p>Don't miss our "Happy Wednesday" specials and other "Al's favorite features"! We love to surprise our regulars with new and exciting menu additions and promotions throughout the week.</p>
+                </div>
+                <div class="card choose-us-card" data-animate data-delay="0.2">
+                    <h3>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M352 128c0 70.7-57.3 128-128 128s-128-57.3-128-128S153.3 0 224 0s128 57.3 128 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v56h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                        Community Spirit
+                    </h3>
+                    <p>We're proud to be Newland's local gathering spot. It's not just about the food and drinks; it's about connecting with friends, making new memories, and feeling at home in our welcoming atmosphere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <p class="section-label" data-animate>What Our Guests Say</p>
+            <h2 data-animate>Happy Faces, Full Bellies</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card-grid" data-animate>
+                    <div class="stars">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-6.8 0-13.5 1.7-19.7 5.1L4.6 160.8C1.7 162.7 0 166.1 0 170.2V341.8c0 4.1 1.7 7.5 4.6 9.4L268.3 506.9c6.2 3.4 12.9 5.1 19.7 5.1s13.5-1.7 19.7-5.1l263.7-165.7c2.9-1.9 4.6-5.3 4.6-9.4V170.2c0-4.1-1.7-7.5-4.6-9.4L307.7 37.1c-6.2-3.4-12.9-5.1-19.7-5.1zM288 471.5l-215.1-135 215.1-135 215.1 135L288 471.5zM272 256h-88v-48h88v48zm128 0h-88v-48h88v48z"/></svg><!-- Half star representation -->
+                    </div>
+                    <p class="quote">"Absolutely love the Watermelon Mojito! It's so refreshing, and the food always hits the spot. Big Al's is my favorite local hangout."</p>
+                    <p class="author">– Sarah M.</p>
+                </div>
+                <div class="testimonial-card-grid" data-animate data-delay="0.1">
+                    <div class="stars">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                    </div>
+                    <p class="quote">"If you're in Newland, you HAVE to check out their Happy Wednesday features. Always something new and delicious. Great atmosphere too!"</p>
+                    <p class="author">– David P.</p>
+                </div>
+                <div class="testimonial-card-grid" data-animate data-delay="0.2">
+                    <div class="stars">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.1-22.4 21.5s-.6 23.8 7.6 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.5 14.9 33.7s27.9 8.6 39.3 3.1l151.4-79.6 151.4 79.6c11.4 5.5 25.3 5.4 39.3-3.1s17.2-21 14.9-33.7L438.2 329 542.7 225.9c8.2-8.8 8.9-21.2 6.6-32.7s-11.1-19.8-22.4-21.5L381.2 150.3 316.9 18z"/></svg>
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-6.8 0-13.5 1.7-19.7 5.1L4.6 160.8C1.7 162.7 0 166.1 0 170.2V341.8c0 4.1 1.7 7.5 4.6 9.4L268.3 506.9c6.2 3.4 12.9 5.1 19.7 5.1s13.5-1.7 19.7-5.1l263.7-165.7c2.9-1.9 4.6-5.3 4.6-9.4V170.2c0-4.1-1.7-7.5-4.6-9.4L307.7 37.1c-6.2-3.4-12.9-5.1-19.7-5.1zM288 471.5l-215.1-135 215.1-135 215.1 135L288 471.5zM272 256h-88v-48h88v48zm128 0h-88v-48h88v48z"/></svg>
+                    </div>
+                    <p class="quote">"Great place for a casual night out. The Parkway Burger is fantastic, and the staff is always so friendly. Definitely a must-visit in Newland."</p>
+                    <p class="author">– Jessica L.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <p class="section-label" data-animate>Visit Us</p>
+            <h2 data-animate>Find Your Way to Big Al's</h2>
+            <div class="location-hours-content">
+                <div class="location-info" data-animate>
+                    <h3>Our Location</h3>
+                    <p>Big Al’s Parkway Pub</p>
+                    <p>1600 Jonas Ridge Hwy,<br>Newland, NC 28657, USA</p>
+                    <a href="tel:8287424424" style="color: var(--brand-color); font-weight: 600;">(828) 742-4424</a>
+                    <a href="https://maps.app.goo.gl/example" target="_blank" class="btn btn-secondary" style="margin-top: 20px;">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M215.7 499.2c-12.8 1.9-25.2-1.8-35.3-10.4L133.2 436h117.2l-36.8-31.2-50-42.5c-4.4-3.7-9.3-6.5-14.5-8.3C139.1 349.5 128 326.6 128 304v-48l-87 87c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L94.7 192 1.4 200.4c-9.1 1-17.7-2.3-24.9-9.4s-9.9-17.8-8.9-26.9L7.9 66.8c1-9.1 4.3-17.7 11.4-24.9s17.8-9.9 26.9-8.9L160 56l-87 87c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 106.7l42.5 50 31.2 36.8h-66.2l50.5 50.5c9.2 9.2 13.9 22.8 13.9 36.5c0 10.9-2.6 21.3-7.5 30.5c-7.9 15.3-23.7 25.5-41.5 25.5H224v48c0 24.6-22.9 35.7-44.5 28.7c-9.2-3-17.3-8.3-24.1-15.1L94.7 436l-36.8 31.2c-10.1 8.6-22.5 12.3-35.3 10.4L0 477.5v-27.2l.5 .5c.6 .6 1.3 1.1 1.9 1.6l49.2 41.8c7.3 6.2 16.4 9.5 25.9 9.5h206c9.5 0 18.6-3.4 25.9-9.5l49.2-41.8c.6-.5 1.3-1 1.9-1.6l.5-.5V477.5L341 499.5c-12.8 1.9-25.2-1.8-35.3-10.4L256 436H128l-36.8-31.2-50-42.5c-4.4-3.7-9.3-6.5-14.5-8.3C139.1 349.5 128 326.6 128 304v-48l-87 87c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L94.7 192 1.4 200.4c-9.1 1-17.7-2.3-24.9-9.4s-9.9-17.8-8.9-26.9L7.9 66.8c1-9.1 4.3-17.7 11.4-24.9s17.8-9.9 26.9-8.9L160 56l-87 87c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 106.7l42.5 50 31.2 36.8h-66.2l50.5 50.5c9.2 9.2 13.9 22.8 13.9 36.5c0 10.9-2.6 21.3-7.5 30.5c-7.9 15.3-23.7 25.5-41.5 25.5H224v48c0 24.6-22.9 35.7-44.5 28.7c-9.2-3-17.3-8.3-24.1-15.1L94.7 436l-36.8 31.2c-10.1 8.6-22.5 12.3-35.3 10.4L0 477.5v-27.2l.5 .5c.6 .6 1.3 1.1 1.9 1.6l49.2 41.8c7.3 6.2 16.4 9.5 25.9 9.5h206c9.5 0 18.6-3.4 25.9-9.5l49.2-41.8c.6-.5 1.3-1 1.9-1.6l.5-.5V477.5L341 499.5c-12.8 1.9-25.2-1.8-35.3-10.4L256 436H128l-36.8-31.2-50-42.5c-4.4-3.7-9.3-6.5-14.5-8.3C139.1 349.5 128 326.6 128 304v-48l-87 87c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L94.7 192 1.4 200.4c-9.1 1-17.7-2.3-24.9-9.4s-9.9-17.8-8.9-26.9L7.9 66.8c1-9.1 4.3-17.7 11.4-24.9s17.8-9.9 26.9-8.9L160 56l-87 87c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 106.7l42.5 50 31.2 36.8h-66.2l50.5 50.5c9.2 9.2 13.9 22.8 13.9 36.5c0 10.9-2.6 21.3-7.5 30.5c-7.9 15.3-23.7 25.5-41.5 25.5H224v48c0 24.6-22.9 35.7-44.5 28.7c-9.2-3-17.3-8.3-24.1-15.1L94.7 436l-36.8 31.2c-10.1 8.6-22.5 12.3-35.3 10.4L0 477.5v-27.2l.5 .5c.6 .6 1.3 1.1 1.9 1.6l49.2 41.8c7.3 6.2 16.4 9.5 25.9 9.5h206c9.5 0 18.6-3.4 25.9-9.5l49.2-41.8c.6-.5 1.3-1 1.9-1.6l.5-.5V477.5L341 499.5c-12.8 1.9-25.2-1.8-35.3-10.4L256 436H128l-36.8-31.2-50-42.5c-4.4-3.7-9.3-6.5-14.5-8.3C139.1 349.5 128 326.6 128 304v-48l-87 87c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L94.7 192 1.4 200.4c-9.1 1-17.7-2.3-24.9-9.4s-9.9-17.8-8.9-26.9L7.9 66.8c1-9.1 4.3-17.7 11.4-24.9s17.8-9.9 26.9-8.9L160 56l-87 87c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L240 106.7l42.5 50 31.2 36.8h-66.2l50.5 50.5c9.2 9.2 13.9 22.8 13.9 36.5c0 10.9-2.6 21.3-7.5 30.5c-7.9 15.3-23.7 25.5-41.5 25.5H224v48c0 24.6-22.9 35.7-44.5 28.7c-9.2-3-17.3-8.3-24.1-15.1L94.7 436l-36.8 31.2c-10.1 8.6-22.5 12.3-35.3 10.4L0 477.5v-27.2l.5 .5c.6 .6 1.3 1.1 1.9 1.6l49.2 41.8c7.3 6.2 16.4 9.5 25.9 9.5h206c9.5 0 18.6-3.4 25.9-9.5l49.2-41.8c.6-.5 1.3-1 1.9-1.6l.5-.5V477.5L341 499.5zM384 192c0 106-128 224-128 224S128 298 128 192c0-70.7 57.3-128 128-128s128 57.3 128 128z"/></svg>
+                        GET DIRECTIONS
+                    </a>
+                    <div class="map-embed">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.887251786968!2d-81.88457632363578!3d36.14227897237078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88506080345155f3%3A0xc4864f19b8893e3d!2sBig%20Al's%20Parkway%20Pub!5e0!3m2!1sen!2sus!4v1701100000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+                <div class="hours-info" data-animate>
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>11:00 AM – 11:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>11:00 AM – 11:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td>12:00 PM – 8:00 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:8287424424" class="btn btn-primary">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-32.1-49.8-32.1C28 0 0 28.1 0 64V448c0 35.9 28 64 64 64c21.8 0 42.1-13.6 49.8-32.1L247.4 371.4c1.1-2.9 2.3-5.7 3.6-8.5l6.3-13.7c1.4-3.1 2.8-6.1 4.2-9.2L378 152.1c11.8-25.5 1.7-55.6-23.8-67.4s-55.6-1.7-67.4 23.8L205.7 202.2c-5.8 12.5-5.6 26.6 .6 38.9s16.3 21.2 30 24.1l80.2 16.2c6.9 1.4 13.9 .9 20.7-1.3s13.3-6 18.5-11.2l40-40c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-40 40c-3.8 3.8-8.9 5.8-14.1 6.1s-10.4-.6-15.2-3.6l-80.2-16.2c-29.3-5.9-54.7-25.1-69.8-50.6L164.9 24.6z"/></svg>
+                        CALL TO ORDER
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container" data-animate>
+            <h2>Ready for Good Times & Great Food?</h2>
+            <a href="tel:8287424424" class="btn btn-primary">
+                <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-32.1-49.8-32.1C28 0 0 28.1 0 64V448c0 35.9 28 64 64 64c21.8 0 42.1-13.6 49.8-32.1L247.4 371.4c1.1-2.9 2.3-5.7 3.6-8.5l6.3-13.7c1.4-3.1 2.8-6.1 4.2-9.2L378 152.1c11.8-25.5 1.7-55.6-23.8-67.4s-55.6-1.7-67.4 23.8L205.7 202.2c-5.8 12.5-5.6 26.6 .6 38.9s16.3 21.2 30 24.1l80.2 16.2c6.9 1.4 13.9 .9 20.7-1.3s13.3-6 18.5-11.2l40-40c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-40 40c-3.8 3.8-8.9 5.8-14.1 6.1s-10.4-.6-15.2-3.6l-80.2-16.2c-29.3-5.9-54.7-25.1-69.8-50.6L164.9 24.6z"/></svg>
+                CALL US NOW
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <h3 class="footer-logo">Big Al's Parkway Pub</h3>
+            <p class="footer-tagline">Your Favorite Local Spot for Good Times, Great Food, and Unforgettable Features in Newland, NC.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M504 256C504 119 392.3 8 256 8S8 119 8 256c0 123.7 85.1 226.4 199.9 250.3V340.5h-73.9V256h73.9v-64c0-73.8 44.9-114.1 110.6-114.1 31.3 0 58.5 2.8 66.4 4.1v76.2h-45.6c-36 0-43 17.2-43 42.3v54.7h85.9l-11.1 84.5h-74.8V506.3C418.9 482.4 504 379.7 504 256z"/></svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224.1 140.7c-35.3-21.7-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1 82.9 83.1c27.2 0 58.7-10.8 94-32.5s66.8-32.5 94-32.5c43.2 0 82.9 28.5 82.9 83.1c0 55.4-39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1 82.9 83.1c27.2 0 58.7-10.8 94-32.5s66.8-32.5 94-32.5c43.2 0 82.9 28.5 82.9 83.1c0 55.4-39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1 82.9 83.1c27.2 0 58.7-10.8 94-32.5s66.8-32.5 94-32.5c43.2 0 82.9 28.5 82.9 83.1c0 55.4-39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1 82.9 83.1c27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1 82.9 83.1c27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-94-32.5s-66.8-32.5-94-32.5c-43.2 0-82.9 28.5-82.9 83.1c0 55.4 39.7 83.1-82.9 83.1c-27.2 0-58.7-10.8-9
