@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario's Restaurant - Forest City's Favorite Bar & Grill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #111111;
+            --section-bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #8B3A3A;
+            --accent-color: #C41E3A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            margin: 0;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-top: 0;
+            letter-spacing: 0.05em; /* A bit more space for Bebas Neue */
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .uppercase { text-transform: uppercase; }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            letter-spacing: 0.03em;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color); /* Subtle hover shift to accent color */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            color: var(--text-heading);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+        }
+
+        .header-logo:hover {
+            color: var(--brand-color);
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 400;
+            margin-left: 30px;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .btn {
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            box-sizing: border-box;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.85) 50%, rgba(17,17,17,0.95) 100%),
+                        linear-gradient(45deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            background-blend-mode: multiply; /* Blends the color gradient with the dark base */
+            opacity: 0.8; /* Subtle blend */
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* Massive */
+            color: var(--text-heading);
+            margin: 0;
+            line-height: 0.9;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--cccccc);
+            font-weight: 300;
+            margin-top: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-top: 30px;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            gap: 8px;
+        }
+        .hero-rating svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--section-bg-light);
+        }
+
+        .section-label {
+            font-size: 1rem;
+            color: var(--brand-color);
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.1;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 58, 58, 0.05); /* Using RGBA for opacity from brand color */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* Text on left, testimonial/stats on right */
+            gap: 80px;
+            align-items: start;
+        }
+
+        .story-content h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+        }
+
+        .story-quote-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .story-quote-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .story-quote-card footer {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        .story-stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .story-stat-card h4 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+        .story-stat-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            opacity: 0.8;
+            margin: 0;
+        }
+
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-card h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+
+        .menu-card .price {
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .why-card svg {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            letter-spacing: 0.03em;
+        }
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .location-map {
+            position: relative;
+            height: 400px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(80%) invert(92%) contrast(80%) saturate(100%) hue-rotate(180deg); /* Dark mode map styling */
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            padding-right: 20px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .location-contact {
+            margin-top: 30px;
+        }
+        .location-contact p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .location-contact a {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            letter-spacing: 0.02em;
+        }
+        .location-contact .btn {
+            margin-top: 30px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), var(--accent-color));
+            color: var(--text-heading);
+            text-align: center;
+            padding: calc(var(--section-padding-y) * 1.2) 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            line-height: 1.1;
+            letter-spacing: 0.05em;
+        }
+        .final-cta .btn {
+            background-color: var(--primary-bg);
+            color: var(--text-heading);
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+        }
+        .final-cta .btn:hover {
+            background-color: rgba(17,17,17, 0.8);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo {
+            color: var(--text-heading);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        .footer-social-links {
+            margin-bottom: 30px;
+        }
+        .footer-social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer-social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-map {
+                height: 300px;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .container {
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .header {
+                height: auto; /* Allow header to expand */
+                padding: 15px 0;
+            }
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .nav-links a {
+                margin: 0 10px 10px;
+                font-size: 0.9rem;
+            }
+            .header .btn {
+                margin-top: 10px;
+            }
+            .hero {
+                padding-top: calc(var(--header-height) + 60px); /* Adjust for larger header on mobile */
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+            .footer-social-links a {
+                font-size: 1.2rem;
+                margin: 0 10px;
+            }
+            :root {
+                --section-padding-y: 80px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* SVG Icons */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentcolor;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">MARIO'S RESTAURANT</a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:8282025424" class="btn btn-primary">CALL 828-202-5424</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Forest City, NC</p>
+                <h1 class="hero-title">MARIO'S RESTAURANT</h1>
+                <p class="hero-tagline">Call <a href="tel:8282025424" class="text-brand">(828) 202-5424</a> to RSVP. <br>Please note: We will be closed Sunday, Jan 1st and Monday, Jan 2nd. Thank you for being such amazing customers. We love you!</p>
+                <div class="hero-rating">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.6 18L195 150.3 51.4 171.5c-11.4 1.7-20.1 10.3-22.6 21.7s3.1 23.9 13.4 31.4L117 329.4 103.5 471.6c-2.3 12.7 3.1 25.1 12.9 32.8s23.3 7.6 34 4.7l150.3-39.7 150.3 39.7c10.7 2.8 21.6 2.1 34-4.7s15.3-20.1 12.9-32.8L459 329.4l85.6-61.2c10.3-7.5 15.6-20.4 13.4-31.7s-11.2-20-22.6-21.7L381.2 150.3 316.9 18z"/></svg>
+                    4.5 Stars (561 reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW OUR MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof">
+            <div class="container social-proof-grid fade-in-up">
+                <div class="social-proof-item">
+                    <h3>4.5 Stars</h3>
+                    <p>Overall Google Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>561+</h3>
+                    <p>Happy Customers & Reviews</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>Local Favorite</h3>
+                    <p>Proudly Serving Forest City</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-story">
+            <div class="container story-grid fade-in-up">
+                <div class="story-content">
+                    <span class="section-label uppercase">Our Story</span>
+                    <h2 class="section-headline">Generations of Flavor, Rooted in Forest City.</h2>
+                    <p>At Mario's Restaurant, we're more than just a place to eat; we're a cornerstone of the Forest City community, serving up delicious bar and grill favorites with a personal touch. For years, we've poured our heart into every dish, creating a welcoming atmosphere where friends and family gather to share laughter and great food.</p>
+                    <p>From sizzling grills to refreshing drinks, our passion for good old-fashioned comfort food shines through. We believe in honest flavors, generous portions, and the kind of friendly service that makes you feel right at home. Come on in and experience the Mario's difference – where every meal is a celebration of our heritage and your satisfaction.</p>
+                </div>
+                <div class="story-sidebar">
+                    <div class="story-quote-card fade-in-up">
+                        <p>"Mario's is our go-to spot! The food is consistently delicious, and the service always makes us feel like family. We especially love their hearty entrees, always served with a fresh garden salad!"</p>
+                        <footer>— A Loyal Forest City Local</footer>
+                    </div>
+                    <div class="story-stats-grid">
+                        <div class="story-stat-card fade-in-up">
+                            <h4>4.5 / 5</h4>
+                            <p>Average Rating (561 Reviews)</p>
+                        </div>
+                        <div class="story-stat-card fade-in-up">
+                            <h4>#14 of 45</h4>
+                            <p>Top Restaurants in Forest City</p>
+                        </div>
+                        <div class="story-stat-card fade-in-up">
+                            <h4>Community</h4>
+                            <p>Driven Since Day One</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="section-bg-light">
+            <div class="container fade-in-up">
+                <span class="section-label uppercase text-center">Our Menu</span>
+                <h2 class="section-headline text-center">Taste the Tradition: Our Bar & Grill Favorites.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Hearty Garden Salad Plate <span class="price">$18.99</span></h3>
+                        <p>A generous portion served with a fresh garden salad. Perfect for a satisfying meal!</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Classic Side Salad Entree <span class="price">$11.99</span></h3>
+                        <p>A smaller, yet equally fresh garden salad, ideal as a lighter option or a perfect accompaniment.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Premium Coffee <span class="price">$3.49</span></h3>
+                        <p>Regular or decaffeinated, brewed to perfection. The perfect start or end to your meal.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Sweet or Unsweetened Tea <span class="price">$3.09</span></h3>
+                        <p>Our refreshing house-brewed tea. A Southern classic, served just how you like it.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Italy's Sparkling Mineral Water <span class="price">$2.25</span></h3>
+                        <p>Crisp and refreshing natural mineral water from Italy.</p>
+                    </div>
+                    <!-- Max 6-9 items, we have 5, so this is good. -->
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us">
+            <div class="container fade-in-up">
+                <span class="section-label uppercase text-center">Why Choose Us?</span>
+                <h2 class="section-headline text-center">More Than Just a Meal: The Mario's Experience.</h2>
+                <div class="why-choose-grid">
+                    <div class="why-card fade-in-up">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M480 32C480 14.33 465.7 0 448 0H128C110.3 0 96 14.33 96 32V256H480V32zM0 320V480C0 497.7 14.33 512 32 512H544C561.7 512 576 497.7 576 480V320H0zm416 96c0-17.67-14.33-32-32-32H192c-17.67 0-32 14.33-32 32s14.33 32 32 32H384c17.67 0 32-14.33 32-32z"/></svg>
+                        <h3>Homegrown Quality</h3>
+                        <p>We believe in honest food, prepared with care. Enjoy robust flavors in every dish, from our hearty Garden Salad Plate to our perfectly brewed coffee.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M96 128C96 92.65 125.4 64 160 64H480C515.3 64 544 92.65 544 128V384C544 419.3 515.3 448 480 448H160C125.4 448 96 419.3 96 384V128zM0 128V384C0 449.1 54.93 504 120 504H520C585.1 504 640 449.1 640 384V128C640 62.93 585.1 8 520 8H120C54.93 8 0 62.93 0 128zm320 0C302.3 128 288 142.3 288 160V352C288 369.7 302.3 384 320 384C337.7 384 352 369.7 352 352V160C352 142.3 337.7 128 320 128zM192 128C174.3 128 160 142.3 160 160V352C160 369.7 174.3 384 192 384C209.7 384 224 369.7 224 352V160C224 142.3 209.7 128 192 128zM448 160V352C448 369.7 433.7 384 416 384C398.3 384 384 369.7 384 352V160C384 142.3 398.3 128 416 128C433.7 128 448 142.3 448 160z"/></svg>
+                        <h3>Warm Community Vibe</h3>
+                        <p>Step into Mario's and instantly feel at home. We're a local favorite, dedicated to providing a friendly, welcoming space for everyone.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 0c17.7 0 32 14.3 32 32V66.7C368.4 80.1 432 146.6 432 227.3V288c0 35.3 28.7 64 64 64s64-28.7 64-64V227.3c0-117.8-103.1-213.5-236.6-226.9c-2.4-.2-4.9-.4-7.4-.4S258.4 0 256 0zM176 352c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80H176zM64 227.3V288c0 35.3-28.7 64-64 64S0 323.3 0 288V227.3C0 146.6 63.6 80.1 144 66.7V32c0-17.7 14.3-32 32-32s32 14.3 32 32V66.7C280.4 80.1 344 146.6 344 227.3V288c0 35.3 28.7 64 64 64s64-28.7 64-64V227.3c0-117.8-103.1-213.5-236.6-226.9c-2.4-.2-4.9-.4-7.4-.4S258.4 0 256 0zM176 352c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80H176zM64 227.3V288c0 35.3-28.7 64-64 64S0 323.3 0 288V227.3C0 146.6 63.6 80.1 144 66.7V32c0-17.7 14.3-32 32-32s32 14.3 32 32V66.7C280.4 80.1 344 146.6 344 227.3V288c0 35.3 28.7 64 64 64s64-28.7 64-64V227.3c0-117.8-103.1-213.5-236.6-226.9c-2.4-.2-4.9-.4-7.4-.4S258.4 0 256 0zM176 352c-44.2 0-80 35.8-80 80c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16c0-44.2-35.8-80-80-80H176z"/></svg>
+                        <h3>Always Fresh, Always Friendly</h3>
+                        <p>With 561+ happy customers and a 4.5-star rating, you can trust Mario's for consistently delicious food and service that makes you smile.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-bg-light">
+            <div class="container fade-in-up">
+                <span class="section-label uppercase text-center">What Our Guests Say</span>
+                <h2 class="section-headline text-center">Real Voices, Real Experiences.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Absolutely love Mario's! Their 'Hearty Garden Salad Plate' is a meal in itself and always hits the spot. Paired with an unsweetened tea, it’s perfection. The staff is always so welcoming."</p>
+                        <footer>— Jessica T. from Forest City</footer>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Been coming here for years. You can't beat the comfort food and the coffee is always fresh, regular or decaf. It's a local gem, and I highly recommend trying anything on their menu!"</p>
+                        <footer>— Mark S., Regular Customer</footer>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Fantastic service and great atmosphere! I recently had the 'Classic Side Salad Entree' and was thoroughly impressed by the freshness. My kids loved their Italian sparkling water too. A must-visit!"</p>
+                        <footer>— Emily R., Visiting from Asheville</footer>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us">
+            <div class="container fade-in-up">
+                <span class="section-label uppercase text-center">Visit Us</span>
+                <h2 class="section-headline text-center">Find Your Way to Forest City's Favorite.</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>Come and enjoy a delicious meal at Mario's Restaurant. We're conveniently located in Forest City.</p>
+                        <address>
+                            <strong>Mario's Restaurant</strong><br>
+                            515 Hardin Rd,<br>
+                            Forest City, NC 28043, USA
+                        </address>
+                        <div class="location-contact">
+                            <p>Got questions or ready to RSVP?</p>
+                            <a href="tel:8282025424">(828) 202-5424</a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Mario's+Restaurant+515+Hardin+Rd,+Forest+City,+NC+28043" target="_blank" class="btn btn-secondary" style="margin-top: 25px;">GET DIRECTIONS</a>
+                        </div>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <p>We look forward to welcoming you! Please note our special holiday closure mentioned below.</p>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Monday</td><td>Closed</td></tr>
+                                <tr><td>Tuesday</td><td>11:30 AM – 9:00 PM</td></tr>
+                                <tr><td>Wednesday</td><td>11:30 AM – 9:00 PM</td></tr>
+                                <tr><td>Thursday</td><td>11:30 AM – 9:00 PM</td></tr>
+                                <tr><td>Friday</td><td>11:30 AM – 9:00 PM</td></tr>
+                                <tr><td>Saturday</td><td>4:00 – 9:00 PM</td></tr>
+                                <tr><td>Sunday</td><td>11:30 AM – 6:00 PM</td></tr>
+                            </tbody>
+                        </table>
+                        <p style="margin-top: 20px; font-size: 0.95rem; color: var(--text-secondary);">
+                            <strong>Special Note:</strong> We will be closed Sunday, January 1st and Monday, January 2nd.
+                        </p>
+                        <a href="tel:8282025424" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+                <div class="location-map" style="margin-top: 60px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3248.8358498870196!2d-81.89063258832014!3d35.34026367258323!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885973e7345f062d%3A0x6a1a1b1b1b1b1b1b!2sMario's%20Restaurant!5e0!3m2!1sen!2sus!4v1701475200000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Don't Miss Out! Experience Mario's Today.</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; opacity: 0.9;">
+                    Whether it's a family dinner or a quick bite, Mario's Restaurant is the perfect destination for delicious food and a welcoming atmosphere.
+                </p>
+                <a href="tel:8282025424" class="btn btn-primary">CALL TO RESERVE YOUR TABLE!</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">MARIO'S RESTAURANT</a>
+            <p class="footer-tagline">Forest City's Favorite Bar & Grill – Where good food and great company meet.</p>
+            <div class="footer-social-links">
+                <a href="#" aria-label="Facebook">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 475.5 194.5 506.7V334.2H141.4V256h53.1V201c0-52.1 31.7-80.9 78.4-80.9 22.2 0 44.8 4 44.8 4v48h-24.5c-24.1 0-31.1 15-31.1 30.1v37h67.6l-10.1 78.2H313.4V506.7C429.3 475.5 512 376 512 256z"/></svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg class="icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224.1 140.7c-35.3-2.1-59.3-5.2-76.3-8.2c-15.3-2.9-25.7-4.9-36.4-7c-17.7-3.4-32.9-6.3-43.9-9.3c-28.7-7.7-48.8-19.1-48.8-32.3s20.1-24.6 48.8-32.3c11-3 26.2-5.9 43.9-9.3c10.7-2.1 21.1-4 36.4-7c17-3 41-6.1 76.3-8.2c35.3-2.1 59.3-5.2 76.3-8.2c15.3-2.9 25.7-4.9 36.4-7c17.7-3.4 32.9-6.3 43.9-9.3c28.7-7.7 48.8-19.1 48.8-32.3s-20.1-24.6-48.8-32.3c-11-3-26.2-5.9-43.9-9.3c-10.7-2.1-21.1-4-36.4-7c-17-3-41-6.1-76.3-8.2L224.1 0c-35.3 2.1-59.3 5.2-76.3 8.2c-15.3 2.9-25.7 4.9-36.4 7c-17.7 3.4-32.9 6.3-43.9 9.3c-28.7 7.7-48.8 19.1-48.8 32.3s20.1-24.6 48.8 32.3c11 3 26.2-5.9 43.9-9.3c10.7-2.1 21.1-4 36.4-7c17-3 41-6.1 76.3-8.2l0 140.7zm0 28.1L224.1 512c-35.3-2.1-59.3-5.2-76.3-8.2c-15.3-2.9-25.7-4.9-36.4-7c-17.7-3.4-32.9-6.3-43.9-9.3c-28.7-7.7-48.8-19.1-48.8-32.3s20.1-24.6 48.8-32.3c11 3 26.2-5.9 43.9-9.3c10.7-2.1 21.1-4 36.4-7c17-3 41-6.1 76.3-8.2l0 140.7zm224.1-140.7L448.2 0c35.3 2.1 59.3 5.2 76.3 8.2c15.3 2.9 25.7 4.9 36.4 7c17.7 3.4 32.9 6.3 43.9 9.3c28.7 7.7 48.8 19.1 48.8 32.3s-20.1 24.6-48.8 32.3c-11 3-26.2-5.9-43.9-9.3c-10.7-2.1-21.1-4-36.4-7c-17-3-41-6.1-76.3-8.2l0 140.7zM0 224.1L0 76.3c-2.1 35.3-5.2 59.3-8.2 76.3c-2.9 15.3-4.9 25.7-7 36.4c-3.4 17.7-6.3 32.9-9.3 43.9c-7.7 28.7-19.1 48.8-32.3 48.8s-24.6-20.1-32.3-48.8c-3-11-5.9-26.2-9.3-43.9c-2.1-10.7-4-21.1-7-36.4c-3-17-6.1-41-8.2-76.3l-140.7 0zm512-147.8c35.3 2.1 59.3 5.2 76.3 8.2c15.3 2.9 25.7 4.9 36.4 7c17.7 3.4 32.9 6.3 43.9 9.3c28.7 7.7 48.8 19.1 48.8 32.3s-20.1 24.6-48.8 32.3c-11 3-26.2-5.9-43.9 9.3c-10.7 2.1-21.1 4-36.4 7c-17 3-41 6.1-76.3 8.2l0 140.7z"/></svg>
+                </a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Mario's Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Adjust as needed
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
