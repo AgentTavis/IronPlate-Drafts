@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bite - Harmony, MN's Beloved Diner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --brand-color: #c45e20;
+            --accent-color: #1a1a1a;
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace: 80-120px */
+            position: relative;
+            overflow: hidden;
+            background-color: var(--bg-section); /* Default for most sections */
+        }
+        section:nth-of-type(even) { /* Alternate background for visual separation */
+            background-color: var(--bg-main);
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-secondary { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+        .letter-spacing-3 { letter-spacing: 3px; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #e37e3e; /* Slightly lighter brand color */
+            border-color: #e37e3e;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Section Label Style */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* 2.5-3rem */
+            margin-bottom: 50px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        /* Fade-in-up animation on scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0; /* container already has padding, remove for header's internal flex */
+        }
+
+        .header-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 30px;
+            margin: 0; /* Reset margin */
+            padding: 0; /* Reset padding */
+            list-style: none;
+            flex-grow: 1; /* Allow nav to grow */
+            justify-content: center; /* Center nav links if space allows */
+            margin-left: 30px; /* Space between logo and nav */
+            margin-right: 30px; /* Space between nav and button */
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-left: auto; /* Pushes button to the right */
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .header .call-btn:hover {
+            background-color: #e37e3e;
+            transform: scale(1.05);
+        }
+
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            /* Rich dark gradient background */
+            background: radial-gradient(circle at top left, rgba(20, 20, 20, 0.8) 0%, rgba(17, 17, 17, 0.9) 30%, rgba(17, 17, 17, 1) 100%),
+                        radial-gradient(circle at bottom right, rgba(196, 94, 32, 0.15) 0%, rgba(17, 17, 17, 0) 50%);
+            background-size: 200% 200%; /* For subtle animation */
+            animation: gradient-shift 20s ease infinite alternate;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* 4-6rem */
+            font-weight: 900;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            line-height: 1;
+            /* Subtle text shadow for depth */
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 35px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            color: var(--text-body);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            font-weight: 500;
+        }
+        .rating-badge .stars {
+            color: gold;
+            margin-right: 8px;
+            letter-spacing: 1px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: var(--bg-main); /* Slightly different background shade */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+        }
+
+        .proof-item {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            white-space: nowrap;
+        }
+        .proof-item .icon {
+            font-size: 1.4rem;
+            margin-right: 10px;
+            color: var(--brand-color);
+        }
+        .proof-item:nth-child(1) .icon { color: gold; } /* Stars icon */
+        .proof-item:nth-child(2) .icon { color: #f284a1; } /* Heart/Customers icon */
+
+
+        /* 4. OUR STORY SECTION */
+        .our-story .container {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .story-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .story-aside {
+            flex: 0 0 400px; /* Fixed width for quote and stats */
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .testimonial-quote-card {
+            background-color: rgba(0,0,0,0.4); /* Darker background */
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            text-align: left;
+        }
+        .testimonial-quote-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .testimonial-quote-card span {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 25px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .stat-card::before { /* Subtle radial glow */
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(196, 94, 32, 0.08) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            transform: scale(0);
+        }
+        .stat-card:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stat-card .number {
+            font-size: 2.8rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--brand-color);
+            font-weight: 900;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .stat-card .label {
+            font-size: 1.0rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-section .section-headline {
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-category-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 35px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .menu-category-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .menu-category-card p {
+            color: var(--text-body);
+            font-size: 1.0rem;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .menu-category-card .btn-secondary {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            padding: 10px 25px;
+            font-size: 0.95rem;
+            margin-top: auto; /* Push button to bottom */
+        }
+        .menu-category-card .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .menu-note {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .section-headline {
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .feature-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+        .feature-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .feature-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section .section-headline {
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color); /* Brand color accent */
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card .stars {
+            color: gold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-top: auto; /* Push to bottom */
+        }
+        .testimonial-author .descriptor {
+            display: block;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .section-headline {
+            margin-bottom: 60px;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .location-details p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .location-details a {
+            color: var(--brand-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .location-details a:hover {
+            color: #e37e3e;
+        }
+
+        .location-details .btn-primary {
+            margin-top: 20px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px; /* Fixed width for day column */
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .pro-tip {
+            background-color: rgba(196, 94, 32, 0.1);
+            border-left: 4px solid var(--brand-color);
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        .pro-tip strong {
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-right: 5px;
+        }
+        .pro-tip span {
+            font-size: 0.95rem;
+            color: var(--text-body);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color), #a04b19);
+            padding: 100px 0;
+            text-align: center;
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+        .final-cta p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border-color: var(--bg-main);
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: #2e2e2e; /* Slightly lighter dark */
+            border-color: #2e2e2e;
+            color: var(--brand-color);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer-tagline {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+        .social-icons {
+            margin-bottom: 30px;
+        }
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            margin: 0 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .social-icons a:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                padding: 15px 20px;
+            }
+            .header .container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                font-size: 1.6rem;
+            }
+            .main-nav {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+                margin-right: 0;
+                order: 2; /* Put nav below logo */
+            }
+            .main-nav a {
+                font-size: 0.95rem;
+            }
+            .header .call-btn {
+                margin-left: 0; /* Align with other content */
+                order: 3; /* Put button after nav */
+                width: 100%;
+                font-size: 0.95rem;
+                padding: 10px 18px;
+            }
+            .hero-content {
+                padding-top: 150px; /* Adjust for taller header on mobile */
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section-headline {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+            section {
+                padding: 80px 0;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .proof-item {
+                font-size: 1rem;
+            }
+
+            .our-story .container {
+                flex-direction: column;
+                gap: 50px;
+            }
+            .story-aside {
+                flex: none;
+                width: 100%;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr; /* Stack stats */
+            }
+
+            .menu-grid, .features-grid, .testimonials-grid, .location-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta p {
+                font-size: 1.1rem;
+            }
+            .final-cta .btn-primary {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+            .footer-logo {
+                font-size: 2rem;
+            }
+            .footer-tagline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header .call-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .main-nav {
+                gap: 15px;
+            }
+            .main-nav a {
+                font-size: 0.9rem;
+            }
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .rating-badge {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .stat-card .number {
+                font-size: 2.2rem;
+            }
+            .menu-category-card h3 {
+                font-size: 1.5rem;
+            }
+            .feature-card h3 {
+                font-size: 1.4rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">The Bite</a>
+            <nav class="main-nav">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:(507) 886-2483" class="btn call-btn">CALL (507) 886-2483</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">HARMONY, MN</p>
+            <h1 class="hero-name">THE BITE</h1>
+            <p class="hero-tagline">Harmony, MN's Beloved Diner. 96% of our guests recommend us! Big Flavors, Small Town Charm.</p>
+            <div class="rating-badge">
+                <span class="stars">★★★★★</span> 4.6 Stars | 246 Reviews
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-item fade-in-up">
+                <span class="icon">★</span> 4.6 Star Rating
+            </div>
+            <div class="proof-item fade-in-up">
+                <span class="icon">❤️</span> 246+ Happy Customers
+            </div>
+            <div class="proof-item fade-in-up">
+                <span class="icon">⭐</span> Local Favorite
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="story-content fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-headline text-center">A Taste of Harmony</h2>
+                <p>Nestled in the heart of Harmony, Minnesota, The Bite at 51 Main Ave N is a delightful small-town eatery that surprises diners with big flavors and even bigger heart. We're proud to be a local favorite, serving up classic diner comfort food with a smile, ensuring every visit feels like coming home.</p>
+                <p>Since opening our doors, we've poured our passion into crafting memorable meals and creating a welcoming space for everyone in our community. Every dish tells a story, prepared with dedication and a genuine love for good food and good company.</p>
+            </div>
+            <div class="story-aside fade-in-up">
+                <div class="testimonial-quote-card">
+                    <p>"The Bite is truly a hidden gem! Every dish feels homemade, and the service makes you feel like family. We always leave with a smile."</p>
+                    <span>— Ashley K., Loyal Patron</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">246+</div>
+                        <div class="label">Happy Guests</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">96%</div>
+                        <div class="label">Recommend Us</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">BIG</div>
+                        <div class="label">Hometown Flavors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section bg-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">The Menu</span>
+            <h2 class="section-headline fade-in-up">Our Irresistible Diner Classics</h2>
+            <div class="menu-grid">
+                <div class="menu-category-card fade-in-up">
+                    <h3>Breakfast Classics</h3>
+                    <p>Start your day right with hearty pancakes, savory omelets, and our famous coffee. The perfect fuel for your Harmony adventures!</p>
+                    <a href="tel:(507) 886-2483" class="btn btn-secondary">Order Breakfast</a>
+                </div>
+                <div class="menu-category-card fade-in-up">
+                    <h3>Lunch Favorites</h3>
+                    <p>From juicy burgers to crisp salads, discover why we're Harmony's go-to for lunch. Quick, delicious, and always satisfying.</p>
+                    <a href="tel:(507) 886-2483" class="btn btn-secondary">Order Lunch</a>
+                </div>
+                <div class="menu-category-card fade-in-up">
+                    <h3>House Specials</h3>
+                    <p>Ask about our daily rotating specials, crafted with fresh, local ingredients and a touch of diner magic. Always something new to try!</p>
+                    <a href="tel:(507) 886-2483" class="btn btn-secondary">Ask About Specials</a>
+                </div>
+            </div>
+            <p class="menu-note fade-in-up">Prices may vary. Call <a href="tel:(507) 886-2483" class="text-brand">(507) 886-2483</a> for daily specials and full menu details.</p>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Our Promise</span>
+            <h2 class="section-headline fade-in-up">Why The Bite is Harmony, MN's Best Choice</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <span class="icon">🔥</span>
+                    <h3>Big Flavors, Local Love</h3>
+                    <p>Experience comfort food reimagined with bold tastes and fresh ingredients that keep our community coming back for more. Every dish is crafted with passion for a memorable meal.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <span class="icon">👨‍👩‍👧</span>
+                    <h3>Warm, Welcoming Atmosphere</h3>
+                    <p>We believe a great meal is best enjoyed in good company. Our friendly staff and cozy diner setting make every visit feel like coming home, fostering a true sense of community.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <span class="icon">⭐</span>
+                    <h3>Trusted by Harmony</h3>
+                    <p>With 4.6 stars from 246 reviews and 96% recommending us, The Bite is a proven favorite for locals and visitors seeking delicious food and consistently great service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section bg-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">What People Say</span>
+            <h2 class="section-headline fade-in-up">What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"The best pancakes in Harmony! Fluffy and perfect every time. A true breakfast delight that starts my day perfectly."</p>
+                    <span class="testimonial-author">Emily R. <span class="descriptor">First-Time Visitor</span></span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"Absolutely love The Bite! Their classic burger is a must-try, always juicy and packed with flavor. The service is incredibly friendly too, making it our family's favorite spot."</p>
+                    <span class="testimonial-author">Mark S. <span class="descriptor">Local Family</span></span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p>"I stop by The Bite every week for their daily special – it's never disappointed! Last week's homemade meatloaf was incredible, and their pies are legendary. A true gem in our small town, fantastic food and even better service."</p>
+                    <span class="testimonial-author">Sarah L. <span class="descriptor">Regular Customer</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Visit Us Soon</span>
+            <h2 class="section-headline fade-in-up">Find Us & Our Hours</h2>
+            <div class="location-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <div class="location-details">
+                        <p>51 Main Ave N</p>
+                        <p>Harmony, MN 55939, USA</p>
+                        <p>Call Us: <a href="tel:(507) 886-2483" class="text-brand">(507) 886-2483</a></p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=The+Bite,+Harmony,+MN" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td class="closed">Closed</td></tr>
+                        <tr><th>Wednesday:</th><td class="closed">Closed</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy on Friday & Saturday evenings — call ahead for large groups or to check wait times!
+                    </div>
+                    <a href="tel:(507) 886-2483" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Crave It — Come Taste It</h2>
+            <p>Experience the beloved flavors of The Bite in Harmony, MN today.</p>
+            <a href="tel:(507) 886-2483" class="btn btn-primary">CALL TO ORDER NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">The Bite</a>
+            <p class="footer-tagline">Harmony, MN's Beloved Diner. Big Flavors, Small Town Charm.</p>
+            <div class="social-icons">
+                <a href="https://facebook.com/thebiteharmony" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/thebiteharmony" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="footer-copyright">© 2026 The Bite. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JS for smooth scroll and fade-in-up animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the item is visible
+                rootMargin: "0px 0px -50px 0px" // Start animating a bit before it fully enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
