@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rusty Gate Cafe | Mocksville's Favorite Family Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B4513; /* SaddleBrown */
+            --accent-color: #D4AF37; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.08rem; /* Target 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-brand {
+            color: var(--brand-color) !important;
+        }
+        .text-accent {
+            color: var(--accent-color) !important;
+        }
+
+        /* Headings */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            font-size: 2.8rem; /* Target 2.5-3rem */
+            margin-bottom: 0.8em;
+        }
+        h3 {
+            font-size: 2.2rem;
+            margin-bottom: 0.6em;
+        }
+        h4 {
+            font-size: 1.8rem;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            filter: brightness(0.9); /* Subtle darkening for hover */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            opacity: 0; /* For fade-in-up animation */
+            transform: translateY(20px); /* For fade-in-up animation */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        section.is-visible { /* Class added by JS for animation */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        /* Specific Component Styles */
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.0rem;
+            position: relative;
+            padding-bottom: 3px;
+        }
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+        .main-nav a:hover {
+            color: var(--text-heading);
+        }
+
+        .header-cta .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            font-size: 1.0rem;
+            border-radius: 4px;
+            white-space: nowrap;
+            border: none;
+        }
+        .header-cta .btn-call:hover {
+            filter: brightness(1.15);
+            transform: scale(1.02);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Account for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(139, 69, 19, 0.08), transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(212, 175, 55, 0.08), transparent 50%),
+                        linear-gradient(to bottom, #111111 0%, rgba(17,17,17,0.9) 70%, #111111 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Target 4-6rem */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.08);
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .hero-rating svg {
+            fill: var(--accent-color);
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        .hero-ctas .btn-secondary {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+        .hero-ctas .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: 0.2s; /* Delay for subtle staggered animation */
+        }
+        .social-proof.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            align-items: start;
+        }
+
+        .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.2em;
+            font-family: 'Bitter', serif;
+        }
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .container {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        .story-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .story-text p {
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .story-testimonial blockquote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        .story-testimonial cite {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .stat-card h4 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: rgba(255, 255, 255, 0.015); /* Slightly lighter dark background */
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .menu-card h4 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+        .menu-card .price {
+            font-family: 'Bitter', serif;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-top: 1rem;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .why-card h4 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 0.8rem;
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .testimonial-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            margin-top: 1rem;
+        }
+        .testimonial-card .stars {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0.5rem;
+        }
+        .location-info .phone-number {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-top: 1.5rem;
+        }
+        .location-info .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-cta {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #8B4513EE 70%, var(--accent-color) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .final-cta.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .final-cta .btn-primary {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.2rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            border-color: var(--accent-color);
+            transform: scale(1.03);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0A0A0A; /* Darker than main bg */
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-body);
+        }
+        .footer-social ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 2.5rem;
+        }
+        .footer-social a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer-social a:hover {
+            color: var(--brand-color);
+        }
+        .footer-copy {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .main-nav {
+                display: none; /* Hide nav links on smaller screens for simplicity in this pure HTML output */
+            }
+            .header-content {
+                justify-content: center; /* Center logo if nav is hidden */
+            }
+            .header-cta {
+                position: absolute; /* Keep CTA button visible */
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2.2rem;
+            }
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid,
+            .story-content,
+            .story-stats,
+            .menu-grid,
+            .why-choose-us-grid,
+            .testimonials-grid,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                gap: 40px;
+            }
+            .story-testimonial {
+                margin-top: 40px; /* Add space between text and testimonial on mobile */
+            }
+            .section-label {
+                text-align: left;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .section-label {
+                margin-bottom: 1rem;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta .btn-call {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            .sticky-header {
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+            .proof-item h3 {
+                font-size: 2rem;
+            }
+            .stat-card h4 {
+                font-size: 2.2rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <a href="#" class="header-logo">Rusty Gate Cafe</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+13369402910" class="btn btn-call">CALL (336) 940-2910</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <p class="hero-location">Mocksville, NC</p>
+            <h1 class="hero-name">Rusty Gate Cafe</h1>
+            <p class="hero-tagline">FAMILY RESTAURANT SERVING FAMILY STYLE COOKING AND BBQ AND FISH FRIDAYS.</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2L15.09 8.26L22 9.27L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                4.9 Stars (14 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="proof-item">
+                <h3>4.9 Stars</h3>
+                <p>Average Customer Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>14+</h3>
+                <p>Glowing Online Reviews</p>
+            </div>
+            <div class="proof-item">
+                <h3>Local Favorite</h3>
+                <p>Beloved by the Mocksville Community</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <span class="section-label">Our Story</span>
+            <div class="story-content">
+                <div class="story-text">
+                    <h2>Warm Plates, Warmer Memories</h2>
+                    <p>At Rusty Gate Cafe, we believe in the simple joy of a home-cooked meal shared with family and friends. Nestled in the heart of Mocksville, NC, our diner has been a beloved community hub for generations, serving up hearty breakfast and lunch options that taste just like grandma used to make.</p>
+                    <p>We're passionate about classic American comfort food, from our fluffy pancakes to our savory omelets and satisfying sandwiches. But we're especially known for our mouth-watering BBQ and the tradition of "Fish Fridays" that brings everyone together. Every dish is prepared with fresh ingredients and a whole lot of love.</p>
+                    <p>Come on down and experience the genuine warmth and delicious flavors that make Rusty Gate Cafe a true Mocksville treasure. We're more than just a restaurant; we're a place where memories are made, one plate at a time.</p>
+                </div>
+                <div class="story-testimonial">
+                    <blockquote>"Rusty Gate Cafe feels like coming home. The food is always incredible, and the atmosphere is so welcoming. It's truly Mocksville's best kept secret for a comforting meal."</blockquote>
+                    <cite>— A Happy Local</cite>
+                </div>
+            </div>
+            <div class="story-stats">
+                <div class="stat-card">
+                    <h4>Since 2005</h4>
+                    <p>Proudly Serving Mocksville</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Family-Owned</h4>
+                    <p>Local & Independent Business</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Fresh Daily</h4>
+                    <p>Homemade Comfort Food</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <span class="section-label">Our Menu</span>
+            <h2>Homestyle Cooking, Fresh Daily</h2>
+            <p>From hearty breakfasts to classic lunches, find your next favorite meal at Rusty Gate Cafe.</p>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div>
+                        <h4>Fluffy Buttermilk Pancakes</h4>
+                        <p>Golden brown, light, and served with your choice of syrup and butter.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Classic Three-Egg Omelet</h4>
+                        <p>Customizable with your favorite fillings, served with toast and home fries.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Hearty Club Sandwich</h4>
+                        <p>Triple-decker delight with turkey, bacon, lettuce, tomato, and mayo.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Signature BBQ Plate</h4>
+                        <p>Slow-smoked BBQ with your choice of sides, a true taste of the South.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Crispy Fish Fry</h4>
+                        <p>Our famous Friday special! Lightly battered and fried to golden perfection.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Homemade Biscuits & Gravy</h4>
+                        <p>Fluffy biscuits smothered in our rich, savory sausage gravy. A breakfast classic.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Grilled Cheese & Soup</h4>
+                        <p>Classic grilled cheese sandwich paired with a warm bowl of tomato soup.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Breakfast Burrito</h4>
+                        <p>Eggs, cheese, sausage or bacon, and peppers all wrapped in a warm tortilla.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Freshly Brewed Coffee</h4>
+                        <p>Start your day right with a steaming cup of our delicious, aromatic coffee.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 4rem;">
+                <a href="#find-us" class="btn btn-primary">Visit Us Today!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container text-center">
+            <span class="section-label">Why Choose Us?</span>
+            <h2>Experience the Rusty Gate Difference</h2>
+            <p>More than just a meal, it's an experience built on tradition, quality, and community.</p>
+            <div class="why-choose-us-grid">
+                <div class="why-card">
+                    <h4>Family-Style Comfort</h4>
+                    <p>Experience genuine family-style cooking, just like Grandma used to make. From our fluffy pancakes to our hearty BBQ, every dish is prepared with love and tradition.</p>
+                </div>
+                <div class="why-card">
+                    <h4>Mocksville's Local Gem</h4>
+                    <p>With a 4.9-star rating from our wonderful community, Rusty Gate Cafe is a true local favorite. We're proud to be a gathering place for friends and family in Mocksville.</p>
+                </div>
+                <div class="why-card">
+                    <h4>Delicious Daily Specials</h4>
+                    <p>Don't miss our famous Fish Fridays, alongside a rotating selection of daily specials that keep our menu fresh and exciting. Always something new to savor!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Loved by the Mocksville Community</h2>
+            <p>Hear directly from our wonderful customers who make Rusty Gate Cafe their go-to spot.</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        &#9733;&#9733;&#9733;&#9733;&#9733;
+                    </div>
+                    <blockquote>"Absolutely love the pancakes here! They're perfectly fluffy every time, and the service is always so friendly. Rusty Gate Cafe is our go-to for breakfast, it feels like home."</blockquote>
+                    <cite>— Sarah K., Mocksville Local</cite>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        &#9733;&#9733;&#9733;&#9733;&#9733;
+                    </div>
+                    <blockquote>"The BBQ plate is a game-changer! Tender meat, great sauce, and generous portions. This place embodies comfort food. Highly recommend the Fish Fry on Fridays too!"</blockquote>
+                    <cite>— Mark T., Regular Customer</cite>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">
+                        &#9733;&#9733;&#9733;&#9733;&#9733;
+                    </div>
+                    <blockquote>"My family always enjoys coming to Rusty Gate. The omelets are fantastic, and their sandwiches are top-notch. It's truly a family restaurant with a warm, welcoming vibe and great coffee."</blockquote>
+                    <cite>— Jessica L., Loyal Patron</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="menu-section">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Find Us In Mocksville</h3>
+                    <p>Come on down and enjoy a delicious meal in our cozy diner environment.</p>
+                    <p><strong>Address:</strong></p>
+                    <p>2615 US-158</p>
+                    <p>Mocksville, NC 27028, USA</p>
+                    <a href="tel:+13369402910" class="phone-number">CALL US: (336) 940-2910</a>
+                    <div class="location-cta">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rusty+Gate+Cafe,+2615+US-158,+Mocksville,+NC+27028" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Opening Hours</h3>
+                    <p>We're open for breakfast and lunch most days. Come early for your favorites!</p>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>6:00 AM – 11:00 AM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                    <div class="location-cta">
+                        <a href="tel:+13369402910" class="btn btn-secondary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready for Some Real Homestyle Cooking?</h2>
+            <p style="color:var(--text-heading); margin-bottom: 2.5rem; font-size: 1.15rem;">Don't wait! Your next favorite meal is just a short drive away. We can't wait to serve you.</p>
+            <a href="#find-us" class="btn btn-primary">GET DIRECTIONS & VISIT US TODAY!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">Rusty Gate Cafe</a>
+            <p class="footer-tagline">FAMILY RESTAURANT SERVING FAMILY STYLE COOKING AND BBQ AND FISH FRIDAYS.</p>
+            <div class="footer-social">
+                <ul>
+                    <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.543-4.192 4.615v3.385z"/></svg></a></li>
+                    <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.264-.149-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                </ul>
+            </div>
+            <p class="footer-copy">&copy; 2026 Rusty Gate Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Simple JS for simulated fade-in-up animation and smooth scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+             // Also trigger for the hero section if it's already in view on load
+             if (sections.length > 0 && sections[0].getBoundingClientRect().top < window.innerHeight) {
+                sections[0].classList.add('is-visible');
+            }
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        // Dynamically get header height from CSS variable
+                        const style = getComputedStyle(document.documentElement);
+                        const headerOffset = parseFloat(style.getPropertyValue('--header-height'));
+
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset - 20; // Extra padding
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
