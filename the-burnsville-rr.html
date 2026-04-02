@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Burnsville RR – Your Local Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Global Styles --- */
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #C41E3A; /* Red */
+            --accent-color: #D4AF37; /* Gold */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --max-width: 1200px;
+            --section-padding: 100px 20px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            font-size: 1.05rem; /* Base body font size */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px; /* Consistent horizontal padding */
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+        }
+
+        /* --- Utility Classes for Fade-in-up (JS would add 'is-visible') --- */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: 0.1s; /* Subtle delay for staggered effect */
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--primary-bg);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* --- Header --- */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.03);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(196, 30, 58, 0.1) 0%, rgba(17, 17, 17, 0.8) 70%, #111111 100%);
+            background-color: var(--primary-bg); /* Fallback */
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(17, 17, 17, 0.6) 0%, rgba(17, 17, 17, 0.3) 50%, rgba(17, 17, 17, 0.6) 100%);
+            z-index: 1;
+        }
+
+        .hero > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive */
+            color: var(--text-heading);
+            font-weight: 900;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 800px;
+            line-height: 1.5;
+            padding: 10px 20px;
+            background-color: rgba(196, 30, 58, 0.1); /* Subtle brand color tint */
+            border-radius: 8px;
+            border-left: 3px solid var(--brand-color);
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .hero-rating svg {
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 25px;
+        }
+
+        /* --- Social Proof Strip --- */
+        .social-proof {
+            background-color: rgba(196, 30, 58, 0.05); /* Tinted with brand color */
+            padding: 60px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .proof-item h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .proof-item p {
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* --- Section Styling --- */
+        .section-label {
+            color: var(--brand-color);
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-heading);
+        }
+        
+        .section-subtext {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            text-align: center;
+        }
+
+        /* --- Our Story Section --- */
+        .our-story-content {
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        .story-text-block {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+        .story-text-block p + p {
+            margin-top: 1.2rem;
+        }
+
+        .story-testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--accent-color);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: 40px auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        .story-testimonial-card p {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .story-testimonial-card span {
+            display: block;
+            font-weight: bold;
+            color: var(--accent-color);
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .stat-card h4 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* --- Menu Section --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        .menu-cta-area {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* --- Why Choose Us Section --- */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .why-card:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* --- Testimonials Section --- */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .testimonial-card .quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: bold;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+        .testimonial-card .stars {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* --- Location & Hours Section --- */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .location-info a {
+            font-size: 1.15rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .location-info .map-placeholder {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            height: 300px;
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: bold;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: bold;
+        }
+        .hours-table .note {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* --- Final CTA Section --- */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(196, 30, 58, 0.8) 50%, var(--primary-bg) 100%);
+            padding: 100px 20px;
+            text-align: center;
+            color: var(--text-heading);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            color: var(--text-heading);
+            line-height: 1.1;
+        }
+        .final-cta h2 span {
+            color: var(--accent-color);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 80px 20px 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-socials {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .footer-socials a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.5rem;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .header-nav ul {
+                gap: 20px;
+            }
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .hours-table {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 400px; /* Constrain table width on small screens */
+            }
+            .hours-table th, .hours-table td {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px 25px;
+            }
+            .header-nav a {
+                font-size: 0.85rem;
+            }
+            .header-call-btn {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 1.2rem;
+            }
+
+            .hero {
+                padding-top: 150px; /* Account for larger header */
+            }
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+                max-width: 300px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 80px 20px;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .story-stats-grid, .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer-logo {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 6px 15px;
+            }
+            .proof-item h3 {
+                font-size: 2.2rem;
+            }
+            .proof-item p {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .story-testimonial-card p {
+                font-size: 1.1rem;
+            }
+            .stat-card h4 {
+                font-size: 2.5rem;
+            }
+            .stat-card p {
+                font-size: 1rem;
+            }
+            .menu-card h3, .why-card h3 {
+                font-size: 1.5rem;
+            }
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .hours-table th, .hours-table td {
+                font-size: 1rem;
+                padding: 10px 0;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">The Burnsville RR</div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18286782012" class="header-call-btn">CALL (828) 678-2012</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p class="hero-location fade-in-up">Burnsville, NC</p>
+        <h1 class="hero-name fade-in-up">The Burnsville RR</h1>
+        <p class="hero-tagline fade-in-up">
+            <em>Due to unforeseen staffing issues, we will be closing at 2:30 today. I apologize for any inconvenience. We will reopen tomorrow at 11 am til 7 pm.</em>
+            <br>Please check our social media or call for the most current hours.
+        </p>
+        <div class="hero-rating fade-in-up">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/>
+            </svg>
+            4.6 Stars (35 Reviews)
+        </div>
+        <div class="hero-ctas fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="proof-item fade-in-up">
+                <h3>4.6/5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <h3>35+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.3s;">
+                <h3>Local</h3>
+                <p>Burnsville Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Journey</span>
+            <h2 class="section-headline fade-in-up">Where Good Times and Great Food Come Together.</h2>
+            <div class="our-story-content">
+                <div class="story-text-block fade-in-up">
+                    <p>Nestled in the heart of Burnsville, The Burnsville RR is more than just a bar and grill – it's a community gathering spot. We believe in serving up delicious, hearty meals in an atmosphere that feels like coming home. Since opening our doors, we've been dedicated to providing a place where friends and family can connect over fantastic food and refreshing drinks.</p>
+                    <p>Our commitment is simple: great flavors, genuine hospitality, and that signature warm ambiance that makes every visit memorable. We're proud to be a local favorite, and we invite you to pull up a seat, relax, and experience the best of Burnsville's casual dining scene.</p>
+                </div>
+                <div class="story-testimonial-card fade-in-up" style="transition-delay: 0.4s;">
+                    <p>"The Burnsville RR is exactly what our town needed. The atmosphere is always welcoming, and you can tell they truly care about their customers. It's our go-to spot for a relaxed evening!"</p>
+                    <span>— A Happy Local, Burnsville Resident</span>
+                </div>
+                <div class="story-stats-grid">
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                        <h4>4.6</h4>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.6s;">
+                        <h4>35+</h4>
+                        <p>Customer Reviews</p>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.7s;">
+                        <h4>Serving</h4>
+                        <p>Burnsville's Community</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Offerings</span>
+            <h2 class="section-headline fade-in-up">Crafting Comfort & Flavor.</h2>
+            <p class="section-subtext fade-in-up">Our full menu is currently being perfected! In the meantime, here's a taste of the kind of delicious, comforting dishes you can expect from your favorite local bar and grill.</p>
+            <div class="menu-grid">
+                <!-- Placeholder menu items, no prices as none provided in data -->
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Classic Burger</h3>
+                        <p>A juicy, perfectly grilled patty, fresh toppings, and our signature sauce on a toasted bun. A timeless favorite.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                    <div>
+                        <h3>Crispy Chicken Wings</h3>
+                        <p>Tossed in your choice of classic buffalo, tangy BBQ, or a dry rub. Perfect for sharing (or not!).</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div>
+                        <h3>Loaded Nachos</h3>
+                        <p>Piled high with melted cheese, savory beef or chicken, jalapeños, salsa, and sour cream.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                    <div>
+                        <h3>Hearty Chili</h3>
+                        <p>Our slow-cooked, rich and robust chili, topped with cheddar cheese and a dollop of sour cream.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                    <div>
+                        <h3>Fresh Garden Salad</h3>
+                        <p>Crisp greens, seasonal vegetables, and your choice of dressing. A lighter, refreshing option.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                    <div>
+                        <h3>Seasonal Dessert</h3>
+                        <p>Ask your server about our delightful dessert special of the day, a perfect end to your meal.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-cta-area fade-in-up">
+                <a href="#" class="btn btn-primary">VIEW FULL MENU (COMING SOON!)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Why Us?</span>
+            <h2 class="section-headline fade-in-up">Experience the Burnsville RR Difference.</h2>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Unbeatable Warm Ambiance</h3>
+                    <p>Step into a space that instantly feels welcoming. Our cozy and inviting atmosphere is specifically designed for you to relax, unwind, and enjoy good company.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Trusted Local Favorite</h3>
+                    <p>With a solid 4.6-star rating from 35+ local reviews, we're proud to be a beloved spot for residents and visitors alike who appreciate quality and a friendly face.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Hearty Bar & Grill Classics</h3>
+                    <p>From satisfying burgers to crispy wings and refreshing drinks, we focus on delivering delicious, straightforward comfort food made with care for a truly enjoyable dining experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="section-headline fade-in-up">Hear It From Our Happy Customers.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <div>
+                        <div class="stars">★★★★★</div>
+                        <p class="quote">"Absolutely love the cozy feel of The Burnsville RR! It's our new favorite spot for a casual dinner. The staff is always so friendly, and their burgers are consistently amazing. Highly recommend!"</p>
+                    </div>
+                    <span class="author">— Jessica M.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.15s;">
+                    <div>
+                        <div class="stars">★★★★★</div>
+                        <p class="quote">"This place has such a great vibe, exactly the warm ambiance they're known for. We stopped in for drinks and some wings, and everything was fantastic. A real gem in Burnsville."</p>
+                    </div>
+                    <span class="author">— David L.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.3s;">
+                    <div>
+                        <div class="stars">★★★★☆</div>
+                        <p class="quote">"Solid bar and grill experience. Good food, especially the loaded nachos, and the atmosphere is always lively but comfortable. Just wish they were open later on weeknights!"</p>
+                    </div>
+                    <span class="author">— Sarah P.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="section-headline fade-in-up">Find Your Way to The Burnsville RR.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>The Burnsville RR is conveniently located at:</p>
+                    <p><strong>357 E U.S. Hwy 19E Bypass,</strong><br><strong>Burnsville, NC 28714, USA</strong></p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=357+E+U.S.+Hwy+19E+Bypass,+Burnsville,+NC+28714,+USA" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                    <div class="map-placeholder">
+                        Map placeholder
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                    </table>
+                    <p class="note"><strong>Please note:</strong> As indicated in our tagline, hours can vary due to staffing. We recommend calling ahead or checking our social media for the most up-to-date schedule.</p>
+                    <a href="tel:+18286782012" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to experience the <span>best of Burnsville</span>?</h2>
+            <a href="tel:+18286782012" class="btn btn-secondary">CALL US NOW!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">The Burnsville RR</div>
+            <p class="footer-tagline"><em>"Due to unforeseen staffing issues, we will be closing at 2:30 today. I apologize for any inconvenience. We will reopen tomorrow at 11 am til 7 pm."</em></p>
+            <div class="footer-socials">
+                <a href="#" aria-label="Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M19 0H5C2.239 0 0 2.239 0 5V19C0 21.761 2.239 24 5 24H19C21.761 24 24 21.761 24 19V5C24 2.239 21.761 0 19 0ZM17 14H14V22H10V14H7V10H10V7C10 4.14 11.859 2 15 2H18V6H15C14.471 6 14 6.471 14 7V10H18L17 14Z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C8.74 0 8.333.014 7.029.072 5.725.13 4.757.297 3.81.656 2.866 1.016 2.053 1.542 1.292 2.302.532 3.063 0.007 3.876.656 4.823.297 5.77.13 6.742.072 8.046.014 8.433 0 12c0 3.26.014 3.667.072 4.971.058 1.304.225 2.272.585 3.219.36 1.026.886 1.838 1.646 2.598.76.76 1.572 1.286 2.598 1.646.947.36 1.916.527 3.219.585 1.304.058 1.701.072 4.971.072 3.26 0 3.667-.014 4.971-.072 1.304-.058 2.272-.225 3.219-.585 1.026-.36 1.838-.886 2.598-1.646.76-.76 1.286-1.572 1.646-2.598.36-0.947.527-1.916.585-3.219.058-1.304.072-1.701.072-4.971 0-3.26-.014-3.667-.072-4.971-.058-1.304-.225-2.272-.585-3.219-.36-1.026-.886-1.838-1.646-2.598-.76-.76-1.572-1.286-2.598-1.646-.947-.36-1.916-.527-3.219-.585-1.304-.058-1.701-.072-4.971-.072ZM12 4.545C15.46 4.545 18.455 7.54 18.455 12S15.46 19.455 12 19.455C8.54 19.455 5.545 16.46 5.545 12S8.54 4.545 12 4.545ZM19.293 3.42C19.293 3.996 18.828 4.462 18.252 4.462 17.676 4.462 17.21 3.996 17.21 3.42S17.676 2.378 18.252 2.378C18.828 2.378 19.293 2.844 19.293 3.42ZM12 6.545C9.537 6.545 7.545 8.537 7.545 11.999C7.545 14.462 9.537 16.455 12 16.455C14.462 16.455 16.455 14.462 16.455 11.999C16.455 9.537 14.462 6.545 12 6.545Z"/></svg></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 The Burnsville RR. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer for fade-in-up animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: '0px 0px -50px 0px' // Start loading a bit before it enters the viewport
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
