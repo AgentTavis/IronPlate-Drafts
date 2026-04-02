@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitch-N Post Restaurant - Williamston's Favorite Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        :root {
+            --color-bg-main: #111111;
+            --color-brand: #C41E3A;
+            --color-accent: #8B4513;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --max-width: 1200px;
+            --section-padding: 80px 0;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            margin-bottom: 0.5em;
+            letter-spacing: 0.05em;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--color-brand);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-accent);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            overflow: hidden; /* For fade-in-up */
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: var(--color-text-heading);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border-color: var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outlined {
+            background-color: transparent;
+            color: var(--color-brand);
+            border-color: var(--color-brand);
+        }
+
+        .btn-outlined:hover {
+            background-color: rgba(196, 30, 58, 0.1);
+            color: var(--color-text-heading);
+            transform: scale(1.02);
+        }
+
+        .btn-accent {
+            background-color: var(--color-accent);
+            color: var(--color-text-heading);
+            border-color: var(--color-accent);
+        }
+        .btn-accent:hover {
+            background-color: var(--color-brand);
+            border-color: var(--color-brand);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+
+        /* Fade-in-up (requires JS for IntersectionObserver, but CSS defined here) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--color-text-body);
+            font-size: 1.05rem;
+            font-weight: 400;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .header-nav a:hover {
+            color: var(--color-brand);
+        }
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-brand);
+            transition: width 0.3s ease;
+        }
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta .btn {
+            font-size: 0.95rem;
+            padding: 10px 20px;
+        }
+        .header-cta .btn-primary {
+            background-color: var(--color-brand);
+            border-color: var(--color-brand);
+        }
+
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background-color: var(--color-bg-main); /* Base color */
+            background-image: linear-gradient(rgba(17,17,17,0.95), rgba(17,17,17,0.95)), radial-gradient(circle at top left, var(--color-brand)1A, transparent 50%), radial-gradient(circle at bottom right, var(--color-accent)1A, transparent 50%);
+            background-size: cover;
+            background-position: center;
+            color: var(--color-text-heading);
+            position: relative;
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* Massive, bold */
+            line-height: 1;
+            margin-bottom: 20px;
+            letter-spacing: 0.08em;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--color-text-heading);
+            margin-bottom: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-weight: 600;
+        }
+
+        .hero-rating span {
+            margin-right: 8px;
+            color: #FFD700; /* Gold star color */
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color, low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--color-text-heading);
+            font-family: var(--font-heading);
+            letter-spacing: 0.05em;
+        }
+
+        .social-proof-item .number {
+            font-size: 3.5rem;
+            color: var(--color-brand);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .social-proof-item .text {
+            font-size: 1.1rem;
+            color: var(--color-text-body);
+            font-family: var(--font-body);
+            font-weight: 300;
+            letter-spacing: normal;
+        }
+
+        /* Our Story Section */
+        .story-content {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .story-main {
+            flex: 2;
+        }
+
+        .story-main p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5em;
+            color: var(--color-text-body);
+        }
+
+        .story-testimonial-card {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .story-testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--color-text-heading);
+            margin-bottom: 15px;
+        }
+
+        .story-testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-brand);
+        }
+
+        .story-stats {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            position: sticky;
+            top: calc(var(--header-height) + 40px); /* Position below header */
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--color-accent);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .text {
+            font-size: 1.1rem;
+            color: var(--color-text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border-left: 6px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--color-card-border);
+            border-right: 1px solid var(--color-card-border);
+            border-top: 1px solid var(--color-card-border);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .menu-card h3 {
+            color: var(--color-text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            color: var(--color-text-body);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .menu-card .price {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--color-accent);
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .menu-card .price::before {
+            content: '$'; /* Placeholder for price symbol if needed */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .why-card h3 {
+            color: var(--color-brand);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+            line-height: 1.6;
+        }
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--color-accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border-left: 6px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--color-text-heading);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-brand);
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--color-brand);
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1em;
+        }
+
+        .location-info address {
+            font-style: normal;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--color-text-heading);
+        }
+
+        .location-info .phone a {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            display: block;
+            margin-bottom: 30px;
+        }
+        .location-info .phone a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--color-brand);
+            font-weight: 600;
+            padding-right: 20px;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--color-text-heading);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(to right, var(--color-brand), var(--color-accent));
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            color: var(--color-text-heading);
+            font-size: 3rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-bg-main);
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links img {
+            width: 25px;
+            height: 25px;
+            filter: invert(70%) sepia(10%) saturate(140%) hue-rotate(180deg) brightness(95%) contrast(80%); /* To make SVG icons light gray */
+            transition: filter 0.3s ease;
+        }
+        .social-links a:hover img {
+            filter: invert(30%) sepia(80%) saturate(2000%) hue-rotate(330deg) brightness(90%) contrast(100%); /* To make SVG icons brand color on hover */
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .story-content, .location-hours-grid {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .story-stats {
+                position: static;
+                margin-top: 40px;
+                order: 1; /* Stats appear before main content on mobile */
+            }
+            .story-main {
+                order: 2;
+            }
+            .hero-title {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .header-nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 0;
+            }
+            .social-proof-item {
+                flex-basis: 100%;
+                margin-bottom: 20px;
+            }
+            .social-proof-item:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.6rem; }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .footer-logo {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 0.9rem;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta .btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.8rem; }
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Hitch-N Post Restaurant</a>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:2527920088" class="btn btn-primary">CALL (252) 792-0088</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <p class="hero-location fade-in-up">Williamston, NC</p>
+        <h1 class="hero-title fade-in-up">HITCH-N POST RESTAURANT</h1>
+        <p class="hero-tagline fade-in-up">The excitement for our outdoor seating and bar is real--and trust us, we're just as ready as y'all are! There's just something about good food, good vibes, and that perfect Williamston welcome.</p>
+        <div class="hero-rating fade-in-up">
+            <span>&#9733;</span> 4.4 stars (684 reviews)
+        </div>
+        <div class="hero-ctas fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW BUFFET & MENU</a>
+            <a href="#location" class="btn btn-outlined">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <div class="number">4.4 / 5</div>
+                <div class="text">Star Rating</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="number">684+</div>
+                <div class="text">Happy Diners</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="number">Local</div>
+                <div class="text">Favorite Since Day One</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Journey</p>
+            <h2 class="section-headline fade-in-up">Experience the Heart of Williamston Hospitality</h2>
+            <div class="story-content">
+                <div class="story-main fade-in-up">
+                    <p>Hitch-N Post Restaurant has been a beloved cornerstone of Williamston, NC, serving up classic bar and grill favorites with a generous helping of Southern hospitality. From our hearty lunch buffets that draw crowds daily to our lively Friday and Saturday night gatherings, we're dedicated to providing good food, good vibes, and unforgettable experiences. Come discover why locals and visitors alike make us their go-to spot.</p>
+                    <p>We believe in simple pleasures: delicious, wholesome food made with care, a friendly atmosphere where everyone feels at home, and creating memories around the table. Whether you're stopping by for a quick lunch, a family dinner, or celebrating a special occasion, you'll always find a warm welcome and a plate full of happiness at Hitch-N Post.</p>
+                    <div class="story-testimonial-card fade-in-up">
+                        <p>"Hitch-N Post isn't just a restaurant; it's a community hub. The food is always fantastic, and the staff makes you feel like family. Their buffets are legendary!"</p>
+                        <p class="author">- David K., Long-time Customer</p>
+                    </div>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card fade-in-up">
+                        <div class="number">4.4</div>
+                        <div class="text">Stars (684 Reviews)</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">Daily</div>
+                        <div class="text">Lunch Buffets</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">Weekend</div>
+                        <div class="text">Night Buffets</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <p class="section-label fade-in-up">Taste the Tradition</p>
+            <h2 class="section-headline fade-in-up">Savor Our Southern Comforts & Grill Favorites</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Our Signature Experience</h3>
+                    <p>Known for the excitement that makes patrons exclaim, 'VICTORY IS MINES 😮💨😮💨!!️ y'all go check them out!' A testament to our unforgettable dining.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Daily Lunch Buffet</h3>
+                    <p>Served Monday-Saturday, 11 AM - 2 PM. A fresh, rotating variety of delicious home-style cooking and grill items. Always satisfying!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Friday & Saturday Night Buffet</h3>
+                    <p>Join us evenings for an expansive dinner spread featuring an even wider selection of our classic dishes and special weekend treats.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Wide Variety of Menu Options</h3>
+                    <p>Beyond our popular buffets, explore a diverse selection of à la carte grill favorites, comfort food classics, and daily specials prepared fresh.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Seasonal Specials</h3>
+                    <p>Our kitchen always has something new and exciting. Ask your server about today's unique creations, crafted with the freshest seasonal ingredients.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Delicious Desserts</h3>
+                    <p>Don't forget to save room for our delightful sweet endings! A perfect conclusion to any meal, from classic pies to homemade treats.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Promise</p>
+            <h2 class="section-headline fade-in-up">More Than Just a Meal, It's an Experience</h2>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up">
+                    <span class="icon">&#127869;&#65039;</span>
+                    <h3>Unbeatable Buffet Spreads</h3>
+                    <p>From our daily lunch buffet (Mon-Sat, 11-2) to our popular Friday & Saturday night buffets, we offer endless choices to satisfy every craving. Always fresh, always delicious.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <span class="icon">&#127765;</span>
+                    <h3>Outdoor Seating & Good Vibes</h3>
+                    <p>Experience the excitement of our outdoor seating and bar, perfect for enjoying good food, good company, and that unique Williamston charm. The ideal spot to unwind!</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <span class="icon">&#11088;</span>
+                    <h3>A Local Favorite, 684 Reviews Strong</h3>
+                    <p>With a stellar 4.4-star rating across 684 reviews, Hitch-N Post is a true Williamston gem. We're where the community comes together for quality food and unforgettable moments. Come see why 'VICTORY IS MINES'!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <p class="section-label fade-in-up">Kind Words</p>
+            <h2 class="section-headline fade-in-up">Stories from Our Happy Diners</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Hitch-N Post is my absolute favorite spot for lunch! That daily buffet is always fresh, with so many delicious options. I always leave feeling like it's 'VICTORY IS MINES'! You just can't beat it for value and taste."</p>
+                    <p class="author">- Sarah J.</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Love the weekend night buffets here! There's always such a great variety, from classic grill items to delightful sides, and the vibe, especially with the outdoor seating, is just perfect. A true Williamston staple for a fun night out."</p>
+                    <p class="author">- Mark T.</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Finally found my new favorite restaurant! The food is incredible, the service is friendly and attentive, and you really feel the good vibes. It's easy to see why they have 4.4 stars from so many happy customers. A must-visit whenever I'm in Williamston!"</p>
+                    <p class="author">- Emily R.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location">
+        <div class="container">
+            <p class="section-label fade-in-up">Plan Your Visit</p>
+            <h2 class="section-headline fade-in-up">Your Table is Waiting in Williamston</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Find Us Easily</h3>
+                    <address>
+                        Hitch-N Post Restaurant<br>
+                        1981 US-17 BUS<br>
+                        Williamston, NC 27892, USA
+                    </address>
+                    <p class="phone">
+                        <a href="tel:2527920088">(252) 792-0088</a>
+                    </p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Hitch-N+Post+Restaurant,1981+US-17+BUS,Williamston,NC,27892,USA" target="_blank" class="btn btn-primary" rel="noopener noreferrer">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 2:00 PM, 5:00 – 7:30 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 2:00 PM, 5:00 – 8:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>7:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:00 AM – 3:00 PM</td></tr>
+                    </table>
+                    <a href="tel:2527920088" class="btn btn-accent">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Miss Out on Williamston's Best Bar & Grill Experience!</h2>
+            <a href="tel:2527920088" class="btn btn-outlined fade-in-up">CALL TO RESERVE YOUR TABLE</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="#hero" class="footer-logo">Hitch-N Post Restaurant</a>
+        <p class="footer-tagline">Good food, good vibes, and that perfect Williamston welcome. Experience the local favorite.</p>
+        <ul class="social-links">
+            <li><a href="#" aria-label="Facebook"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M12%200C5.373%200%200%205.373%200%2012c0%205.99%204.388%2010.954%2010.125%2011.854v-8.385H7.078v-3.47h3.047V9.356c0-3.007%201.792-4.669%204.533-4.669%201.313%200%202.686.234%202.686.234v2.953H15.83c-1.491%200-1.956.925-1.956%201.874v2.21h3.328l-.532%203.47h-2.796v8.385C19.612%2022.954%2024%2017.99%2024%2012%2024%205.373%2018.627%200%2012%200z%22%2F%3E%3C%2Fsvg%3E" alt="Facebook"></a></li>
+            <li><a href="#" aria-label="Instagram"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M12%202.163c3.204%200%203.584.012%204.85.07%201.27.059%201.949.255%202.709.531.678.26%201.226.657%201.782%201.213s.953%201.104%201.213%201.782c.276.76.472%201.439.531%202.709.058%201.265.07%201.645.07%204.85s-.012%203.584-.07%204.85c-.059%201.27-.255%201.949-.531%202.709-.26.678-.657%201.226-1.213%201.782s-1.104.953-1.782%201.213c-.76.276-1.439.472-2.709.531-1.265.058-1.645.07-4.85.07s-3.584-.012-4.85-.07c-1.27-.059-1.949-.255-2.709-.531-.678-.26-1.226-.657-1.782-1.213s-.953-1.104-1.213-1.782c-.276-.76-.472-1.439-.531-2.709-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.059-1.27.255-1.949.531-2.709.26-.678.657-1.226%201.213-1.782s1.104-.953%201.782-1.213c.76-.276%201.439-.472%202.709-.531C8.416%202.175%208.796%202.163%2012%202.163zm0%202.163c-3.178%200-3.567.01-4.79.067-1.171.055-1.666.231-2.062.381-.416.155-.724.382-1.01.668-.286.286-.513.594-.668%201.01-.15.396-.326.891-.381%202.062-.057%201.223-.067%201.612-.067%204.79s.01%203.567.067%204.79c.055%201.171.231%201.666.381%202.062.155.416.382.724.668%201.01.286.286.594.513%201.01.668.396.15.891.326%202.062.381%201.223.057%201.612.067%204.79.067s3.567-.01%204.79-.067c1.171-.055%201.666-.231%202.062-.381.416-.155.724-.382%201.01-.668.286-.286.513-.594.668-1.01.15-.396.326-.891.381-2.062.057-1.223.067-1.612.067-4.79s-.01-3.567-.067-4.79c-.055-1.171-.231-1.666-.381-2.062-.155-.416-.382-.724-.668-1.01-.286-.286-.594-.513-1.01-.668-.396-.15-.891-.326-2.062-.381-1.223-.057-1.612-.067-4.79-.067zm0%203.651c3.203%200%205.804%202.602%205.804%205.804s-2.601%205.804-5.804%205.804S6.196%2015.36%206.196%2012c0-3.202%202.602-5.804%205.804-5.804zm0%202.163c-2.008%200-3.64%201.632-3.64%203.64s1.632%203.64%203.64%203.64%203.64-1.632%203.64-3.64-1.632-3.64-3.64-3.64zm5.864-3.344c-.744%200-1.346.602-1.346%201.346s.602%201.346%201.346%201.346%201.346-.602%201.346-1.346-.602-1.346-1.346-1.346z%22%2F%3E%3C%2Fsvg%3E" alt="Instagram"></a></li>
+            <li><a href="#" aria-label="Twitter"><img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22currentColor%22%3E%3Cpath%20d%3D%22M24%204.557c-.883.392-1.832.656-2.828.775%201.017-.609%201.798-1.574%202.165-2.724-.951.564-2.005.974-3.127%201.195-.895-.959-2.173-1.559-3.591-1.559-2.717%200-4.921%202.204-4.921%204.921%200%20.384.045.759.131%201.115-4.093-.205-7.722-2.16-10.152-5.129-.424.729-.666%201.579-.666%202.483%200%201.706.869%203.218%202.188%204.093-.807-.025-1.566-.247-2.228-.616v.061c0%202.385%201.693%204.374%203.946%204.827-.413.111-.849.171-1.296.171-.317%200-.626-.031-.926-.086.631%201.956%202.445%203.379%204.604%203.419-1.681%201.325-3.807%202.125-6.102%202.125-.398%200-.79-.023-1.175-.069%202.186%201.39%204.768%202.207%207.549%202.207%209.052%200%2014.01-7.507%2014.01-14.01%200-.213-.005-.426-.014-.637.962-.695%201.797-1.562%202.457-2.549z%22%2F%3E%3C%2Fsvg%3E" alt="Twitter"></a></li>
+        </ul>
+        <p class="footer-copyright">&copy; 2026 Hitch-N Post Restaurant. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // IntersectionObserver for fade-in-up animations
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
