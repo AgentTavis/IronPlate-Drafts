@@ -6,940 +6,895 @@
     <title>General McArthur's Restaurant - Best BBQ In Laurinburg!</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #111111;
-            --bg-alt: #1a1a1a; /* Slightly lighter for alternating sections */
-            --brand-color: #8B4513; /* SaddleBrown */
+            --brand-color: #8B4513; /* Saddle Brown */
             --accent-color: #FFFFFF;
+            --bg-main: #111111;
             --text-heading: #ffffff;
             --text-body: #cccccc;
             --text-secondary: #888888;
-            --card-bg: rgba(255,255,255,0.03);
-            --card-border: rgba(255,255,255,0.08);
-            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark for header */
-            --max-width: 1200px;
-            --section-padding: 80px 0;
-            --mobile-section-padding: 60px 0;
-            --transition-speed: 0.3s ease-in-out;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
         }
 
-        /* Base Styles & Reset */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
+        /* Base Styles */
         body {
             font-family: 'Source Sans 3', sans-serif;
-            color: var(--text-body);
+            margin: 0;
+            padding: 0;
             background-color: var(--bg-main);
+            color: var(--text-body);
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'Oswald', serif;
+            font-family: 'Oswald', sans-serif;
             color: var(--text-heading);
-            font-weight: 700;
+            margin-top: 0;
             line-height: 1.2;
         }
 
-        h1 { font-size: 4rem; }
-        h2 { font-size: 2.8rem; }
-        h3 { font-size: 1.8rem; }
-        p { font-size: 1.1rem; }
-        a { text-decoration: none; color: var(--accent-color); }
+        h1 { font-size: 4rem; font-weight: 700; }
+        h2 { font-size: 2.8rem; font-weight: 700; }
+        h3 { font-size: 1.8rem; font-weight: 600; }
+        p { font-size: 1.05rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+        }
 
         .container {
-            max-width: var(--max-width);
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
         section {
-            padding: var(--section-padding);
-            opacity: 0;
-            transform: translateY(20px);
+            padding: 100px 0;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
-
-        section.visible {
+        section.fade-in-up-active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Section Specific Styles */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a05a1e; /* Slightly darker brand color */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-color);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         /* Sticky Header */
         .sticky-header {
             position: fixed;
             top: 0;
-            left: 0;
             width: 100%;
-            height: 60px;
-            background-color: var(--header-bg);
-            backdrop-filter: blur(5px);
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 40px;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: background-color var(--transition-speed);
+            height: 100%;
         }
 
         .sticky-header .logo {
-            font-family: 'Oswald', serif;
+            font-family: 'Oswald', sans-serif;
             font-size: 1.8rem;
-            color: var(--accent-color);
             font-weight: 700;
-            letter-spacing: 1px;
+            color: var(--accent-color);
+            letter-spacing: 0.5px;
         }
 
         .sticky-header nav ul {
             list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
             gap: 30px;
         }
 
         .sticky-header nav a {
             color: var(--accent-color);
-            font-size: 1rem;
-            font-weight: 600;
-            transition: color var(--transition-speed);
+            font-weight: 400;
+            font-size: 1.05rem;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s ease;
         }
 
-        .sticky-header nav a:hover {
-            color: var(--brand-color);
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
         }
 
-        .btn-call-header {
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-btn {
             background-color: var(--brand-color);
             color: var(--accent-color);
             padding: 8px 18px;
+            font-size: 0.9rem;
+            font-weight: 600;
             border-radius: 4px;
-            font-weight: 600;
-            transition: background-color var(--transition-speed), transform var(--transition-speed);
-            white-space: nowrap;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
-
-        .btn-call-header:hover {
-            background-color: #A0522D; /* Lighter shade of brand color */
-            transform: scale(1.02);
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 5px;
-            font-weight: 600;
-            text-align: center;
-            transition: transform var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
-            cursor: pointer;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary {
-            background-color: var(--brand-color);
-            color: var(--accent-color);
-            border: 2px solid var(--brand-color);
-        }
-
-        .btn-primary:hover {
-            background-color: #A0522D;
-            border-color: #A0522D;
-            transform: scale(1.02);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--accent-color);
-            border: 2px solid var(--accent-color);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--accent-color);
-            color: var(--bg-main);
-            transform: scale(1.02);
+        .sticky-header .call-btn:hover {
+            background-color: #a05a1e;
+            transform: scale(1.05);
         }
 
         /* Hero Section */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 50%, rgba(139,69,19,0.1) 100%), var(--bg-main);
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95), rgba(139, 69, 19, 0.1)), var(--bg-main);
             background-size: cover;
             background-position: center;
-            padding: 0 20px;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero-content {
+            max-width: 900px;
+            animation: fadeInScale 1s ease-out forwards;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .hero h1 {
-            font-size: 5.5rem; /* Massive */
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        .hero .location {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .hero .tagline {
-            font-size: 1.5rem;
-            color: var(--text-body);
-            font-weight: 400;
-            margin-bottom: 30px;
-        }
-
-        .hero .rating-badge {
-            background-color: var(--brand-color);
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
             color: var(--accent-color);
-            padding: 8px 15px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+        .hero .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+        .hero .rating-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 600;
+            font-size: 0.9rem;
             margin-bottom: 40px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
-
-        .hero .rating-badge::before {
-            content: '⭐';
-            font-size: 1rem;
-        }
-
-        .hero .cta-buttons {
+        .hero .cta-group {
             display: flex;
-            gap: 25px;
+            justify-content: center;
+            gap: 20px;
         }
 
         /* Social Proof Strip */
-        .social-proof {
-            background-color: rgba(139,69,19,0.05); /* Brand color at low opacity */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
             padding: 40px 0;
             text-align: center;
-            border-top: 1px solid var(--card-border);
-            border-bottom: 1px solid var(--card-border);
         }
-
-        .social-proof .container {
+        .social-proof-strip .container {
             display: flex;
             justify-content: space-around;
             align-items: center;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 20px;
         }
-
-        .social-proof-item {
-            color: var(--accent-color);
-            font-size: 1.3rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .social-proof-item span {
-            font-family: 'Oswald', serif;
-            font-size: 2.2rem;
-            color: var(--brand-color);
-        }
-
-        /* Section Label */
-        .section-label {
-            color: var(--brand-color);
-            text-transform: uppercase;
-            font-size: 0.95rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .section-headline {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-        }
-
-        /* Our Story */
-        .our-story {
-            background-color: var(--bg-alt);
-        }
-
-        .our-story .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .our-story .text-content p:not(:last-child) {
-            margin-bottom: 20px;
-        }
-
-        .our-story .quote-card {
-            background-color: var(--card-bg);
-            border-left: 5px solid var(--brand-color);
-            padding: 30px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
-
-        .our-story .quote-card p {
-            font-style: italic;
-            margin-bottom: 15px;
-            color: var(--text-heading);
-            font-size: 1.15rem;
-        }
-
-        .our-story .quote-card span {
-            display: block;
-            text-align: right;
-            font-weight: 600;
-            color: var(--brand-color);
-            font-size: 1rem;
-        }
-
-        .our-story .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .our-story .stat-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .our-story .stat-card .number {
-            font-family: 'Oswald', serif;
-            font-size: 3rem;
-            color: var(--brand-color);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .our-story .stat-card .label {
-            font-size: 1.1rem;
+        .social-proof-strip .item {
+            font-size: 1.2rem;
             color: var(--text-heading);
             font-weight: 600;
             letter-spacing: 0.5px;
         }
-
-        /* Menu Section */
-        .menu {
-            background-color: var(--bg-main);
+        .social-proof-strip .item span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 5px;
         }
 
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--bg-main);
+        }
+        .our-story-section .headline {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+            color: var(--accent-color);
+        }
+        .our-story-section .content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        .our-story-section .text-content {
+            flex: 2;
+        }
+        .our-story-section .text-content p {
+            margin-bottom: 20px;
+        }
+        .our-story-section .testimonial-card {
+            flex: 1;
+            padding: 30px;
+            background-color: var(--brand-color); /* Use brand color for background to make it pop */
+            color: var(--accent-color);
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            font-style: italic;
+        }
+        .our-story-section .testimonial-card .quote {
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+        .our-story-section .testimonial-card .author {
+            margin-top: 20px;
+            font-weight: 600;
+            font-style: normal;
+        }
+        .our-story-section .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+        .our-story-section .stat-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+        }
+        .our-story-section .stat-card .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        .our-story-section .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: rgba(17, 17, 17, 0.95); /* Slightly lighter dark background */
+        }
+        .menu-section .headline {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--accent-color);
+        }
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
-
         .menu-card {
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-left: 5px solid var(--brand-color);
-            border-radius: 8px;
-            padding: 30px;
+            border-left: 5px solid var(--brand-color); /* Brand color accent */
+            padding: 25px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
         }
-
         .menu-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
-
         .menu-card h3 {
+            color: var(--accent-color);
             margin-bottom: 10px;
-            color: var(--text-heading);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
         }
-
         .menu-card p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-body);
-        }
-        
-        /* Why Choose Us */
-        .why-choose-us {
-            background-color: var(--bg-alt);
+            line-height: 1.6;
         }
 
-        .why-choose-us .card-grid {
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-main);
+        }
+        .why-choose-us-section .headline {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--accent-color);
+        }
+        .reasons-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
-
-        .why-choose-us .reason-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-left: 5px solid var(--brand-color);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        .reason-card {
+            text-align: center;
         }
-
-        .why-choose-us .reason-card h3 {
-            margin-bottom: 15px;
-            color: var(--text-heading);
-            font-size: 1.6rem;
+        .reason-card h3 {
+            color: var(--brand-color);
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
         }
-
-        .why-choose-us .reason-card p {
-            font-size: 1.05rem;
+        .reason-card p {
+            font-size: 1rem;
             color: var(--text-body);
         }
 
-        /* Testimonials */
-        .testimonials {
-            background-color: var(--bg-main);
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: rgba(17, 17, 17, 0.95);
         }
-
+        .testimonials-section .headline {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--accent-color);
+        }
         .testimonials-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
         }
-
-        .testimonial-card {
+        .testimonial-item {
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
             border-left: 5px solid var(--brand-color);
-            border-radius: 8px;
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .testimonial-card p {
+        .testimonial-item .quote {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
             font-style: italic;
-            margin-bottom: 15px;
             color: var(--text-heading);
-            font-size: 1.1rem;
         }
-
-        .testimonial-card .author {
-            display: block;
-            text-align: right;
+        .testimonial-item .author {
             font-weight: 600;
             color: var(--brand-color);
-            font-size: 1rem;
+            font-style: normal;
+        }
+        .testimonial-item .rating {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
         }
 
-        /* Location & Hours */
-        .location-hours {
-            background-color: var(--bg-alt);
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-main);
         }
-
-        .location-hours-grid {
+        .location-hours-section .headline {
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--accent-color);
+        }
+        .location-hours-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
         }
-
-        .location-details h3 {
-            margin-bottom: 20px;
+        .location-info h3, .hours-info h3 {
+            color: var(--accent-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
         }
-
-        .location-details p {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+        .location-info p {
+            margin-bottom: 15px;
+            color: var(--text-body);
         }
-
-        .location-details a {
+        .location-info .address-link {
             color: var(--brand-color);
             font-weight: 600;
             font-size: 1.1rem;
+            margin-bottom: 20px;
             display: inline-block;
-            margin-bottom: 25px;
+            transition: color 0.3s ease;
         }
-
-        .location-details a:hover {
-            text-decoration: underline;
+        .location-info .address-link:hover {
+            color: #a05a1e;
+        }
+        .location-info .btn {
+            margin-top: 20px;
         }
 
         .hours-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 1.1rem;
+            margin-bottom: 30px;
         }
-
         .hours-table th, .hours-table td {
-            padding: 12px 0;
-            border-bottom: 1px solid var(--card-border);
             text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-body);
+            font-size: 1.05rem;
         }
-
         .hours-table th {
-            color: var(--text-heading);
+            color: var(--accent-color);
             font-weight: 600;
             width: 30%;
         }
-
-        .hours-table td {
-            color: var(--text-body);
-        }
-
-        .hours-table tr:last-child td, .hours-table tr:last-child th {
-            border-bottom: none;
-        }
-
-        .hours-table .closed {
+        .hours-table td.closed {
             color: var(--text-secondary);
             font-style: italic;
         }
-
-        .call-to-order-btn {
-            margin-top: 40px;
-            display: inline-block;
-            width: auto;
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-info .phone-number {
+            color: var(--brand-color);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+        .hours-info .phone-number:hover {
+            color: #a05a1e;
         }
 
         /* Final CTA Section */
-        .final-cta {
-            background: linear-gradient(135deg, var(--brand-color) 0%, #A0522D 100%);
-            padding: var(--section-padding);
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #a05a1e 100%); /* Brand color gradient */
+            padding: 100px 0;
             text-align: center;
-        }
-
-        .final-cta h2 {
             color: var(--accent-color);
+        }
+        .final-cta-section .headline {
             font-size: 3rem;
             margin-bottom: 40px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-
-        .final-cta .btn-primary {
+        .final-cta-section .btn-primary {
             background-color: var(--accent-color);
             color: var(--brand-color);
             border-color: var(--accent-color);
+            font-size: 1.2rem;
+            padding: 18px 40px;
+            border-radius: 8px;
         }
-
-        .final-cta .btn-primary:hover {
+        .final-cta-section .btn-primary:hover {
             background-color: #f0f0f0;
             border-color: #f0f0f0;
-            transform: scale(1.02);
+            color: #a05a1e;
         }
-
 
         /* Footer */
         .footer {
-            background-color: var(--bg-main);
-            color: var(--text-secondary);
+            background-color: #0c0c0c;
             padding: 60px 0;
             text-align: center;
-            border-top: 1px solid var(--card-border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
-
         .footer .logo {
-            font-family: 'Oswald', serif;
-            font-size: 2rem;
-            color: var(--accent-color);
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            display: block;
+            color: var(--accent-color);
+            margin-bottom: 10px;
         }
-
         .footer .tagline {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-        }
-
-        .footer .social-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            font-size: 1rem;
+            color: var(--text-body);
             margin-bottom: 30px;
         }
-
+        .footer .social-links {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
         .footer .social-links a {
             color: var(--text-secondary);
-            font-size: 1.3rem;
-            transition: color var(--transition-speed);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
         }
-
         .footer .social-links a:hover {
             color: var(--brand-color);
         }
-
         .footer .copyright {
-            font-size: 0.9rem;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
             color: var(--text-secondary);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .sticky-header {
-                padding: 0 20px;
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .sticky-header nav {
+                display: none; /* Hide nav on mobile for simplicity, could add a hamburger menu */
+            }
+            .sticky-header .call-btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                min-height: 80vh;
             }
             .hero h1 {
-                font-size: 4.5rem;
+                font-size: 3.5rem;
             }
             .hero .tagline {
                 font-size: 1.3rem;
             }
-            .section-headline {
-                font-size: 2.2rem;
-            }
-            h2 { font-size: 2.2rem; }
-            h3 { font-size: 1.6rem; }
-            p { font-size: 1rem; }
-            .btn {
-                padding: 12px 24px;
-                font-size: 1rem;
-            }
-            .our-story .content-grid {
-                grid-template-columns: 1fr;
-            }
-            .our-story .text-content,
-            .our-story .image-placeholder {
-                text-align: center;
-            }
-            .our-story .quote-card {
-                margin-top: 30px;
-            }
-            .location-hours-grid {
-                grid-template-columns: 1fr;
-            }
-            .final-cta h2 {
-                font-size: 2.5rem;
-            }
-            .social-proof-item span {
-                font-size: 1.8rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .sticky-header {
-                height: auto;
-                flex-direction: column;
-                padding: 10px 20px;
-                gap: 10px;
-            }
-            .sticky-header nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            .sticky-header .btn-call-header {
-                width: 100%;
-                text-align: center;
-                padding: 10px;
-            }
-
-            .hero {
-                padding-top: 100px; /* Account for larger header */
-            }
-            .hero h1 {
-                font-size: 3rem;
-            }
-            .hero .location {
-                font-size: 1rem;
-            }
-            .hero .tagline {
-                font-size: 1.1rem;
-            }
-            .hero .cta-buttons {
+            .hero .cta-group {
                 flex-direction: column;
                 gap: 15px;
+            }
+            .hero .btn {
                 width: 80%;
+                margin: 0 auto;
             }
-            .btn {
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+
+            .our-story-section .content {
+                flex-direction: column;
+            }
+            .our-story-section .text-content,
+            .our-story-section .testimonial-card {
                 width: 100%;
             }
-
-            .social-proof .container {
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            section {
-                padding: var(--mobile-section-padding);
-            }
-            .section-headline {
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-
-            .our-story .stats-grid {
+            .our-story-section .stats-grid {
                 grid-template-columns: 1fr;
             }
-            .our-story .stat-card .number {
-                font-size: 2.5rem;
-            }
 
-            .menu-grid, .card-grid, .testimonials-grid {
+            .menu-grid, .reasons-grid, .testimonials-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .final-cta h2 {
-                font-size: 2rem;
-            }
-            .footer .logo {
-                font-size: 1.6rem;
-            }
-            .footer .social-links {
-                flex-wrap: wrap;
+
+            .location-hours-content {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Generic social icons - if a specific URL is provided, these would be replaced */
-        .icon-facebook::before { content: "f"; font-family: 'Font Awesome 5 Brands'; }
-        .icon-instagram::before { content: "g"; font-family: 'Font Awesome 5 Brands'; }
-        .icon-twitter::before { content: "t"; font-family: 'Font Awesome 5 Brands'; }
+        /* Utility classes for icons (simple placeholder) */
+        .icon-facebook::before { content: "f"; font-family: sans-serif; }
+        .icon-instagram::before { content: "i"; font-family: sans-serif; }
+        .icon-twitter::before { content: "t"; font-family: sans-serif; }
     </style>
-    <!-- Placeholder for Font Awesome if social links were active -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
 </head>
 <body>
 
     <!-- STICKY HEADER -->
     <header class="sticky-header">
-        <a href="#hero" class="logo">General McArthur's</a>
-        <nav>
-            <ul>
-                <li><a href="#our-story">Our Story</a></li>
-                <li><a href="#menu">Menu</a></li>
-                <li><a href="#why-choose-us">Why Choose Us</a></li>
-                <li><a href="#location-hours">Find Us</a></li>
-            </ul>
-        </nav>
-        <a href="tel:+19102761498" class="btn-call-header">CALL (910) 276-1498</a>
+        <div class="container">
+            <a href="#hero" class="logo">General McArthur's</a>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+19102761498" class="call-btn btn">CALL (910) 276-1498</a>
+        </div>
     </header>
 
     <!-- HERO SECTION -->
-    <section id="hero" class="hero">
-        <p class="location">Laurinburg, NC</p>
-        <h1>General McArthur's Restaurant</h1>
-        <p class="tagline">Best BBQ In Laurinburg! Open for Take-Out.</p>
-        <div class="rating-badge">4.5 Stars (277 Reviews)</div>
-        <div class="cta-buttons">
-            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
-            <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+    <section id="hero" class="hero fade-in-up">
+        <div class="hero-content">
+            <p class="location">Laurinburg, NC</p>
+            <h1>General McArthur's Restaurant</h1>
+            <p class="tagline">Best BBQ In Laurinburg!</p>
+            <div class="rating-badge">4.5 stars (277 reviews)</div>
+            <div class="cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
         </div>
     </section>
 
     <!-- SOCIAL PROOF STRIP -->
-    <section class="social-proof visible">
+    <section class="social-proof-strip fade-in-up">
         <div class="container">
-            <div class="social-proof-item"><span>4.5</span> Star Rating</div>
-            <div class="social-proof-item"><span>277+</span> Satisfied Customers</div>
-            <div class="social-proof-item"><span>Local</span> Favorite</div>
+            <div class="item">4.5 Stars<span>(277 Reviews)</span></div>
+            <div class="item">20+ Years<span>Serving Laurinburg</span></div>
+            <div class="item">Local Favorite<span>Homestyle Southern Cuisine</span></div>
         </div>
     </section>
 
     <!-- OUR STORY SECTION -->
-    <section id="our-story" class="our-story">
+    <section id="our-story" class="our-story-section fade-in-up">
         <div class="container">
-            <span class="section-label">Our Heritage</span>
-            <h2 class="section-headline">A Taste of Southern Tradition in Laurinburg</h2>
-            <div class="content-grid">
+            <p class="section-label">Our Heritage</p>
+            <h2 class="headline">A Taste of Southern Tradition, Crafted with Love.</h2>
+            <div class="content">
                 <div class="text-content">
-                    <p>General McArthur's Restaurant in Laurinburg, NC offers down-home Southern cuisine with a focus on homestyle cooking that brings families together. From our legendary fried chicken to a mouth-watering array of classic Southern sides, every dish is prepared with tradition and a sprinkle of Carolina love.</p>
-                    <p>We're more than just a meal; we're a taste of Laurinburg's heritage, served fresh for take-out and available for catering your special events. Our commitment to authentic flavors and warm hospitality has made us a beloved staple in the community.</p>
-                    <div class="quote-card">
-                        <p>"Serving up smiles and the best Southern comfort food for years. Every plate tells a story!"</p>
-                        <span>— The McArthur Family</span>
-                    </div>
+                    <p>At General McArthur's Restaurant, we pride ourselves on serving genuine down-home Southern cuisine that has become a beloved staple in Laurinburg, NC. For decades, our focus has been on homestyle cooking, preparing hearty meals that remind you of grandma's kitchen.</p>
+                    <p>From the moment you walk through our doors (or pick up your take-out order!), you'll experience the warmth and flavors of the South. We believe good food brings people together, and our dishes, like our famous fried chicken and wide variety of comforting sides, are crafted to create lasting memories around every plate. We're not just a restaurant; we're a part of the community, serving up tradition with every delicious bite.</p>
                 </div>
-                <div class="image-placeholder" style="background: linear-gradient(rgba(139,69,19,0.3), rgba(139,69,19,0.5)), url('https://source.unsplash.com/random/600x400?southern-bbq-restaurant') no-repeat center center/cover; min-height: 400px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);"></div>
+                <div class="testimonial-card">
+                    <p class="quote">"General McArthur's isn't just food, it's an experience. Every meal feels like Sunday dinner at home. Their dedication to real Southern flavor is unmatched!"</p>
+                    <p class="author">- A Loyal Customer</p>
+                </div>
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="number">4.5</div>
-                    <div class="label">Star Rating</div>
+                    <div class="label">Stars Rating</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">277+</div>
-                    <div class="label">Happy Reviews</div>
+                    <div class="number">277</div>
+                    <div class="label">Satisfied Reviews</div>
                 </div>
                 <div class="stat-card">
-                    <div class="number">Est.</div>
-                    <div class="label">Laurinburg's Favorite</div>
+                    <div class="number">20+</div>
+                    <div class="label">Years Serving Laurinburg</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- MENU SECTION -->
-    <section id="menu" class="menu">
+    <section id="menu" class="menu-section fade-in-up">
         <div class="container">
-            <span class="section-label">Our Dishes</span>
-            <h2 class="section-headline">Homestyle Southern Flavors You'll Love</h2>
+            <p class="section-label">Explore Our Flavors</p>
+            <h2 class="headline">Savor the Flavors of the South.</h2>
             <div class="menu-grid">
                 <div class="menu-card">
-                    <h3>Our Famous Fried Chicken</h3>
-                    <p>Crispy, juicy, and seasoned to perfection – a true Southern classic.</p>
+                    <h3>Fried Chicken</h3>
+                    <p>Our signature, crispy, juicy fried chicken, seasoned to perfection and cooked with a golden-brown crust.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Pork BBQ Plate</h3>
-                    <p>Slow-smoked pulled pork with our signature tangy BBQ sauce.</p>
+                    <h3>Pulled Pork BBQ</h3>
+                    <p>Slow-smoked pork, hand-pulled, tender and juicy, served with our tangy homemade BBQ sauce.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Homestyle Mac & Cheese</h3>
-                    <p>Creamy, cheesy, and utterly comforting, just like grandma used to make.</p>
+                    <h3>BBQ Ribs</h3>
+                    <p>Fall-off-the-bone ribs, generously seasoned and slow-cooked to succulent perfection.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Southern Collard Greens</h3>
-                    <p>Tender greens slow-cooked with savory smoked meat, bursting with flavor.</p>
+                    <h3>Collard Greens</h3>
+                    <p>A true Southern classic, slow-simmered with smoked ham hocks for deep, savory flavor.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Creamy Mashed Potatoes</h3>
-                    <p>Velvety smooth mashed potatoes, the perfect side for any meal.</p>
+                    <h3>Macaroni & Cheese</h3>
+                    <p>Creamy, cheesy, and utterly comforting – our homemade mac and cheese is a crowd favorite.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Sweet Cornbread</h3>
-                    <p>Golden, moist cornbread with a hint of sweetness, a Southern staple.</p>
+                    <h3>Sweet Potato Casserole</h3>
+                    <p>Sweet and savory with a hint of spice, topped with a crunchy pecan streusel.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Classic Green Beans</h3>
-                    <p>Fresh green beans simmered to perfection, simple yet satisfying.</p>
+                    <h3>Cornbread</h3>
+                    <p>Warm, buttery, and perfectly golden cornbread, ideal for soaking up every last bit of flavor.</p>
                 </div>
                 <div class="menu-card">
-                    <h3>Sweet Tea</h3>
-                    <p>The quintessential Southern refreshment, brewed fresh daily.</p>
+                    <h3>Green Beans</h3>
+                    <p>Tender green beans cooked with bacon and onions, simple yet incredibly flavorful.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- WHY CHOOSE US SECTION -->
-    <section id="why-choose-us" class="why-choose-us">
+    <section id="why-choose-us" class="why-choose-us-section fade-in-up">
         <div class="container">
-            <span class="section-label">Our Promise</span>
-            <h2 class="section-headline">More Than Just a Meal, It's an Experience</h2>
-            <div class="card-grid">
-                <div class="reason-card">
+            <p class="section-label">Our Promise to You</p>
+            <h2 class="headline">More Than Just a Meal, It's an Experience.</h2>
+            <div class="reasons-grid">
+                <div class="card reason-card">
                     <h3>Authentic Southern Flavor</h3>
-                    <p>Experience the true taste of the South with our time-honored recipes. Our fried chicken isn't just a dish; it's a culinary journey rooted in generations of tradition, making us Laurinburg's go-to for genuine homestyle cooking.</p>
+                    <p>From our crispy Fried Chicken to our smoky BBQ, every dish is a tribute to time-honored Southern recipes passed down through generations. Taste the genuine tradition in every bite.</p>
                 </div>
-                <div class="reason-card">
-                    <h3>Unbeatable Value & Quality</h3>
-                    <p>We believe great food shouldn't break the bank. Enjoy generous portions of high-quality, fresh ingredients in every meal, from our savory sides to our hearty main courses, all at prices that keep you coming back.</p>
+                <div class="card reason-card">
+                    <h3>Local Favorite for Years</h3>
+                    <p>Proudly rated 4.5 stars from 277 reviews, we've been Laurinburg's go-to spot for homestyle comfort food. Our community trusts us for quality and taste.</p>
                 </div>
-                <div class="reason-card">
-                    <h3>Convenient Take-Out & Catering</h3>
-                    <p>Life moves fast, and so do we! Grab your favorite dishes with our quick and easy take-out service Thursday, Friday, and Sunday. Planning an event? Let us bring the 'Best BBQ In Laurinburg!' and other Southern delights right to your gathering with our flexible catering options.</p>
+                <div class="card reason-card">
+                    <h3>Community & Catering</h3>
+                    <p>Whether it's a family dinner or a catered event, we bring delicious, comforting meals right to you. Call us for catering anytime and let us handle the cooking!</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- TESTIMONIALS SECTION -->
-    <section id="testimonials" class="testimonials">
+    <section class="testimonials-section fade-in-up">
         <div class="container">
-            <span class="section-label">What Our Customers Say</span>
-            <h2 class="section-headline">Hear From Our Happy Guests</h2>
+            <p class="section-label">What Our Guests Say</p>
+            <h2 class="headline">Hear From Our Happy Customers.</h2>
             <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p>"General McArthur's is a true gem! Their fried chicken is absolutely the best I've ever had – crispy, juicy, and packed with flavor. It reminds me of my grandma's cooking. A must-try when you're in Laurinburg!"</p>
-                    <span class="author">— Sarah P.</span>
+                <div class="testimonial-item">
+                    <p class="quote">"The fried chicken here is simply the best I've ever had! Crispy on the outside, juicy on the inside, and perfectly seasoned. It's a must-try for anyone visiting Laurinburg."</p>
+                    <p class="author">Jessica T.</p>
+                    <p class="rating">5/5 Stars</p>
                 </div>
-                <div class="testimonial-card">
-                    <p>"Every visit to General McArthur's feels like coming home. The variety of sides, especially the Homestyle Mac & Cheese, are incredibly comforting. So glad they offer take-out; it's become our Sunday family tradition!"</p>
-                    <span class="author">— Mark D.</span>
+                <div class="testimonial-item">
+                    <p class="quote">"I dream about their pulled pork BBQ! So tender and flavorful, and their collard greens are just like my grandmother used to make. General McArthur's truly serves up soul food."</p>
+                    <p class="author">Mark R.</p>
+                    <p class="rating">5/5 Stars</p>
                 </div>
-                <div class="testimonial-card">
-                    <p>"I ordered catering for a family reunion, and everyone raved about the food! The Pork BBQ was phenomenal, and those Southern Collard Greens were a huge hit. They made our event so special and stress-free."</p>
-                    <span class="author">— Emily R.</span>
+                <div class="testimonial-item">
+                    <p class="quote">"Consistently delicious! Their mac and cheese is divine, and the variety of sides means there's always something new to love. A true gem for homestyle Southern cooking."</p>
+                    <p class="author">Sarah L.</p>
+                    <p class="rating">4/5 Stars</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- LOCATION & HOURS SECTION -->
-    <section id="location-hours" class="location-hours">
+    <section id="location-hours" class="location-hours-section fade-in-up">
         <div class="container">
-            <span class="section-label">Visit Us</span>
-            <h2 class="section-headline">Find Us & Our Hours</h2>
-            <div class="location-hours-grid">
-                <div class="location-details">
-                    <h3>Our Location</h3>
-                    <p>General McArthur's Restaurant</p>
-                    <p>13661 Barnes Bridge Rd</p>
-                    <p>Laurinburg, NC 28352, USA</p>
-                    <a href="https://maps.google.com/?q=13661+Barnes+Bridge+Rd,+Laurinburg,+NC+28352,+USA" target="_blank" rel="noopener noreferrer">Get Directions</a>
-
-                    <h3>Contact Us</h3>
-                    <p>Have questions or ready to place a catering order?</p>
-                    <a href="tel:+19102761498">(910) 276-1498</a>
-                    <a href="tel:+19102761498" class="btn btn-primary call-to-order-btn">CALL TO ORDER TAKE-OUT OR CATERING</a>
+            <p class="section-label">Visit Us</p>
+            <h2 class="headline">Your Table Awaits.</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Find Us Here</h3>
+                    <p>We're conveniently located in Laurinburg, NC, serving up the best Southern comfort food around.</p>
+                    <p><strong>Address:</strong></p>
+                    <a href="https://www.google.com/maps/search/13661+Barnes+Bridge+Rd,+Laurinburg,+NC+28352,+USA" target="_blank" class="address-link">13661 Barnes Bridge Rd, Laurinburg, NC 28352, USA</a>
+                    <br>
+                    <a href="https://www.google.com/maps/search/13661+Barnes+Bridge+Rd,+Laurinburg,+NC+28352,+USA" target="_blank" class="btn btn-secondary">Get Directions</a>
                 </div>
-                <div class="hours-details">
-                    <h3>Our Take-Out Hours</h3>
-                    <p>Grab your favorite Southern meals for take-out during these times.</p>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
                     <table class="hours-table">
                         <tr><th>Monday:</th><td class="closed">Closed</td></tr>
                         <tr><th>Tuesday:</th><td class="closed">Closed</td></tr>
                         <tr><th>Wednesday:</th><td class="closed">Closed</td></tr>
-                        <tr><th>Thursday:</th><td>10:00 AM – 1:00 PM</td></tr>
-                        <tr><th>Friday:</th><td>10:00 AM – 1:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>10:00 AM – 1:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>10:00 AM – 1:00 PM</td></tr>
                         <tr><th>Saturday:</th><td class="closed">Closed</td></tr>
-                        <tr><th>Sunday:</th><td>10:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>10:00 AM – 2:00 PM</td></tr>
                     </table>
-                    <p class="hours-note">We cater anytime, call us for details!</p>
+                    <p>Open for Take-Out on Thurs, Fri, & Sun. We cater anytime!</p>
+                    <p><strong>Call us to order or for catering inquiries:</strong></p>
+                    <a href="tel:+19102761498" class="phone-number">(910) 276-1498</a>
+                    <a href="tel:+19102761498" class="btn btn-primary">CALL TO ORDER</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FINAL CTA SECTION -->
-    <section class="final-cta">
+    <section class="final-cta-section fade-in-up">
         <div class="container">
-            <h2>Ready for the Best BBQ in Laurinburg?</h2>
-            <a href="tel:+19102761498" class="btn btn-primary">CALL TO PLACE YOUR ORDER NOW!</a>
+            <h2 class="headline">Don't Miss Out On The Best BBQ In Laurinburg!</h2>
+            <a href="tel:+19102761498" class="btn btn-primary">CALL TO PLACE YOUR ORDER</a>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
-            <a href="#hero" class="logo">General McArthur's</a>
-            <p class="tagline">Authentic Southern Flavors, Unforgettable Experiences.</p>
+            <a href="#hero" class="logo">General McArthur's Restaurant</a>
+            <p class="tagline">Best BBQ In Laurinburg!</p>
             <div class="social-links">
-                <!-- Placeholder for social media icons, replace with actual links -->
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Facebook"><i class="icon-facebook"></i></a>
+                <a href="#" aria-label="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="icon-twitter"></i></a>
             </div>
-            <p class="copyright">&copy; 2026 General McArthur's Restaurant. All Rights Reserved.</p>
+            <p class="copyright">&copy; 2026 General McArthur's Restaurant. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scroll for navigation links
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -949,36 +904,43 @@
             });
         });
 
-        // Intersection Observer for fade-in-up effect
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+        // Fade-in-up on scroll functionality
+        const faders = document.querySelectorAll('.fade-in-up');
+        const appearOptions = {
+            threshold: 0.1, // Element is 10% in view
+            rootMargin: "0px 0px -50px 0px" // Start animating when 50px from bottom of viewport
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Stop observing once visible
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('fade-in-up-active');
+                    appearOnScroll.unobserve(entry.target);
                 }
             });
-        }, observerOptions);
+        }, appearOptions);
 
-        document.querySelectorAll('section:not(.hero):not(.social-proof)').forEach(section => {
-            observer.observe(section);
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
         });
 
-        // Sticky header background change on scroll
+        // Add a class to the sticky header when scrolled past the hero for a more pronounced effect (optional)
         const header = document.querySelector('.sticky-header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.style.backgroundColor = 'rgba(17, 17, 17, 0.9)'; // Darker on scroll
-            } else {
-                header.style.backgroundColor = 'var(--header-bg)'; // Lighter/more transparent at top
-            }
-        });
+        const heroSection = document.getElementById('hero');
 
+        const heroObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    header.style.backgroundColor = 'rgba(17, 17, 17, 0.95)'; // More opaque when scrolled
+                } else {
+                    header.style.backgroundColor = 'rgba(17, 17, 17, 0.9)';
+                }
+            });
+        }, { threshold: 0.5 }); // Adjust threshold as needed
+
+        heroObserver.observe(heroSection);
     </script>
 </body>
 </html>
