@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Feed Bag - Classic Diner in Mocksville, NC</title>
+    <meta name="description" content="The Feed Bag in Mocksville, NC serves up classic American diner fare, including crispy fried fish, golden fries, and hearty breakfast and lunch. A local favorite with 4.6 stars!">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome for Icons (social media) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0uXOglQ/Jf9fHVy0xK+EMx9t82/uV3S42qL5O071f4i1B5L4S1z0J0PzCg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-dark: #111111;
+            --brand-primary: #8B3A3A;
+            --brand-accent: #C41E3A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        /* Base Styles & Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; }
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.05rem; margin-bottom: 1em; }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 1.0rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            display: block;
+            text-align: center;
+        }
+        .section-label::before,
+        .section-label::after {
+            content: "";
+            display: inline-block;
+            width: 30px;
+            height: 1px;
+            background-color: var(--brand-primary);
+            vertical-align: middle;
+            margin: 0 10px;
+            opacity: 0.5;
+        }
+
+        /* Fade-in-up on scroll (conceptual, usually JS driven) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* Using a simple class, in a real scenario this would be toggled by JS IntersectionObserver */
+        }
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .sticky-header .nav-links ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .sticky-header .call-btn {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-btn:hover {
+            background-color: var(--brand-accent);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            position: relative;
+            background: radial-gradient(circle at top left, rgba(139, 58, 58, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(196, 30, 58, 0.1) 0%, transparent 40%),
+                        var(--bg-dark);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(17,17,17,0.8) 0%, rgba(17,17,17,0.3) 50%, rgba(17,17,17,0.8) 100%);
+            z-index: 1;
+        }
+
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            color: var(--text-heading);
+        }
+
+        .hero .location-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-body);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+        }
+
+        .hero .rating-badge i {
+            color: gold;
+            margin-right: 8px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(139, 58, 58, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-direction: column;
+            text-align: center;
+        }
+        .social-proof-item i {
+            color: var(--brand-primary);
+            font-size: 2rem;
+        }
+        .social-proof-item .sub-text {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-body);
+            font-weight: 400;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .our-story-text p {
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card blockquote {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-primary);
+            font-size: 0.95rem;
+            text-align: right;
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: rgba(17,17,17,0.95); /* Slightly lighter dark background */
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h4 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            flex-grow: 1; /* Allow description to take space */
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .why-card i {
+            font-size: 3.5rem;
+            color: var(--brand-accent);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-item blockquote {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            flex-grow: 1;
+        }
+        .testimonial-item .stars {
+            color: gold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-item cite {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-primary);
+            font-size: 0.95rem;
+            margin-top: 15px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            height: 300px;
+            width: 100%;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            flex-shrink: 0;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+        .hours-table .closed {
+            color: var(--brand-accent);
+            font-weight: 500;
+        }
+
+        .contact-phone {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--brand-primary);
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        .contact-phone:hover {
+            color: var(--brand-accent);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            color: var(--text-heading);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--bg-dark); /* Dark button on colorful background */
+            border-color: var(--bg-dark);
+            color: var(--text-heading);
+            padding: 1.2rem 2.8rem;
+            font-size: 1.1rem;
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            border-color: var(--text-heading);
+            color: var(--brand-primary);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 60px 0 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-icons {
+            margin-bottom: 30px;
+        }
+
+        .footer .social-icons a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-icons a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 4.5rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            h2 { font-size: 2.5rem; }
+            h3 { font-size: 1.6rem; }
+
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .our-story-text, .location-info, .hours-info {
+                text-align: center;
+            }
+            .testimonial-card cite { text-align: center; }
+            .location-hours-grid .btn { margin-bottom: 20px; }
+            .location-hours-grid .map-placeholder { height: 250px; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .nav-links { display: none; } /* Hamburger menu for mobile navigation typically */
+            .sticky-header .nav-content { justify-content: center; }
+            .sticky-header .call-btn {
+                position: absolute;
+                right: 25px;
+                top: 50%;
+                transform: translateY(-50%);
+                padding: 0.5rem 1rem;
+            }
+            .hero { padding-top: calc(var(--header-height) + 20px); }
+            .hero h1 { font-size: 3rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .cta-group { flex-direction: column; gap: 15px; }
+
+            .section-padding { padding: 80px 0; }
+            .social-proof-grid { flex-direction: column; }
+            .social-proof-item { font-size: 1.1rem; }
+            .social-proof-item i { font-size: 1.5rem; }
+
+            h2 { font-size: 2rem; }
+            .section-label { margin-bottom: 1rem; }
+            .our-story-text h3, .location-info h3, .hours-info h3 { font-size: 2rem; }
+            .stat-cards { grid-template-columns: 1fr; }
+            .stat-card .number { font-size: 2.2rem; }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 40px;
+            }
+            .menu-card h4 { font-size: 1.4rem; }
+            .why-card i { font-size: 3rem; }
+            .why-card h3 { font-size: 1.6rem; }
+            .contact-phone { font-size: 1.2rem; }
+
+            .final-cta h2 { font-size: 2.2rem; }
+            .final-cta .btn-primary { padding: 1rem 2rem; font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo { font-size: 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .rating-badge { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
+            h2 { font-size: 1.8rem; }
+            .section-label::before, .section-label::after { width: 15px; margin: 0 5px; }
+            .footer .logo { font-size: 1.7rem; }
+            .footer .social-icons a { font-size: 1.2rem; margin: 0 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="nav-content">
+            <div class="logo">The Feed Bag</div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3369981109" class="call-btn">CALL (336) 998-1109</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-content fade-in-up active">
+            <span class="location-text">Mocksville, NC</span>
+            <h1>The Feed Bag</h1>
+            <p class="tagline">Crispy fried fish. Golden fries. Classic sides. Cold drinks.<br>Bring your friends, family, and your appetite!</p>
+            <div class="rating-badge">
+                <i class="fas fa-star"></i> 4.6 Stars (229 Reviews)
+            </div>
+            <div class="cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.6 Stars</span>
+                <span class="sub-text">From 229 Happy Customers</span>
+            </div>
+            <div class="social-proof-item">
+                <i class="fas fa-heart"></i>
+                <span>A Local Favorite</span>
+                <span class="sub-text">Mocksville's Go-To Diner</span>
+            </div>
+            <div class="social-proof-item">
+                <i class="fas fa-utensils"></i>
+                <span>Classic American</span>
+                <span class="sub-text">Breakfast & Lunch Served Daily</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Story</span>
+            <div class="our-story-grid">
+                <div class="our-story-text fade-in-up">
+                    <h3>The Heart of Mocksville's Comfort Food Scene</h3>
+                    <p>For years, The Feed Bag has been more than just a restaurant; it's a beloved cornerstone in Mocksville, NC, a place where memories are made and appetites are always satisfied. Located conveniently at 2339 NC-801, we pride ourselves on serving up classic American comfort food with a warm, local touch.</p>
+                    <p>From our hearty breakfasts that kickstart your day to our satisfying lunches, we believe in simple, delicious meals prepared with care. We've built a reputation for our welcoming atmosphere, making us the perfect spot for friends, families, and solo diners alike.</p>
+                    <div class="testimonial-card">
+                        <blockquote>"The Feed Bag reminds me of grandma's kitchen – warm, inviting, and serving up the best fried fish and golden fries around!"</blockquote>
+                        <cite>— A Happy Regular, Mocksville, NC</cite>
+                    </div>
+                </div>
+                <div class="stat-cards fade-in-up">
+                    <div class="stat-card">
+                        <div class="number">4.6</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">229+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Daily</div>
+                        <div class="label">Breakfast & Lunch</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="section-padding menu">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="text-center fade-in-up">Simple, Delicious, Always Satisfying.</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h4>Crispy Fried Fish</h4>
+                    <p>Our famous golden-brown fried fish, perfectly seasoned and cooked to crispy perfection. A true crowd-pleaser!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Golden Fries</h4>
+                    <p>The perfect companion to any meal. Our fries are always golden, crispy, and seasoned just right.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Hearty Breakfast Plates</h4>
+                    <p>Start your day the right way with our classic breakfast options. Eggs, bacon, toast, and more!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Lunch Sandwiches</h4>
+                    <p>Freshly prepared sandwiches, perfect for a midday meal. Ask about our daily specials!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Classic Sides</h4>
+                    <p>From creamy coleslaw to fresh greens, complement your meal with our selection of traditional sides.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Cold Drinks</h4>
+                    <p>Quench your thirst with our selection of refreshing cold beverages, perfect for any time of day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">Why Choose The Feed Bag?</span>
+            <h2 class="text-center fade-in-up">More Than Just a Meal – It's an Experience.</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-card fade-in-up">
+                    <i class="fas fa-fish"></i>
+                    <h3>Famous Crispy Fried Fish</h3>
+                    <p>Our legendary crispy fried fish isn't just a dish; it's a Mocksville tradition. Golden-brown perfection that keeps our customers coming back for more.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <i class="fas fa-mug-hot"></i>
+                    <h3>Hearty Breakfast & Lunch</h3>
+                    <p>Whether you're craving a classic breakfast to fuel your morning or a satisfying lunch sandwich, we've got your American comfort food needs covered.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <i class="fas fa-handshake"></i>
+                    <h3>A True Local Staple</h3>
+                    <p>With 4.6 stars from 229 happy reviews, The Feed Bag is proudly woven into the fabric of Mocksville, serving our community with a smile, Monday to Friday.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="section-padding menu"> <!-- Using menu section background for consistency -->
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Customers Say</span>
+            <h2 class="text-center fade-in-up">Real Stories, Real Flavors.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>"The crispy fried fish and golden fries are simply unbeatable. Every time I visit, it's a taste of home and pure comfort food perfection!"</blockquote>
+                    <cite>— Sarah P., Satisfied Diner</cite>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
+                    <blockquote>"Absolutely love their breakfast! It's the perfect start to my day, and the service always comes with a friendly, welcoming smile. A must-visit!"</blockquote>
+                    <cite>— Mark D., Breakfast Enthusiast</cite>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                    <blockquote>"A true gem in Mocksville. The lunch sandwiches are fantastic, fresh and flavorful. Plus, you can't beat the classic, cozy diner atmosphere."</blockquote>
+                    <cite>— Emily R., Local Regular</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">Find Us & Our Hours</span>
+            <h2 class="text-center fade-in-up">Your Table is Waiting.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Visit Us Today!</h3>
+                    <p>Located conveniently in Mocksville, NC, The Feed Bag is easy to find and always ready to welcome you. Drop by for a delicious meal!</p>
+                    <address class="contact-address">
+                        2339 NC-801,<br>
+                        Mocksville, NC 27028, USA
+                    </address>
+                    <div class="map-placeholder">
+                        <p>Map Placeholder</p>
+                    </div>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=2339+NC-801,+Mocksville,+NC+27028" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Diner Hours</h3>
+                    <p>We're open five days a week, serving up your favorites for breakfast and lunch. We look forward to seeing you!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>11:00 AM – 2:00 PM, 4:00 – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>11:00 AM – 2:00 PM, 4:00 – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>11:00 AM – 2:00 PM, 4:00 – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>11:00 AM – 2:00 PM, 4:00 – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>11:00 AM – 2:00 PM, 4:00 – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td class="closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:3369981109" class="contact-phone">CALL US: (336) 998-1109</a>
+                    <a href="tel:3369981109" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Hear About It, Taste It!</h2>
+            <p style="margin-bottom: 40px; font-size: 1.2rem; color: rgba(255,255,255,0.9);">Experience the beloved flavors of Mocksville's favorite diner. Your table (and appetite) awaits!</p>
+            <a href="#find-us" class="btn btn-primary">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Feed Bag</div>
+            <p class="tagline">Crispy fried fish. Golden fries. Classic sides. Cold drinks. Your Mocksville diner experience starts here!</p>
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Feed Bag. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Fade-in-up (Conceptual) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up:not(.active)').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Smooth scroll for nav links (if not using scroll-behavior: smooth on html)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
