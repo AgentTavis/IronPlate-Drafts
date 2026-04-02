@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basil's - Authentic Italian Cuisine in Boone, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --brand-color: #E63946;
+            --brand-color-rgb: 230, 57, 70; /* RGB values for #E63946 */
+            --bg-dark: #111111;
+            --bg-dark-rgb: 17, 17, 17; /* RGB values for #111111 */
+            --bg-dark-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --section-padding: 80px 0;
+            --max-width: 1200px;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-brand { color: var(--brand-color); }
+        .uppercase { text-transform: uppercase; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 3rem; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9em 2.2em;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid transparent;
+            -webkit-backface-visibility: hidden; /* Fix for font rendering issues */
+            backface-visibility: hidden;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(var(--brand-color-rgb), 0.1);
+            color: var(--brand-color);
+        }
+
+        /* Fade-in-up on scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(var(--bg-dark-rgb), 0.9); /* semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        .sticky-header .logo {
+            height: 40px;
+            filter: brightness(1.1);
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        .sticky-header nav a:hover::after,
+        .sticky-header nav a.active::after {
+            width: 100%;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--text-heading);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6em 1.5em;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            white-space: nowrap; /* Prevent phone number from wrapping */
+        }
+        .header-call-btn:hover {
+            transform: scale(1.05);
+            background-color: rgba(var(--brand-color-rgb), 0.9); /* Slightly darker or different shade */
+            box-shadow: 0 4px 15px rgba(var(--brand-color-rgb), 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-dark); /* Base color */
+            background-image: linear-gradient(135deg, rgba(var(--bg-dark-rgb), 0.95) 0%, rgba(var(--bg-dark-rgb), 0.95) 100%),
+                              linear-gradient(135deg, rgba(var(--brand-color-rgb), 0.08) 0%, transparent 50%, rgba(var(--brand-color-rgb), 0.08) 100%);
+            background-blend-mode: overlay, normal;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero p.location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5em;
+            opacity: 0.8;
+        }
+
+        .hero p.tagline {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 2em;
+            opacity: 0.9;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(var(--brand-color-rgb), 0.15);
+            color: var(--brand-color);
+            padding: 0.5em 1.2em;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5em;
+            gap: 0.5em;
+            border: 1px solid rgba(var(--brand-color-rgb), 0.3);
+        }
+        .rating-badge svg {
+            color: gold;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb), 0.03); /* low opacity brand tint */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .proof-item h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Section Label */
+        .section-label {
+            display: inline-block;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        .section-label::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--brand-color);
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        .testimonial-card span {
+            display: block;
+            font-weight: 500;
+            color: var(--brand-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
+        }
+
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .stat-item h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 0.1em;
+        }
+        .stat-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 0.75em;
+            line-height: 1.3;
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choose-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background-color: var(--brand-color);
+            opacity: 0.7;
+            border-radius: 8px 8px 0 0;
+        }
+        .choose-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .choose-card h3 {
+            font-size: 1.7rem;
+            color: var(--text-heading);
+            margin-top: 1rem;
+        }
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.08rem;
+            color: var(--text-heading);
+            margin-bottom: 1.2rem;
+        }
+        .testimonial-item strong {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        /* Location & Hours */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 3rem;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        .location-info a.directions-link {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        .location-info a.directions-link:hover {
+            color: var(--text-heading);
+        }
+        .location-info iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 8px;
+            filter: grayscale(80%) invert(92%) contrast(80%); /* Dark mode friendly map */
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 0.8em 0;
+            text-align: left;
+            border-bottom: 1px dashed rgba(255,255,255,0.08);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-info .btn {
+            margin-top: 2.5rem;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(var(--brand-color-rgb), 0.8) 0%, rgba(var(--brand-color-rgb), 0.6) 100%);
+            text-align: center;
+            color: var(--text-heading);
+            padding: 100px 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+        .final-cta .btn {
+            background-color: var(--bg-dark); /* Dark button on brand color background */
+            color: var(--text-heading);
+            border-color: var(--bg-dark);
+            font-size: 1.15rem;
+            padding: 1em 2.5em;
+        }
+        .final-cta .btn:hover {
+            background-color: rgba(var(--bg-dark-rgb), 0.8);
+            border-color: rgba(var(--bg-dark-rgb), 0.8);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main bg-dark */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            height: 50px;
+            filter: brightness(1.2);
+            margin-bottom: 1.5rem;
+        }
+        .footer p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sticky-header nav ul {
+                gap: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .hero p.tagline {
+                font-size: 1.2rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info {
+                margin-bottom: 3rem;
+            }
+            .story-content {
+                margin-bottom: 3rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                min-height: var(--header-height);
+                padding: 10px 20px;
+                flex-wrap: wrap;
+            }
+            .sticky-header .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header .logo {
+                margin-right: auto;
+                order: 1; /* Puts logo first on left */
+                height: 35px;
+            }
+            .sticky-header nav {
+                order: 2; /* Puts nav below logo/button on new line */
+                flex-basis: 100%;
+                margin-top: 10px;
+                padding-bottom: 5px;
+                text-align: center;
+            }
+            .sticky-header nav ul {
+                justify-content: center;
+                gap: 0.8rem;
+                font-size: 0.9rem;
+            }
+            .header-call-btn {
+                position: static; /* Remove absolute positioning on smaller screens */
+                order: 1; /* Puts button next to logo */
+                padding: 0.5em 1em;
+                font-size: 0.8rem;
+                height: auto;
+                margin-left: 10px; /* Space from logo */
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero p.location {
+                font-size: 1rem;
+            }
+            .hero p.tagline {
+                font-size: 1rem;
+            }
+            .rating-badge {
+                font-size: 0.9rem;
+            }
+            .section-label {
+                font-size: 0.85rem;
+            }
+            .story-content h2, .location-info h3, .hours-info h3 {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer .logo {
+                height: 40px;
+            }
+            .footer p {
+                font-size: 0.9rem;
+            }
+            .social-links {
+                gap: 1rem;
+            }
+            .social-links a {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p.tagline {
+                font-size: 0.9rem;
+            }
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.8em 1.5em;
+            }
+            .section-label {
+                font-size: 0.8rem;
+            }
+            .story-content h2, .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .testimonial-card p, .menu-card p, .choose-card p, .testimonial-item p, .location-info p {
+                font-size: 1rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .hours-table {
+                font-size: 1rem;
+            }
+            .sticky-header nav ul {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                gap: 0.5rem;
+            }
+            .sticky-header nav a {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <a href="#hero" aria-label="Basil's Home">
+                <img src="http://images.squarespace-cdn.com/content/v1/5723f181d51cd4d1167d71c7/ceecda77-d1b8-4454-b323-89a0e1c4c7b1/Logo.png?format=original" alt="Basil's Logo" class="logo">
+            </a>
+            <a href="tel:+18283864066" class="btn header-call-btn">
+                <i data-feather="phone" stroke-width="2.5" width="18" height="18"></i> CALL (828) 386-4066
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="location uppercase">Boone, NC</p>
+                <h1>Basil's</h1>
+                <p class="tagline">Cocktails &bull; Craft Beer &bull; Wine Bar &bull; Fresh Pasta &bull; Sandwiches</p>
+                <div class="rating-badge">
+                    <i data-feather="star" fill="gold" stroke="gold" width="18" height="18"></i>
+                    4.4 Stars (775 Reviews)
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#menu" class="btn btn-primary">View Menu</a>
+                    <a href="#find-us" class="btn btn-secondary">Find Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container social-proof-grid">
+                <div class="proof-item fade-in-up">
+                    <h3>4.4</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="proof-item fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>775+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>A Boone NC</h3>
+                    <p>Local Favorite</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <div class="our-story-grid">
+                    <div class="story-content fade-in-up">
+                        <span class="section-label">Our Heritage</span>
+                        <h2>Crafting authentic Italian flavors, right here in Boone.</h2>
+                        <p>At Basil's, we believe in the simple joy of exceptional Italian food, made with passion and served with warmth. As a locally owned establishment in the heart of Boone, NC, we're dedicated to bringing you an experience that feels both authentic and intimately familiar.</p>
+                        <p>From our handcrafted fresh pasta, prepared daily, to our carefully curated selection of cocktails, craft beers, and fine wines, every detail is designed to delight. We're more than just a restaurant; we're a gathering place, a community hub, and a testament to the timeless appeal of classic Italian cuisine.</p>
+                        <div class="testimonial-card">
+                            <p>"Basil's is the heart of Italian dining in Boone. Their commitment to fresh ingredients and warm service truly shines through!"</p>
+                            <span>— A Loyal Patron, Boone NC</span>
+                        </div>
+                    </div>
+                    <div class="story-image-and-stats fade-in-up" style="transition-delay: 0.2s;">
+                        <!-- Using a relevant Unsplash image as a CSS background -->
+                        <div style="width:100%; height:400px; background: linear-gradient(rgba(var(--brand-color-rgb), 0.1), rgba(var(--bg-dark-rgb), 0.8)), url('https://images.unsplash.com/photo-1555939594-58d717ad8ad2?auto=format&fit=crop&q=80&w=1974&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center center / cover no-repeat; border-radius: 8px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; text-shadow: 0 2px 5px rgba(0,0,0,0.5);">
+                            <p style="text-align: center; max-width: 80%; line-height: 1.4;">Experience the vibrant flavors of authentic Italian cuisine, crafted with care.</p>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <h3>4.4</h3>
+                                <p>Star Rated</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>775+</h3>
+                                <p>Reviews</p>
+                            </div>
+                            <div class="stat-item">
+                                <h3>Boone NC</h3>
+                                <p>A Local Staple</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu" style="background-color: var(--bg-dark-light);">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Our Offerings</span>
+                <h2 class="fade-in-up">Savor the authentic taste of Basil's.</h2>
+                <p class="fade-in-up" style="max-width: 700px; margin: 1.5rem auto 3rem auto; font-size: 1.15rem; color: var(--text-secondary);">Explore our menu, where every dish is crafted with fresh, local ingredients and a touch of Italian tradition. While we don't list prices online, we guarantee a delightful culinary journey.</p>
+
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Fresh Pasta Creations</h3>
+                        <p>Handmade daily, our pasta dishes feature classic recipes and seasonal innovations, from rich Bolognese to delicate Cacio e Pepe.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                        <h3>Artisan Sandwiches</h3>
+                        <p>Crafted on freshly baked bread with premium meats, cheeses, and garden-fresh vegetables. Perfect for a hearty lunch.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>Signature Cocktails</h3>
+                        <p>Our skilled bartenders mix an array of classic and creative cocktails, perfect for starting your evening or unwinding.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                        <h3>Curated Craft Beer</h3>
+                        <p>A rotating selection of the finest craft beers, featuring local breweries and beloved regional favorites.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                        <h3>Fine Wine List</h3>
+                        <p>An extensive collection of Italian and international wines, chosen to perfectly complement your meal.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                        <h3>Appetizers & Salads</h3>
+                        <p>Start your experience with fresh, vibrant salads or classic Italian antipasti designed for sharing.</p>
+                    </div>
+                </div>
+                <a href="#find-us" class="btn btn-primary mt-4 fade-in-up" style="margin-top: 4rem;">See Our Full Menu In-Store</a>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Our Promise</span>
+                <h2 class="fade-in-up">Why Basil's is Boone's choice for Italian.</h2>
+                <p class="fade-in-up" style="max-width: 700px; margin: 1.5rem auto 3rem auto; font-size: 1.15rem; color: var(--text-secondary);">We go beyond delicious food to create an unforgettable dining experience, rooted in community and quality.</p>
+
+                <div class="why-choose-grid">
+                    <div class="choose-card fade-in-up">
+                        <h3>Authentic Fresh Pasta</h3>
+                        <p>Experience the true taste of Italy with our pasta, made from scratch every day. It's a difference you can truly taste and feel.</p>
+                    </div>
+                    <div class="choose-card fade-in-up" style="transition-delay: 0.1s;">
+                        <h3>Curated Drink Selection</h3>
+                        <p>From expertly mixed cocktails to a diverse range of craft beers and a thoughtful wine list, we have the perfect pairing for any mood.</p>
+                    </div>
+                    <div class="choose-card fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>Locally Owned & Loved</h3>
+                        <p>We're proud to be a part of the Boone community, serving our neighbors with passion and a warm, inviting atmosphere since day one.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials" style="background-color: var(--bg-dark-light);">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">What Our Guests Say</span>
+                <h2 class="fade-in-up">Hear from our happy customers.</h2>
+                <p class="fade-in-up" style="max-width: 700px; margin: 1.5rem auto 3rem auto; font-size: 1.15rem; color: var(--text-secondary);">With 775+ reviews and a 4.4-star rating, Basil's is a proven favorite in Boone. Here's why:</p>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-item fade-in-up">
+                        <p>"The fresh pasta here is simply divine! Each bite takes you straight to Italy. A true Boone gem that never disappoints."</p>
+                        <strong>— Sarah L., Local Foodie</strong>
+                    </div>
+                    <div class="testimonial-item fade-in-up" style="transition-delay: 0.1s;">
+                        <p>"Basil's cocktails are expertly crafted, and the ambiance is perfect for a relaxing evening. My go-to spot for a night out!"</p>
+                        <strong>— Mark P., Regular Guest</strong>
+                    </div>
+                    <div class="testimonial-item fade-in-up" style="transition-delay: 0.2s;">
+                        <p>"You can't go wrong with their artisan sandwiches for lunch. And the service? Always top-notch and incredibly friendly. Highly recommend!"</p>
+                        <strong>— Emily R., Boone Resident</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <span class="section-label fade-in-up text-center">Visit Us</span>
+                <h2 class="fade-in-up text-center">Your table awaits at Basil's.</h2>
+
+                <div class="location-hours-grid" style="margin-top: 4rem;">
+                    <div class="location-info fade-in-up">
+                        <h3>Find Us in Boone, NC</h3>
+                        <p>Located conveniently at:</p>
+                        <p style="font-size: 1.15rem; font-weight: 500; color: var(--text-heading);">246 Wilson Dr # K, Boone, NC 28607, USA</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Basil%27s,+246+Wilson+Dr+%23+K,+Boone,+NC+28607,+USA" target="_blank" rel="noopener noreferrer" class="directions-link">
+                            <i data-feather="map-pin" width="20" height="20"></i> Get Directions
+                        </a>
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3184.341071427508!2d-81.67026638469315!3d36.21200508092289!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8850fa9d1e37d80b%3A0xc3f8f9e6129e3a67!2sBasil's!5e0!3m2!1sen!2sus!4v1678886000000!5m2!1sen!2sus"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Basil's Location on Google Maps">
+                        </iframe>
+                    </div>
+                    <div class="hours-info fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>11:00 AM – 9:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>11:00 AM – 10:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>11:00 AM – 10:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>11:00 AM – 3:00 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+18283864066" class="btn btn-primary">
+                            <i data-feather="phone" stroke-width="2.5" width="18" height="18"></i> CALL TO ORDER / RESERVE
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Ready for an authentic Italian experience?</h2>
+                <p style="font-size: 1.25rem; margin-bottom: 2.5rem; color: rgba(255,255,255,0.9);">Don't miss out on Boone's favorite Italian spot. Secure your table or place an order now!</p>
+                <a href="tel:+18283864066" class="btn btn-primary">
+                    <i data-feather="phone" stroke-width="2.5" width="20" height="20" style="vertical-align: middle;"></i> CALL BASIL'S TODAY
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" aria-label="Basil's Home">
+                <img src="http://images.squarespace-cdn.com/content/v1/5723f181d51cd4d1167d71c7/ceecda77-d1b8-4454-b323-89a0e1c4c7b1/Logo.png?format=original" alt="Basil's Logo" class="logo">
+            </a>
+            <p class="tagline">Cocktails &bull; Craft Beer &bull; Wine Bar &bull; Fresh Pasta &bull; Sandwiches &bull; Locally owned in Boone NC</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><i data-feather="facebook"></i></a></li>
+                <li><a href="#" aria-label="Instagram"><i data-feather="instagram"></i></a></li>
+                <li><a href="#" aria-label="Yelp"><i data-feather="message-circle"></i></a></li> <!-- Using message-circle for Yelp -->
+            </ul>
+            <p class="copyright">&copy; 2026 Basil's. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Feather Icons Initialization -->
+    <script>
+        feather.replace();
+    </script>
+
+    <!-- IntersectionObserver for Fade-in-up animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
