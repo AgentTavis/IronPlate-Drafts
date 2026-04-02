@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chase & Charli – Authentic Seafood & American Cuisine in Mt Airy, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B4513; /* SaddleBrown */
+            --accent-color: #A020F0; /* Purple */
+            --text-light: #ffffff;
+            --text-medium: #cccccc;
+            --text-dark: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --spacing-large: 40px;
+            --spacing-medium: 20px;
+            --spacing-small: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-medium);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-light);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: var(--spacing-medium);
+            font-size: 1.05rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-medium);
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+        
+        /* Fade-in-up base class (IntersectionObserver would add a class to trigger active state) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        /* Example of how active state would look - JS would add this class */
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Section Labels */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-small);
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: var(--spacing-large);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 var(--spacing-medium);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            width: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-large);
+        }
+
+        .header-nav a {
+            color: var(--text-medium);
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(139, 69, 19, 0.1) 0%, rgba(160, 32, 240, 0.05) 50%, var(--bg-dark) 100%);
+            background-color: var(--bg-dark); /* Fallback */
+            padding-top: var(--header-height); /* Offset for sticky header */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: var(--spacing-small);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            animation: textGlow 2s infinite alternate;
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 0 0 10px rgba(139, 69, 19, 0.5), 0 0 20px rgba(139, 69, 19, 0.3); }
+            to { text-shadow: 0 0 15px rgba(139, 69, 19, 0.8), 0 0 25px rgba(139, 69, 19, 0.5), 0 0 35px rgba(160, 32, 240, 0.2); }
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: var(--spacing-small);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-large);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: var(--spacing-large);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .rating-badge svg {
+            margin-right: var(--spacing-small);
+            color: gold;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: var(--spacing-medium);
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: var(--spacing-large) 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-large);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-light);
+        }
+
+        .proof-item strong {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-small);
+        }
+
+        .proof-item span {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+        }
+        .proof-item .sub-text {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        /* Our Story & Why Choose Us sections (similar card structure) */
+        .story-grid, .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-large);
+            margin-top: var(--spacing-large);
+        }
+
+        .story-text-content {
+            max-width: 800px;
+            margin: 0 auto var(--spacing-large) auto;
+            text-align: center;
+        }
+        .story-text-content p {
+            font-size: 1.15rem;
+        }
+
+        .testimonial-card, .menu-card, .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: var(--spacing-large);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-card:hover, .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-small);
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            text-align: right;
+            font-size: 1rem;
+        }
+        .testimonial-card .author span {
+            color: var(--text-dark);
+            font-weight: 400;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: var(--spacing-large);
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-card strong {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-small);
+        }
+
+        .stat-card span {
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-large);
+        }
+
+        .menu-card h3 {
+            font-size: 1.7rem;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-small);
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-small);
+        }
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 0;
+        }
+
+        /* Location & Hours */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-large);
+            align-items: flex-start;
+        }
+
+        .location-map {
+            background-color: rgba(255, 255, 255, 0.05);
+            min-height: 400px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            font-style: italic;
+        }
+
+        .location-details h3, .hours-details h3 {
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-medium);
+        }
+        .location-details p {
+            margin-bottom: var(--spacing-small);
+        }
+        .location-details .phone-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: var(--spacing-medium);
+        }
+        .location-details .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-medium);
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-medium);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 600;
+            width: 30%;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours-ctas {
+            margin-top: var(--spacing-large);
+            display: flex;
+            gap: var(--spacing-medium);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 50%, var(--accent-color) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-large);
+            color: var(--text-light);
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: var(--section-padding-y) 0 var(--spacing-large) 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--spacing-small);
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: var(--spacing-large);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-medium);
+            margin-bottom: var(--spacing-large);
+        }
+
+        .social-links a {
+            color: var(--text-medium);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header-nav {
+                display: none; /* Hide nav on smaller screens */
+            }
+            .header-content {
+                justify-content: space-between;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: 50px;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-call-btn {
+                font-size: 0.9rem;
+                padding: 0.6rem 1rem;
+            }
+            .hero {
+                padding-top: 50px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: var(--spacing-small);
+            }
+            .btn {
+                width: 100%;
+                padding: 0.8rem 1.5rem;
+            }
+            .section-padding-y {
+                padding: 80px 0;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .proof-item strong {
+                font-size: 2rem;
+            }
+            .proof-item span {
+                font-size: 1rem;
+            }
+            .stat-card strong {
+                font-size: 2.5rem;
+            }
+            .stat-card span {
+                font-size: 1rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .location-hours-ctas {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .header-call-btn {
+                display: none; /* Hide call button on very small screens if needed */
+            }
+            .header-content {
+                justify-content: center;
+            }
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+            .footer-tagline {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content container">
+            <div class="header-logo">
+                Chase & Charli
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3367552010" class="header-call-btn">CALL (336) 755-2010</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in-up is-visible">
+            <p class="hero-location">Mt Airy, NC</p>
+            <h1>Chase & Charli</h1>
+            <p class="hero-tagline">A family owned and operated restaurant in Mount Airy, North Carolina.</p>
+            <div class="rating-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2l-2.81 6.63L2 9.24l5.46 4.73L5.82 21L12 17.27z"/></svg>
+                4.5 Stars (723 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container proof-grid fade-in-up">
+            <div class="proof-item">
+                <strong>4.5</strong>
+                <span>Star Rating</span>
+                <span class="sub-text">Across All Platforms</span>
+            </div>
+            <div class="proof-item">
+                <strong>723+</strong>
+                <span>Happy Customers</span>
+                <span class="sub-text">And Counting!</span>
+            </div>
+            <div class="proof-item">
+                <strong>Mt Airy</strong>
+                <span>Local Favorite</span>
+                <span class="sub-text">Proudly Serving Our Community</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Heritage</span>
+            <h2 class="section-headline">Our Family. Your Table. Unforgettable Seafood.</h2>
+            <div class="story-text-content">
+                <p>Welcome to Chase & Charli, a true family-owned and operated gem nestled in the heart of Mount Airy, North Carolina. For years, our passion for delicious food and warm hospitality has driven us to create a dining experience where every guest feels like an extension of our family.</p>
+                <p>We're proud to serve our community, bringing you a diverse menu from classic American comfort food to the freshest seafood, all crafted with care and homemade goodness. Our commitment to quality and a welcoming atmosphere has earned us a 4.5-star rating from over 700 delighted customers, making us a beloved local favorite.</p>
+                <p>Join us and discover why Chase & Charli isn't just a restaurant, but a place where memories are made, one delicious meal at a time.</p>
+            </div>
+            <div class="story-grid">
+                <div class="testimonial-card">
+                    <blockquote>"Chase & Charli is our go-to spot in Mt Airy! You can truly feel the family warmth from the moment you step in. The food is always fresh and delicious, a real taste of home."</blockquote>
+                    <span class="author">— A Happy Regular <span>(Local Resident)</span></span>
+                </div>
+                <div class="stat-card">
+                    <strong>4.5</strong>
+                    <span>Star Rating</span>
+                </div>
+                <div class="stat-card">
+                    <strong>723+</strong>
+                    <span>Customer Reviews</span>
+                </div>
+                <div class="stat-card">
+                    <strong>#15 of 77</strong>
+                    <span>Restaurants in Mt Airy</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" style="background-color: rgba(255,255,255,0.02);">
+        <div class="container fade-in-up">
+            <span class="section-label">Taste Our Tradition</span>
+            <h2 class="section-headline">Savor the Flavors of the Coast & Beyond.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Peel & Eat Shrimp</h3>
+                    <p>Succulent, perfectly seasoned shrimp, ready for you to peel and enjoy. A true coastal classic and a Chase & Charli specialty.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Classic Cheeseburger</h3>
+                    <p>Our juicy, perfectly grilled burger topped with melted cheese and fresh fixings, served on a toasted bun. A homemade American favorite.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Steak Entrée</h3>
+                    <p>Hand-cut, expertly grilled steak cooked to your preference, served with your choice of savory sides. A hearty and satisfying meal.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Crispy Fried Chicken</h3>
+                    <p>Golden-brown and deliciously crispy, our homemade fried chicken is seasoned to perfection, offering comforting Southern flavors.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Fresh Catch Seafood Platter</h3>
+                    <p>A rotating selection of the freshest seafood, prepared daily to highlight its natural flavors. Ask your server about today's special.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Homemade Daily Specials</h3>
+                    <p>Beyond our staples, we offer unique daily specials, crafted from the freshest ingredients and our family's secret recipes. Always something new to discover!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Commitment</span>
+            <h2 class="section-headline">More Than Just a Meal. It's an Experience.</h2>
+            <div class="why-choose-grid">
+                <div class="feature-card">
+                    <h3>Family Owned & Operated</h3>
+                    <p>Experience the genuine warmth and personal touch that only a family restaurant can offer. We pour our heart into every dish and every guest, making you feel right at home.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Fresh, Homemade & Diverse</h3>
+                    <p>From our signature peel & eat shrimp to hearty burgers, savory steak, and daily homemade specials, our menu promises quality ingredients and flavors for every palate.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Proven Local Favorite</h3>
+                    <p>With a stellar 4.5-star rating from 723+ reviews, Chase & Charli is a trusted choice in Mt Airy. Join the many happy customers who return for our consistent quality and friendly service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section style="background-color: rgba(255,255,255,0.02);">
+        <div class="container fade-in-up">
+            <span class="section-label">Hear From Our Guests</span>
+            <h2 class="section-headline">Voices From Our Table.</h2>
+            <div class="story-grid">
+                <div class="testimonial-card">
+                    <blockquote>"The peel & eat shrimp are an absolute must-try! So fresh and perfectly seasoned. It's truly the best seafood experience in Mount Airy."</blockquote>
+                    <span class="author">— Sarah K. <span>(Seafood Lover)</span></span>
+                </div>
+                <div class="testimonial-card">
+                    <blockquote>"I'm a burger guy, and Chase & Charli's burgers are top-notch. Paired with a steak cooked exactly how I like it on another visit, this place never disappoints. Consistent quality every time."</blockquote>
+                    <span class="author">— Mark T. <span>(Regular Customer)</span></span>
+                </div>
+                <div class="testimonial-card">
+                    <blockquote>"Their daily specials are always a delightful surprise, and you can really taste the homemade difference. It's clear they put a lot of love into their cooking. A true local gem!"</blockquote>
+                    <span class="author">— Emily R. <span>(Local Foodie)</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Find Your Way to Delicious.</h2>
+            <div class="location-hours-grid">
+                <div class="location-details">
+                    <h3>Our Location</h3>
+                    <p><strong>Chase & Charli</strong></p>
+                    <p>1384 S Main St<br>Mt Airy, NC 27030, USA</p>
+                    <a href="tel:3367552010" class="phone-number">(336) 755-2010</a>
+                    <p>Easily accessible with ample parking. We look forward to welcoming you!</p>
+                </div>
+                <div class="hours-details">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="location-hours-ctas">
+                <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                <a href="tel:3367552010" class="btn btn-secondary">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Hear About It. Taste It!</h2>
+            <a href="#menu" class="btn btn-primary">VIEW OUR FULL MENU</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Chase & Charli</div>
+            <p class="footer-tagline">A family owned and operated restaurant in Mount Airy, North Carolina.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.098-1.092 1.098-1.092h3v-4h-3c-4.202 0-5 3.235-5 5.249v1.751z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.07 4.85-0.148 3.252-1.691 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.85-.07-3.252-0.148-4.771-1.691-4.919-4.919-0.058-1.265-0.069-1.645-0.069-4.849 0-3.204.012-3.584.07-4.85 0.148-3.252 1.691-4.771 4.919-4.919 1.266-0.057 1.645-0.069 4.849-0.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-0.059 1.281-0.073 1.689-0.073 4.948 0 3.259.014 3.668.072 4.948 0.2 4.358 2.618 6.78 6.98 6.98 1.281 0.058 1.689 0.072 4.948 0.072 3.259 0 3.668-0.014 4.948-0.072 4.354-0.2 6.782-2.618 6.979-6.98 0.059-1.28.073-1.689.073-4.948 0-3.259-0.014-3.667-0.072-4.947-0.196-4.354-2.617-6.78-6.979-6.98-1.281-0.059-1.69-0.073-4.949-0.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Chase & Charli. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer implementation for fade-in-up effect
+        document.addEventListener("DOMContentLoaded", () => {
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // Start animating a bit before it's fully in view
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("is-visible");
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
