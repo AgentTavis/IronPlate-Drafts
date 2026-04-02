@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fat Cat - Newton's Favorite Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Design System - Colors */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #1a1a1a;
+            --brand-color: #D4A574; /* Orange-Gold */
+            --accent-color: #FFFFFF;
+            --text-heading: #FFFFFF;
+            --text-body: #CCCCCC;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.25);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(212, 165, 116, 0.25);
+        }
+
+        /* Section Headlines & Labels */
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        .card-brand-border-left {
+            border-left: 5px solid var(--brand-color);
+            border-right: 1px solid var(--card-border);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        /* Fade-in-up animation (IntersectionObserver controlled) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px; /* As per requirement */
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sticky-header .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+        .sticky-header nav a {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            padding: 8px 18px; /* Slightly smaller for 60px height */
+            border-radius: 5px;
+            font-weight: 600;
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.03em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 1rem;
+        }
+        .sticky-header .call-button:hover {
+            transform: scale(1.03);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(212, 165, 116, 0.08) 0%, rgba(17, 17, 17, 1) 70%);
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+        }
+        .hero .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            line-height: 0.9;
+        }
+        .hero .tagline {
+            font-size: 1.35rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .hero .rating-badge svg {
+            fill: var(--brand-color);
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(212, 165, 116, 0.05);
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-strip .proof-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+            gap: 20px;
+        }
+        .social-proof-strip .proof-item {
+            flex: 1;
+            min-width: 180px;
+            max-width: 300px;
+            padding: 15px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .social-proof-strip .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            letter-spacing: -0.03em;
+        }
+        .social-proof-strip .proof-item p {
+            font-size: 1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+        .social-proof-strip .proof-item .star-icon {
+            color: var(--brand-color);
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+        .our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .our-story .story-text {
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+            text-align: left;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .our-story .story-text p + p {
+            margin-top: 20px;
+        }
+        .our-story .testimonial-quote-card {
+            font-style: italic;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: center;
+            border-left: 5px solid var(--brand-color);
+            padding-left: 20px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            margin: 40px auto 60px auto;
+            max-width: 700px;
+        }
+        .our-story .testimonial-quote-card footer {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: normal;
+            font-weight: 600;
+        }
+        .our-story .stats-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .our-story .stat-card {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            flex: 1;
+            min-width: 250px;
+            max-width: 30%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .our-story .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .our-story .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .our-story .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 5. MENU SECTION (ADAPTED FOR DATA CONSTRAINT) */
+        .menu-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+        .menu-grid {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .menu-item-card {
+            text-align: left;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+        .menu-item-card .description {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        .menu-section .cta-menu {
+            margin-top: 60px;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            text-align: center;
+        }
+        .why-choose-us-grid {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 5px;
+            background-color: var(--brand-color);
+            border-radius: 0 0 5px 5px;
+        }
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+        .testimonials-grid {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            font-style: italic;
+            color: var(--text-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        .testimonial-card footer {
+            margin-top: 20px;
+            font-weight: 600;
+            font-style: normal;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+        .testimonial-card footer span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            text-align: center;
+        }
+        .location-hours-content {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            text-align: left;
+        }
+        .location-info .address, .location-info .phone {
+            margin-bottom: 25px;
+            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        .location-info .phone a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .location-info .phone a:hover {
+            text-decoration: underline;
+        }
+        .location-info .address a {
+            color: var(--text-body);
+            font-weight: 400;
+        }
+        .location-info .address a:hover {
+            text-decoration: underline;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .hours-table th {
+            text-align: left;
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 40%;
+        }
+        .hours-table td {
+            text-align: right;
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .location-hours-section .cta-button-wrapper {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color), #f0b985); /* Brand color gradient */
+            padding: 100px 0;
+            text-align: center;
+        }
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--bg-main);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+        }
+        .final-cta-section .btn-light {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+        }
+        .final-cta-section .btn-light:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            padding: 80px 0 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer .social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 40px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header nav ul {
+                gap: 25px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.15rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px 20px;
+            }
+            .sticky-header .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 5px;
+                font-size: 1.5rem;
+            }
+            .sticky-header nav ul {
+                width: 100%;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+            .sticky-header .call-button {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+            .social-proof-strip .proof-items {
+                flex-direction: column;
+                align-items: center;
+            }
+            .social-proof-strip .proof-item {
+                max-width: 100%;
+            }
+
+            .our-story .story-text {
+                padding: 0 10px;
+            }
+            .our-story .stats-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .our-story .stat-card {
+                max-width: 90%;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                gap: 40px;
+                padding: 0 20px;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .footer .social-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .sticky-header nav ul {
+                flex-direction: column;
+            }
+            .sticky-header nav a {
+                padding: 8px 0;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">The Fat Cat</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:8284613101" class="call-button">CALL (828) 461-3101</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in-up">
+            <p class="location">Newton, NC</p>
+            <h1>THE FAT CAT</h1>
+            <p class="tagline">#thisisfatcat #makefoodfriends. FAT CAT season starts this April🗓️ Seasonal pop-ups. Rotating menu. Private events: DM/email us.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279l-7.416-3.921-7.417 3.921 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                5.0 Stars (6 reviews)
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-items">
+                <div class="proof-item fade-in-up">
+                    <span class="star-icon">★</span>
+                    <h3>5.0</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="proof-item fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>6+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Local</h3>
+                    <p>Favorite Eatery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Journey</p>
+            <h2 class="section-headline fade-in-up">Where Comfort Meets Community in Newton, NC.</h2>
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p>The Fat Cat is more than just a place to eat; it's a cozy eatery nestled in the heart of Newton, NC, known for its genuinely welcoming atmosphere and mouth-watering comfort food. We believe that great meals are meant to be shared, creating moments and memories around the table.</p>
+                    <p>Our passion lies in crafting delicious dishes that feel like home, from classic grill favorites that hit just the spot, to exciting and unique seasonal pop-ups that keep our menu fresh and intriguing. With a commitment to quality and a love for local flavor, we ensure every visit offers something new to discover.</p>
+                </div>
+                
+                <blockquote class="testimonial-quote-card fade-in-up" style="transition-delay: 0.2s;">
+                    "The Fat Cat truly captures the spirit of Newton. Every dish feels like it's made with love, and the atmosphere is always buzzing with friendly faces. It's our go-to for a relaxed evening and fantastic food!"
+                    <footer>— A Happy Newton Local</footer>
+                </blockquote>
+
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <h3>5.0</h3>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.1s;">
+                        <h3>Seasonal</h3>
+                        <p>Pop-Ups</p>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>Community</h3>
+                        <p>Hub</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION (ADAPTED FOR DATA CONSTRAINT) -->
+    <section class="menu-section" id="menu">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Culinary Delights</p>
+            <h2 class="section-headline fade-in-up">Crafted for Your Comfort, Seasonal & Delicious.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h3>Appetizers</h3>
+                    <p class="description">Kick off your meal with our selection of savory starters, perfect for sharing (or not!).</p>
+                    <!-- No price displayed due to data constraints -->
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Main Courses</h3>
+                    <p class="description">Hearty and satisfying, our main dishes feature classic comfort food with a Fat Cat twist.</p>
+                    <!-- No price displayed due to data constraints -->
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Desserts</h3>
+                    <p class="description">Indulge your sweet tooth with our delightful homemade desserts, the perfect ending to any meal.</p>
+                    <!-- No price displayed due to data constraints -->
+                </div>
+            </div>
+            <div class="cta-menu fade-in-up">
+                <a href="#find-us" class="btn btn-primary">EXPLORE OUR ROTATING MENU</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Promise</p>
+            <h2 class="section-headline fade-in-up">More Than Just a Meal – It's an Experience.</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-card fade-in-up">
+                    <h3>5-Star Rated Excellence</h3>
+                    <p>Our consistent 5-star rating from satisfied customers speaks volumes. We're dedicated to delivering quality food and exceptional service every time you visit.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Seasonal Pop-ups & Rotating Menu</h3>
+                    <p>Boredom is not on our menu! Enjoy fresh flavors and exciting culinary adventures with our dynamic seasonal pop-ups and ever-evolving rotating menu.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Cozy Atmosphere & Private Events</h3>
+                    <p>From a welcoming evening out to celebrating your special moments, our cozy bar and grill is perfect for intimate dinners or memorable private events. Just ask us!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <p class="section-label fade-in-up">Rave Reviews</p>
+            <h2 class="section-headline fade-in-up">Hear From Our Happy Guests.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    "The atmosphere at The Fat Cat is so inviting, and their <span style="color:var(--brand-color); font-weight: 700;">signature burger</span> is absolutely top-notch. It's cooked perfectly every time, making it my favorite comfort food spot in Newton!"
+                    <footer>— Jessica L. <span>| Regular Customer</span></footer>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    "I always look forward to their seasonal pop-ups! Last time, I tried their <span style="color:var(--brand-color); font-weight: 700;">spicy garlic wings</span>, and they were incredible. The staff are always friendly and make you feel right at home."
+                    <footer>— Mark T. <span>| Adventurous Eater</span></footer>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    "We booked The Fat Cat for a private event, and it exceeded all expectations. The <span style="color:var(--brand-color); font-weight: 700;">appetizer platters</span> were a huge hit, and the entire team ensured everything ran smoothly. Highly recommend!"
+                    <footer>— Sarah P. <span>| Event Host</span></footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section class="location-hours-section" id="find-us">
+        <div class="container">
+            <p class="section-label fade-in-up">Visit Us</p>
+            <h2 class="section-headline fade-in-up">Find Your Way to The Fat Cat.</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up">
+                    <h3 style="font-size: 2.2rem; margin-bottom: 25px;">Our Location</h3>
+                    <p class="address">
+                        <a href="https://www.google.com/maps/search/2323+Northwest+Blvd,+Newton,+NC+28658,+USA" target="_blank" rel="noopener noreferrer">
+                            2323 Northwest Blvd<br>
+                            Newton, NC 28658, USA
+                        </a>
+                    </p>
+                    <p class="phone">
+                        Call Us: <a href="tel:8284613101">(828) 461-3101</a>
+                    </p>
+                </div>
+                <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                    <h3 style="font-size: 2.2rem; margin-bottom: 25px;">Our Hours</h3>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday</th>
+                                <td>11:30 AM – 8:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>11:30 AM – 8:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>11:30 AM – 8:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>11:30 AM – 8:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>11:30 AM – 8:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>1:00 – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="cta-button-wrapper fade-in-up">
+                <a href="tel:8284613101" class="btn btn-primary">CALL TO ORDER / RESERVE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Miss Out on Newton's Favorite Spot!</h2>
+            <a href="#find-us" class="btn btn-light fade-in-up" style="transition-delay: 0.1s;">PLAN YOUR VISIT TODAY</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Fat Cat</div>
+            <p class="tagline">#thisisfatcat #makefoodfriends. FAT CAT season starts this April🗓️ Seasonal pop-ups. Rotating menu. Private events: DM/email us.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 .275-2H17V2.14c-.324-.047-1.5-.14-2.82-.14C11.97 2 10 3.657 10 6.7v2.8H7v4h3v8h4v-7.5Z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A4.3 4.3 0 0 0 4 7.6v8.8c0 2.2 1.8 4 4 4h8.4c2.2 0 4-1.8 4-4V7.6c0-2.2-1.8-4-4-4H7.6zM12 7a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5zm0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3zm6.5-4a1.25 1.25 0 1 0 0 2.5a1.25 1.25 0 0 0 0-2.5z"/></svg></a>
+                <a href="#" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12.5 0C12.839 0 13.178 0 13.5 0C16.891 0 19.957 1.801 21.666 4.646C23.366 7.485 23.316 10.978 21.658 13.791C19.99 16.593 16.906 18.253 13.5 18.253C13.069 18.253 12.639 18.24 12.209 18.217V12.181C12.209 11.088 11.238 10.19 10.052 10.19H5.093V10.147C7.625 10.147 9.771 8.245 9.771 5.923V5.88C9.771 4.794 10.741 3.901 11.928 3.901H12.5C12.839 3.901 13.178 3.901 13.5 3.901C15.82 3.901 17.728 5.485 18.498 7.653C19.261 9.817 18.487 12.158 16.632 13.513C16.622 13.52 16.611 13.527 16.6 13.534C15.228 14.502 13.593 15.021 11.93 15.021C8.257 15.021 5 12.682 5 9.387V6.046H2V9.387C2 13.88 5.765 17.5 10.354 17.5C10.66 17.5 10.965 17.5 11.267 17.5V24C5.109 24 0 18.665 0 12.016C0 7.844 2.146 4.14 5.385 2.179L5.42 2.159C6.012 1.761 6.643 1.411 7.303 1.11L7.351 1.085C7.94 0.816 8.547 0.575 9.176 0.364L9.224 0.347C9.805 0.176 10.392 0.052 10.983 0.007L11.017 0H12.5Z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Fat Cat. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% in viewport
+                rootMargin: "0px 0px -50px 0px" // Start animation slightly before it reaches the bottom of the viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+
+</body>
+</html>
