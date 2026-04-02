@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtra Bacon or Not - Saluda's Favorite Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #C41E3A;
+            --accent-color: #FFFFFF;
+            --bg-main: #111111;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        section:nth-of-type(even) {
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--brand-color-rgb, 196, 30, 58), 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* #111111 with transparency */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: #e02544; /* Slightly lighter brand color */
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(var(--brand-color-rgb, 196, 30, 58), 0.1) 50%, rgba(17, 17, 17, 1) 100%);
+            background-color: var(--bg-main);
+        }
+        
+        @keyframes subtleGradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 10px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .hero-location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--cccccc);
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            gap: 8px;
+        }
+
+        .hero-rating svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb, 196, 30, 58), 0.05);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .proof-item {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .proof-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .story-testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--brand-color);
+            margin-top: 40px;
+        }
+
+        .story-testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .story-testimonial-card span {
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+            margin-top: 10px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1.2;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid var(--brand-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .menu-card .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+        }
+
+        .menu-cta-area {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .reason-card svg {
+            color: var(--brand-color);
+            width: 40px;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        .reason-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .reason-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid var(--brand-color);
+            font-style: italic;
+        }
+
+        .testimonial-card p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+            font-style: normal;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .location-info iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 8px;
+            filter: grayscale(80%) invert(92%); /* Dark mode friendly map */
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+        
+        .location-hours-cta {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, rgba(var(--brand-color-rgb, 196, 30, 58), 1) 0%, rgba(var(--brand-color-rgb, 196, 30, 58), 0.8) 100%);
+            padding: 120px 0;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            color: var(--accent-color);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+            font-size: 1.1rem;
+            padding: 18px 36px;
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero-name { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-info iframe {
+                margin-top: 30px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .header-nav {
+                display: none; /* Hide navigation for smaller screens, can be replaced with a hamburger menu */
+            }
+            .hero-name { font-size: 2.8rem; }
+            .hero-location { font-size: 1rem; }
+            .hero-tagline { font-size: 1.2rem; }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .social-proof-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .stat-card h3 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 15px;
+            }
+        }
+
+        /* Fade-in-up on scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="header-logo">Xtra Bacon or Not</a>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(864) 803-5298" class="btn header-call-btn">CALL (864) 803-5298</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Saluda, NC</p>
+            <h1 class="hero-name">Xtra Bacon or Not</h1>
+            <p class="hero-tagline">A must-visit diner in Saluda, SC. Indulge in a delicious meal in our charming, relaxed atmosphere.</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" clip-rule="evenodd" />
+                </svg>
+                4.8 Stars (74 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid">
+            <div class="proof-item fade-in-up">
+                <h3>4.8 Stars</h3>
+                <p>Average Customer Rating</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3>74+</h3>
+                <p>Glowing Reviews</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3>Saluda's Go-To</h3>
+                <p>Local Favorite Diner</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="container">
+        <span class="section-label fade-in-up">Our Story</span>
+        <div class="our-story-grid">
+            <div class="story-content fade-in-up">
+                <h2>Serving Up Smiles, One Plate at a Time.</h2>
+                <p>Welcome to Xtra Bacon or Not, a charming mom & pop diner nestled in the heart of Saluda, SC. We're proud to be your local go-to spot for delicious food and a relaxed, casual atmosphere.</p>
+                <p>What started as a simple idea to serve great coffee, hearty breakfasts, and satisfying lunches has blossomed into a beloved community staple. We believe in big portions, fresh ingredients, and the kind of friendly service that makes you feel right at home.</p>
+                <div class="story-testimonial-card">
+                    <p>"Every visit feels like coming home. The food is always delicious, and the staff are incredibly warm!"</p>
+                    <span>- A Happy Regular</span>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-up">
+                <div class="stat-card">
+                    <h3>4.8</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card">
+                    <h3>74</h3>
+                    <p>Authentic Reviews</p>
+                </div>
+                <div class="stat-card">
+                    <h3>7 AM - 2 PM</h3>
+                    <p>Serving Wednesday-Sunday</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="container">
+        <span class="section-label fade-in-up">Our Menu</span>
+        <h2 class="fade-in-up">Classic Diner Favorites & More</h2>
+        <div class="menu-grid">
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>Our Famous Bacon & Eggs</h3>
+                    <p>Start your day the right way with crispy bacon (your choice of "Xtra Bacon or Not!"), perfectly cooked eggs, and your favorite sides.</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>Fluffy Pancake Stacks</h3>
+                    <p>Golden brown and incredibly light, our pancakes are served with warm syrup and butter. A breakfast classic!</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>Hearty Breakfast Platters</h3>
+                    <p>A generous spread of all your breakfast favorites, from sausage to home fries, designed to keep you full until lunch.</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>The Classic Diner Burger</h3>
+                    <p>Juicy, flavorful, and cooked to perfection. Served with fresh toppings on a toasted bun, with a side of crispy fries.</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>Freshly Brewed Coffee</h3>
+                    <p>The perfect pick-me-up any time of day. Rich, aromatic, and always served with a smile. It's a "great coffee" experience!</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+            <div class="menu-card fade-in-up">
+                <div>
+                    <h3>Daily Lunch Specials</h3>
+                    <p>Ask about our rotating daily specials, featuring comfort food and seasonal dishes prepared with a diner twist.</p>
+                </div>
+                <!-- <span class="price"></span> -->
+            </div>
+        </div>
+        <div class="menu-cta-area fade-in-up">
+            <p>Ready to discover your new favorite meal?</p>
+            <a href="tel:(864) 803-5298" class="btn btn-primary">CALL TO SEE TODAY'S SPECIALS</a>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="container">
+        <span class="section-label fade-in-up">Why Choose Us</span>
+        <h2 class="fade-in-up">More Than Just a Meal, It's an Experience</h2>
+        <div class="why-choose-us-grid">
+            <div class="reason-card fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.642 5.176a.75.75 0 0 1 1.116 0l4.724 7.105c.42.631.047 1.455-.633 1.455H7.555c-.68-.002-1.053-.824-.633-1.455l4.724-7.105Z" />
+                    <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm0 8.625a.75.75 0 0 0-1.5 0v4.875a.75.75 0 0 0 1.5 0v-4.875Z" clip-rule="evenodd" />
+                </svg>
+                <h3>Mom & Pop Charm</h3>
+                <p>Experience the genuine warmth and friendly service of a true local, family-run diner. We treat every customer like family!</p>
+            </div>
+            <div class="reason-card fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM19.5 18a.75.75 0 0 0-.75-.75H5.25a.75.75 0 0 0-.75.75v2.25c0 .414.336.75.75.75h14.25a.75.75 0 0 0 .75-.75v-2.25ZM6.75 10.5a.75.75 0 0 0-.75.75V15a.75.75 0 0 0 1.5 0v-3.75a.75.75 0 0 0-.75-.75Zm3.75 0a.75.75 0 0 0-.75.75V15a.75.75 0 0 0 1.5 0v-3.75a.75.75 0 0 0-.75-.75Zm3.75 0a.75.75 0 0 0-.75.75V15a.75.75 0 0 0 1.5 0v-3.75a.75.75 0 0 0-.75-.75Zm3.75 0a.75.75 0 0 0-.75.75V15a.75.75 0 0 0 1.5 0v-3.75a.75.75 0 0 0-.75-.75Z" clip-rule="evenodd" />
+                </svg>
+                <h3>Big Portions, Delicious Food</h3>
+                <p>We believe in satisfying hunger! Enjoy generous servings of our really good food, crafted with care and fresh ingredients.</p>
+            </div>
+            <div class="reason-card fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 0 1 .359 1.09L9.141 10.5h5.359a.75.75 0 0 1 .692 1.091l-7.5 10.5a.75.75 0 0 1-1.15-.043L2.313 11.493a1.5 1.5 0 0 1 .043-2.103L6.425 3.56a.75.75 0 0 1 1.09-.358l2.606 1.737 2.073-2.885a.75.75 0 0 1 1.09-.358Z" clip-rule="evenodd" />
+                </svg>
+                <h3>Great Coffee & Full Menu</h3>
+                <p>From great coffee that hits the spot to a diverse menu of breakfast and lunch options, there's always something to love.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="container">
+        <span class="section-label fade-in-up">What Our Guests Say</span>
+        <h2 class="fade-in-up">Loved by Locals, Adored by Visitors</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card fade-in-up">
+                <p>"Absolutely love Xtra Bacon or Not! The 'Xtra Bacon' option is a game-changer, and their coffee is the best in Saluda. Always leave with a smile and a full belly."</p>
+                <span class="author">- Jessica L.</span>
+            </div>
+            <div class="testimonial-card fade-in-up">
+                <p>"This diner is a hidden gem! The breakfast platters are huge and delicious, and the staff are incredibly friendly. My go-to for a comforting lunch sandwich."</p>
+                <span class="author">- Mark P.</span>
+            </div>
+            <div class="testimonial-card fade-in-up">
+                <p>"You have to try their pancakes! Fluffy, sweet, and perfectly cooked every time. It's the ideal spot for a relaxed weekend breakfast with the family."</p>
+                <span class="author">- Sarah T.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="container">
+        <span class="section-label fade-in-up">Visit Us</span>
+        <h2 class="fade-in-up">Your Table Awaits in Saluda, SC</h2>
+        <div class="location-hours-grid">
+            <div class="location-info fade-in-up">
+                <h3>Find Us Here</h3>
+                <p>Xtra Bacon or Not</p>
+                <p>121G N Main St</p>
+                <p>Saluda, SC 29138, USA</p>
+                <a href="tel:(864) 803-5298">Call Us: (864) 803-5298</a>
+                <p>Click the map for directions!</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3265.1105073468595!2d-82.35510652367464!3d35.15183416410313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8859a72b535d4963%3A0x6a0f7b5b525d8866!2s121G%20N%20Main%20St%2C%20Saluda%2C%20SC%2029138%2C%20USA!5e0!3m2!1sen!2sus!4v1701388800000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="hours-info fade-in-up">
+                <h3>Our Hours</h3>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday:</th>
+                        <td class="closed">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td class="closed">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday:</th>
+                        <td>7:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td>7:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td>7:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td>7:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday:</th>
+                        <td>7:00 AM – 2:00 PM</td>
+                    </tr>
+                </table>
+                <div class="location-hours-cta">
+                    <a href="tel:(864) 803-5298" class="btn btn-primary">CALL TO ORDER AHEAD</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container fade-in-up">
+            <h2>Ready for Xtra Bacon or Not? Your Table Awaits!</h2>
+            <a href="tel:(864) 803-5298" class="btn">SECURE YOUR SPOT NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">Xtra Bacon or Not</a>
+            <p class="footer-tagline">Saluda's charming diner, serving up delicious food and great coffee since [Omit Year if not provided]</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.18 0-4 1.22-4 4v3.5H7.5v4H10V22h4v-8.5Z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2A5.8 5.8 0 0 0 4 7.6v8.8C4 19.4 4.6 20 7.4 20h9.2c2.8 0 3.4-.6 3.4-3.4V7.6c0-2.8-.6-3.4-3.4-3.4H7.6m9.6 0a1.2 1.2 0 1 0 0 2.4a1.2 1.2 0 0 0 0-2.4M12 9a6 6 0 1 0 0 12a6 6 0 0 0 0-12m0 2a4 4 0 1 1 0 8a4 4 0 0 1 0-8"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2.28 12.28c-.3-.29-.39-.75-.24-1.13L4.9 4.38a1 1 0 0 1 .84-.52h2.51l.24-1.4a1 1 0 0 1 1-.86h4.63a1 1 0 0 1 1 .86l.24 1.4h2.5c.36 0 .69.18.84.49L21.96 8c.15.39.06.85-.24 1.14L19.47 12l2.25 2.22a1 1 0 0 1 .23 1.13L19.11 20a1 1 0 0 1-.84.52h-2.51l-.24 1.4a1 1 0 0 1-1 .86h-4.63a1 1 0 0 1-1-.86l-.24-1.4H4.9a1 1 0 0 1-.84-.49L2.28 15.93a1 1 0 0 1-.24-1.14L4.53 12L2.28 9.78a1 1 0 0 1-.06-.85c.15-.39.69-.51 1.05-.14ZM12 8.79l-1.92 5.07c-.12.33-.42.54-.76.54c-.16 0-.32-.05-.46-.14L6.9 13.25L5.75 14.8l2.64 2.59c.27.27.71.27.98 0c.27-.27.27-.71 0-.98l-.29-.29l.06-.06c.33-.33.54-.76.54-1.21V9.77c0-.46-.19-.89-.52-1.21L6.95 6.44l1.16-1.16l2.16 2.16c.15.15.34.22.54.22c.2 0 .39-.08.54-.22l2.25-2.25l1.16 1.16l-2.16 2.16c-.33.33-.52.76-.52 1.21v3.42c0 .45.19.88.52 1.21l1.12 1.12l-1.12 1.12c-.27.27-.71.27-.98 0c-.27-.27-.27-.71 0-.98l.29-.29l-.06-.06c-.33-.33-.54-.76-.54-1.21V9.77c0-.46.19-.89.52-1.21l1.12-1.12l-1.12-1.12c-.27-.27-.71-.27-.98 0c-.27.27-.27.71 0 .98l.29.29l-.06.06c-.33.33-.54.76-.54 1.21l.01 3.42c0 .46.19.89.52 1.21L17.1 14.8l-1.12-1.12l-2.16-2.16c-.15-.15-.34-.22-.54-.22c-.2 0-.39.08-.54.22l-2.25 2.25Z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Xtra Bacon or Not. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+        const options = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of element visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, options);
+
+        fadeInElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Set CSS variable for brand color RGB values for gradients
+        document.documentElement.style.setProperty('--brand-color-rgb', '196, 30, 58');
+    </script>
+</body>
+</html>
