@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field House BBQ | Kannapolis's Authentic Smoked Meats</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Variables */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #FF6B35;
+            --accent-color: #FFD60A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            /* Typography */
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0; /* Generous whitespace */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-brand {
+            color: var(--brand-color);
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: translateZ(0); /* For consistent transforms */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            box-shadow: 0 8px 20px rgba(255,107,53,0.3);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: 0.08em;
+            margin-right: 20px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-heading);
+        }
+        
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: #e55c2a; /* Slightly darker */
+            transform: scale(1.03);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--primary-bg);
+            background-image: radial-gradient(at top left, rgba(255,107,53, 0.1) 0%, transparent 50%),
+                              radial-gradient(at bottom right, rgba(255,214,10, 0.08) 0%, transparent 50%),
+                              linear-gradient(to bottom, rgba(17, 17, 17, 0.8) 0%, var(--primary-bg) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 6rem); /* Responsive font size */
+            margin-bottom: 10px;
+            line-height: 1;
+            letter-spacing: 0.1em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-size: 1.25rem;
+            color: var(--text-body);
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+
+        .hero .tagline-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 30px;
+            padding: 8px 18px;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        .hero .rating-badge svg {
+            color: var(--accent-color);
+            margin-right: 8px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(255,107,53, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof-item h4 {
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 300;
+        }
+
+        /* General Section Styling */
+        .section-label {
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: clamp(2rem, 4vw, 3rem); /* Responsive font size */
+            margin-bottom: 50px;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            letter-spacing: 0.05em;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-text {
+            flex: 2;
+        }
+
+        .our-story-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .quote-card {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .quote-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        .quote-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .stat-card h4 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 400;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h4 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .why-choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-choose-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .why-choose-card h4 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .why-choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h4, .hours-info h4 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 25px;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .location-info .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-body);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(255,107,53,0.8) 100%);
+            padding: 100px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+            padding: 18px 40px;
+            font-size: 1.2rem;
+        }
+
+        .final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: none;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-bg);
+            color: var(--text-secondary);
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            letter-spacing: 0.08em;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.6rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .our-story-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-info, .hours-info {
+                text-align: center;
+            }
+
+            .location-info a {
+                display: inline-block;
+            }
+
+            .hours-table {
+                width: 80%; /* Center table on smaller screens */
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .header-logo {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.8rem, 10vw, 4.5rem);
+            }
+
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .section-headline {
+                font-size: clamp(1.8rem, 6vw, 2.5rem);
+                margin-bottom: 40px;
+            }
+
+            .social-proof-grid,
+            .menu-grid,
+            .why-choose-grid,
+            .testimonials-grid,
+            .story-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .hours-table {
+                width: 100%;
+            }
+
+            .header-call-btn {
+                width: 100%; /* Full width button in mobile header */
+                text-align: center;
+            }
+        }
+
+        /* Intersection Observer Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <span class="header-logo">Field House BBQ</span>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17049324400" class="header-call-btn btn">CALL (704) 932-4400</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1 class="animate-on-scroll">Field House BBQ</h1>
+        <p class="location animate-on-scroll" style="transition-delay: 0.1s;">Kannapolis, NC</p>
+        <p class="tagline-text animate-on-scroll" style="transition-delay: 0.2s;">1907 S Cannon Blvd, Kannapolis, NC. #NorthCarolina #lunchtime #dinnertime</p>
+        <div class="rating-badge animate-on-scroll" style="transition-delay: 0.3s;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+            4.4 Stars (757 Reviews)
+        </div>
+        <div class="cta-buttons animate-on-scroll" style="transition-delay: 0.4s;">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof section-padding">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item animate-on-scroll">
+                <h4>4.4 Stars</h4>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item animate-on-scroll" style="transition-delay: 0.1s;">
+                <h4>757+</h4>
+                <p>Happy Diners & Reviews</p>
+            </div>
+            <div class="social-proof-item animate-on-scroll" style="transition-delay: 0.2s;">
+                <h4>Local Favorite</h4>
+                <p>Kannapolis's Top BBQ Spot</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container">
+            <span class="section-label uppercase text-center animate-on-scroll">Our Story</span>
+            <h2 class="section-headline text-center animate-on-scroll">Generations of Flavor, Smoked to Perfection in Kannapolis</h2>
+            <div class="our-story-content">
+                <div class="our-story-text animate-on-scroll">
+                    <p>With a menu boasting a delectable array of patiently smoked meats, including our renowned tender brisket, juicy pulled pork, and fall-off-the-bone flavorful ribs, Fieldhouse BBQ showcases the artistry and passion behind true Southern barbecue.</p>
+                    <p>Every dish is a testament to time-honored traditions, meticulous preparation, and a commitment to flavor that keeps our community coming back for more. We believe in slow-cooked goodness, rich smoky aromas, and generous portions that satisfy the soul. Come experience the warmth and taste that makes Fieldhouse BBQ a cherished part of Kannapolis.</p>
+                </div>
+                <div class="quote-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <p>"Field House BBQ truly captures the essence of Southern comfort food. The brisket melts in your mouth!"</p>
+                    <span class="author">— A Satisfied Local</span>
+                </div>
+            </div>
+
+            <div class="story-stats">
+                <div class="stat-card animate-on-scroll" style="transition-delay: 0.4s;">
+                    <h4>4.4</h4>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card animate-on-scroll" style="transition-delay: 0.5s;">
+                    <h4>757+</h4>
+                    <p>Customer Reviews</p>
+                </div>
+                <div class="stat-card animate-on-scroll" style="transition-delay: 0.6s;">
+                    <h4>Authentic</h4>
+                    <p>North Carolina BBQ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding" style="background-color: var(--secondary-bg);">
+        <div class="container">
+            <span class="section-label uppercase text-center animate-on-scroll">Our Menu</span>
+            <h2 class="section-headline text-center animate-on-scroll">Taste the Tradition: Our Signature Smoked Meats</h2>
+            <div class="menu-grid">
+                <div class="menu-card animate-on-scroll">
+                    <h4>Tender Brisket</h4>
+                    <p>Our brisket is slow-smoked for hours until it's perfectly tender, juicy, and bursting with smoky flavor.</p>
+                </div>
+                <div class="menu-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h4>Juicy Pulled Pork</h4>
+                    <p>Hand-pulled and seasoned to perfection, a classic BBQ staple that melts in your mouth.</p>
+                </div>
+                <div class="menu-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h4>Flavorful Ribs</h4>
+                    <p>Fall-off-the-bone ribs, generously rubbed and smoked to deliver an unforgettable taste experience.</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 60px;">
+                <a href="#find-us" class="btn btn-secondary animate-on-scroll" style="transition-delay: 0.3s;">SEE OUR FULL MENU IN-STORE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding">
+        <div class="container">
+            <span class="section-label uppercase text-center animate-on-scroll">Why Choose Field House BBQ?</span>
+            <h2 class="section-headline text-center animate-on-scroll">More Than Just BBQ, It's an Experience</h2>
+            <div class="why-choose-grid">
+                <div class="why-choose-card animate-on-scroll">
+                    <h4>Smoked to Perfection</h4>
+                    <p>We take pride in our slow-smoking process, ensuring every cut of tender brisket and flavorful rib achieves the perfect taste and texture.</p>
+                </div>
+                <div class="why-choose-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h4>Community Favorite</h4>
+                    <p>With a stellar 4.4-star rating from over 757 reviews, we're a beloved local spot cherished by the Kannapolis community.</p>
+                </div>
+                <div class="why-choose-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h4>Authentic NC Flavor</h4>
+                    <p>Experience true North Carolina BBQ with our signature juicy pulled pork and homemade sauces that capture the spirit of the South.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section-padding" style="background-color: var(--secondary-bg);">
+        <div class="container">
+            <span class="section-label uppercase text-center animate-on-scroll">What Our Customers Say</span>
+            <h2 class="section-headline text-center animate-on-scroll">Hear It From Our Happy Diners</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate-on-scroll">
+                    <p class="quote">"I've tried BBQ all over, but the tender brisket at Field House is truly exceptional. So moist and the bark is incredible. A must-try!"</p>
+                    <span class="author">— Michael P., Local Foodie</span>
+                </div>
+                <div class="testimonial-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <p class="quote">"The juicy pulled pork sandwich here is my absolute favorite. It's perfectly seasoned and always hits the spot for lunch!"</p>
+                    <span class="author">— Sarah L., Regular Customer</span>
+                </div>
+                <div class="testimonial-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <p class="quote">"If you're looking for flavorful ribs that practically fall off the bone, look no further. Field House BBQ never disappoints!"</p>
+                    <span class="author">— David M., Kannapolis Resident</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding">
+        <div class="container">
+            <span class="section-label uppercase text-center animate-on-scroll">Visit Us</span>
+            <h2 class="section-headline text-center animate-on-scroll">Find Us in Kannapolis & Our Operating Hours</h2>
+            <div class="location-hours-grid">
+                <div class="location-info animate-on-scroll">
+                    <h4>Our Location</h4>
+                    <p>Come on down to Field House BBQ for a true taste of North Carolina hospitality and incredible smoked meats.</p>
+                    <address>
+                        <p>1907 S Cannon Blvd</p>
+                        <p>Kannapolis, NC 28083, USA</p>
+                    </address>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Field+House+BBQ,1907+S+Cannon+Blvd,Kannapolis,NC,28083" target="_blank" rel="noopener noreferrer">Get Directions</a>
+                    <div class="map-placeholder">
+                        <p>Map Placeholder</p>
+                    </div>
+                </div>
+                <div class="hours-info animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h4>Opening Hours</h4>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Tuesday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Wednesday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Thursday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Friday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Saturday</th><td>11:00 AM – 8:30 PM</td></tr>
+                        <tr><th>Sunday</th><td class="closed">Closed</td></tr>
+                    </table>
+                    <p style="margin-bottom: 25px;">Ready to enjoy the best BBQ in town? Give us a call!</p>
+                    <a href="tel:+17049324400" class="btn btn-primary">CALL TO ORDER (704) 932-4400</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <h2 class="animate-on-scroll">Craving Authentic BBQ? Your Table Awaits!</h2>
+        <a href="#find-us" class="btn animate-on-scroll" style="transition-delay: 0.1s;">PLAN YOUR VISIT NOW</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <span class="footer-logo">Field House BBQ</span>
+        <p class="footer-tagline">1907 S Cannon Blvd, Kannapolis, NC. #NorthCarolina #lunchtime #dinnertime</p>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                </svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.088 3.85.048 4.703.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.509.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 12.445 16 12.173 16 10s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.389-.009-3.232-.047c-.78-.036-1.203-.166-1.485-.276a2.471 2.471 0 0 1-.919-.598 2.466 2.466 0 0 1-.598-.92c-.11-.28-.24-.704-.276-1.484-.038-.844-.046-1.097-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
+                </svg>
+            </a>
+            <a href="#" aria-label="Twitter">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                    <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.325l5.189-5.933L0 0h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l9.076 11.633Z"/>
+                </svg>
+            </a>
+        </div>
+        <p class="footer-copyright">&copy; 2026 Field House BBQ. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of element visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
