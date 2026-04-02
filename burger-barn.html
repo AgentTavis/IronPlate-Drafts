@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burger Barn - Union Grove's Best Burgers & BBQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #c45e20;
+            --accent-color: #1a1a1a;
+            --bg-main: #111111;
+            --bg-section: #1a1a1a;
+            --bg-footer: #0a0a0a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous vertical padding */
+            position: relative;
+        }
+
+        .section-label {
+            display: block;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a34e1b; /* darker brand color */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.08);
+            transform: scale(1.02);
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Fade-in-up animation */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(10, 10, 10, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            white-space: nowrap; /* Prevent logo from wrapping */
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+            margin-left: auto; /* Push nav and CTA to right */
+            margin-right: 40px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap; /* Keep button text on one line */
+        }
+
+        .header-cta:hover {
+            background-color: #a34e1b;
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden; /* For gradient animation */
+            padding-top: 60px; /* Account for sticky header */
+            background: radial-gradient(circle at center, rgba(196,94,32,0.15) 0%, rgba(17,17,17,1) 60%);
+            animation: gradientShift 15s ease infinite alternate;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive */
+            font-weight: 900; /* Black weight */
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        .hero-rating .stars {
+            color: #FFD700; /* Gold for stars */
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: var(--bg-section);
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            display: flex;
+            align-items: center;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .social-proof-item .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+            color: var(--brand-color);
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .menu-note {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-review-card .stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .testimonial-review-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-reviewer-info {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-reviewer-info span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: #a34e1b;
+        }
+
+        .location-info .btn {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .location-info .btn i {
+            margin-right: 8px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pro-tip {
+            background-color: var(--card-bg);
+            border: 1px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 20px 30px;
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .pro-tip strong {
+            color: var(--brand-color);
+            margin-right: 5px;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(90deg, var(--brand-color) 0%, #a34e1b 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .final-cta-section p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .final-cta-section .btn {
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            border-color: var(--text-heading); /* white border */
+            color: var(--text-heading);
+            background-color: transparent; /* transparent fill */
+        }
+        .final-cta-section .btn:hover {
+            background-color: rgba(255,255,255,0.15); /* light fill on hover */
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-footer);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--text-heading);
+            margin: 0 10px;
+            font-size: 1.4rem;
+            line-height: 45px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--brand-color);
+            transform: scale(1.05);
+        }
+
+        .copyright {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story-content, .testimonial-card {
+                text-align: center;
+            }
+            .our-story-content {
+                order: 1; /* Content first on mobile */
+            }
+            .testimonial-card {
+                order: 2;
+                margin-top: 40px;
+            }
+            .stats-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .final-cta-section h2 {
+                font-size: 2.8rem;
+            }
+            .header-nav {
+                margin-right: 20px; /* Reduce margin */
+            }
+            .header-nav a {
+                font-size: 0.85rem; /* Smaller nav links */
+            }
+            .header-cta {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center; /* Center items if wrapped */
+                height: auto; /* Auto height */
+                padding: 10px 20px;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 1.5rem;
+            }
+            .header-nav {
+                width: 100%;
+                justify-content: center;
+                margin: 0 0 10px 0;
+                gap: 20px;
+            }
+            .header-cta {
+                width: 100%;
+                text-align: center;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .section {
+                padding: 80px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .location-hours-grid {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.85rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .footer-logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Burger Barn</a>
+        <nav class="header-nav">
+            <a href="#story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+17045394990" class="header-cta">CALL (704) 539-4990</a>
+    </header>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-content animate-on-scroll">
+            <p class="hero-location">UNION GROVE, NC</p>
+            <h1 class="hero-name">BURGER BARN</h1>
+            <p class="hero-tagline">Union Grove's Home for Hearty Flavor</p>
+            <div class="hero-rating">
+                <span class="stars">★★★★★</span> 4.4 Stars | 660 Reviews
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=Burger+Barn+1431+W+Memorial+Hwy,+Union+Grove,+NC+28689" target="_blank" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid animate-on-scroll">
+            <div class="social-proof-item">
+                <span class="icon">★</span> 4.4 Star Rating
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">💬</span> 660+ Happy Customers
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">❤️</span> Local Favorite
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="section">
+        <div class="container">
+            <p class="section-label animate-on-scroll">OUR STORY</p>
+            <h2 class="section-headline animate-on-scroll">Rooted in Union Grove Tradition</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content animate-on-scroll">
+                    <p>At Burger Barn in Union Grove, NC, we've dedicated ourselves to crafting an unforgettable dining experience. We specialize in a mouth-watering variety of burgers, from the timeless comfort of our classic cheeseburger to bold, specialty choices like our signature BBQ burger.</p>
+                    <p>Our commitment is simple: serve hearty, home-cooked meals that bring families and friends together. Every dish is prepared with care, ensuring that you taste the passion in every single bite. We're more than just a burger joint; we're a cornerstone of the community, serving up smiles alongside our delicious food.</p>
+                </div>
+                <div class="testimonial-card animate-on-scroll">
+                    <p>"Burger Barn isn't just a restaurant; it's a feeling. The moment you walk in, you know you're in for a real treat. Their classic cheeseburger is pure perfection!"</p>
+                    <span>— Emily C., Loyal Customer</span>
+                </div>
+            </div>
+            <div class="stats-grid animate-on-scroll">
+                <div class="stat-card">
+                    <div class="number">4.4</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">660+</div>
+                    <div class="label">Satisfied Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">🍔</div>
+                    <div class="label">Hearty Home-Cooked Meals</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="section" style="background-color: var(--bg-section);">
+        <div class="container">
+            <p class="section-label animate-on-scroll">THE MENU</p>
+            <h2 class="section-headline animate-on-scroll">Our Hearty Classics</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card animate-on-scroll">
+                    <div>
+                        <h3>Classic Cheeseburger</h3>
+                        <p>Juicy beef patty, melted cheddar, crisp lettuce, ripe tomato, onion, and pickles on a toasted bun.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card animate-on-scroll">
+                    <div>
+                        <h3>Signature BBQ Burger</h3>
+                        <p>Our hearty burger smothered in smoky BBQ sauce, topped with crispy onion rings and a kick of flavor.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card animate-on-scroll">
+                    <div>
+                        <h3>The Barn Burger Feast</h3>
+                        <p>A true feast! Double beef patties, crispy bacon, melted cheese, and all your favorite fixings.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card animate-on-scroll">
+                    <div>
+                        <h3>Home-Cooked Blue Plate</h3>
+                        <p>Comfort food just like grandma used to make, with daily specials that change with the season.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="menu-note animate-on-scroll">Prices may vary. Call for daily specials and full menu.</p>
+        </div>
+    </section>
+
+    <section id="why-choose-us" class="section">
+        <div class="container">
+            <p class="section-label animate-on-scroll">OUR PROMISE</p>
+            <h2 class="section-headline animate-on-scroll">Why Burger Barn is Union Grove's Best Choice</h2>
+            <div class="why-choose-grid">
+                <div class="card why-card animate-on-scroll">
+                    <span class="icon">🔥</span>
+                    <h3>Unbeatable Flavor</h3>
+                    <p>From our meticulously seasoned classic cheeseburger to our specialty BBQ options, every bite is crafted for deliciousness and satisfaction.</p>
+                </div>
+                <div class="card why-card animate-on-scroll">
+                    <span class="icon">👨‍👩‍👧</span>
+                    <h3>Community Focused</h3>
+                    <p>Serving Union Grove with a smile and a warm welcome, we're proud to be your local spot for genuine home-cooked comfort.</p>
+                </div>
+                <div class="card why-card animate-on-scroll">
+                    <span class="icon">⭐</span>
+                    <h3>Trusted & Loved</h3>
+                    <p>With a fantastic 4.4-star rating from 660 reviews, our customers speak for themselves – come taste the Burger Barn difference!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section" style="background-color: var(--bg-section);">
+        <div class="container">
+            <p class="section-label animate-on-scroll">TESTIMONIALS</p>
+            <h2 class="section-headline animate-on-scroll">What Our Customers Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-review-card animate-on-scroll">
+                    <div class="stars">★★★★★</div>
+                    <p>"The classic cheeseburger here is simply the best in town! Always fresh and perfectly cooked."</p>
+                    <div class="testimonial-reviewer-info">Sarah L.<span>Regular Customer</span></div>
+                </div>
+                <div class="testimonial-review-card animate-on-scroll">
+                    <div class="stars">★★★★★</div>
+                    <p>"We love bringing the kids to Burger Barn. Their BBQ burger is a family favorite, and the atmosphere is so welcoming. A true Union Grove gem!"</p>
+                    <div class="testimonial-reviewer-info">Mark T.<span>Local Family</span></div>
+                </div>
+                <div class="testimonial-review-card animate-on-scroll">
+                    <div class="stars">★★★★★</div>
+                    <p>"Heard great things and had to try it. I went for one of their hearty Barn Burgers and it totally lived up to the hype. Huge portions and incredible flavor, I'll definitely be back for more home-cooked meals!"</p>
+                    <div class="testimonial-reviewer-info">Jessica R.<span>First-Time Visitor</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="find-us" class="section">
+        <div class="container">
+            <p class="section-label animate-on-scroll">CONNECT</p>
+            <h2 class="section-headline animate-on-scroll">Visit Us</h2>
+            <div class="location-hours-grid">
+                <div class="location-info animate-on-scroll">
+                    <h3>Our Location</h3>
+                    <p>1431 W Memorial Hwy<br>Union Grove, NC 28689, USA</p>
+                    <p>Phone: <a href="tel:+17045394990">(704) 539-4990</a></p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Burger+Barn+1431+W+Memorial+Hwy,+Union+Grove,+NC+28689" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info animate-on-scroll">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>7:00 AM – 11:00 AM</td></tr>
+                        <tr><th>Sunday:</th><td>Closed</td></tr>
+                    </table>
+                    <div class="pro-tip">
+                        <strong>Pro Tip:</strong> We get busy during lunch rushes, especially on weekdays. Call ahead to place your order for a quick pickup!
+                    </div>
+                    <a href="tel:+17045394990" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta-section">
+        <div class="container animate-on-scroll">
+            <h2>Don't Just Crave It — Come Taste Union Grove's Best!</h2>
+            <p>Experience the hearty flavors and home-cooked comfort at Burger Barn today.</p>
+            <a href="tel:+17045394990" class="btn btn-secondary">CALL NOW</a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-logo">Burger Barn</p>
+            <p class="footer-tagline">Where every bite feels like home.</p>
+            <div class="social-icons">
+                <a href="https://facebook.com/burgerbarn" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com/burgerbarn" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <p class="copyright">© 2026 Burger Barn. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 60, // Account for sticky header height
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
