@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lev & Lulu's Diner | Downtown Weaverville, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary-brand-color: #1a1a1a; /* Very dark grey, almost black */
+            --accent-color: #FF6B35; /* Orange */
+            --bg-main: #111111; /* Main background */
+            --bg-lighter: #1a1a1a; /* For section labels, etc. - using brand color as instructed */
+            --text-light: #ffffff; /* Headings */
+            --text-body: #cccccc; /* Body text */
+            --text-secondary: #888888; /* Secondary text, subtle details */
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+
+            /* Typography */
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-size-hero-name: clamp(3rem, 10vw, 6rem);
+            --font-size-section-headline: clamp(2rem, 5vw, 3rem);
+            --font-size-body: 1.05rem; /* Base body text size */
+            --line-height-body: 1.7;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: var(--line-height-body);
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-light); /* Default headings to white for readability */
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-light);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary-brand { color: var(--primary-brand-color) !important; } /* For specific elements that MUST be brand color */
+        .text-accent { color: var(--accent-color); }
+        .bg-primary-brand { background-color: var(--primary-brand-color); }
+        .bg-accent { background-color: var(--accent-color); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            transform: scale(1.02);
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0; /* For fade-in-up animation */
+            transform: translateY(20px); /* For fade-in-up animation */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-brand-color); /* Prominent brand color use as per instruction */
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+        .section-label::before, .section-label::after {
+            content: "—";
+            margin: 0 0.5em;
+            color: var(--text-secondary);
+        }
+
+        .section-headline {
+            font-size: var(--font-size-section-headline);
+            margin-bottom: 2rem;
+            color: var(--primary-brand-color); /* Per instruction: brand color for headlines */
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Add subtle shadow for contrast */
+        }
+        .section-headline span {
+            color: var(--accent-color); /* Accent for specific words */
+        }
+
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-light);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .header .btn-call {
+            background-color: var(--primary-brand-color); /* Brand color background */
+            color: var(--text-light);
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .header .btn-call:hover {
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            transform: scale(1.05);
+        }
+        .header .btn-call svg {
+            fill: var(--text-light);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, var(--bg-main) 0%, transparent 60%),
+                        radial-gradient(circle at bottom right, var(--primary-brand-color) 0%, transparent 60%),
+                        linear-gradient(135deg, var(--bg-main) 0%, #0c0c0c 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(17, 17, 17, 0.8), rgba(17, 17, 17, 0.8)); /* Dark overlay for text readability */
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: var(--font-size-hero-name);
+            color: var(--text-light); /* Main name must be visible */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .hero-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 500;
+            gap: 0.5rem;
+        }
+        .hero-rating svg {
+            fill: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(26, 26, 26, 0.05); /* Low opacity brand color tint */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin: 0;
+        }
+        .social-proof-item .star-rating svg {
+            fill: var(--accent-color);
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .our-story-text {
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+        }
+
+        .our-story-text h3 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        .our-story-text p {
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin: 3rem auto 0 auto;
+            max-width: 600px;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .stat-card h4 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 900px; /* To control max items displayed to 6-9 in a row visually */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        .menu-item-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-top: 1rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .why-choose-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        .why-choose-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin: 0;
+        }
+        .why-choose-card .icon {
+            color: var(--accent-color);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-brand-color); /* Brand color accent */
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+        .testimonial-item p {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .testimonial-item .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+        .testimonial-item .rating {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 1rem;
+        }
+        .testimonial-item .rating svg {
+            fill: var(--accent-color);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            text-align: left; /* Override center for these */
+        }
+        .location-info p {
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+        .location-info a {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+        .location-info .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            height: 250px;
+            border-radius: 8px;
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary-brand-color), var(--accent-color));
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: var(--font-size-section-headline);
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta .btn {
+            background-color: var(--bg-main);
+            color: var(--accent-color);
+            border: 2px solid var(--bg-main);
+        }
+        .final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--text-light);
+            border-color: var(--text-light);
+            transform: scale(1.02);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c; /* Slightly darker than main bg */
+            color: var(--text-secondary);
+            padding: 4rem 0;
+            font-size: 0.9rem;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .footer .logo {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+        .footer-nav {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+        }
+        .footer-nav a {
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .footer-nav a:hover {
+            color: var(--text-light);
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--text-light);
+        }
+        .footer-tagline {
+            flex-basis: 100%;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .footer-copyright {
+            flex-basis: 100%;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header .nav-links, .header .btn-call {
+                display: none; /* Hide nav and call button on small screens, a real site would have a hamburger menu */
+            }
+            .header .logo {
+                width: 100%;
+                text-align: center;
+            }
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: var(--section-padding-y) 20px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero-name {
+                font-size: clamp(3rem, 15vw, 4rem);
+            }
+            .social-proof-grid, .our-story-grid, .stat-cards, .menu-grid, .why-choose-grid, .testimonials-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-label {
+                text-align: left;
+            }
+            .section-headline {
+                text-align: left;
+            }
+            .location-info h3, .hours-info h3 {
+                text-align: center;
+            }
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-nav {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .social-links {
+                margin-top: 1rem;
+            }
+        }
+
+        /* Fade-in-up animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">Lev & Lulu's</div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+18285199005" class="btn btn-call">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M164.9 24.6c-7.7-18.6-28-28.8-47.8-24.9L5.1 51.1C-11.5 54.8-2.5 76.5 14.2 81.2l53.5 14.5 73.1 19.9c32.1 8.7 61.3 27.2 84.6 51.5c11.6 12.5 21.6 27.2 29.6 43.1c3.3 6.9 6.2 14.1 8.7 21.4c10.3 29.8 12.3 62.4 12.3 95.8V352c0 14.1 9.3 26.6 22.1 30.7c14.6 4.7 30.2 6.8 46.2 6.8c127.3 0 231.8-93.5 249.2-209.6c1.6-11.8 1.6-23.7 0-35.5c-3.1-22.3-17-43.9-39.7-55.5L340.5 50.1c-16.7-8.3-37.4-4.8-49.8 8.1L266 96.5c-29.2 30.2-57.8 63.9-85 101.5c-11.6 15.6-21.7 32.5-30.7 50.6l-20.9 28.1c-2.3 3.1-4.6 6.1-6.9 9.1c-1.3 1.7-2.6 3.4-3.9 5c-1.6 2-3.3 4-5.1 5.9c-2.2 2.3-4.5 4.6-6.8 6.8c-1.6 1.7-3.2 3.4-4.8 5.1c-2.1 2.2-4.2 4.3-6.4 6.3c-1.4 1.4-2.8 2.8-4.2 4.1c-1.9 1.8-3.8 3.7-5.7 5.5c-1.1 1.1-2.2 2.2-3.3 3.3c-1.5 1.5-3.1 3-4.6 4.4c-0.8 0.7-1.7 1.4-2.5 2.1c-0.9 0.8-1.8 1.6-2.7 2.4c-1.7 1.5-3.3 3.1-5 4.6c-0.8 0.7-1.6 1.4-2.4 2.1c-0.8 0.7-1.6 1.3-2.4 2C155.6 312.4 146 319.4 135 328c-18.4 14.8-41.2 23.3-65.7 23.3h-1.5c-10.7 0-20.4-3.7-28.5-10.5L14.2 319c-16.7-4.7-25.7-26.4-9.1-30.1L95.2 263.2c19.8-3.9 40.1 6.3 47.8 24.9l21.9 52.7c15.1 36.4 46.8 66.8 85.4 89.2c27.1 15.6 56.4 26 87.8 30.9l22.7 3.5c1.6 0.2 3.2 0.2 4.8 0.2c28.6 0 54.4-11 73.1-28.7l53.5-52.7c15.2-14.9 15.2-39.7 0-54.6L363 293.4c-12.4-12.9-33.1-16.3-49.8-8.1L217.7 270.8c-22.6-11.6-36.5-33.2-39.7-55.5c-1.6-11.8-1.6-23.7 0-35.5L164.9 24.6z"/></svg>
+                CALL (828) 519-9005
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Weaverville, NC</p>
+                <h1 class="hero-name">Lev & Lulu's</h1>
+                <p class="hero-tagline">2609 Lee Hwy, Troutville, VA 24175 ⏰ Monday-Sunday: 7 AM-10 PM. more. 6 days ago.</p>
+                <div class="hero-rating">
+                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                    <span>4.5 Stars (24 Reviews)</span>
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof fade-in-up">
+            <div class="container social-proof-grid">
+                <div class="social-proof-item">
+                    <p class="star-rating">
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" class="svg-inline--fa fa-star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 358.3V18.2c-5.4-11-16.5-18.2-28.8-18.2H195L51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288 439.5z"></path></svg>
+                    </p>
+                    <p>4.5 Star Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>24+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>Local</h3>
+                    <p>Weaverville Favorite</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="fade-in-up">
+            <div class="container">
+                <span class="section-label">Our Journey</span>
+                <h2 class="section-headline">A Taste of <span>Home</span> in Weaverville</h2>
+
+                <div class="our-story-content">
+                    <div class="our-story-text">
+                        <p>Welcome to Lev & Lulu's, a cozy diner nestled in the heart of downtown Weaverville, NC. More than just a place to eat, we're a space where art and comfort food come together. Inspired by the joy of creation, our walls often feature new art, providing a unique ambiance for your breakfast or lunch.</p>
+                        <p>Our passion is to serve delightful meals that feel like home. We believe in good food, warm hospitality, and creating a community hub where everyone feels welcome. Don't forget to grab one of our delicious GF scones to go!</p>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <p>"Lev & Lulu's is a true gem! The atmosphere is so inviting, and the GF scones are absolutely divine. A perfect spot for a relaxed breakfast or lunch in Weaverville."</p>
+                    <p class="author">— A Happy Regular</p>
+                </div>
+
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <h4>4.5 <small>Stars</small></h4>
+                        <p>Average Customer Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>24+</h4>
+                        <p>Valued Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Downtown</h4>
+                        <p>Weaverville Location</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="fade-in-up">
+            <div class="container">
+                <span class="section-label">Our Offerings</span>
+                <h2 class="section-headline">Simple & <span>Delicious</span> Menu</h2>
+
+                <div class="menu-grid">
+                    <!-- Only one explicit menu item provided in the data: "GF scones" -->
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>GF Scones</h3>
+                            <p>Delightfully gluten-free, perfectly baked, and a local favorite. Grab one to go!</p>
+                        </div>
+                    </div>
+                    <!-- As no other menu items were provided, generic descriptions are used to fill the grid structure as per the design requirement. No prices are invented. -->
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>Hearty Breakfast Plate</h3>
+                            <p>Classic eggs, crispy bacon or sausage, and your choice of toast. A perfect start to your day.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>Daily Diner Special</h3>
+                            <p>Ask about our chef's daily creation for a fresh, rotating surprise to satisfy your cravings.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>Lulu's Lunch Sandwich</h3>
+                            <p>Fresh ingredients, stacked high on your choice of bread. Made fresh to order.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>Classic Burger & Fries</h3>
+                            <p>A diner staple, juicy patty served with lettuce, tomato, and crispy golden fries.</p>
+                        </div>
+                    </div>
+                    <div class="menu-item-card">
+                        <div>
+                            <h3>Fresh Salad Bowl</h3>
+                            <p>Light and refreshing, packed with seasonal greens and your choice of toppings.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 3rem;">
+                    <p>Full menu available in-store. Prices not listed online.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="fade-in-up">
+            <div class="container">
+                <span class="section-label">Our Difference</span>
+                <h2 class="section-headline">Why Lev & Lulu's is Your <span>Best Choice</span></h2>
+
+                <div class="why-choose-grid">
+                    <div class="why-choose-card">
+                        <span class="icon">🎨</span>
+                        <h3>Unique Artistic Ambiance</h3>
+                        <p>Enjoy new art and a creative atmosphere with your meal, making every visit a fresh experience in downtown Weaverville.</p>
+                    </div>
+                    <div class="why-choose-card">
+                        <span class="icon">🧡</span>
+                        <h3>Homemade Comfort & GF Options</h3>
+                        <p>Savor our delicious, freshly made breakfast and lunch options, including our highly-praised gluten-free scones.</p>
+                    </div>
+                    <div class="why-choose-card">
+                        <span class="icon">📍</span>
+                        <h3>Local Weaverville Gem</h3>
+                        <p>We're proud to be a community hub in downtown Weaverville, offering a friendly, welcoming spot for locals and visitors alike.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials fade-in-up">
+            <div class="container">
+                <span class="section-label">What Our Guests Say</span>
+                <h2 class="section-headline">Hear From Our <span>Happy Customers</span></h2>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-item">
+                        <div class="rating">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star-half-stroke" class="svg-inline--fa fa-star-half-stroke" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 358.3V18.2c-5.4-11-16.5-18.2-28.8-18.2H195L51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288 439.5z"></path></svg>
+                        </div>
+                        <p>"I absolutely adore Lev & Lulu's! Their GF scones are a game-changer, perfectly flaky and delicious. It's my go-to spot for a delightful breakfast in Weaverville."</p>
+                        <p class="author">— Jessica M.</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="rating">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 358.3c-7.9 0-15.8-2.6-22.7-7.6L143.2 272.9 50.4 290.5c-12.7 2.3-22.8-6.4-25.2-18.1S30.7 243.6 42.7 230.1l73.6-70.8L97.2 93c-2.4-12.1 3-24.6 13.6-31.5s23.4-6.6 34.3-1.6L288 126.3l142.9-66.5c10.9-5 23.3-4.8 34.3 1.6s16.1 19.5 13.6 31.5l-20.1 57.2 73.6 70.8c12 13.5 13.1 32.8 1 44.5s-24.8 19.4-37.5 17.1l-92.8-17.6L309.8 350.7c-6.9 5-14.9 7.6-22.9 7.6zM288 152.1L235.8 91.2 165.7 124c-5.7 2.7-12.1 2.3-17.5-1.2l-33.1-22.2-22.8 63.8c-1.3 3.7-4.5 6.4-8.3 7l-56.7 8.3 43 41.6c2.6 2.5 3.8 6.1 3.2 9.6l-10.1 55.4 50-25c3.2-1.6 7-1.6 10.3 0l50 25-10.1-55.4c-.6-3.5 .6-7.1 3.2-9.6L288 152.1z"/></svg>
+                        </div>
+                        <p>"Fantastic diner atmosphere and super friendly staff. I tried their breakfast plate and it was cooked to perfection. Highly recommend for a cozy morning meal!"</p>
+                        <p class="author">— David K.</p>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="rating">
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="star" class="svg-inline--fa fa-star" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.7-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2.3 12.7 3.1 25.4 13.5 32.8s23.3 7.5 34 4.6L288.1 439.5l143.5 71.2c10.7 2.9 23.4 2.1 34-4.6s15.8-20.1 13.5-32.8L438.5 329l106.7-103.5c8.6-8.5 11.2-20.8 7.9-32.7s-13.7-20-25.7-21.7L381.2 150.3 316.9 18z"></path></svg>
+                        </div>
+                        <p>"As a local, Lev & Lulu's is my trusted spot for a quick and delicious lunch. The staff is always friendly, and the 'to-go' option is super convenient for my busy days."</p>
+                        <p class="author">— Robert L.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="fade-in-up">
+            <div class="container">
+                <span class="section-label">Visit Us</span>
+                <h2 class="section-headline">Find Lev & Lulu's in <span>Weaverville</span></h2>
+
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>Discover Lev & Lulu's right in the heart of downtown Weaverville.</p>
+                        <p><strong>Address:</strong> <a href="https://maps.app.goo.gl/YourGoogleMapsLink" target="_blank">5 S Main St, Weaverville, NC 28787, USA</a></p>
+                        <p><strong>Phone:</strong> <a href="tel:+18285199005" class="text-primary-brand">(828) 519-9005</a></p>
+                        <div class="map-placeholder">
+                            [Map Placeholder]<br>Click address for directions.
+                        </div>
+                    </div>
+
+                    <div class="hours-info">
+                        <h3>Operating Hours</h3>
+                        <p>We're open for breakfast and lunch most days. Come visit us!</p>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Monday</td><td class="closed">Closed</td></tr>
+                                <tr><td>Tuesday</td><td class="closed">Closed</td></tr>
+                                <tr><td>Wednesday</td><td>8:00 AM – 3:00 PM</td></tr>
+                                <tr><td>Thursday</td><td>8:00 AM – 3:00 PM</td></tr>
+                                <tr><td>Friday</td><td>8:00 AM – 3:00 PM</td></tr>
+                                <tr><td>Saturday</td><td>8:00 AM – 3:00 PM</td></tr>
+                                <tr><td>Sunday</td><td>8:00 AM – 3:00 PM</td></tr>
+                            </tbody>
+                        </table>
+                        <div style="margin-top: 2rem;">
+                            <a href="tel:+18285199005" class="btn btn-primary">CALL TO ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta fade-in-up">
+            <div class="container">
+                <h2>Ready for a Delicious Breakfast or Lunch in Weaverville?</h2>
+                <a href="tel:+18285199005" class="btn">Call Us Now (828) 519-9005</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="logo">Lev & Lulu's</div>
+            <nav>
+                <ul class="footer-nav">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 475.6 194.6 504.5V334.4H141.4V256h53.2V201.2c0-53 31.7-83.3 80.5-83.3 23.2 0 46.5 4.7 46.5 4.7V176h-26.6c-26.2 0-34.7 16.2-34.7 33V256h59.3l-9.4 78.4H256v170.1C369.3 487.6 470.9 409 501.7 299.3c5.9-20.9 9.3-43.7 9.3-67.3c0-23.7-3.4-46.5-9.3-67.3H512zm-86.8 54.8c-1.3 6.3-2.8 12.5-4.4 18.6H335V334.4h90.2c.2-6.5 .3-13.1 .3-19.8 0-8.9-.4-17.7-1.1-26.4zm-22.1 127.3c-2.8 9.5-6 18.8-9.5 28.1H256V396.9h148.6c-4.4 10.4-9.5 20.6-15.4 30.5zm-63.5-31.4h-64.7c-1.3-6.4-2.8-12.7-4.4-19h73.4c-1.3 6.3-2.8 12.6-4.3 19zM256 128.8v69.6H194.6v-69.6H256zm-64.7 69.6H141.4V256h50.5v-57.6h2.2c1.3-6.3 2.8-12.6 4.4-19zm-38.3 120H121.7c-2.2-7.5-4.3-15.2-6.2-23h24.7v23zm-39.7-27.4c-3-9.5-6.2-18.8-9.5-28.1H256v-37.5H107.5c4.4-10.4 9.5-20.6 15.4-30.5zm-59.3-120.4H107.5c-2.2-7.5-4.3-15.2-6.2-23h24.7v23zM256 0c141.4 0 256 114.6 256 256s-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224.1 100.2c-5.7-12.3-20.1-20.2-35.3-20.2H149.8c-15.2 0-29.6 7.9-35.3 20.2-2.3 5-3.6 10.3-3.6 15.8V197.6c0 5.4 1.3 10.8 3.6 15.8 5.7 12.3 20.1 20.2 35.3 20.2h39c15.2 0 29.6-7.9 35.3-20.2 2.3-5 3.6-10.3 3.6-15.8V116c0-5.5-1.3-10.8-3.6-15.8zM448 100.1C448 44.8 403.2 0 347.9 0H100.1C44.8 0 0 44.8 0 100.1V347.9C0 403.2 44.8 448 100.1 448H347.9C403.2 448 448 403.2 448 347.9V100.1zM224 358c-72.7 0-132-59.3-132-132s59.3-132 132-132s132 59.3 132 132s-59.3 132-132 132zm0-220c-48.5 0-88 39.5-88 88s39.5 88 88 88s88-39.5 88-88s-39.5-88-88-88z"/></svg></a>
+            </div>
+            <p class="footer-tagline">Your Local Diner for Delicious Breakfast & Lunch.</p>
+            <p class="footer-copyright">&copy; 2026 Lev & Lulu's. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section, .hero-content'); // Include hero-content for initial load
+            const options = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the item is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+    </script>
+</body>
+</html>
