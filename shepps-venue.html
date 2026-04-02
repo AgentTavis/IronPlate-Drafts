@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shepp's Venue - Gastonia's Best Mexican Restaurant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-light: rgba(255, 255, 255, 0.02); /* Slightly lighter for contrast */
+            --brand-color: #FF0080;
+            --accent-color: #00FF00;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Archivo Black', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Base Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero section */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding {
+            padding: 80px 0; /* Generous whitespace */
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .btn {
+            display: inline-block;
+            padding: 0.9em 2em;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-label {
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: block;
+            letter-spacing: 2px;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .main-nav a {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta .btn {
+            font-size: 0.9rem;
+            padding: 0.6em 1.5em;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-heading);
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(255, 0, 128, 0.05) 30%, var(--bg-main) 70%, rgba(0, 255, 0, 0.05) 100%);
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero-section h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 0.2em;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-section .location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 0.5em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5em 1.2em;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .rating-badge svg {
+            color: gold;
+            margin-right: 0.5em;
+            font-size: 1.1em;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(255, 0, 128, 0.05); /* Brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip .proof-item h3 {
+            font-size: 2.2rem;
+            margin-bottom: 0.2em;
+            color: var(--brand-color);
+        }
+
+        .social-proof-strip .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--bg-light);
+            padding: 80px 0;
+        }
+
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+        
+        .our-story-text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .our-story-text h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .testimonial-card p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 80px 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid var(--card-border);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item-card h3 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-light);
+            padding: 80px 0;
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-card h3 {
+            color: var(--brand-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 80px 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            font-style: italic;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-right: 1px solid var(--card-border);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .testimonial-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonial-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-item .author {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-light);
+            padding: 80px 0;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .location-info p, .hours-table td {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0.8em;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: block;
+            margin-top: 0.5em;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 0.8rem 0;
+            vertical-align: top;
+        }
+
+        .hours-table td:first-child {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 40%;
+        }
+
+        .hours-info .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #FF0080 30%, #a30053 70%, var(--accent-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-main);
+            padding: 1em 3em;
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: var(--text-heading);
+            border-color: var(--text-heading);
+            color: var(--brand-color);
+            transform: scale(1.03);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 0.5em;
+            letter-spacing: 1px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-section h1 {
+                font-size: 4rem;
+            }
+            .main-nav ul {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 1rem;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .main-nav {
+                display: none; /* Hide nav links on smaller screens, could implement a hamburger menu */
+            }
+            .hero-section h1 {
+                font-size: 3rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .social-proof-strip .proof-grid,
+            .stat-cards,
+            .menu-grid,
+            .why-choose-us-grid,
+            .testimonials-grid,
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                gap: 2rem;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .header-cta .btn {
+                font-size: 0.8rem;
+                padding: 0.5em 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section .location {
+                font-size: 1rem;
+            }
+            .hero-section .tagline {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">Shepp's Venue</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:9802891877" class="btn btn-primary">CALL (980) 289-1877</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <p class="location">Gastonia, NC</p>
+        <h1>Shepp's Venue</h1>
+        <p class="tagline">Located in Downtown Gastonia. Open everyday 5pm - 2am. Owners: Shepp & Heather Sheppard. Follow. Message. It's time for Best of the Best!</p>
+        <div class="rating-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18px" height="18px"><path d="M12 .587l3.668 7.568 8.332 1.207-6.002 5.854 1.416 8.283-7.414-3.896-7.414 3.896 1.416-8.283-6.002-5.854 8.332-1.207z"/></svg>
+            4.6 Stars (92 Reviews)
+        </div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container proof-grid">
+            <div class="proof-item">
+                <h3>4.6 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>1000+</h3>
+                <p>Happy Diners Served</p>
+            </div>
+            <div class="proof-item">
+                <h3>Local Favorite</h3>
+                <p>Gastonia's Go-To Spot</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section section-padding">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Our Story</span>
+                <h2>More Than Just Food, It's a Gastonia Tradition.</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>Shepp's Venue is more than just a Mexican restaurant; it's a culinary journey crafted with passion by owners Shepp & Heather Sheppard. From the moment you step inside, our friendly staff makes you feel welcome, creating an atmosphere where every visit feels like coming home.</p>
+                    <p>"This place always delivers! The staff is always so friendly and makes you feel so welcome. The food is TOP NOTCH. I had the steak and it was cooked to perfection." We believe in delivering exceptional taste and a memorable experience, bringing the true, vibrant flavors of Mexico to the heart of Gastonia, NC. Come join our family and taste the difference.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Shepp's Venue truly captures the essence of authentic Mexican cuisine with a heartwarming, local touch. The energy is infectious, and the food is consistently outstanding!"</p>
+                    <span>- A Loyal Gastonia Patron</span>
+                </div>
+            </div>
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <h3>4.6/5</h3>
+                    <p>Average Rating (92 Reviews)</p>
+                </div>
+                <div class="stat-card">
+                    <h3>A Gastonia Staple</h3>
+                    <p>Beloved by the Community</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Open 7 Days</h3>
+                    <p>Always Ready to Serve You</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section section-padding">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Our Menu</span>
+                <h2>Our Culinary Creations</h2>
+                <p class="tagline" style="margin-bottom: 3rem;">Experience the vibrant flavors of Mexico, crafted with care and passion.</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Carne Asada Plate</h3>
+                    <p>Flavorful grilled steak, marinated to perfection, served with fluffy rice, savory refried beans, and warm tortillas.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Chicken Enchiladas</h3>
+                    <p>Tender, seasoned chicken rolled in corn tortillas, smothered in our rich, homemade red sauce and melted cheese.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Tacos al Pastor</h3>
+                    <p>Succulent marinated pork, slow-cooked on a vertical spit, served with pineapple, onion, cilantro, and fresh tortillas.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Quesabirria Tacos</h3>
+                    <p>Crispy, cheesy tacos filled with tender, savory birria beef, served with a side of rich consome for dipping.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Veggie Fajitas</h3>
+                    <p>A sizzling medley of fresh bell peppers, onions, mushrooms, and zucchini, served with all the classic fajita accompaniments.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Chiles Rellenos</h3>
+                    <p>Two roasted poblano peppers generously stuffed with melting cheese, lightly battered, fried, and topped with our signature mild sauce.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section section-padding">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Why Choose Us</span>
+                <h2>The Shepp's Venue Difference</h2>
+            </div>
+            <div class="why-choose-us-grid">
+                <div class="why-card">
+                    <h3>Authentic Flavors, Fresh Ingredients</h3>
+                    <p>From our perfectly grilled Carne Asada to the zesty Chicken Enchiladas, every dish bursts with the authentic tastes of Mexico, crafted with the freshest local produce and premium meats.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Unbeatable Hospitality</h3>
+                    <p>Our 4.6-star rating and 92 reviews speak for themselves! Shepp & Heather's friendly staff makes every guest feel like family, ensuring a welcoming and memorable dining experience.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Your Gastonia Nightlife Hub</h3>
+                    <p>Open daily until 2 AM, Shepp's Venue is Gastonia's go-to spot for late-night cravings, vibrant evenings, and a lively atmosphere. Perfect for unwinding after a long day or celebrating with friends.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section section-padding">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Testimonials</span>
+                <h2>What Our Guests Are Saying</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <p>"Absolutely stellar! The steak I had was cooked to absolute perfection – juicy, tender, and seasoned just right. This place truly is TOP NOTCH!"</p>
+                    <span class="author">- Michael P.</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The Tacos al Pastor here are a game-changer! So flavorful and authentic, just like what you'd find in Mexico City. Shepp's Venue never disappoints."</p>
+                    <span class="author">- Sarah J.</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"My go-to spot in Gastonia! The staff is incredibly friendly, and their Chicken Enchiladas are simply divine. You always feel so welcome here, like family."</p>
+                    <span class="author">- David L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section section-padding">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-label">Visit Us</span>
+                <h2>Find Us & Feast</h2>
+            </div>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p><strong>Shepp's Venue</strong></p>
+                    <p>1206 W Franklin Blvd</p>
+                    <p>Gastonia, NC 28052, USA</p>
+                    <p>Phone: <a href="tel:9802891877">(980) 289-1877</a></p>
+                    <a href="https://www.google.com/maps/search/Shepp's+Venue+1206+W+Franklin+Blvd,+Gastonia,+NC+28052,+USA" target="_blank" class="btn btn-secondary" style="margin-top: 2rem;">Get Directions</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <td>Open Everyday:</td>
+                            <td>5:00 PM - 2:00 AM</td>
+                        </tr>
+                        <tr>
+                            <td>Reservations:</td>
+                            <td>Recommended for weekends</td>
+                        </tr>
+                        <tr>
+                            <td>Specials:</td>
+                            <td>Call for today's delicious features!</td>
+                        </tr>
+                    </table>
+                    <a href="tel:9802891877" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2>Ready for the Best of the Best?</h2>
+            <p class="tagline" style="color: var(--text-heading); margin-bottom: 2.5rem;">Join us tonight for an unforgettable Mexican dining experience in Downtown Gastonia.</p>
+            <a href="#find-us" class="btn btn-primary">RESERVE YOUR TABLE NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Shepp's Venue</div>
+            <p class="footer-tagline">Located in Downtown Gastonia Open everyday 5pm - 2am. Owners: Shepp & Heather Sheppard.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.967-1.092 1.092-1.092h3.908v-3h-4c-2.791 0-4 3.197-4 6.002v1.998z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h2v-7h-2v7zm4 0h2v-7h-2v7zm-4-9h2v-2h-2v2zm4 0h2v-2h-2v2z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Shepp's Venue. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
