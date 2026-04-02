@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Munchies on Main - Pilot Mountain Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for easy management */
+        :root {
+            --color-bg-main: #1a1310;
+            --color-bg-alt: #1f1815; /* Slightly lighter for alternating sections */
+            --color-brand: #6B4226;
+            --color-accent: #E8923A;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-family-heading: 'Oswald', sans-serif;
+            --font-family-body: 'Source Sans 3', sans-serif;
+
+            --section-padding-y: 100px; /* Generous whitespace */
+            --max-width-content: 1200px;
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            font-size: 1.08rem; /* Adjusted slightly for better readability */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width-content);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 { margin-bottom: 20px; }
+        .mb-3 { margin-bottom: 30px; }
+        .mb-4 { margin-bottom: 40px; }
+        .mb-5 { margin-bottom: 50px; }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-family-heading);
+            color: var(--color-text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2.8rem; /* Section headlines */
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            background-color: #55331e; /* Slightly darker brand color */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-brand);
+            color: var(--color-brand);
+            transform: scale(1.02);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Fade-in-up effect (requires JS to add 'is-visible' class) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+            background-color: rgba(26, 19, 16, 0.85); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .logo {
+            font-family: var(--font-family-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            letter-spacing: 1px;
+        }
+
+        .header .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .header .nav-links a {
+            color: var(--color-text-heading);
+            font-family: var(--font-family-body);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .header .call-button {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-family: var(--font-family-heading);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .call-button:hover {
+            background-color: #55331e;
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--color-text-heading);
+            background: radial-gradient(circle at center, rgba(107, 66, 38, 0.2) 0%, rgba(26, 19, 16, 0.9) 70%, rgba(26, 19, 16, 1) 100%);
+            background-color: var(--color-bg-main); /* Fallback */
+            padding: 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--color-text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .hero .rating-badge {
+            background-color: var(--color-accent);
+            color: var(--color-bg-main);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero .rating-badge .star {
+            color: #FFD700; /* Gold star */
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(107, 66, 38, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-proof .item .value {
+            font-family: var(--font-family-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            margin-bottom: 5px;
+        }
+
+        .social-proof .item .label {
+            font-size: 1.1rem;
+            color: var(--color-text-body);
+            white-space: nowrap;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--color-bg-alt);
+            padding: var(--section-padding-y) 0;
+        }
+
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story .text-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .our-story .highlight-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-accent);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .our-story .highlight-card blockquote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--color-text-heading);
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .our-story .highlight-card blockquote::before {
+            content: "“";
+            font-size: 4rem;
+            position: absolute;
+            left: -10px;
+            top: -15px;
+            color: var(--color-accent);
+            opacity: 0.6;
+            line-height: 1;
+        }
+
+        .our-story .highlight-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--color-brand);
+            font-size: 1rem;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .our-story .stats-grid .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+        .our-story .stats-grid .stat-card .value {
+            font-family: var(--font-family-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 5px;
+        }
+        .our-story .stats-grid .stat-card .label {
+            font-size: 0.95rem;
+            color: var(--color-text-body);
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--color-bg-main);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-item {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand); /* Brand color left border accent */
+            border-radius: 10px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item h3 {
+            font-size: 1.5rem;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+            font-family: var(--font-family-heading);
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--color-bg-alt);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-card h3 {
+            font-size: 1.6rem;
+            color: var(--color-brand);
+            margin-bottom: 15px;
+            font-family: var(--font-family-heading);
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--color-bg-main);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand); /* Brand color accent */
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--color-text-heading);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-accent);
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--color-bg-alt);
+            padding: var(--section-padding-y) 0;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--color-brand);
+            margin-bottom: 25px;
+            font-family: var(--font-family-heading);
+            font-size: 2.2rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--color-text-body);
+        }
+
+        .location-info a {
+            color: var(--color-brand);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--color-accent);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--color-card-border);
+            color: var(--color-text-body);
+        }
+
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            margin-top: 40px;
+            width: fit-content;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--color-brand) 0%, #55331e 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--color-text-heading);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta-section .btn-secondary {
+            border-color: var(--color-text-heading);
+            color: var(--color-text-heading);
+        }
+
+        .final-cta-section .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--color-text-heading);
+            border-color: var(--color-text-heading);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0a09; /* Even darker than main bg */
+            padding: 60px 0;
+            text-align: center;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-family-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: var(--color-text-body);
+        }
+
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--color-text-body);
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--color-accent);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header .nav-links {
+                gap: 25px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .our-story .content-grid,
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .our-story .text-content {
+                order: 2; /* Put text below testimonial on mobile */
+            }
+            .our-story .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            .social-proof .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .social-proof .item .value {
+                font-size: 2rem;
+            }
+            .social-proof .item .label {
+                font-size: 1rem;
+            }
+            .our-story .text-content, .our-story .highlight-card {
+                padding: 20px;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid, .why-cards, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+            .footer .social-links {
+                gap: 15px;
+            }
+            .header .call-button {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">MUNCHIES ON MAIN</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3364448448" class="call-button">CALL (336) 444-8448</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <p class="location fade-in-up">Pilot Mountain, NC</p>
+        <h1 class="fade-in-up">MUNCHIES ON MAIN</h1>
+        <p class="tagline fade-in-up">Munchies on Main sandwiches and more is coming soon! Exciting to see the renovations and equipment being delivered. Can't wait!</p>
+        <div class="rating-badge fade-in-up">
+            <span class="star">★</span> 5 Stars (36 Reviews)
+        </div>
+        <div class="cta-group fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container fade-in-up">
+            <div class="item">
+                <span class="value">5.0</span>
+                <span class="label">Average Rating</span>
+            </div>
+            <div class="item">
+                <span class="value">36+</span>
+                <span class="label">Glowing Reviews</span>
+            </div>
+            <div class="item">
+                <span class="value">Local</span>
+                <span class="label">Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="content-grid">
+                <div class="text-content fade-in-up">
+                    <span class="section-label">Our Journey</span>
+                    <h2>Crafted with Passion, Served with a Smile.</h2>
+                    <p>At Munchies on Main, we're more than just a sandwich spot – we're a dream coming to life right here in Pilot Mountain. We believe that great food brings people together, and our mission is to serve up delicious, fresh, and satisfying meals that make your day a little brighter.</p>
+                    <p>Our kitchen is bustling with excitement, perfecting every recipe and sourcing the freshest ingredients. From hearty sandwiches packed with flavor to classic grill favorites, every dish is made with care and a sprinkle of our local charm. We're building a place where good food and good company are always on the menu, and we can't wait to welcome you.</p>
+                </div>
+                <div class="fade-in-up">
+                    <div class="highlight-card">
+                        <blockquote>
+                            "Delish all-to-go sandwich spot! We had the Reuben and Mama Mia – both fabulous with fresh ingredients!"
+                        </blockquote>
+                        <cite>— Bonnie S., Happy Customer (Yelp)</cite>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="value">5 ★</div>
+                            <div class="label">Star Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="value">36+</div>
+                            <div class="label">Customer Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="value">Pilot</div>
+                            <div class="label">Mountain Proud</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Delicious Offerings</span>
+            <h2 class="fade-in-up">Handcrafted Sandwiches & Grill Favorites</h2>
+            <div class="menu-grid">
+                <div class="menu-item fade-in-up">
+                    <h3>Turkey Burger</h3>
+                    <p>Juicy turkey patty, fresh lettuce, tomato, onion, and our special sauce on a toasted bun.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Divine Chicken Sandwich</h3>
+                    <p>Grilled or crispy chicken, provolone, bacon, lettuce, tomato, and creamy ranch.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Classic Reuben</h3>
+                    <p>Tender corned beef, Swiss cheese, sauerkraut, and Russian dressing on grilled rye bread.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Mama Mia Sandwich</h3>
+                    <p>A taste of Italy with pepperoni, salami, ham, provolone, lettuce, tomato, and Italian dressing.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Cheese Sticks</h3>
+                    <p>Golden-fried mozzarella sticks served with a side of marinara for dipping.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Crispy Onion Rings</h3>
+                    <p>Sweet onion rings lightly battered and fried to a perfect golden crisp.</p>
+                </div>
+                <!-- Adding a couple more to fill out the grid nicely -->
+                <div class="menu-item fade-in-up">
+                    <h3>Philly Cheesesteak</h3>
+                    <p>Thinly sliced steak, sautéed peppers and onions, melted provolone on a hoagie roll.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Loaded Fries</h3>
+                    <p>Crispy fries piled high with melted cheese, bacon, and a drizzle of ranch.</p>
+                </div>
+            </div>
+            <a href="tel:3364448448" class="btn btn-primary call-to-order-btn fade-in-up">CALL TO ORDER NOW</a>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">The Munchies Difference</span>
+            <h2 class="fade-in-up">Why Pilot Mountain Loves Our Grill</h2>
+            <div class="why-cards">
+                <div class="why-card fade-in-up">
+                    <h3>Fresh, Local Ingredients</h3>
+                    <p>We pride ourselves on using only the freshest ingredients, just like Bonnie S. raved about with our Reuben and Mama Mia. Quality you can taste in every bite!</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Unforgettable Flavors</h3>
+                    <p>From our "divine" chicken sandwich to the "known for" turkey burger, our menu is packed with unique and satisfying flavors crafted to delight your taste buds.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Community Focused</h3>
+                    <p>As a proud new addition to Pilot Mountain, we're excited to serve our neighbors and become your go-to spot for delicious, convenient meals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Hear From Our Fans</span>
+            <h2 class="fade-in-up">What Our Customers Are Saying</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>
+                        "The turkey burger here is absolutely phenomenal! Cooked to perfection, juicy, and so flavorful. A definite must-try if you're in Pilot Mountain."
+                    </blockquote>
+                    <p class="author">— Emily R., Local Foodie</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>
+                        "I'm usually picky about my chicken sandwiches, but the 'divine chicken sandwich' truly lives up to its name. Perfectly seasoned and incredibly tender. Plus, those cheese sticks are dangerous!"
+                    </blockquote>
+                    <p class="author">— David L., Regular Visitor</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>
+                        "Finally, a place with seriously good onion rings! And the Reuben? Top-notch. Fresh ingredients make all the difference. Munchies on Main is going to be a huge hit!"
+                    </blockquote>
+                    <p class="author">— Sarah K., Happy Customer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <span class="section-label text-center fade-in-up">Visit Us Soon!</span>
+            <h2 class="text-center fade-in-up">Find Us & Our Hours</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>We're conveniently located in the heart of Pilot Mountain, ready to serve you the freshest sandwiches and grill favorites!</p>
+                    <p><strong>Address:</strong> 115 W Main St, Pilot Mountain, NC 27041, USA</p>
+                    <p><strong>Phone:</strong> <a href="tel:3364448448">(336) 444-8448</a></p>
+                    <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" target="_blank" class="btn btn-primary call-to-order-btn">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>Closed</td></tr>
+                        <tr><th>Thursday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>12:00 – 8:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>12:00 – 8:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>12:00 – 7:00 PM</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Miss Out on Pilot Mountain's Newest Flavor Destination!</h2>
+            <a href="#menu" class="btn btn-secondary fade-in-up">EXPLORE OUR MENU TODAY</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">MUNCHIES ON MAIN</div>
+            <p class="tagline">Munchies on Main sandwiches and more is coming soon!</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iaSBiaSBiaS1mYWNlYm9vayIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNOS40MzcgNS42MjZINy44OTFWMThoMy4wNDVWNS42MjZoMi4xNzVsLjMyMS0xLjk2NEgxMS45NjVjLS42MDUgMC0xLjM2NC4wNjItMS45Mi40OTItLjU1Ni40My0xLjAxNS45MDItMS4xMDQuOTQzVjQuOTJoMS42MjRWMi4wMjVsLTEuODYtLjk2NEM4LjM3IDIuODMyIDcuMjM4IDIuODk1IDYuMzA4IDMuNTQ4IDUuMzc3IDQuMjA0IDUuMTgzIDUuMjMyIDUuMTEgNi4wNzNWNy41MTVoLTEuOTgyVjcuMjc1SDUuMTExVjcuOTJoLjQ3Yy4xNDQuNDYuNTkzLjg1NiAxLjE3IDEuMTIuNTc3LjI2MyAxLjI2Ny4zOTUgMS41MDQuNDc3VjYuOTU2eiIvPgo8L3N2Zz4=" alt="Facebook" style="filter: invert(1) brightness(0.8);"></a></li>
+                <li><a href="#" aria-label="Instagram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iaSBiaSBiaS1pbnN0YWdyYW0iIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTggMEExIDEgMCAwIDAgNyAxVjcuOTk0QTUgNSAwIDAgMSAxMyA3Ljk5NFYxQTEgMSAwIDAgMCAxNiAxVi4zNUExIC45OCAwIDAgMCAxNSAxSDkuNjU4QTYuNDU2IDYuNDU2IDAgMCAwIDggMy45OTZBNC41MDkgNC41MDkgMCAwIDAgMy41IDhBNi40NTYgNi40NTYgMCAwIDAgMCAxMi40OTJWNUExIDIgMCAwIDEgMiAzVjcuOTk0QTUuNTA4IDUuNTA4IDAgMCAwIDggNC45OTRBNi41IDYuNSAwIDAgMCAxNiA1VjcuOTk0QTUuNTA4IDUuNTA4IDAgMCAxIDggMTNWOC4wMDRBNS41MDcgNS41MDcgMCAwIDAgMiAxMi45OTRWMTVhMSAxIDAgMCAxIC0yIDBWNUExIDQgMCAwIDEgNiAxVjcuOTk0QTcuNTA3IDcuNTA3IDAgMCAxIDE1IDdBNi41IDYuNSAwIDAgMCA5IDFBNS41MDcgNS41MDcgMCAwIDAgMSAxVjcuOTk0QTYuNS0gNi41LSAwIDAgMCA2IDEzVjguMDA0QTcuNTA3IDcuNTA3IDAgMCAxIDEgMTVWNy45OTRBIj48L3BhdGg+CiAgPHBhdGggZD0iTTE0IDdoMnYyYTEuMjU4IDEuMjU4IDAgMCAwLTEgMWMtLjI4NSAwLS40NTctLjAzNi0uNjMyLS4wNzUtLjE3NS0uMDYtLjM1LS4xNjktLjU1NC0uMzI1LS4xOTMtLjE0NC0uMzU0LS4zMjgtLjQ3MS0uNTU3LS4xNjEtLjMyNi0uMjQtLjY2LS4yNzUtMS4wMDZBNi4xMjIgNi4xMjIgMCAwIDEtNiAxNGMtLjUzMSAwLS43NzUtLjEyNy0uOTYtLjE1Ny0uMTctLjAzLS4zMzQtLjEwOC0uNDc1LS4yMy0uMTI3LS4xMDctLjIzMi0uMjYyLS4zMS0uNDU0LS4wOTMtLjI1LS4xMjctLjUyLS4xNTgtLjc5NUExLjU2IDEuNTYgMCAwIDAtOCAxNGMtLjA5MyAwLS4xODctLjAzMi0uMjgyLS4wNjktLjA5My0wLS4xODgtLjAyOS0uMjgxLS4wNTgtLjIwNC0uMDYtLjM4My0uMTU2LS41NDMtLjI5Mi0uMTcyLS4xNC0uMzE4LS4zMTQtLjQzNS0uNTE4LS4xNDktLjI2LS4yNDItLjU0OC0uMjcxLS44NDNBNi4xMiA2LjEyIDAgMCAwLTE0IDhjLS41MzEgMC0uNzc1LS4xMjYtLjk2LS4xNTctLjE3LS4wMy0uMzM0LS4xMDctLjQ3NS0uMjMxLS4xMjctLjEwNy0uMjMyLS4yNjItLjMxLS40NTQtLjA5My0uMjUtLjEyNy0uNTItLjE1OC0uNzk0QS0xLjU2IDEuNTYgMCAwIDAtMTYgOGMwLS4wOTMgMC0uMTg4LS4wMzItLjI4Mi0uMDY5LS4wOTMtMC0uMTg4LS4wMjktLjI4MS0uMDU4LS4yMDQtLjA2LS4zODMtLjE1Ni0uNTQzLS4yOTItLjE3Mi0uMTQtLjMxOC0uMzE0LS40MzUtLjUxOC0uMTQ5LS4yNjEtLjI0Mi0uNTQ5LS4yNzEtLjg0M0E2LjEyMiA2LjEyMiAwIDAgMSAxNiA4Ii8+Cjwvc3ZnPg==" alt="Instagram" style="filter: invert(1) brightness(0.8);"></a></li>
+                <!-- Replace with actual SVG icons for premium look -->
+            </ul>
+            <p class="copyright">&copy; 2026 Munchies on Main. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for fade-in-up effect (imagined for this HTML output) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: "0px"
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
