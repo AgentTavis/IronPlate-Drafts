@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chubby's of Valdese - Authentic Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Global Resets */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #C41E3A;
+            --accent-color: #1F4788;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            /* Typography */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --hero-name-size: clamp(3.5rem, 8vw, 6rem);
+            --section-heading-size: clamp(2rem, 5vw, 3rem);
+            --body-font-size: 1.08rem;
+            --line-height-body: 1.7;
+
+            /* Spacing */
+            --section-padding: 80px 0;
+            --container-max-width: 1200px;
+            --gap-md: 2rem;
+            --gap-lg: 3rem;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: var(--line-height-body);
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Layout Helpers */
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            color: var(--brand-color);
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .grid {
+            display: grid;
+            gap: var(--gap-md);
+        }
+
+        .grid-2-cols {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .grid-3-cols {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 1.8rem;
+            border-radius: 6px;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-heading);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--brand-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        .sticky-header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(196, 30, 58, 0.1) 25%, rgba(31, 71, 136, 0.1) 75%, var(--bg-main) 100%);
+        }
+
+        .hero h1 {
+            font-size: var(--hero-name-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-heading);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .hero .rating-badge svg {
+            color: gold;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color at low opacity */
+            padding: 2.5rem 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .social-proof-strip div {
+            flex-basis: calc(33% - 2rem);
+            min-width: 250px;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip div span {
+            display: block;
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Sections General */
+        section {
+            padding: var(--section-padding);
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-light);
+        }
+
+        section h2 {
+            font-size: var(--section-heading-size);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--gap-lg);
+            color: var(--text-heading);
+        }
+
+        /* Our Story Section */
+        .our-story .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap-lg);
+            align-items: center;
+        }
+
+        .our-story p {
+            font-size: var(--body-font-size);
+            color: var(--text-body);
+            margin-bottom: 1.2rem;
+        }
+
+        .our-story .story-text {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .our-story .stats-grid {
+            margin-top: var(--gap-lg);
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--gap-md);
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .menu-item-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-top: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .usp-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-choose-us .usp-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-choose-us .usp-card .icon {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-us .usp-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 0.8rem;
+        }
+
+        .why-choose-us .usp-card p {
+            font-size: var(--body-font-size);
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            position: relative;
+            font-style: italic;
+            color: var(--text-body);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonials .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonials .testimonial-card blockquote {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .testimonials .testimonial-card .author {
+            font-family: var(--font-heading);
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            grid-template-columns: 1fr;
+            gap: var(--gap-lg);
+        }
+
+        .location-hours-content .column {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+
+        .location-hours-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .location-hours-content p {
+            font-size: var(--body-font-size);
+            line-height: 1.6;
+            color: var(--text-body);
+            text-align: center;
+        }
+
+        .location-hours-content .address {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+
+        .location-hours-content .phone a {
+            font-size: 1.4rem;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .location-hours-content .phone a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: var(--body-font-size);
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        .location-hours-content .btn-call-order {
+            margin-top: 2rem;
+            width: 100%;
+            display: block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: 6rem 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: var(--section-heading-size);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: transparent;
+            color: var(--text-heading);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 4rem 0 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 992px) {
+            .sticky-header nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+
+            .sticky-header {
+                justify-content: center;
+            }
+            .sticky-header .logo {
+                margin-right: auto; /* Push logo to left, button to right */
+                margin-left: 0;
+            }
+            .sticky-header .btn-call {
+                margin-left: auto; /* Push button to right */
+                display: block; /* Ensure button is always visible */
+            }
+
+            .social-proof-strip .container div {
+                flex-basis: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .hero h1 {
+                font-size: clamp(3rem, 10vw, 5rem);
+            }
+
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+
+            .hero .cta-buttons {
+                flex-direction: column;
+            }
+
+            .our-story .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-choose-us .grid, .testimonials .grid, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-content .column {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+             :root {
+                --section-padding: 60px 0;
+                --hero-name-size: clamp(2.8rem, 10vw, 4.5rem);
+                --section-heading-size: clamp(1.8rem, 7vw, 2.5rem);
+                --body-font-size: 1rem;
+                --gap-md: 1.5rem;
+                --gap-lg: 2.5rem;
+            }
+
+            .sticky-header {
+                height: 50px;
+            }
+
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+
+            .sticky-header .btn-call {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Chubby's</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18288741995" class="btn btn-call">CALL (828) 874-1995</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <h1 class="fade-in-up">Chubby's of Valdese</h1>
+            <p class="location fade-in-up">Valdese, NC</p>
+            <p class="tagline fade-in-up">Those winter storm snacks are getting old! Come enjoy a hot pizza, toasty sub or some soup and salad!</p>
+            <div class="rating-badge fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                </svg>
+                4.7 stars (272 reviews)
+            </div>
+            <div class="cta-buttons fade-in-up">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div>
+                    <span>4.7</span>
+                    Star Rating
+                </div>
+                <div>
+                    <span>272+</span>
+                    Happy Reviews
+                </div>
+                <div>
+                    <span>Valdese's</span>
+                    Local Favorite
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Our Heritage</span>
+                <h2 class="fade-in-up">More Than Just Food, It's Family.</h2>
+                <div class="story-text fade-in-up">
+                    <p>Chubby's of Valdese isn't just a restaurant; it's a cornerstone of the Valdese community. As a local owned establishment, we've built our reputation on personal service and a commitment to quality that you won't find anywhere else.</p>
+                    <p>We pride ourselves on crafting custom-made subs on freshly baked bread, alongside comforting specials, delicious soups, and fresh salads. Many of our loyal customers tell us they prefer Chubby's over the big chains, and that's the greatest compliment we can receive. Come taste the difference that local care and dedication make!</p>
+                </div>
+                
+                <div class="grid stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <div class="number">272+</div>
+                        <div class="label">Satisfied Reviews</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--animation-delay: 0.1s;">
+                        <div class="number">Daily</div>
+                        <div class="label">Fresh Baked Bread</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--animation-delay: 0.2s;">
+                        <div class="number">Local</div>
+                        <div class="label">Owned & Operated</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Our Delights</span>
+                <h2 class="fade-in-up">Taste Valdese's Best Subs & More</h2>
+                <div class="grid menu-grid">
+                    <div class="menu-item-card fade-in-up">
+                        <div>
+                            <h3>Italian Sub</h3>
+                            <p>Premium ham, savory salami, and spicy cappicollo packed into our fresh baked bread.</p>
+                        </div>
+                        <span class="price">$6.50</span>
+                    </div>
+                    <div class="menu-item-card fade-in-up" style="--animation-delay: 0.1s;">
+                        <div>
+                            <h3>Classic Combo</h3>
+                            <p>A hearty mix of ham, salami, and bologna, prepared just the way you like it.</p>
+                        </div>
+                        <span class="price">$6.50</span>
+                    </div>
+                    <div class="menu-item-card fade-in-up" style="--animation-delay: 0.2s;">
+                        <div>
+                            <h3>Provolone Cheese Sub</h3>
+                            <p>Melted provolone cheese on our signature fresh baked bread, a simple delight.</p>
+                        </div>
+                        <span class="price">$6.50</span>
+                    </div>
+                    <div class="menu-item-card fade-in-up" style="--animation-delay: 0.3s;">
+                        <div>
+                            <h3>Spicy Ham Sub</h3>
+                            <p>Kick it up a notch with our zesty spicy ham, a favorite for those who like a little heat.</p>
+                        </div>
+                        <span class="price">$6.95</span>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 3rem;">
+                    <p>Craving a hot pizza, toasty sub, soup or salad? Call us or visit for our full range of offerings!</p>
+                    <a href="tel:+18288741995" class="btn btn-primary" style="margin-top: 1rem;">CALL TO ORDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Our Promise</span>
+                <h2 class="fade-in-up">Why Valdese Chooses Chubby's</h2>
+                <div class="grid grid-3-cols">
+                    <div class="usp-card fade-in-up">
+                        <div class="icon">🥖</div>
+                        <h3>Fresh Baked Daily</h3>
+                        <p>Our custom-made subs start with bread baked fresh every single morning. Taste the difference!</p>
+                    </div>
+                    <div class="usp-card fade-in-up" style="--animation-delay: 0.1s;">
+                        <div class="icon">👨‍🍳</div>
+                        <h3>Personalized Service</h3>
+                        <p>We're locally owned and treat every customer like family. Your satisfaction is our top priority.</p>
+                    </div>
+                    <div class="usp-card fade-in-up" style="--animation-delay: 0.2s;">
+                        <div class="icon">💖</div>
+                        <h3>Local Community Love</h3>
+                        <p>Proudly serving Valdese with delicious food and a welcoming atmosphere that keeps you coming back.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">What Our Locals Say</span>
+                <h2 class="fade-in-up">Voices of Valdese</h2>
+                <div class="grid grid-2-cols">
+                    <div class="testimonial-card fade-in-up">
+                        <blockquote>"Chubby's truly makes the best subs in Valdese! Their Italian Sub on fresh baked bread is a game-changer. I literally prefer them over any chain. The personalized service is just wonderful."</blockquote>
+                        <span class="author">— Sarah J., Valdese Resident</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="--animation-delay: 0.1s;">
+                        <blockquote>"My go-to for a quick and tasty lunch! The Classic Combo is always perfectly made, and you can tell they care about their ingredients. It's refreshing to support a local spot with such great food."</blockquote>
+                        <span class="author">— Mark T., Regular Customer</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="--animation-delay: 0.2s;">
+                        <blockquote>"Tried the Spicy Ham Sub and absolutely loved it! The bread is amazing, and the spice level was just right. Fantastic local spot with a cozy vibe. Definitely coming back for more!"</blockquote>
+                        <span class="author">— Emily R., Happy Diner</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us">
+            <div class="container text-center">
+                <span class="section-label fade-in-up">Visit Us</span>
+                <h2 class="fade-in-up">Find Chubby's in Valdese</h2>
+                <div class="grid location-hours-content">
+                    <div class="column fade-in-up">
+                        <h3>Our Location</h3>
+                        <p class="address">831 Main St W, Valdese, NC 28690, USA</p>
+                        <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-secondary" style="margin-top: 1.5rem;">GET DIRECTIONS</a>
+                        <p class="phone"><a href="tel:+18288741995">(828) 874-1995</a></p>
+                    </div>
+                    <div class="column fade-in-up" style="--animation-delay: 0.1s;">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr><th>Monday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Tuesday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Wednesday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Thursday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Friday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><th>Saturday:</th><td class="closed">Closed</td></tr>
+                            <tr><th>Sunday:</th><td class="closed">Closed</td></tr>
+                        </table>
+                        <a href="tel:+18288741995" class="btn btn-primary btn-call-order">CALL TO ORDER NOW</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="fade-in-up">Don't Miss Out On Valdese's Best!</h2>
+                <p class="fade-in-up" style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 2rem;">Stop by Chubby's of Valdese today and treat yourself to our fresh subs, hot pizza, soup, and salad. Your taste buds will thank you!</p>
+                <a href="#find-us" class="btn btn-primary fade-in-up">VISIT US TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo">Chubby's</a>
+            <p class="tagline">Chubby's of Valdese: Your local spot for hot pizza, toasty subs, soup, and salad. Freshness and personal service guaranteed!</p>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg></a>
+                <a href="#" target="_blank" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.087 3.85.048 4.703.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.95.923 1.417.444.45.867.732 1.417.923.509.198 1.09.333 1.942.372C5.555 15.991 5.827 16 8 16s2.444-.01 3.297-.048c.852-.04 1.433-.174 1.942-.372a3.917 3.917 0 0 0 1.417-.923c.445-.47.733-.891.923-1.417.198-.509.333-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.297c-.04-.852-.174-1.433-.372-1.942a3.917 3.917 0 0 0-.923-1.417A3.927 3.927 0 0 0 13.24 0.42c-.509-.198-1.09-.333-1.942-.372C10.445.01 10.173 0 8 0zm0 1.6c2.172 0 2.444.01 3.293.047.825.036 1.374.175 1.76.322.381.149.684.344.919.679.235.336.39.604.48 1.124.037.37.06.66.067 1.644.007.985 0 1.218 0 3.427 0 2.208-.007 2.44-.067 3.426-.04 1.02-.12 1.401-.322 1.76-.149.381-.344.684-.679.919-.336.235-.604.39-1.124.48-.37.037-.66.06-1.644.067-.985.007-1.218 0-3.427 0-2.208 0-2.44-.007-3.426-.067-1.02-.12-1.401-.322-1.76-.149-.381-.344-.684-.679-.919-.336-.235-.604-.39-1.124-.48-.37-.037-.66-.06-1.644-.067-.985-.007-1.218 0-3.427 0-2.208 0-2.44.007-3.426.067-.37.037-.66.06-1.644.067-.985.007-1.218 0-3.427 0-2.208 0-2.44-.007-3.426-.067-1.02-.12-1.401-.322-1.76-.149-.381-.344-.684-.679-.919-.336-.235-.604-.39-1.124-.48-.37-.037-.66-.06-1.644-.067-.985-.007-1.218 0-3.427 0-2.208 0-2.44.007-3.426-.067zM8 4.974c1.815 0 3.288 1.473 3.288 3.288S9.815 11.55 8 11.55s-3.288-1.473-3.288-3.288S6.185 4.974 8 4.974zm0 1.6C6.953 6.574 6.16 7.366 6.16 8.327c0 .96.793 1.751 1.84 1.751s1.84-.791 1.84-1.751c0-.96-.793-1.752-1.84-1.752z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Chubby's of Valdese. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: '0px 0px -50px 0px' // Start animation a bit before reaching the bottom
+            });
+
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
