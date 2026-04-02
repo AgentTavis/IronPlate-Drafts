@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>South Side Caddy Shack - Sparta, NC | Burgers, Sandwiches & Hotdogs</title>
+    <meta name="description" content="South Side Caddy Shack is Sparta, NC's newest drive-thru and drive-in restaurant! Enjoy delicious burgers, sandwiches, and hotdogs served fast and fresh on South Main Street.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-primary: #111111;
+            --bg-secondary: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #8B4513; /* Saddle Brown */
+            --accent-color: #FFD700; /* Gold */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Body font size */
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero heading adjusted in its own block */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: block;
+            letter-spacing: 0.1em;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        /* Utility classes for animations (IntersectionObserver controlled in JS usually) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--animation-delay, 0s);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        .header-logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0 10px;
+        }
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .header-nav a {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .header-nav a:hover, .header-nav a.active {
+            color: var(--brand-color);
+        }
+        .header-nav a:hover::after, .header-nav a.active::after {
+            width: 100%;
+        }
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+            color: var(--bg-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(139, 69, 19, 0.1) 30%, var(--bg-primary) 70%, rgba(255, 215, 0, 0.05) 90%, var(--bg-primary) 100%);
+            overflow: hidden; /* Ensure no overflow from subtle elements */
+        }
+        .hero-content {
+            z-index: 1;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+            animation: textReveal 1s ease-out forwards;
+            color: var(--text-heading);
+        }
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 300;
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.6s forwards;
+        }
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,215,0,0.1); /* Subtle accent color tint */
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255,215,0,0.2);
+            animation: fadeInUp 1s ease-out 0.9s forwards;
+        }
+        .hero-rating svg {
+            margin-right: 8px;
+            fill: var(--accent-color);
+        }
+        .hero-cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            animation: fadeInUp 1s ease-out 1.2s forwards;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            letter-spacing: 0.05em;
+            position: relative;
+            opacity: 0; /* For fade-in-up */
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .social-proof-item span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        .social-proof-item:nth-child(1) { transition-delay: 0.1s; }
+        .social-proof-item:nth-child(2) { transition-delay: 0.2s; }
+        .social-proof-item:nth-child(3) { transition-delay: 0.3s; }
+        .social-proof-item.is-visible {
+             opacity: 1;
+             transform: translateY(0);
+        }
+
+        /* Our Story Section */
+        .our-story {
+            background-color: var(--bg-primary);
+        }
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .story-content h2 {
+            margin-bottom: 25px;
+        }
+        .story-content p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 1.5em;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+        .testimonial-card span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+        .stat-card p {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 300;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--brand-color);
+            border-radius: 8px 8px 0 0;
+        }
+
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-secondary); /* Alternating background */
+            text-align: center;
+        }
+        .menu-section h2 {
+            margin-bottom: 50px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+        .menu-item-card p {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+        .menu-item-card .price {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            font-weight: normal;
+            margin-top: 15px;
+            display: block;
+        }
+        .menu-call-to-action {
+            margin-top: 60px;
+        }
+        .menu-call-to-action .btn {
+            font-size: 1rem;
+            padding: 12px 25px;
+        }
+
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--bg-primary);
+            text-align: center;
+        }
+        .why-choose-us h2 {
+            margin-bottom: 50px;
+        }
+        .reason-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .reason-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .reason-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .reason-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 8px 8px 0 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-secondary); /* Alternating background */
+            text-align: center;
+        }
+        .testimonials-section h2 {
+            margin-bottom: 50px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            min-height: 200px; /* Ensure consistent height */
+        }
+        .testimonial-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .testimonial-item p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+        }
+        .testimonial-item strong {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-primary);
+            text-align: center;
+        }
+        .location-hours h2 {
+            margin-bottom: 50px;
+        }
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            text-align: left;
+            margin-top: 30px;
+        }
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .location-info p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .location-info a {
+            font-weight: 600;
+            text-decoration: underline;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            text-align: left;
+            color: var(--text-heading);
+            font-weight: 600;
+            font-family: var(--font-body);
+            width: 30%;
+        }
+        .hours-table td {
+            text-align: right;
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-info .btn {
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 50%, rgba(255, 215, 0, 0.5) 100%);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+            color: var(--text-heading);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-heading);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--text-heading); /* White button */
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+            font-size: 1.15rem;
+            padding: 18px 40px;
+        }
+        .final-cta .btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-primary);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d; /* Even darker than primary */
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 2rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer-tagline {
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .stat-card h3 {
+                font-size: 2.5rem;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .container {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            .sticky-header .header-nav ul {
+                gap: 15px;
+                margin-top: 10px;
+            }
+            .header-call-btn {
+                margin-top: 10px;
+                width: 90%;
+            }
+            .hero {
+                padding-top: 120px; /* Adjust for taller header */
+                min-height: calc(100vh - 120px);
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 0.95rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .social-proof .container {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                font-size: 1.8rem;
+                min-width: unset;
+                width: 100%;
+            }
+            .our-story .container,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-padding-y {
+                padding: 60px 0;
+            }
+            .menu-grid, .reason-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-card, .reason-card, .testimonial-item, .stat-card,
+            .location-info, .hours-info {
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta .btn {
+                font-size: 1rem;
+                padding: 15px 30px;
+            }
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-rating {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+            .sticky-header {
+                height: auto;
+            }
+            .sticky-header .container {
+                padding: 10px;
+            }
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header-nav a {
+                font-size: 0.9rem;
+            }
+            .header-call-btn {
+                font-size: 0.85rem;
+                padding: 6px 12px;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes textReveal {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="header-logo">South Side Caddy Shack</div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3365551234" class="header-call-btn btn">CALL (336) 555-1234</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <p class="hero-location">Sparta, NC</p>
+            <h1>South Side Caddy Shack</h1>
+            <p class="hero-tagline">South Side Caddy Shack. 544 South Main Street Sparta, NC 28675 Monday Tuesday Wednesday 11AM-8PM...</p>
+            <div class="hero-rating">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                4.5 Stars (1 Review)
+            </div>
+            <div class="hero-cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof-item fade-in-up">
+                4.5 Stars
+                <span>Based on 1 Review</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--animation-delay: 0.1s;">
+                Just Opened!
+                <span>New Local Hotspot</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--animation-delay: 0.2s;">
+                Sparta's Best
+                <span>Your New Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <div class="story-content fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2>Bringing Classic American Flavors to Sparta's South Side</h2>
+                <p>Welcome to South Side Caddy Shack, Sparta's newest drive-thru and drive-in restaurant! We're proud to open our doors at 544 South Main Street, bringing a fresh, convenient, and delicious dining experience to our beloved community.</p>
+                <p>Our vision is simple: serve up classic American comfort food with a smile, fast and fresh. From juicy burgers to loaded hotdogs and satisfying sandwiches, we've crafted a menu designed for everyone to enjoy on the go or right here in our friendly drive-in atmosphere. We believe in good food, great service, and being a welcoming spot for friends and family.</p>
+                <div class="testimonial-card">
+                    <p>"Finally, a convenient spot with great food in Sparta! The vibe is fantastic, and everything tastes freshly made. Can't wait to try all the different sandwiches!"</p>
+                    <span>— A Happy Local</span>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up" style="--animation-delay: 0.1s;">
+                    <h3>4.5</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card fade-in-up" style="--animation-delay: 0.2s;">
+                    <h3>New</h3>
+                    <p>Local Establishment</p>
+                </div>
+                <div class="stat-card fade-in-up" style="--animation-delay: 0.3s;">
+                    <h3>Sparta</h3>
+                    <p>North Carolina Focused</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section class="menu-section" id="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="fade-in-up">Classic Flavors, Freshly Prepared</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.1s;">
+                    <h3>Classic Burgers</h3>
+                    <p>Juicy, grilled-to-perfection patties. Topped just the way you like them.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.2s;">
+                    <h3>Signature Sandwiches</h3>
+                    <p>Hearty and flavorful, crafted with fresh ingredients.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.3s;">
+                    <h3>Gourmet Hotdogs</h3>
+                    <p>All-beef dogs with a variety of exciting toppings.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.4s;">
+                    <h3>Crispy Fries</h3>
+                    <p>The perfect side for any meal, golden and seasoned.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.5s;">
+                    <h3>Refreshing Drinks</h3>
+                    <p>From sodas to sweet tea, quench your thirst.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--animation-delay: 0.6s;">
+                    <h3>Sweet Treats</h3>
+                    <p>A little something special to finish off your meal.</p>
+                    <span class="price">Coming Soon!</span>
+                </div>
+            </div>
+            <div class="menu-call-to-action fade-in-up">
+                <p>Our full menu with specific items and prices is coming very soon!</p>
+                <a href="#find-us" class="btn btn-primary">VISIT US TODAY</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Why South Side Caddy Shack?</span>
+            <h2 class="fade-in-up">Your Go-To for Quick, Quality Bites</h2>
+            <div class="reason-grid">
+                <div class="reason-card fade-in-up" style="--animation-delay: 0.1s;">
+                    <h3>Drive-Thru Convenience</h3>
+                    <p>Perfect for busy days! Get your favorite burgers, sandwiches, and hotdogs quickly and efficiently without leaving your car.</p>
+                </div>
+                <div class="reason-card fade-in-up" style="--animation-delay: 0.2s;">
+                    <h3>Fresh & Flavorful</h3>
+                    <p>We pride ourselves on using quality ingredients to prepare every meal. Expect delicious, satisfying flavors in every bite of our classic American fare.</p>
+                </div>
+                <div class="reason-card fade-in-up" style="--animation-delay: 0.3s;">
+                    <h3>Local & Friendly</h3>
+                    <p>As a new part of the Sparta community, we're committed to friendly service and a welcoming atmosphere. Support local and taste the difference!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Customers Say</span>
+            <h2 class="fade-in-up">Hear From Our Happy Guests</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up" style="--animation-delay: 0.1s;">
+                    <p>"The drive-thru service was so quick and friendly! I grabbed a burger and it was perfectly cooked. So glad to have this new spot on South Main."</p>
+                    <strong>— Sarah P., Sparta Resident</strong>
+                </div>
+                <div class="testimonial-item fade-in-up" style="--animation-delay: 0.2s;">
+                    <p>"Just tried the hotdogs for the first time, and they're fantastic! Love the variety of toppings available. This Caddy Shack is a hole-in-one!"</p>
+                    <strong>— Mike T., Local Golfer</strong>
+                </div>
+                <div class="testimonial-item fade-in-up" style="--animation-delay: 0.3s;">
+                    <p>"Such a great addition to Sparta! My sandwich was delicious, and the staff were incredibly welcoming. Definitely coming back for more."</p>
+                    <strong>— Emily R., Visitor</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section class="location-hours" id="find-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="fade-in-up">Find Your Way to South Side Caddy Shack</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p><strong>South Side Caddy Shack</strong></p>
+                    <p>544 S Main St<br>Sparta, NC 28675<br>USA</p>
+                    <p>We're conveniently located on South Main Street, easy to access whether you're driving by or stopping in for a quick bite.</p>
+                    <a href="https://maps.app.goo.gl/wS78pP74e2wS6XmP7" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up" style="--animation-delay: 0.2s;">
+                    <h3>Our Hours</h3>
+                    <p>Grab a quick and delicious meal during our operating hours:</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:3365551234" class="btn btn-primary">CALL TO ORDER (336) 555-1234</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for a Taste of Sparta's Best?</h2>
+            <a href="#menu" class="btn">VIEW OUR MENU & PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">South Side Caddy Shack</span>
+            <p class="footer-tagline">South Side Caddy Shack. 544 South Main Street Sparta, NC 28675 Monday Tuesday Wednesday 11AM-8PM... Your new favorite drive-thru and drive-in for burgers, sandwiches, and hotdogs.</p>
+            <ul class="social-links">
+                <li><a href="https://facebook.com/southsidecaddyshack" aria-label="Facebook"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.818.062-1.4.606-1.4h3.394v-5h-4.434c-4.209 0-5.566 3.193-5.566 5.669v2.331z"/></svg></a></li>
+                <li><a href="https://instagram.com/southsidecaddyshack" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2 16h-2v-6h2v6zm-1-8c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1zm7 8h-2v-6h-2v-2h4v8z"/></svg></a></li>
+                <li><a href="https://github.com/southsidecaddyshack" aria-label="GitHub"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.176 3.195 9.537 7.641 11.226.664.12.906-.285.906-.636 0-.31-.01-1.354-.01-2.484-3.262.708-3.951-1.553-3.951-1.553-.535-1.353-1.304-1.713-1.304-1.713-1.09-.745.08-.729.08-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.419-1.303.762-1.603-2.665-.302-5.467-1.334-5.467-5.931 0-1.311.465-2.385 1.235-3.221-.125-.302-.535-1.516.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.046.138 3.003.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.66.243 2.874.118 3.176.77.836 1.233 1.91 1.233 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.895-.015 3.284 0 .354.24.766.914.636c4.445-1.687 7.636-6.046 7.636-11.222 0-6.627-5.373-12-12-12z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 South Side Caddy Shack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for IntersectionObserver -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+            const appearOptions = {
+                threshold: 0.2, /* Trigger when 20% of the element is visible */
+                rootMargin: "0px 0px -50px 0px" /* Start appearing a bit earlier */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
