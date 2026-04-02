@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highlanders Grill And Tavern - Hearty Mountain Fare, Warm Southern Charm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System: Colors & Typography & Global Reset */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #7F2929;
+            --accent-color: #C26363;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 80px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Layout: Centered Container & Section Padding */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            /* Visual Effects: Fade-in-up via IntersectionObserver */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero size adjusted directly */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; } /* Body text */
+
+        a {
+            color: var(--text-heading);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease; /* Visual Effects: CTA buttons scale */
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .logo img {
+            height: 45px;
+            filter: brightness(0) invert(1); /* Make logo white for dark background */
+        }
+        .sticky-header .logo img:hover {
+            filter: brightness(0) invert(1) drop-shadow(0 0 5px var(--brand-color));
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after,
+        .sticky-header nav a.active::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--primary-bg);
+            /* Background: rich dark gradient using brand colors as subtle hints */
+            background-image: radial-gradient(at center top, rgba(127, 41, 41, 0.15) 0%, rgba(194, 99, 99, 0.08) 30%, var(--primary-bg) 70%),
+                              linear-gradient(to bottom, var(--primary-bg) 0%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 6rem; /* LARGEST text on the page, massive, bold */
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(127, 41, 41, 0.5);
+            line-height: 1;
+        }
+
+        .hero .location {
+            font-size: 1.2rem; /* Location displayed small */
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-family: var(--font-body);
+            font-weight: 300;
+        }
+
+        .hero .tagline {
+            font-size: 1.8rem; /* Tagline smaller, lighter weight */
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 800px;
+            line-height: 1.4;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(127, 41, 41, 0.2);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 40px;
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 1px solid rgba(127, 41, 41, 0.4);
+        }
+
+        .hero .rating-badge svg {
+            fill: gold;
+            margin-right: 8px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(127, 41, 41, 0.05); /* Tinted with brand color at very low opacity */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            min-width: 150px;
+            max-width: 250px;
+        }
+
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .social-proof-item .label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .our-story .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .our-story h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+        }
+
+        .our-story p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            margin: 50px auto;
+            max-width: 700px;
+            border-radius: 8px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-quote-card::before {
+            content: "“";
+            font-family: Georgia, serif;
+            font-size: 4rem;
+            color: rgba(127, 41, 41, 0.4);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-quote-card p {
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .testimonial-quote-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .stat-card .value {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: var(--secondary-bg);
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hover: translateY(-4px) + shadow */
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h4 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .menu-card .description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .reason-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .reason-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .reason-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .reason-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--secondary-bg);
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+        .testimonial-card .stars {
+            color: gold;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 50px;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .location-info:hover, .hours-info:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--brand-color);
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .location-info a.phone-link {
+            color: var(--brand-color); /* Clickable phone number in brand color */
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 12px 0;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .hours-table td:first-child {
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .location-hours .btn-call-order {
+            margin-top: 40px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background-image: linear-gradient(to right, var(--brand-color) 0%, var(--accent-color) 100%); /* Brand color gradient background */
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            color: var(--text-heading);
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn {
+            background-color: var(--primary-bg);
+            color: var(--brand-color);
+            border-color: var(--primary-bg);
+            padding: 16px 40px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            transform: scale(1.03);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #0a0a0a; /* Dark background */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo img {
+            height: 60px;
+            margin-bottom: 20px;
+            filter: brightness(0) invert(1) opacity(0.8); /* Make logo white/subtle */
+        }
+        .footer .logo img:hover {
+            filter: brightness(0) invert(1) opacity(1) drop-shadow(0 0 5px var(--brand-color));
+        }
+
+        .footer .tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header nav ul {
+                gap: 20px;
+            }
+            h1 { font-size: 5rem; }
+            h2 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1.5rem; }
+            .hero .rating-badge { padding: 6px 15px; font-size: 1rem; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+                gap: 10px;
+            }
+            .sticky-header nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .sticky-header .call-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+                max-width: 90%;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .social-proof-item {
+                max-width: none;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+            section {
+                padding: 60px 0;
+            }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+
+            .testimonial-quote-card {
+                padding: 25px;
+            }
+            .testimonial-quote-card p {
+                font-size: 1.1rem;
+            }
+
+            .stats-grid, .menu-grid, .reason-grid, .testimonials-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                gap: 40px;
+            }
+            .location-info, .hours-info {
+                padding: 30px;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .footer .logo img {
+                height: 50px;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header nav a {
+                font-size: 0.9rem;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .social-proof-item .value {
+                font-size: 2rem;
+            }
+            .social-proof-item .label {
+                font-size: 0.9rem;
+            }
+            .stat-card .value {
+                font-size: 3rem;
+            }
+            .stat-card .label {
+                font-size: 1rem;
+            }
+            .menu-card h4 {
+                font-size: 1.3rem;
+            }
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">
+            <img src="https://img1.wsimg.com/isteam/ip/4bf256c0-621c-40cf-8b13-40e439b9e7a3/logo/8fe98575-5deb-4367-a777-a4a69ea209c3.jpg/:/rs=h:80,cg:true,m/qt=q:95" alt="Highlanders Grill And Tavern Logo">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18288989613" class="btn call-button">CALL (828) 898-9613</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION (full viewport height) -->
+        <section id="hero" class="hero">
+            <p class="location">Seven Devils, NC</p>
+            <h1>Highlanders Grill And Tavern</h1>
+            <p class="tagline">Hearty Mountain Fare, Warm Southern Charm.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                4 Stars (780 Reviews)
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="social-proof-item">
+                    <p class="value">4.0</p>
+                    <p class="label">Star Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <p class="value">780+</p>
+                    <p class="label">Happy Reviews</p>
+                </div>
+                <div class="social-proof-item">
+                    <p class="value">Local</p>
+                    <p class="label">Favorite</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <p class="section-label">Our Heritage</p>
+                <h2>Where Every Meal Feels Like Home</h2>
+                <div class="content-wrapper">
+                    <p>Step into Highlanders Grill And Tavern and you will be transported to the back woods for some good old home town food. Our restaurant features a warm and welcoming atmosphere that is perfect for a date night, family dinner, or special occasion. Our friendly staff will make you feel right at home.</p>
+                    <p>We believe in hearty portions, honest flavors, and creating a gathering place for friends and family. From the crackling fireplace in winter to the lively patio in summer, Highlanders is more than just a meal – it's an experience built on community and comfort. Come taste the tradition!</p>
+                </div>
+
+                <div class="testimonial-quote-card">
+                    <p>"Highlanders is truly a gem in Seven Devils! The atmosphere is so inviting, and the food always hits the spot. It's our go-to for family dinners."</p>
+                    <span class="author">— A Loyal Local Customer</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <p class="value">4.0</p>
+                        <p class="label">Star Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="value">780+</p>
+                        <p class="label">Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <p class="value">Authentic</p>
+                        <p class="label">Local Flavor</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <p class="section-label">Our Delicious Offerings</p>
+                <h2>Savor the Taste of the Mountains</h2>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <h4>Highlanders Classic Burger</h4>
+                        <p class="description">A juicy, seasoned patty grilled to perfection, served with fresh lettuce, tomato, onion, and your choice of cheese.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Smoked Brisket Sandwich</h4>
+                        <p class="description">Slow-smoked, tender brisket piled high on a toasted bun with our signature BBQ sauce and crispy onions.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Mountain Chili Bowl</h4>
+                        <p class="description">Our hearty, homemade chili, slow-simmered with premium beef, beans, and a blend of spices. Topped with cheddar and onions.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Crispy Fried Chicken</h4>
+                        <p class="description">Golden-fried chicken, seasoned to perfection, offering a crispy exterior and juicy, tender meat inside.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>House Mac & Cheese</h4>
+                        <p class="description">Creamy, rich macaroni and cheese, baked with a blend of premium cheeses for the ultimate comfort food.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Grilled Salmon Plate</h4>
+                        <p class="description">Flaky grilled salmon, lightly seasoned, served with seasonal vegetables for a healthier, delicious option.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Side Salad with House Dressing</h4>
+                        <p class="description">Fresh mixed greens, cherry tomatoes, cucumbers, and red onion, tossed with our tangy house vinaigrette.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h4>Apple Cobbler ala Mode</h4>
+                        <p class="description">Warm, spiced apple cobbler, baked until bubbly, served with a scoop of vanilla bean ice cream.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <p class="section-label">Our Promise</p>
+                <h2>Why Highlanders Is Your Best Choice</h2>
+                <div class="reason-grid">
+                    <div class="reason-card">
+                        <span class="icon">🍖</span>
+                        <h3>Authentic Mountain Recipes</h3>
+                        <p>From our slow-smoked brisket to our hearty chili, every dish is crafted with classic mountain flavors, just like Grandma used to make. Taste the tradition!</p>
+                    </div>
+                    <div class="reason-card">
+                        <span class="icon">💰</span>
+                        <h3>Unbeatable Value & Generous Portions</h3>
+                        <p>Enjoy a full meal without breaking the bank. Our Highlanders Classic Burger and Crispy Fried Chicken are local favorites for a reason!</p>
+                    </div>
+                    <div class="reason-card">
+                        <span class="icon">🏠</span>
+                        <h3>Warm, Welcoming Atmosphere</h3>
+                        <p>With 780+ reviews and a 4-star rating, our cozy tavern is your perfect escape for a family dinner or a relaxed evening out. You'll feel right at home.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container">
+                <p class="section-label">What Our Guests Say</p>
+                <h2>Real Voices, Real Experiences</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p>"Visited Highlanders last week and the <strong>Smoked Brisket Sandwich</strong> was out of this world! So tender and packed with flavor. Great service too!"</p>
+                        <div class="author-info">
+                            <span class="author-name">— Mark T.</span>
+                            <div class="stars">★★★★☆</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"My go-to spot in Seven Devils! You can't beat their <strong>Highlanders Classic Burger</strong> and a cold beer. Always a friendly face and a great atmosphere."</p>
+                        <div class="author-info">
+                            <span class="author-name">— Sarah P.</span>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Had a wonderful family dinner here. The <strong>Crispy Fried Chicken</strong> was a hit with the kids, and I loved the <strong>Mountain Chili Bowl</strong>. Highly recommend!"</p>
+                        <div class="author-info">
+                            <span class="author-name">— The Miller Family</span>
+                            <div class="stars">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <p class="section-label">Plan Your Visit</p>
+                <h2>Find Us & Our Hours</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>Highlanders Grill And Tavern</p>
+                        <p>4527 Tynecastle Hwy,</p>
+                        <p>Seven Devils, NC 28604, USA</p>
+                        <p><a href="https://www.google.com/maps/search/?api=1&query=Highlanders+Grill+And+Tavern,+4527+Tynecastle+Hwy,+Seven+Devils,+NC+28604,+USA" target="_blank" rel="noopener noreferrer">Get Directions on Google Maps</a></p>
+                        <p>Call Us: <a href="tel:+18288989613" class="phone-link">(828) 898-9613</a></p>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Operating Hours</h3>
+                        <table class="hours-table">
+                            <tr><td>Monday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Wednesday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>11:00 AM – 1:00 AM</td></tr>
+                            <tr><td>Saturday:</td><td>11:00 AM – 12:00 AM</td></tr>
+                            <tr><td>Sunday:</td><td>11:00 AM – 9:00 PM</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <a href="tel:+18288989613" class="btn btn-primary btn-call-order">CALL TO ORDER OR MAKE A RESERVATION</a>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2>Ready for an Unforgettable Mountain Dining Experience?</h2>
+                <a href="#find-us" class="btn">EXPERIENCE HIGHLANDERS TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">
+                <img src="https://img1.wsimg.com/isteam/ip/4bf256c0-621c-40cf-8b13-40e439b9e7a3/logo/8fe98575-5deb-4367-a777-a4a69ea209c3.jpg/:/rs=h:80,cg:true,m/qt=q:95" alt="Highlanders Grill And Tavern Logo">
+            </a>
+            <p class="tagline">Hearty Mountain Fare, Warm Southern Charm.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.12.9-2 2-2h1.5V2.14c-.326-.053-1.6-.14-3.05-.14C11.98 2 10 3.73 10 6.15V9.5H7.5v4H10V22h4v-8.5z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2A5.8 5.8 0 0 1 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m0 2A3.8 3.8 0 0 0 4 7.8V16.2A3.8 3.8 0 0 0 7.8 20H16.2A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4M12 7a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m6.5-3A1.5 1.5 0 1 1 17 6.5A1.5 1.5 0 0 1 18.5 5"/></svg></a>
+                <!-- Add more social icons as needed -->
+            </div>
+            <p class="copyright">&copy; 2026 Highlanders Grill And Tavern. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15 // Trigger when 15% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Stop observing once visible to prevent re-triggering on scroll up/down
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add 'active' class to nav links based on scroll position for better UX
+        const navLinks = document.querySelectorAll('.sticky-header nav ul li a');
+        const headerHeight = document.querySelector('.sticky-header').offsetHeight;
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - headerHeight - 1; // Adjust for sticky header height
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current) && current !== '') {
+                    link.classList.add('active');
+                }
+            });
+
+            // Special handling for hero section if at top of page
+            if (window.pageYOffset < sections[1].offsetTop - headerHeight) { // Assuming sections[1] is the first one after hero
+                document.querySelector('.sticky-header nav ul li a[href="#hero"]').classList.add('active');
+            }
+        });
+
+        // Set initial active link on page load
+        const initialHash = window.location.hash || '#hero';
+        const initialLink = document.querySelector(`.sticky-header nav ul li a[href="${initialHash}"]`);
+        if (initialLink) {
+            initialLink.classList.add('active');
+        }
+    </script>
+</body>
+</html>
