@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number 1 Diner - Rockingham's Favorite Spot for Comfort Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --bg-primary: #111111;
+            --bg-secondary: rgba(17, 17, 17, 0.95); /* Slightly lighter for alternating sections */
+            --brand-color: #F4A460;
+            --accent-color: #4169E1;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            /* Typography */
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-size-body: 1.05rem;
+            --font-size-heading-hero: 4.5rem; /* Will adjust for mobile */
+            --font-size-heading-section: 2.8rem; /* Will adjust for mobile */
+            --line-height-body: 1.7;
+
+            /* Spacing */
+            --section-padding-y: 100px;
+            --container-max-width: 1200px;
+            --gap-md: 20px;
+            --gap-lg: 40px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: var(--line-height-body);
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 2.5rem; } /* Base, will be overridden by hero */
+        h2 { font-size: var(--font-size-heading-section); }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1em;
+            font-size: var(--font-size-body);
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up */
+        }
+
+        .section-label {
+            display: block;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .gap-lg { gap: var(--gap-lg); }
+        .gap-md { gap: var(--gap-md); }
+        .mb-lg { margin-bottom: var(--gap-lg); }
+        .mb-md { margin-bottom: var(--gap-md); }
+
+        /* Fade-in-up effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .call-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 20px 40px; /* Padding for sticky header */
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg,
+                rgba(17, 17, 17, 0.9) 0%,
+                rgba(17, 17, 17, 0.9) 40%,
+                rgba(244, 164, 96, 0.05) 70%, /* Brand color hint */
+                rgba(65, 105, 225, 0.05) 100% /* Accent color hint */
+            ), var(--bg-primary);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero h1 {
+            font-size: var(--font-size-heading-hero);
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--text-body);
+            font-weight: 300;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(244, 164, 96, 0.1);
+            color: var(--brand-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            border: 1px solid rgba(244, 164, 96, 0.3);
+        }
+
+        .hero .rating-badge svg {
+            fill: var(--brand-color);
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(244, 164, 96, 0.03); /* Brand color at low opacity */
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .social-proof .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--gap-lg);
+            justify-items: center;
+        }
+
+        .social-proof .proof-item {
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .social-proof .proof-item .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--brand-color);
+            line-height: 1;
+            font-weight: 700;
+        }
+        .social-proof .proof-item .label {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap-lg);
+            align-items: center;
+            text-align: center;
+        }
+
+        .our-story .story-text p {
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 1.5em;
+        }
+
+        .our-story .story-quote-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: var(--gap-lg) auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        .our-story .story-quote-card blockquote {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        .our-story .story-quote-card cite {
+            display: block;
+            font-style: normal;
+            font-weight: 500;
+            color: var(--brand-color);
+            font-size: 1.1rem;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--gap-md);
+            margin-top: var(--gap-lg);
+            text-align: center;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-secondary);
+        }
+
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-lg);
+        }
+
+        .menu-section .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border-right: 1px solid var(--card-border);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .menu-section .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-section .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-section .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us .choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-lg);
+        }
+
+        .why-choose-us .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-choose-us .choose-card h3 {
+            color: var(--brand-color);
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+
+        .why-choose-us .choose-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-secondary);
+        }
+
+        .testimonials-section .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-lg);
+        }
+
+        .testimonials-section .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonials-section .testimonial-card blockquote {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .testimonials-section .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+            display: block;
+        }
+        .testimonials-section .testimonial-card .rating {
+            color: var(--brand-color);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap-lg);
+        }
+
+        .location-hours .location-info,
+        .location-hours .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .location-hours h3 {
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .location-hours .address {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .location-hours .phone {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-bottom: 30px;
+            display: block;
+            width: fit-content;
+        }
+        .location-hours .phone:hover {
+            text-decoration: underline;
+            color: var(--accent-color);
+        }
+
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: left;
+        }
+
+        .location-hours .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .location-hours .hours-table td {
+            color: var(--text-body);
+            text-align: right;
+        }
+
+        .location-hours .hours-table tr:last-child td,
+        .location-hours .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .location-hours .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .location-hours .call-to-order-btn {
+            margin-top: var(--gap-lg);
+            width: 100%;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #E68A40 100%);
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--bg-primary);
+        }
+
+        .final-cta h2 {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--bg-primary);
+            margin-bottom: 30px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--bg-primary);
+            color: var(--brand-color);
+            border-color: var(--bg-primary);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            border-color: var(--accent-color);
+        }
+
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            :root {
+                --font-size-heading-hero: 3.5rem;
+                --font-size-heading-section: 2.2rem;
+                --section-padding-y: 80px;
+            }
+            .header {
+                padding: 0 20px;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header .call-btn {
+                padding: 6px 14px;
+                font-size: 0.9rem;
+            }
+            .hero h1 {
+                font-size: var(--font-size-heading-hero);
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .social-proof .proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story .story-content,
+            .location-hours .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .our-story .stats-grid,
+            .menu-section .menu-grid,
+            .why-choose-us .choose-grid,
+            .testimonials-section .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .location-hours .location-info,
+            .location-hours .hours-info {
+                padding: 30px;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --font-size-heading-hero: 2.8rem;
+                --font-size-heading-section: 2rem;
+                --section-padding-y: 60px;
+            }
+            .header {
+                height: 55px;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .call-btn {
+                font-size: 0.85rem;
+                padding: 5px 12px;
+            }
+            .hero {
+                padding-top: 60px;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                font-size: 1rem;
+                padding: 6px 14px;
+            }
+            .our-story .story-quote-card blockquote {
+                font-size: 1.3rem;
+            }
+            .our-story .stat-card .number {
+                font-size: 3rem;
+            }
+            .our-story .stat-card .label {
+                font-size: 0.95rem;
+            }
+            .menu-section .menu-card h3 {
+                font-size: 1.4rem;
+            }
+            .why-choose-us .choose-card h3 {
+                font-size: 1.5rem;
+            }
+            .location-hours h3 {
+                font-size: 1.8rem;
+            }
+            .location-hours .address {
+                font-size: 1rem;
+            }
+            .location-hours .phone {
+                font-size: 1.1rem;
+            }
+            .location-hours .hours-table th,
+            .location-hours .hours-table td {
+                font-size: 1rem;
+                padding: 10px 0;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .footer .logo {
+                font-size: 1.7rem;
+            }
+            .footer .tagline {
+                font-size: 0.9rem;
+            }
+            .footer .social-links {
+                gap: 20px;
+            }
+            .footer .social-links a {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">Number 1 Diner</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(910) 895-0731" class="call-btn">CALL (910) 895-0731</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p class="location fade-in">Rockingham, NC</p>
+        <h1 class="fade-in">Number 1 Diner</h1>
+        <p class="tagline fade-in">1 Diner, Rockingham. · Country Lunch Specials · Great Burger Menu · Fresh Salad Bar.</p>
+        <div class="rating-badge fade-in">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.921-7.417 3.921 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+            4.6 Stars (224 reviews)
+        </div>
+        <div class="cta-buttons fade-in">
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#find-us" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof fade-in">
+        <div class="container">
+            <div class="proof-grid">
+                <div class="proof-item">
+                    <span class="number">4.6</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="proof-item">
+                    <span class="number">224+</span>
+                    <span class="label">Happy Customers</span>
+                </div>
+                <div class="proof-item">
+                    <span class="number">Local</span>
+                    <span class="label">Favorite Since Day 1</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story fade-in">
+        <div class="container">
+            <span class="section-label">Our Story</span>
+            <h2 class="text-center mb-lg">Taste the Heart of Rockingham</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>Located in the heart of Rockingham, NC, Number 1 Diner serves up a delightful array of freshly cooked country entrees alongside an enticing selection of classic American diner fare. From our hearty breakfast items to our renowned burger menu, every dish is prepared with care, ensuring a memorable and satisfying experience.</p>
+                    <p>We're more than just a diner; we're a community gathering place where friends and family come together to enjoy good food and friendly faces. We believe in comfort food made with honest ingredients and a dash of Southern hospitality. Come taste why we're Rockingham's favorite local spot for a truly authentic dining experience.</p>
+                </div>
+                <div class="story-quote-card fade-in">
+                    <blockquote>"Number 1 Diner is our go-to for lunch! The atmosphere is cozy, and the food always hits the spot. It truly feels like home."</blockquote>
+                    <cite>- A Satisfied Local</cite>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <span class="number">4.6</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="stat-card fade-in">
+                    <span class="number">224+</span>
+                    <span class="label">Verified Reviews</span>
+                </div>
+                <div class="stat-card fade-in">
+                    <span class="number">Daily</span>
+                    <span class="label">Fresh Ingredients</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section fade-in">
+        <div class="container">
+            <span class="section-label">Our Delights</span>
+            <h2 class="text-center mb-lg">Classic Diner Fare, Made Fresh Daily</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in">
+                    <h3>Country Lunch Specials</h3>
+                    <p>Hearty and comforting daily selections.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Great Burger Menu</h3>
+                    <p>Juicy burgers, perfectly grilled to your liking.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Fresh Salad Bar</h3>
+                    <p>Crisp greens and a variety of delicious toppings.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Breakfast Items</h3>
+                    <p>Start your day right with our classic breakfast.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Sandwiches</h3>
+                    <p>Classic deli and hot sandwiches.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Banana Pudding</h3>
+                    <p>Sweet, creamy, and a true Southern delight.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Strawberry Cake</h3>
+                    <p>A fresh, fruity, and delightful dessert.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us fade-in">
+        <div class="container">
+            <span class="section-label">Our Promise</span>
+            <h2 class="text-center mb-lg">Why Number 1 Diner is Rockingham's Favorite</h2>
+            <div class="choose-grid">
+                <div class="choose-card fade-in">
+                    <h3>Authentic Country Comfort</h3>
+                    <p>Indulge in our daily rotating Country Lunch Specials, crafted with fresh, local ingredients for that true Southern taste. A different delicious meal awaits you every day!</p>
+                </div>
+                <div class="choose-card fade-in">
+                    <h3>Burgers Beyond Compare</h3>
+                    <p>Our Great Burger Menu features perfectly grilled patties, fresh toppings, and toasted buns. Customize your creation for the ultimate diner experience that keeps locals coming back.</p>
+                </div>
+                <div class="choose-card fade-in">
+                    <h3>Freshness You Can Taste</h3>
+                    <p>Step up to our vibrant Fresh Salad Bar, piled high with crisp greens and a wide variety of fresh, seasonal toppings. The perfect healthy complement to any meal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section fade-in">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="text-center mb-lg">Hear From Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <blockquote>"The Country Lunch Specials are always a hit! Generous portions and tastes just like home cooking. The staff is so friendly too, always a warm welcome!"</blockquote>
+                    <span class="author">Sarah J.</span>
+                    <span class="rating">★★★★★</span>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <blockquote>"Best burger in Rockingham, hands down! Perfectly cooked and juicy every time. A must-try with a side of their delicious fries. My new regular spot."</blockquote>
+                    <span class="author">Mark T.</span>
+                    <span class="rating">★★★★★</span>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <blockquote>"You haven't lived until you've had their Banana Pudding. It's truly out of this world! My go-to dessert after a fantastic meal here. So glad we found this place."</blockquote>
+                    <span class="author">Emily R.</span>
+                    <span class="rating">★★★★★</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours fade-in">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="text-center mb-lg">Find Number 1 Diner & Our Hours</h2>
+            <div class="content-wrapper">
+                <div class="location-info fade-in">
+                    <h3>Our Location</h3>
+                    <p class="address">
+                        953 S Hancock St<br>
+                        Rockingham, NC 28379<br>
+                        USA
+                    </p>
+                    <a href="tel:(910) 895-0731" class="phone">(910) 895-0731</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Number+1+Diner,+953+S+Hancock+St,+Rockingham,+NC+28379" target="_blank" class="btn btn-primary call-to-order-btn">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td class="closed">Closed</td></tr>
+                        <tr><th>Tuesday</th><td>11:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Wednesday</th><td>11:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>11:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Friday</th><td>11:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Saturday</th><td class="closed">Closed</td></tr>
+                        <tr><th>Sunday</th><td class="closed">Closed</td></tr>
+                    </table>
+                    <a href="tel:(910) 895-0731" class="btn btn-primary call-to-order-btn">Call to Order</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta fade-in">
+        <div class="container">
+            <h2>Ready for a Taste of Rockingham's Best?</h2>
+            <a href="#menu" class="btn btn-primary">View Our Full Menu</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Number 1 Diner</div>
+            <p class="tagline">Your local spot for delicious country lunch specials, great burgers, and fresh salads in Rockingham, NC.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.18 0-4 1.25-4 4v3.5H7v4h4V22h4v-8.5z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2A4.3 4.3 0 0 0 4 7.6v8.8c0 2.2 1.8 4 4 4h8.4c2.2 0 4-1.8 4-4V7.6c0-2.2-1.8-4-4-4zm6.5 1.7a1.2 1.2 0 1 0 0 2.4a1.2 1.2 0 0 0 0-2.4M12 9c-1.6 0-3 1.4-3 3s1.4 3 3 3s3-1.4 3-3s-1.4-3-3-3m0 2a1 1 0 1 1 0 2a1 1 0 0 1 0-2"/></svg></a></li>
+                <li><a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98c-3.56-.18-6.73-1.89-8.88-4.74c-.37.64-.58 1.39-.58 2.22c0 1.49.75 2.81 1.91 3.56c-.71-.02-1.37-.21-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07c.59 1.84 2.34 3.18 4.38 3.22a8.521 8.521 0 0 1-5.33 1.83c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21c9.72 0 15.01-8.05 15.01-15.01c0-.15 0-.3-.01-.45z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Number 1 Diner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in');
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the item is visible
+                rootMargin: "0px 0px -50px 0px" // Start appearing a bit before entering viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+
+</body>
+</html>
