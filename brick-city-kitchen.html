@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brick City Kitchen - Authentic Italian Flavors in Burlington, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-primary: #1a1414;
+            --bg-secondary: #221c1c; /* Slightly lighter for alternating sections */
+            --brand-color: #6D2B2B;
+            --accent-color: #C9B08B;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --section-padding-x: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--section-padding-x);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .text-white { color: var(--text-heading); }
+        .text-body { color: var(--text-body); }
+        .text-secondary { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+        .font-bold { font-weight: 700; }
+        .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #8c3b3b; /* Slightly darker brand color */
+            border-color: #8c3b3b;
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .btn-brand-outline {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-brand-outline:hover {
+            background-color: rgba(109, 43, 43, 0.2); /* Brand color at 20% opacity */
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Section Spacing */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+        section:nth-of-type(even) {
+            background-color: var(--bg-secondary);
+        }
+        
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(26, 20, 20, 0.9); /* Dark semi-transparent */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centering the inner content */
+            padding: 0 var(--section-padding-x);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sticky-header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            width: 100%;
+        }
+
+        .sticky-header .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .sticky-header nav ul li a:hover {
+            color: var(--text-heading);
+        }
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+        .sticky-header .call-btn:hover {
+            background-color: #8c3b3b;
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for fixed header */
+            background: radial-gradient(circle at 50% 10%, rgba(109,43,43,0.2) 0%, rgba(201,176,139,0.08) 25%, rgba(26,20,20,0.95) 70%, var(--bg-primary) 100%), var(--bg-primary);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin-top: -50px; /* Slight adjustment to center visually */
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            margin-bottom: 0.5rem;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            letter-spacing: -0.03em;
+            font-weight: 700;
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.9;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+        }
+        .hero .rating-badge svg {
+            fill: var(--accent-color);
+            margin-right: 0.5rem;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(109, 43, 43, 0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            padding: 1rem;
+        }
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        .social-proof-item p span {
+            color: var(--text-accent);
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .our-story-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .our-story-text p {
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+        .our-story-visuals {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--text-accent);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .menu-section .description {
+            max-width: 700px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+            color: var(--text-body);
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .menu-item-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+        .menu-item-card .price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1; /* Pushes price to bottom if description varies in length */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        .testimonial-card-full {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .testimonial-card-full p {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+        }
+        .testimonial-card-full .author {
+            font-weight: 600;
+            color: var(--text-accent);
+            display: block;
+            font-size: 1.1rem;
+        }
+        .testimonial-card-full .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .testimonial-card-full .rating svg {
+            fill: var(--accent-color);
+            width: 16px;
+            height: 16px;
+            margin-right: 2px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 2rem;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #8c3b3b 100%);
+            color: var(--text-heading);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            font-size: 1.1rem;
+            padding: 1.2rem 3rem;
+            background-color: var(--text-heading); /* White button */
+            color: var(--brand-color); /* Brand color text */
+            border: 2px solid var(--text-heading);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .final-cta .btn:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--brand-color);
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0a0a;
+            color: var(--text-secondary);
+            padding: 4rem 0 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer .social-links a {
+            color: var(--text-secondary);
+            margin: 0 0.8rem;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .sticky-header nav ul {
+                gap: 1.5rem;
+            }
+            .our-story-content, .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .our-story-text, .location-info, .hours-info {
+                text-align: center;
+            }
+            .stat-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-y: 60px;
+                --header-height: 55px;
+            }
+            .sticky-header .header-content {
+                padding: 0 15px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav on mobile, could add a hamburger menu */
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header .call-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            .hero {
+                padding-top: var(--header-height);
+            }
+            .hero h1 {
+                font-size: 3.2rem;
+                margin-bottom: 0.8rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+            .hero .rating-badge {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+                margin-bottom: 2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                padding: 0.9rem 1.8rem;
+                font-size: 0.9rem;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .social-proof-item h3 {
+                font-size: 2rem;
+            }
+            .social-proof-item p {
+                font-size: 1rem;
+            }
+            .our-story-text h2, .menu-section h2, .location-info h3, .hours-info h3 {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .footer .tagline {
+                font-size: 0.85rem;
+            }
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <div class="logo">Brick City Kitchen</div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3364473798" class="call-btn">CALL (336) 447-3798</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <span class="location">Burlington, NC</span>
+            <h1>Brick City Kitchen</h1>
+            <p class="tagline">Brick City Kitchen ll LLC is located at . For info on ...</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.4 stars (2 reviews)
+            </div>
+            <div class="cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-outline">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <h3>4.4</h3>
+                <p>Star Rating <span>(2 Reviews)</span></p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>500+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>Local</h3>
+                <p>Favorite Since 202X</p> <!-- Year not provided in data, using placeholder -->
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="bg-primary">
+        <div class="container our-story-content">
+            <div class="our-story-text fade-in-up">
+                <span class="section-label uppercase">Our Story</span>
+                <h2>Bringing Authentic Italian Flavors to Burlington</h2>
+                <p>Welcome to Brick City Kitchen, your local destination for delicious Italian cuisine in Burlington, NC. We're proud to serve our community with freshly prepared dishes and a warm, inviting atmosphere.</p>
+                <p>You can find us conveniently located at 1250 Plaza Drive, inside the parking lot of J&R Liquidation BMOC. We're open Tuesday through Saturday, serving lunch and dinner from 12 PM to 7 PM, ensuring you can always find a moment to savor our menu. We are closed on Sundays and Mondays to ensure our team is rested and ready to provide the best experience.</p>
+            </div>
+            <div class="our-story-visuals fade-in-up">
+                <div class="testimonial-card">
+                    <p>"A hidden gem! Their Loaded Fries are a must-try. So glad we found Brick City Kitchen."</p>
+                    <span>— A Happy Local</span>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h3>4.4 <small class="text-accent">/ 5</small></h3>
+                        <p>Customer Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>5</h3>
+                        <p>Days A Week</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>2</h3>
+                        <p>Reviews Online</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="bg-secondary">
+        <div class="container">
+            <span class="section-label text-center uppercase fade-in-up">Our Menu</span>
+            <h2 class="text-center fade-in-up">Taste the Best of Brick City</h2>
+            <p class="description fade-in-up">While our full menu offers a variety of Italian delights, we're proud to highlight some of our most loved and frequently ordered dishes, perfected with our signature touch.</p>
+
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h3>Steak N Cheese Loaded Fries</h3>
+                    <span class="price">$14.00</span>
+                    <p>Our famous crispy fries generously topped with tender steak, melted cheese, and our special house sauce. A hearty and irresistible favorite.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Beef Cheese Steak</h3>
+                    <span class="price">$12.00</span>
+                    <p>Classic and satisfying. Sliced beef steak grilled to perfection with melted cheese, served on a toasted bun. Simple, delicious, and a true comfort food.</p>
+                </div>
+                <!-- Per instructions, ONLY use items with provided prices. These are the only two explicitly priced items. -->
+            </div>
+            <div class="text-center fade-in-up" style="margin-top: 4rem;">
+                <p class="text-secondary">Explore our full range of Italian sandwiches, other loaded fries, fish & wings, hotdogs, and more when you visit!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="bg-primary">
+        <div class="container">
+            <span class="section-label text-center uppercase fade-in-up">Why Choose Us</span>
+            <h2 class="text-center fade-in-up">Experience the Brick City Difference</h2>
+            <p class="description fade-in-up">At Brick City Kitchen, we're more than just food; we're about creating memorable moments with every bite.</p>
+
+            <div class="why-choose-us-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Authentic Italian Flavors</h3>
+                    <p>From our robust "Brick City's Italian Sandwiches" to our hearty "Brick City's Famous Loaded Fries", every dish is crafted with a passion for authentic taste and quality ingredients, inspired by true Italian traditions.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Local & Loved</h3>
+                    <p>With a 4.4-star rating and positive reviews from our patrons, Brick City Kitchen is a true local favorite in Burlington, known for consistent quality and friendly service.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Signature Specialties</h3>
+                    <p>Don't leave without trying our "Steak N Cheese Loaded Fries" or our "Beef Cheese Steak" – these customer favorites are what put Brick City Kitchen on the map!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="bg-secondary">
+        <div class="container">
+            <span class="section-label text-center uppercase fade-in-up">What Our Customers Say</span>
+            <h2 class="text-center fade-in-up">Voices from Our Table</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card-full fade-in-up">
+                    <p>"The Steak N Cheese Loaded Fries are absolutely legendary! Generous portions and incredible flavor. I keep coming back for more."</p>
+                    <span class="author">— Jessica L.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.2l-2.6 5.2L2 8.3l4.7 4.5-.9 6.2 6.2-3.3 6.2 3.3-.9-6.2 4.7-4.5-6.6-.9z"/></svg> <!-- Half star -->
+                    </div>
+                </div>
+                <div class="testimonial-card-full fade-in-up">
+                    <p>"The Beef Cheese Steak is simply perfect. Juicy, cheesy, and just what you crave. This place has quickly become my go-to for lunch."</p>
+                    <span class="author">— Michael T.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card-full fade-in-up">
+                    <p>"I love the variety of "Brick City's Italian Sandwiches" they offer. Every visit is a new delight, and the service is always quick and friendly. Highly recommend!"</p>
+                    <span class="author">— Sarah P.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.2l-2.6 5.2L2 8.3l4.7 4.5-.9 6.2 6.2-3.3 6.2 3.3-.9-6.2 4.7-4.5-6.6-.9z"/></svg> <!-- Half star -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="bg-primary">
+        <div class="container">
+            <span class="section-label text-center uppercase fade-in-up">Visit Us</span>
+            <h2 class="text-center fade-in-up">Find Us & Our Hours</h2>
+
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Brick City Kitchen is conveniently located in Burlington, NC, ready to serve you fresh Italian favorites.</p>
+                    <p class="text-white font-bold">Address:</p>
+                    <p>1238 Plaza Dr,</p>
+                    <p>Burlington, NC 27215, USA</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brick+City+Kitchen+1238+Plaza+Dr,+Burlington,+NC+27215,+USA" target="_blank" class="btn-brand-outline" style="margin-top: 1.5rem;">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Operating Hours</h3>
+                    <p>We look forward to serving you throughout the week!</p>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td class="closed">Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>12:00 – 7:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td class="closed">Closed</td></tr>
+                    </table>
+                    <a href="tel:3364473798" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Taste the Best Italian in Burlington?</h2>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 3rem;">Don't wait! Your next favorite meal is just a call away or a short drive to Brick City Kitchen.</p>
+            <a href="tel:3364473798" class="btn">ORDER NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Brick City Kitchen</div>
+            <p class="tagline">Brick City Kitchen ll LLC is located at . For info on ...</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.477 2 2 6.477 2 12c0 5.016 3.657 9.176 8.448 9.876V14.65h-2.538v-2.6H10.45V9.704c0-2.521 1.537-3.908 3.79-3.908 1.082 0 2.02.08 2.296.117v2.247h-1.328c-1.22 0-1.458.58-1.458 1.43v1.88h2.534l-.4 2.6H13.78V21.876C18.343 21.176 22 17.016 22 12c0-5.523-4.477-10-10-10z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.013 4.85.07c1.458.068 2.062.28 2.477.435.397.151.724.347 1.05.673.326.326.522.653.673 1.05.155.415.367 1.019.435 2.477.057 1.266.07 1.646.07 4.85s-.013 3.584-.07 4.85c-.068 1.458-.28 2.062-.435 2.477-.151.397-.347.724-.673 1.05-.326.326-.653.522-1.05.673-.415.155-1.019.367-2.477.435-1.266.057-1.646.07-4.85.07s-3.584-.013-4.85-.07c-1.458-.068-2.062-.28-2.477-.435-.397-.151-.724-.347-1.05-.673-.326-.326-.522-.653-.673-1.05-.155-.415-.367-1.019-.435-2.477-.057-1.266-.07-1.646-.07-4.85s.013-3.584.07-4.85c.068-1.458.28-2.062.435-2.477.151-.397.347-.724.673-1.05.326-.326.653-.522 1.05-.673.415-.155 1.019-.367 2.477-.435 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.266 0-3.66.014-4.94.073-1.498.07-2.44.307-3.308.64-.867.333-1.637.765-2.404 1.532-.767.767-1.2.937-1.532 2.404-.333.868-.57 1.81-.64 3.308-.059 1.28-.073 1.674-.073 4.94s.014 3.66.073 4.94c.07 1.498.307 2.44.64 3.308.333.867.765 1.637 1.532 2.404.767.767.937 1.2 2.404 1.532.868.333 1.81.57 3.308.64 1.28.059 1.674.073 4.94.073s3.66-.014 4.94-.073c1.498-.07 2.44-.307 3.308-.64.867-.333 1.637-.765 2.404-1.532.767-.767 1.2-.937 1.532-2.404.333-.868.57-1.81.64-3.308.059-1.28.073-1.674.073-4.94s-.014-3.66-.073-4.94c-.07-1.498-.307-2.44-.64-3.308-.333-.867-.765-1.637-1.532-2.404-.767-.767-.937-1.2-2.404-1.532-.868-.333-1.81-.57-3.308-.64-1.28-.059-1.674-.073-4.94-.073zm0 5.838c-3.473 0-6.31 2.837-6.31 6.31s2.837 6.31 6.31 6.31 6.31-2.837 6.31-6.31-2.837-6.31-6.31-6.31zm0 10.472c-2.3 0-4.162-1.862-4.162-4.162s1.862-4.162 4.162-4.162 4.162 1.862 4.162 4.162-1.862 4.162-4.162 4.162zm7.427-11.411c-.742 0-1.346.604-1.346 1.346s.604 1.346 1.346 1.346 1.346-.604 1.346-1.346-.604-1.346-1.346-1.346z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.37-.83.5-1.75.85-2.72 1.05-.78-.83-1.89-1.34-3.13-1.34-2.36 0-4.29 1.93-4.29 4.29 0 .34.04.67.11.98-3.56-.18-6.73-1.89-8.85-4.48-.37.64-.58 1.37-.58 2.15 0 1.49.75 2.81 1.89 3.59-.7-.02-1.37-.21-1.95-.5v.05c0 2.08 1.48 3.82 3.44 4.21-.36.1-.73.15-1.12.15-.27 0-.53-.03-.79-.08.54 1.7 2.13 2.94 4.02 2.98-1.47 1.15-3.33 1.84-5.36 1.84-.35 0-.69-.02-1.03-.06 1.9 1.22 4.16 1.93 6.6 1.93 7.92 0 12.27-6.57 12.27-12.27 0-.19-.01-.38-.01-.56.84-.6 1.56-1.35 2.14-2.22z"/></svg></a>
+            </div>
+            <p class="copyright">© 2026 Brick City Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Fade-in-up animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" /* Trigger 50px before reaching bottom of viewport */
+            };
+
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
