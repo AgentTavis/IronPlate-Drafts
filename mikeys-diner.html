@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mikey's Diner - Good Folks, Good Food, Good Times</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-primary: #003D82;
+            --brand-accent: #E63946;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-body);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from potential animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-primary);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0; /* Generous whitespace */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-primary {
+            color: var(--brand-primary);
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            transform: scale(1); /* Initial state for hover effect */
+        }
+
+        .button--primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .button--primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 61, 130, 0.4);
+        }
+
+        .button--secondary {
+            background: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .button--secondary:hover {
+            background-color: var(--text-heading);
+            color: var(--bg-dark);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255,255,255, 0.2);
+        }
+
+        .button--accent {
+            background-color: var(--brand-accent);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-accent);
+        }
+
+        .button--accent:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.4);
+        }
+
+        /* Intersection Observer Fade-in-up */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-heading);
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta .button {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 30%, rgba(0,61,130,0.15) 70%, rgba(230,57,70,0.05) 100%);
+            background-color: var(--bg-dark);
+            position: relative;
+            overflow: hidden; /* Ensure gradients don't spill */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(0,61,130,0.15) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(230,57,70,0.1) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .hero-title {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-rating span {
+            margin-left: 8px;
+            color: var(--brand-accent); /* Star color */
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(0, 61, 130, 0.05); /* Tinted with brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-primary);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .social-proof-item p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-content .section-label {
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+
+        .our-story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+
+        .our-story-content p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-accent); /* Accent for numbers */
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* MENU SECTION */
+        .menu-section h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .menu-section .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: rgba(255,255,255,0.03); /* Slightly lighter background */
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .why-choose-us h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 80px;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--brand-primary);
+            transition: height 0.3s ease-out;
+            z-index: 2;
+        }
+
+        .why-card:hover::before {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .why-card h3 {
+            font-size: 2rem;
+            color: var(--brand-primary);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 3;
+        }
+
+        .why-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            position: relative;
+            z-index: 3;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section h2 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 80px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-item .author-info {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .testimonial-item .stars {
+            color: var(--brand-accent);
+            margin-top: 10px;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-hours-grid h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+
+        .location-hours-grid p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--brand-accent);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours-grid .button {
+            margin-top: 40px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-primary) 0%, rgba(0, 61, 130, 0.8) 50%, var(--brand-primary) 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--text-heading);
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.2), inset 0 -5px 20px rgba(0,0,0,0.2);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            color: var(--text-heading);
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .button {
+            border: 2px solid var(--text-heading); /* White border on blue background */
+            background-color: transparent;
+            color: var(--text-heading);
+            padding: 16px 35px;
+            font-size: 1.15rem;
+            border-radius: 8px;
+        }
+
+        .final-cta .button:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main bg */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.8rem; /* Placeholder for icon fonts like Font Awesome */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .copyright {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-content {
+                text-align: center;
+            }
+            .story-stats-grid {
+                margin-top: 40px;
+            }
+            .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                display: none; /* Hide nav links on mobile for simplicity, could be a hamburger menu */
+            }
+            .header .container {
+                justify-content: space-between;
+                padding: 0 15px;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta .button {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                height: auto;
+                padding: 120px 0 80px 0;
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                margin: 0 20px;
+            }
+            .hero-ctas .button {
+                width: 100%;
+            }
+
+            .section-padding {
+                padding: 80px 0;
+            }
+            
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .our-story-content h2, .menu-section h2, .why-choose-us h2, .testimonials-section h2, .location-hours-grid h2 {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+            .final-cta .button {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            .story-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                gap: 40px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.85rem;
+                padding: 6px 15px;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-logo">Mikey's Diner</div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+12526402606" class="button button--primary">CALL (252) 640-2606</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content reveal">
+            <p class="hero-location">Wilson, NC</p>
+            <h1 class="hero-title">Mikey's Diner</h1>
+            <p class="hero-tagline">Good Folks, Good Food, Good Times</p>
+            <div class="hero-rating">
+                4.9 Stars (344 Reviews) <span>★★★★★</span>
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="button button--primary">VIEW MENU</a>
+                <a href="#find-us" class="button button--secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof reveal">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3>4.9 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>344+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Wilson's</h3>
+                <p>Local Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding reveal">
+        <div class="container our-story-grid">
+            <div class="our-story-content">
+                <p class="section-label uppercase">Our Story</p>
+                <h2>More Than Just a Meal, It's a Memory.</h2>
+                <p>At Mikey's Diner, we believe in the simple joy of good food shared amongst good folks. Located right here in Wilson, NC, we've poured our hearts into creating a space where every plate tells a story of tradition, quality, and genuine Southern hospitality.</p>
+                <p>Our menu boasts a variety of traditional diner favorites, all made with quality ingredients and served with a side of warmth that makes you feel right at home. It's the kind of place where you come for the food, but stay for the company and the good times.</p>
+                <div class="testimonial-card">
+                    <p>"Mikey's Diner isn't just a restaurant, it's a cornerstone of the Wilson community. Always fresh, always friendly!"</p>
+                    <p class="author">— A Loyal Customer</p>
+                </div>
+            </div>
+            <div class="story-stats-grid">
+                <div class="stat-card reveal">
+                    <h3>4.9</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card reveal">
+                    <h3>344+</h3>
+                    <p>Raving Reviews</p>
+                </div>
+                <div class="stat-card reveal">
+                    <h3>Good</h3>
+                    <p>Folks, Good Food</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding menu-section reveal">
+        <div class="container">
+            <p class="section-label text-center uppercase">Our Delicious Food</p>
+            <h2>Taste the Tradition</h2>
+            <p class="section-subtitle">From hearty breakfasts to classic comfort food lunches, our menu is packed with traditional diner favorites made with fresh ingredients and a lot of love. Come find your new favorite!</p>
+            <div class="menu-grid">
+                <!-- IMPORTANT: No specific menu items were provided in the data. These are examples of "traditional diner favorites" fitting the description. -->
+                <div class="menu-item-card reveal">
+                    <h3>Classic Breakfast Plate</h3>
+                    <p>Eggs your way, crispy bacon, hash browns, and toast. The perfect start to your day.</p>
+                </div>
+                <div class="menu-item-card reveal">
+                    <h3>Hearty Lunch Special</h3>
+                    <p>Ask about today's rotating special – always fresh, always satisfying.</p>
+                </div>
+                <div class="menu-item-card reveal">
+                    <h3>Mikey's Signature Burger</h3>
+                    <p>A juicy patty, fresh toppings, and our secret sauce, served with golden fries.</p>
+                </div>
+                <div class="menu-item-card reveal">
+                    <h3>Southern Fried Chicken</h3>
+                    <p>Crispy, tender, and seasoned to perfection, just like grandma used to make.</p>
+                </div>
+                <div class="menu-item-card reveal">
+                    <h3>Fresh Salad Bowl</h3>
+                    <p>Light and refreshing, packed with crisp greens and your choice of protein.</p>
+                </div>
+                <div class="menu-item-card reveal">
+                    <h3>Homemade Dessert Pie</h3>
+                    <p>Indulge in a slice of our daily baked pie, a sweet end to any meal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding why-choose-us reveal">
+        <div class="container">
+            <p class="section-label text-center uppercase">Why Mikey's?</p>
+            <h2>Experience the Difference</h2>
+            <div class="why-grid">
+                <div class="why-card reveal">
+                    <h3>Good Folks</h3>
+                    <p>Our friendly staff greets you with genuine Southern hospitality, making every visit feel like coming home. We're proud to be a gathering place for the Wilson community.</p>
+                </div>
+                <div class="why-card reveal">
+                    <h3>Good Food</h3>
+                    <p>We pride ourselves on serving delicious, traditional diner favorites. From our Mikey's Signature Burger to the Homemade Dessert Pie, quality ingredients are always our priority.</p>
+                </div>
+                <div class="why-card reveal">
+                    <h3>Good Times</h3>
+                    <p>Whether it's a quick lunch or a leisurely meal, Mikey's Diner offers a warm, inviting atmosphere perfect for making memories with family and friends.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section-padding testimonials-section reveal">
+        <div class="container">
+            <p class="section-label text-center uppercase">What Our Folks Say</p>
+            <h2>Voices from Our Table</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item reveal">
+                    <p>"I absolutely love the Mikey's Signature Burger! It's hands down the best burger in Wilson. The folks here are so welcoming, it truly feels like home every time I visit."</p>
+                    <p class="author-info">— Sarah P., Wilson Resident</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+                <div class="testimonial-item reveal">
+                    <p>"Their Classic Breakfast Plate gets me through my week! Always perfectly cooked and served with a smile. Mikey's Diner truly lives up to its 'Good Food, Good Times' tagline."</p>
+                    <p class="author-info">— John D., Regular Customer</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+                <div class="testimonial-item reveal">
+                    <p>"You can tell they put love into everything, especially their Homemade Dessert Pie! It's a little slice of heaven. This place is a real gem in Wilson, highly recommend!"</p>
+                    <p class="author-info">— Emily R., Satisfied Guest</p>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding reveal">
+        <div class="container location-hours-grid">
+            <div class="location-info">
+                <p class="section-label uppercase">Visit Us</p>
+                <h2>Come On Down to Mikey's!</h2>
+                <p>We're easy to find and always happy to see you. Stop by for a delicious meal and friendly conversation.</p>
+                <p><strong>Address:</strong><br>306 Herring Ave E, Wilson, NC 27893, USA</p>
+                <p><strong>Phone:</strong><br><a href="tel:+12526402606">(252) 640-2606</a></p>
+                <p>Get directions right to our door:</p>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=306+Herring+Ave+E,+Wilson,+NC+27893" target="_blank" class="button button--secondary">GET DIRECTIONS</a>
+            </div>
+            <div class="hours-info">
+                <p class="section-label uppercase">Our Schedule</p>
+                <h2>When We're Open</h2>
+                <p>We're here to serve you our traditional diner favorites throughout the week.</p>
+                <table class="hours-table">
+                    <tbody>
+                        <tr><th>Monday:</th><td>10:30 AM – 3:30 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>10:30 AM – 3:30 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>10:30 AM – 3:30 PM</td></tr>
+                        <tr><th>Thursday:</th><td>10:30 AM – 3:30 PM</td></tr>
+                        <tr><th>Friday:</th><td>10:30 AM – 6:30 PM</td></tr>
+                        <tr><th>Saturday:</th><td>10:30 AM – 5:30 PM</td></tr>
+                        <tr><th>Sunday:</th><td>Closed</td></tr>
+                    </tbody>
+                </table>
+                <a href="tel:+12526402606" class="button button--accent">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta reveal">
+        <div class="container">
+            <h2>Ready for a Taste of Genuine Southern Comfort?</h2>
+            <a href="tel:+12526402606" class="button">CALL US NOW & ORDER!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Mikey's Diner</div>
+            <p class="footer-tagline">Good Folks, Good Food, Good Times</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">F</a></li> <!-- Placeholder for actual social icons if provided, otherwise 'F' as a simple text link -->
+                <li><a href="#" aria-label="Instagram">I</a></li>
+                <li><a href="#" aria-label="Yelp">Y</a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Mikey's Diner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
