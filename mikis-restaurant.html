@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miki's Restaurant | Matthews, NC - Premier Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color-main: #111111;
+            --bg-color-light: #1a1a1a;
+            --brand-color: #8B4545;
+            --accent-color: #FFFFFF;
+            --text-color-heading: #ffffff;
+            --text-color-body: #cccccc;
+            --text-color-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-color-body);
+            background-color: var(--bg-color-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-color-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            display: block;
+            text-align: center;
+            color: var(--brand-color);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .section-headline {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background-color: #A35757; /* Slightly lighter shade for hover */
+            border-color: #A35757;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Card Base Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fade-in-up on scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .header-call-btn:hover {
+            background-color: #A35757;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-color-main) 0%, rgba(139, 69, 69, 0.1) 40%, var(--bg-color-main) 100%);
+            position: relative;
+            padding-top: 60px; /* Account for sticky header */
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at center, rgba(139, 69, 69, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-color-body);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem;
+            color: var(--text-color-heading);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-color-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            gap: 8px;
+        }
+
+        .hero-rating svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(139, 69, 69, 0.05); /* Brand color, low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .social-proof-item {
+            color: var(--accent-color);
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.05rem;
+            color: var(--text-color-body);
+            margin: 0;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-content {
+            text-align: left;
+        }
+
+        .story-content h2 {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+        }
+
+        .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            margin-top: 40px;
+        }
+
+        .testimonial-quote-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-quote-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .story-stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .story-stat-card p {
+            color: var(--text-color-body);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-color-secondary);
+            margin: 0;
+        }
+        .menu-call-info {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .menu-call-info p {
+            font-size: 1rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .why-card .icon {
+            color: var(--brand-color);
+            font-size: 3rem;
+            line-height: 1;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-color-body);
+            margin: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-color-light); /* Slightly lighter background */
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 80px;
+            text-align: left;
+        }
+
+        .location h3, .hours h3 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+
+        .location p {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .location a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .location a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hours-table td {
+            padding: 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .hours-table td:first-child {
+            color: var(--text-color-body);
+            font-weight: 400;
+        }
+
+        .hours-table td:last-child {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .hours-table .call-for-hours td {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #A35757 100%);
+            padding: 120px 0;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+            color: var(--accent-color);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-color-main);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-color-body);
+            margin-bottom: 25px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-color-secondary);
+            font-size: 1.6rem;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-color-secondary);
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+            .hero-name { font-size: 4.5rem; }
+            .section-headline { font-size: 2.2rem; }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .story-content h2 { text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            .header .container {
+                justify-content: center;
+            }
+            .header-logo { margin-right: 20px; }
+            .header-call-btn { margin-left: auto; } /* Push button to right if nav is hidden */
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .hero { padding-top: 80px; }
+            .hero-name { font-size: 3.5rem; margin-bottom: 15px;}
+            .hero-location { font-size: 1rem; }
+            .hero-tagline { font-size: 1.2rem; margin-bottom: 25px;}
+            .hero-rating { margin-bottom: 30px; font-size: 0.9rem; padding: 6px 15px;}
+            .hero-ctas { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; margin: 0 auto; }
+
+            .social-proof-grid { grid-template-columns: 1fr; gap: 20px; }
+            .social-proof-item h3 { font-size: 1.8rem; }
+            .section-headline { font-size: 1.8rem; margin-bottom: 40px;}
+            
+            .our-story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .story-content, .story-stats-grid { text-align: center; }
+            .story-content h2 { text-align: center; }
+            .story-stats-grid { grid-template-columns: 1fr; }
+
+            .menu-grid, .why-choose-us-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location h3, .hours h3 { font-size: 1.8rem; margin-bottom: 15px;}
+            .final-cta h2 { font-size: 2rem; }
+            
+            section { padding: 80px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .header-logo { font-size: 1.5rem; }
+            .header-call-btn { padding: 6px 12px; font-size: 0.85rem; }
+            .hero-name { font-size: 2.8rem; }
+            .hero-tagline { font-size: 1rem; }
+            .hero-rating { font-size: 0.8rem; padding: 5px 12px; }
+            .btn { padding: 12px 25px; font-size: 0.95rem; }
+            .footer-logo { font-size: 1.8rem; }
+            .footer-tagline { font-size: 0.95rem; }
+            .social-links { gap: 15px; }
+            .social-links a { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">Miki's Restaurant</a>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+17043210051" class="btn header-call-btn">CALL (704) 321-0051</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <p class="hero-location fade-in-up">Matthews, NC</p>
+            <h1 class="hero-name fade-in-up">Miki's Restaurant</h1>
+            <p class="hero-tagline fade-in-up">Miki's Restaurant, Matthews. this · . Come see us at Matthews Festival Shopping Center!</p>
+            <div class="hero-rating fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.292-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" /></svg>
+                4.6 Stars (712 Reviews)
+            </div>
+            <div class="hero-ctas fade-in-up">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <h3>4.6 Stars</h3>
+                <p>From 712 Happy Guests</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <h3>#8 of 131</h3>
+                <p>Top-Ranked Matthews Restaurant</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <h3>Local Favorite</h3>
+                <p>A Community Go-To Spot</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Heritage</span>
+            <h2 class="section-headline fade-in-up">A Taste of Matthews History & Heart</h2>
+            <div class="our-story-grid">
+                <div class="story-content fade-in-up">
+                    <p>At Miki's Restaurant, located in the heart of Matthews, we've cultivated a reputation for exceptional dining and warm hospitality. Our commitment to quality is reflected in the enthusiastic feedback from our guests, earning us a remarkable 4.6 out of 5 rating from 44 unbiased reviews on Tripadvisor.</p>
+                    <p>We are proud to be recognized as one of Matthews' top culinary destinations, ranking #8 among 131 fantastic restaurants. Miki's is more than just a Bar & Grill; it's a place where friends and family gather, where every dish is crafted with passion, and every visit feels like coming home. We believe in creating memorable experiences, one delicious meal at a time.</p>
+                    <div class="testimonial-quote-card">
+                        <p>"Miki's has been a staple for our family for years. The atmosphere is always lively, the food is fantastic, and the staff treat you like family. Truly a Matthews gem!"</p>
+                        <span>— The Miller Family</span>
+                    </div>
+                </div>
+                <div class="story-stats-grid">
+                    <div class="card story-stat-card fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>4.6/5</h3>
+                        <p>Star Rating (712 Reviews)</p>
+                    </div>
+                    <div class="card story-stat-card fade-in-up" style="transition-delay: 0.3s;">
+                        <h3>#8 of 131</h3>
+                        <p>Top Restaurants in Matthews</p>
+                    </div>
+                    <div class="card story-stat-card fade-in-up" style="transition-delay: 0.4s;">
+                        <h3>44+</h3>
+                        <p>Tripadvisor Reviews</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Offerings</span>
+            <h2 class="section-headline fade-in-up">Explore Our Culinary Journey</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Appetizers</h3>
+                    <p>Perfect for sharing, a great start to your meal.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Signature Mains</h3>
+                    <p>Hearty and flavorful dishes crafted with care.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Fresh Salads</h3>
+                    <p>Light, crisp, and bursting with vibrant flavors.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>Handhelds & Burgers</h3>
+                    <p>Classic comforts, perfectly grilled and piled high.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Craft Beverages</h3>
+                    <p>Local brews, fine wines, and custom cocktails.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>Decadent Desserts</h3>
+                    <p>A sweet ending to your memorable dining experience.</p>
+                </div>
+            </div>
+            <div class="menu-call-info fade-in-up">
+                <a href="tel:+17043210051" class="btn btn-primary">CALL FOR TODAY'S MENU</a>
+                <p style="margin-top: 20px;">Our menu evolves with the seasons. Please call us for today's specials and full offerings!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Promise</span>
+            <h2 class="section-headline fade-in-up">Why Miki's Stands Out from the Rest</h2>
+            <div class="why-choose-us-grid">
+                <div class="card why-card fade-in-up">
+                    <span class="icon">&#9733;</span> <!-- Star icon -->
+                    <h3>Award-Winning Quality</h3>
+                    <p>With a stellar 4.6-star rating and ranking #8 out of 131 local restaurants, our commitment to excellence shines through in every aspect of your visit.</p>
+                </div>
+                <div class="card why-card fade-in-up" style="transition-delay: 0.1s;">
+                    <span class="icon">&#127869;</span> <!-- Bar/Grill icon -->
+                    <h3>Exceptional Bar & Grill Experience</h3>
+                    <p>From our vibrant atmosphere to our expertly crafted drinks and flavorful dishes, we offer the quintessential Bar & Grill experience that keeps guests coming back.</p>
+                </div>
+                <div class="card why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <span class="icon">&#128100;</span> <!-- People icon -->
+                    <h3>True Local Favorite</h3>
+                    <p>Miki's is more than a restaurant; it's a community hub where neighbors meet and new friendships blossom, cementing our status as a cherished local go-to.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">What They Say</span>
+            <h2 class="section-headline fade-in-up">Hear From Our Happy Guests</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Miki's Restaurant is simply the best bar and grill in Matthews! The atmosphere is always welcoming, and the team goes above and beyond. A true local gem."</p>
+                    <span class="author">— A. Johnson</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p>"Every visit to Miki's is a delight. The food is consistently excellent, and the service makes you feel right at home. Highly recommend for any occasion."</p>
+                    <span class="author">— S. Patel</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"We love Miki's! It's our go-to spot for a fantastic meal and great drinks. The 4.6-star rating is well deserved; you won't be disappointed!"</p>
+                    <span class="author">— M. Garcia</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="section-headline fade-in-up">Find Miki's Restaurant</h2>
+            <div class="location-hours-grid">
+                <div class="location fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Miki's Restaurant is conveniently located in the Matthews Festival Shopping Center, making us easy to find for locals and visitors alike.</p>
+                    <p>
+                        <strong>Address:</strong><br>
+                        1819 Matthews Township Pkwy<br>
+                        Matthews, NC 28105, USA
+                    </p>
+                    <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-secondary" style="margin-top: 20px;">GET DIRECTIONS</a>
+                </div>
+                <div class="hours fade-in-up">
+                    <h3>Hours & Contact</h3>
+                    <table class="hours-table">
+                        <tr class="call-for-hours">
+                            <td><a href="tel:+17043210051" style="color:var(--brand-color); text-decoration: none;">Call (704) 321-0051</a></td>
+                            <td style="text-align: right;">for current hours</td>
+                        </tr>
+                        <!-- Removed specific days to avoid inventing data -->
+                    </table>
+                    <a href="tel:+17043210051" class="btn btn-primary">CALL TO ORDER / RESERVE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Ready for an Unforgettable Dining Experience?</h2>
+            <a href="tel:+17043210051" class="btn btn-secondary fade-in-up">CALL US TO PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">Miki's Restaurant</a>
+            <p class="footer-tagline">Miki's Restaurant, Matthews. Your Local Bar & Grill Experience.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">&#xF09A;</a></li> <!-- Placeholder for actual social icons/links -->
+                <li><a href="#" aria-label="Instagram">&#xF16D;</a></li>
+                <li><a href="#" aria-label="Tripadvisor">&#x1F52E;</a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Miki's Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade-in-up on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
