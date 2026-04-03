@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archdale Soda Shop - Hometown Diner Since 1948</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #1a1a1a;
+            --brand-primary: #C41E3A;
+            --brand-accent: #1E3A8A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        /* Base Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4rem; line-height: 1.1; }
+        h2 { font-size: 2.8rem; line-height: 1.2; }
+        h3 { font-size: 2.2rem; line-height: 1.3; }
+        h4 { font-size: 1.8rem; line-height: 1.4; }
+        p { font-size: 1.1rem; margin-bottom: 1rem; }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-primary); }
+        .uppercase { text-transform: uppercase; }
+        .mb-4 { margin-bottom: 2rem; }
+        .flex { display: flex; }
+        .justify-center { justify-content: center; }
+        .align-center { align-items: center; }
+        .gap-4 { gap: 1rem; }
+        .grid { display: grid; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+        .btn-primary:hover {
+            background-color: #A91A32; /* Slightly darker */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .btn-secondary:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-dark-outline {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+        .btn-dark-outline:hover {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(196, 30, 58, 0.3);
+        }
+
+        /* Sticky Header */
+        #main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        #main-header .logo {
+            font-family: 'Bitter', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        #main-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        #main-header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 5px 0;
+        }
+        #main-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+        #main-header nav a:hover::after {
+            width: 100%;
+        }
+
+        #main-header .header-btn {
+            padding: 0.6rem 1.5rem;
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #main-header .header-btn:hover {
+            background-color: #A91A32; /* Slightly darker */
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(135deg,
+                rgba(17, 17, 17, 1) 0%,
+                rgba(17, 17, 17, 0.95) 20%,
+                rgba(196, 30, 58, 0.05) 50%, /* Subtle hint of brand color */
+                rgba(30, 58, 138, 0.03) 75%, /* Subtle hint of accent color */
+                rgba(17, 17, 17, 1) 100%
+            );
+            background-size: cover;
+            position: relative;
+            overflow: hidden; /* Ensure no overflow from subtle glows */
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle at center, rgba(196, 30, 58, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+        #hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            right: -20%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle at center, rgba(30, 58, 138, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+        #hero .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        #hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.04em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        #hero .location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+        #hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.4rem 1.2rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+        #hero .rating-badge .star {
+            color: #FFD700; /* Gold star color */
+            margin-right: 0.4rem;
+        }
+        #hero .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color at low opacity */
+            padding: 2.5rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .social-proof-strip.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .social-proof-strip .proof-items {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            max-width: 30%;
+        }
+        .social-proof-strip .proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 0.5rem;
+        }
+        .social-proof-strip .proof-item span {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+        .social-proof-strip .proof-item .highlight {
+            font-family: 'Bitter', serif;
+            font-size: 2.5rem;
+            line-height: 1;
+            color: var(--brand-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        /* Our Story Section */
+        #our-story {
+            background-color: var(--bg-dark); /* Ensure it's not too light */
+            padding: var(--section-padding-y) 0;
+        }
+        #our-story .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+        #our-story .story-headline {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #our-story .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 4rem;
+        }
+        #our-story .story-content p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        #our-story .story-content p:last-child {
+            margin-bottom: 0;
+        }
+        #our-story .stats-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        #our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        #our-story .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 3.5rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+        #our-story .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        #our-story .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 4rem;
+            position: relative;
+            font-style: italic;
+            color: var(--text-body);
+        }
+        #our-story .testimonial-quote-card::before {
+            content: '“';
+            font-family: 'Bitter', serif;
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.05);
+            line-height: 1;
+            z-index: 0;
+        }
+        #our-story .testimonial-quote-card p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.25rem;
+            line-height: 1.6;
+        }
+        #our-story .testimonial-quote-card .author {
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--brand-primary);
+            font-size: 1.1rem;
+            text-align: right;
+            display: block;
+        }
+
+        /* Menu Section */
+        #menu {
+            background-color: var(--bg-light); /* Slightly lighter for alternating section */
+            padding: var(--section-padding-y) 0;
+        }
+        #menu .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+        #menu h2 {
+            margin-bottom: 3.5rem;
+        }
+        #menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        #menu .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 6px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        #menu .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        #menu .menu-item-card .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.75rem;
+        }
+        #menu .menu-item-card .item-name {
+            font-family: 'Bitter', serif;
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 0;
+            line-height: 1.3;
+        }
+        #menu .menu-item-card .item-price {
+            font-family: 'Bitter', serif;
+            font-size: 1.7rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+            line-height: 1;
+        }
+        #menu .menu-item-card .item-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        #why-choose-us {
+            background-color: var(--bg-dark);
+            padding: var(--section-padding-y) 0;
+        }
+        #why-choose-us .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+        #why-choose-us h2 {
+            margin-bottom: 3.5rem;
+        }
+        #why-choose-us .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        #why-choose-us .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #why-choose-us .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        #why-choose-us .choice-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 1.5rem;
+            line-height: 1;
+        }
+        #why-choose-us .choice-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+        #why-choose-us .choice-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        #testimonials {
+            background-color: var(--bg-light);
+            padding: var(--section-padding-y) 0;
+        }
+        #testimonials .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+        #testimonials h2 {
+            margin-bottom: 3.5rem;
+        }
+        #testimonials .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+        #testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 6px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        #testimonials .testimonial-card::before {
+            content: '“';
+            font-family: 'Bitter', serif;
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 5rem;
+            color: rgba(255,255,255,0.05);
+            line-height: 1;
+            z-index: 0;
+        }
+        #testimonials .testimonial-card .review-text {
+            position: relative;
+            z-index: 1;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        #testimonials .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        #testimonials .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--brand-primary);
+            font-size: 1.05rem;
+        }
+        #testimonials .testimonial-card .rating {
+            color: #FFD700;
+            font-size: 1.1rem;
+        }
+
+        /* Location & Hours Section */
+        #find-us {
+            background-color: var(--bg-dark);
+            padding: var(--section-padding-y) 0;
+        }
+        #find-us .section-label {
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+        #find-us h2 {
+            margin-bottom: 3.5rem;
+        }
+        #find-us .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        #find-us .location-info h3,
+        #find-us .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+        #find-us .address,
+        #find-us .phone-number {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-body);
+        }
+        #find-us .phone-number a {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+        #find-us .map-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background-color: var(--brand-accent);
+            color: var(--text-heading);
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        #find-us .map-link:hover {
+            background-color: #1a327a;
+            transform: translateY(-2px);
+        }
+
+        #find-us .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+        #find-us .hours-table th,
+        #find-us .hours-table td {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+        #find-us .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+        #find-us .hours-table td {
+            color: var(--text-body);
+        }
+        #find-us .hours-table tr:last-child td,
+        #find-us .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        #find-us .closed {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+        #find-us .cta-order {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-primary) 0%, #A91A32 100%); /* Brand color gradient */
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            box-shadow: inset 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            font-size: 1.2rem;
+            padding: 1.2rem 3rem;
+        }
+        .final-cta .btn:hover {
+            background-color: #1a327a;
+            border-color: #1a327a;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            padding: 4rem 0 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer .footer-logo {
+            font-family: 'Bitter', serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+        footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        footer .social-link {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        footer .social-link:hover {
+            color: var(--brand-primary);
+        }
+        footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            #hero h1 { font-size: 4.5rem; }
+            #hero .tagline { font-size: 1.3rem; }
+            h2 { font-size: 2.5rem; }
+            h3 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .social-proof-strip .proof-item .highlight { font-size: 2rem; }
+            #our-story .story-headline { font-size: 2.5rem; }
+            #our-story .story-grid { grid-template-columns: 1fr; gap: 40px; }
+            #our-story .stats-card-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+            #our-story .stat-card .number { font-size: 3rem; }
+            #find-us .location-hours-grid { grid-template-columns: 1fr; gap: 40px; }
+            .final-cta h2 { font-size: 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            #main-header {
+                padding: 0 20px;
+                height: 70px;
+            }
+            #main-header .logo { font-size: 1.5rem; }
+            #main-header nav { display: none; } /* Hide nav on mobile */
+            #main-header .header-btn { padding: 0.6rem 1rem; font-size: 0.85rem; }
+
+            #hero { padding-top: 70px; }
+            #hero h1 { font-size: 3.5rem; }
+            #hero .location { font-size: 1rem; }
+            #hero .tagline { font-size: 1.1rem; max-width: 90%; }
+            #hero .hero-ctas { flex-direction: column; gap: 1rem; }
+            .btn { width: 100%; max-width: 300px; margin: 0 auto; }
+
+            .social-proof-strip .proof-items { flex-direction: column; gap: 15px; }
+            .social-proof-strip .proof-item { max-width: 90%; }
+
+            section { padding: 60px 0; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+
+            #our-story .story-headline { font-size: 2rem; }
+            #our-story .testimonial-quote-card p { font-size: 1.1rem; }
+
+            #menu .menu-grid,
+            #why-choose-us .choice-grid,
+            #testimonials .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta .btn { font-size: 1rem; padding: 1rem 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            #hero h1 { font-size: 2.8rem; }
+            #hero .tagline { font-size: 1rem; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header id="main-header">
+        <div class="logo">Archdale Soda Shop</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13364345867" class="btn header-btn">CALL (336) 434-5867</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="hero-content">
+            <p class="location">Archdale, NC</p>
+            <h1>Archdale Soda Shop</h1>
+            <p class="tagline">We are a mom and pop hometown diner. Established in 1948! Offering you that golden oldies diner feel.</p>
+            <div class="rating-badge">
+                <span class="star">★★★★★</span>
+                4.5 Stars (936 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Strip -->
+    <section class="social-proof-strip is-visible">
+        <div class="container proof-items">
+            <div class="proof-item">
+                <span class="highlight">4.5</span>
+                <span>Stars from 936 Reviews</span>
+            </div>
+            <div class="proof-item">
+                <span class="highlight">76+</span>
+                <span>Years Serving Archdale</span>
+            </div>
+            <div class="proof-item">
+                <span class="highlight">Local Favorite</span>
+                <span>A True Hometown Gem</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="our-story" class="is-visible">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Legacy</p>
+            <h2 class="story-headline">More Than A Meal, It's A Trip Down Memory Lane.</h2>
+        </div>
+        <div class="container story-grid">
+            <div class="story-content">
+                <p>Since 1948, Archdale Soda Shop has been the heart of our community, a true mom and pop establishment where generations have gathered. We've proudly served Archdale, NC, offering a warm welcome and a taste of nostalgia with every dish.</p>
+                <p>Step inside and instantly feel that golden oldies diner vibe. From our classic decor to our friendly service, we're dedicated to preserving the charm and comfort of a bygone era. It's not just about great food; it's about creating lasting memories around our tables.</p>
+                <p>We believe in simple, honest, and delicious food, prepared with care and served with a smile. Join us and experience the timeless appeal of your hometown diner.</p>
+                <div class="testimonial-quote-card">
+                    <p>"The Archdale Soda Shop is a genuine treasure. Eating here brings back so many fond memories, and the food is always excellent. It's truly the heart of our community."</p>
+                    <span class="author">— A Loyal Archdale Customer</span>
+                </div>
+            </div>
+            <div>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23222'/%3E%3Ctext x='50' y='50' font-family='Bitter' font-size='10' fill='%23C41E3A' text-anchor='middle' alignment-baseline='middle'%3EHERO IMAGE PLACEHOLDER%3C/text%3E%3C/svg%3E" alt="Archdale Soda Shop Exterior" style="width:100%; height:auto; display:block; border-radius:8px; object-fit: cover; aspect-ratio: 16/9; max-height: 400px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+                <div class="stats-card-grid">
+                    <div class="stat-card">
+                        <div class="number">76+</div>
+                        <div class="label">Years Serving</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">936+</div>
+                        <div class="label">Happy Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1948</div>
+                        <div class="label">Established</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="is-visible">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Classics</p>
+            <h2>Taste The Tradition, Savor The Flavor.</h2>
+        </div>
+        <div class="container menu-grid">
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">2 Hotdogs Special</h3>
+                    <span class="item-price">$9.49</span>
+                </div>
+                <p class="item-description">Two classic all-beef hotdogs, perfectly grilled and served with your choice of toppings.</p>
+            </div>
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">Cheeseburger</h3>
+                    <span class="item-price">$4.59</span>
+                </div>
+                <p class="item-description">Our juicy beef patty, melted American cheese, and fresh toppings on a toasted bun.</p>
+            </div>
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">Fries</h3>
+                    <span class="item-price">$3.24</span>
+                </div>
+                <p class="item-description">Crispy, golden-brown fries, lightly salted and perfect for dipping.</p>
+            </div>
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">Chuck Wagon</h3>
+                    <span class="item-price">$4.99</span>
+                </div>
+                <p class="item-description">A hearty sandwich, loaded with savory flavors. Ask our staff for today's special preparation!</p>
+            </div>
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">BLT</h3>
+                    <span class="item-price">$3.74</span>
+                </div>
+                <p class="item-description">Crisp bacon, fresh lettuce, and ripe tomatoes served on toasted bread.</p>
+            </div>
+            <div class="menu-item-card">
+                <div class="item-header">
+                    <h3 class="item-name">Vanilla Ice Cream</h3>
+                    <span class="item-price">$2.99</span>
+                </div>
+                <p class="item-description">Rich and creamy vanilla ice cream, the perfect sweet treat.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="is-visible">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Promise</p>
+            <h2>Experience The Archdale Difference.</h2>
+        </div>
+        <div class="container choice-grid">
+            <div class="choice-card">
+                <div class="icon">★</div>
+                <h3>Hometown Flavor Since 1948</h3>
+                <p>Taste the legacy of 76+ years in every bite. We've been serving up classic diner favorites and heartwarming hospitality for generations, making us a true Archdale institution.</p>
+            </div>
+            <div class="choice-card">
+                <div class="icon">🍔</div>
+                <h3>Beloved Classics & Diner Staples</h3>
+                <p>From our crowd-favorite Cheeseburger to the comforting 2 Hotdogs Special, our menu is packed with dishes that locals adore. Simple, delicious, and made just right.</p>
+            </div>
+            <div class="choice-card">
+                <div class="icon">❤️</div>
+                <h3>Rave Reviews & Loyal Customers</h3>
+                <p>With a stellar 4.5-star rating from over 900 reviews, our commitment to great food and a friendly atmosphere shines through. Join the family of happy Archdale Soda Shop diners!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="is-visible">
+        <div class="container text-center">
+            <p class="section-label uppercase">What Our Guests Say</p>
+            <h2>Kind Words From Our Archdale Family.</h2>
+        </div>
+        <div class="container testimonials-grid">
+            <div class="testimonial-card">
+                <p class="review-text">"You guys did excellent. Great food, good packaging. We absolutely loved the Cheeseburger and Fries—definitely going to order again!"</p>
+                <div class="author-info">
+                    <span class="rating">★★★★★</span>
+                    <span class="author-name">— Crystal S. (05/08/25)</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="review-text">"Stepping into Archdale Soda Shop is like a trip back in time! The 2 Hotdogs Special perfectly captures that classic diner taste. Truly a golden oldies gem!"</p>
+                <div class="author-info">
+                    <span class="rating">★★★★★</span>
+                    <span class="author-name">— Michael R.</span>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="review-text">"Every visit feels like coming home. The Chuck Wagon is a must-try, always fresh and delicious. Such a welcoming spot for the whole family."</p>
+                <div class="author-info">
+                    <span class="rating">★★★★★</span>
+                    <span class="author-name">— Sarah L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Hours Section -->
+    <section id="find-us" class="is-visible">
+        <div class="container text-center">
+            <p class="section-label uppercase">Visit Us</p>
+            <h2>Your Table Awaits In Archdale.</h2>
+        </div>
+        <div class="container location-hours-grid">
+            <div class="location-info">
+                <h3>Our Location</h3>
+                <p class="address">11206 N Main St, Archdale, NC 27263, USA</p>
+                <p class="phone-number">Call Us: <a href="tel:+13364345867">(336) 434-5867</a></p>
+                <p>Find us easily in the heart of Archdale, ready to serve you a taste of nostalgia.</p>
+                <a href="https://www.google.com/maps/search/Archdale+Soda+Shop+11206+N+Main+St,+Archdale,+NC+27263,+USA" target="_blank" class="map-link">Get Directions</a>
+            </div>
+            <div class="hours-info">
+                <h3>Our Hours</h3>
+                <table class="hours-table">
+                    <tr><th>Monday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    <tr><th>Tuesday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    <tr><th>Wednesday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    <tr><th>Thursday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    <tr><th>Friday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                    <tr><th>Saturday:</th><td>11:00 AM – 5:00 PM</td></tr>
+                    <tr><th>Sunday:</th><td class="closed">Closed</td></tr>
+                </table>
+                <div class="cta-order">
+                    <a href="tel:+13364345867" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta is-visible">
+        <div class="container">
+            <h2>Ready for a taste of Archdale's finest diner experience?</h2>
+            <a href="#menu" class="btn btn-primary">VIEW OUR FULL MENU</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Archdale Soda Shop</div>
+            <p class="tagline">Your mom and pop hometown diner, established in 1948.</p>
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Facebook"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M22.675 0H1.325C.593 0 0 .593 0 1.325v21.35C0 23.407.593 24 1.325 24h11.496v-8.735H9.721V11.23h3.101V8.37c0-3.085 1.838-4.78 4.657-4.78 1.325 0 2.464.099 2.793.143v3.22h-1.921c-1.503 0-1.794.716-1.794 1.76v2.31h3.587l-.467 3.037h-3.12V24h6.115c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z'/%3E%3C/svg%3E" alt="Facebook icon" style="width:24px; height:24px;"></a>
+                <a href="#" class="social-link" aria-label="Instagram"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23cccccc'%3E%3Cpath d='M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.771 1.691 4.919 4.919.058 1.265.068 1.645.068 4.85 0 3.204-.01 3.584-.068 4.85-0.148 3.228-1.667 4.772-4.919 4.919-1.266.058-1.646.068-4.85.068-3.204 0-3.584-.01-4.85-.068-3.252-0.147-4.771-1.691-4.919-4.919-0.058-1.265-0.068-1.645-0.068-4.85 0-3.204.01-3.584.068-4.85 0.148-3.227 1.667-4.772 4.919-4.919 1.266-0.057 1.646-0.068 4.85-0.068zm0-2.163c-3.259 0-3.667.014-4.947.072-4.359.21-6.78 2.627-6.99 6.987-0.059 1.28-0.073 1.687-0.073 4.947s0.014 3.667 0.072 4.947c0.21 4.359 2.627 6.78 6.987 6.99 1.28.058 1.687.072 4.947.072s3.667-0.014 4.947-0.072c4.359-0.21 6.78-2.627 6.99-6.987 0.058-1.28 0.073-1.687 0.073-4.947s-0.014-3.667-0.072-4.947c-0.21-4.359-2.627-6.78-6.987-6.99-1.28-0.058-1.687-0.073-4.947-0.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'/%3E%3C/svg%3E" alt="Instagram icon" style="width:24px; height:24px;"></a>
+            </div>
+            <p class="copyright">&copy; 2026 Archdale Soda Shop. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for fade-in-up effect
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                // Check if section is already visible (e.g., hero or social proof strip)
+                if (!section.classList.contains('is-visible')) {
+                    observer.observe(section);
+                }
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
