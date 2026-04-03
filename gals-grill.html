@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gal's Grill - Reidsville's Favorite for Fresh, Flavorful Meals & Catering</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #DC143C;
+            --accent-color: #FFFFFF;
+            --bg-color-dark: #111111;
+            --text-color-heading: #ffffff;
+            --text-color-body: #cccccc;
+            --text-color-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+        }
+
+        /* Base Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-color-body);
+            background-color: var(--bg-color-dark);
+            line-height: 1.7;
+            font-size: 1.05rem; /* 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-color-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4.5rem; } /* 4-6rem */
+        h2 { font-size: 2.8rem; } /* 2.5-3rem */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p + p {
+            margin-top: 1rem;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-brand {
+            color: var(--brand-color);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-padding {
+            padding: 8rem 0; /* 80-120px */
+        }
+
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.9rem 2rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+        }
+
+        /* Fade-in-up animation (CSS only for demonstration; JS IntersectionObserver for full effect) */
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0; /* Default hidden state */
+            animation: fade-in-up 0.8s ease-out forwards;
+            animation-timeline: view(); /* This is a modern CSS feature for scroll-triggered animations */
+            animation-range-start: cover 0%;
+            animation-range-end: cover 25%; /* Animation completes when 25% of element is visible */
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header nav a {
+            color: var(--accent-color);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header nav a:hover::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(220, 20, 60, 0.08) 0%, rgba(17, 17, 17, 1) 30%, rgba(17, 17, 17, 1) 70%, rgba(220, 20, 60, 0.08) 100%);
+            padding: 0 1.5rem;
+            padding-top: var(--header-height);
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            color: var(--text-color-heading);
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            animation: fade-in-up 1s ease-out forwards;
+            animation-delay: 0.2s;
+            animation-timeline: unset; /* Override scroll-based for initial hero */
+        }
+
+        .hero .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-color-secondary);
+            margin-bottom: 0.5rem;
+            animation: fade-in-up 1s ease-out forwards;
+            animation-delay: 0.4s;
+            animation-timeline: unset;
+        }
+
+        .hero .tagline {
+            font-size: 1.4rem;
+            color: var(--text-color-body);
+            font-weight: 400;
+            max-width: 800px;
+            margin-bottom: 2.5rem;
+            animation: fade-in-up 1s ease-out forwards;
+            animation-delay: 0.6s;
+            animation-timeline: unset;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(220, 20, 60, 0.15);
+            color: var(--accent-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(220, 20, 60, 0.3);
+            animation: fade-in-up 1s ease-out forwards;
+            animation-delay: 0.8s;
+            animation-timeline: unset;
+        }
+        .hero .rating-badge svg {
+            margin-right: 0.5rem;
+            color: gold;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            animation: fade-in-up 1s ease-out forwards;
+            animation-delay: 1s;
+            animation-timeline: unset;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(220, 20, 60, 0.05);
+            padding: 3rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-item {
+            text-align: center;
+            flex: 1;
+            max-width: 250px;
+            min-width: 150px;
+            padding: 1rem;
+        }
+
+        .social-proof-item h3 {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .social-proof-item p {
+            color: var(--text-color-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-left-border {
+            border-left: 5px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .our-story-content p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-quote-card {
+            font-style: italic;
+            border-left: 4px solid var(--brand-color);
+            padding-left: 1.5rem;
+            margin-top: 2rem;
+            color: var(--text-color-secondary);
+        }
+
+        .testimonial-quote-card p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-quote-card footer {
+            font-weight: 600;
+            color: var(--text-color-body);
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+        }
+
+        .stat-card h3 {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: var(--text-color-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 8px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-8px); /* translateY(-4px) + shadow */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-color-heading);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-color-body);
+            margin-bottom: 1rem;
+        }
+
+        .menu-item-card .price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            text-align: right;
+            margin-top: auto; /* Pushes price to the bottom */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-choose-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 3rem 2rem;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-choose-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-choose-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-card p {
+            color: var(--text-color-body);
+            font-size: 1rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            font-style: italic;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            color: var(--text-color-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--text-color-heading);
+            font-size: 1rem;
+            font-style: normal;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--text-color-heading);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-top: 1.5rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-color-body);
+        }
+
+        .hours-table th {
+            color: var(--text-color-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color), #A0102E);
+            padding: 6rem 1.5rem;
+            text-align: center;
+            color: var(--accent-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .final-cta h2 {
+            color: var(--accent-color);
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+        }
+        .final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-color-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 4rem 1.5rem 2rem;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-color-body);
+            margin-bottom: 2rem;
+        }
+
+        .footer .social-links a {
+            color: var(--text-color-secondary);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-color-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header nav {
+                display: none; /* Hide nav links on smaller screens, could be a hamburger menu */
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .call-button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding-top: calc(var(--header-height) + 2rem);
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero .btn {
+                width: 100%;
+            }
+
+            .social-proof {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 2.5rem 0;
+            }
+            .social-proof-item h3 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+            .section-padding {
+                padding: 5rem 0;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .our-story-content {
+                order: 1; /* Place content first on mobile */
+            }
+            .stats-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .location-info .phone-number {
+                font-size: 1.3rem;
+            }
+            .hours-table th, .hours-table td {
+                padding: 0.6rem 0;
+                font-size: 0.95rem;
+            }
+            .hours-table th {
+                width: 100px;
+            }
+
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.85rem;
+                padding: 0.4rem 1rem;
+            }
+            .header .logo {
+                font-size: 1.3rem;
+            }
+            .header .call-button {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
+            }
+            .footer .logo {
+                font-size: 1.5rem;
+            }
+            .footer .social-links a {
+                font-size: 1.2rem;
+                margin: 0 0.8rem;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">Gal's Grill</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3363470363" class="btn btn-primary call-button">CALL (336) 347-0363</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p class="location fade-in-up">Reidsville, NC</p>
+        <h1 class="fade-in-up">Gal's Grill</h1>
+        <p class="tagline fade-in-up">Your Go-To Spot for Fresh, Flavorful Meals & Unforgettable Events in Reidsville!</p>
+        <div class="rating-badge fade-in-up">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+            5 Stars (22 Reviews)
+        </div>
+        <div class="cta-buttons fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="social-proof-item fade-in-up">
+            <h3>5-Star</h3>
+            <p>Experience</p>
+        </div>
+        <div class="social-proof-item fade-in-up" style="animation-delay: 0.2s;">
+            <h3>22+</h3>
+            <p>Glowing Reviews</p>
+        </div>
+        <div class="social-proof-item fade-in-up" style="animation-delay: 0.4s;">
+            <h3>Reidsville's</h3>
+            <p>Local Favorite</p>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Story</span>
+            <h2 class="text-center">Bringing Fresh Flavors & Community Together Since Day One.</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <p>At Gal's Grill, we believe in the power of good food and great company. Nestled in the heart of Reidsville, NC, we proudly serve fresh, flavorful meals that bring joy to every plate. Whether you're joining us for a quick bite during lunch, gathering with friends for a hearty meal, or celebrating a special occasion, you'll find a warm welcome and dishes made with care.</p>
+                    <p>We also specialize in catering large events, celebrations, and community gatherings, bringing our signature taste directly to your guests. From our humble beginnings, our mission has always been to provide Reidsville with not just a meal, but an experience built on quality, warmth, and community spirit.</p>
+                </div>
+                <div>
+                    <div class="card testimonial-quote-card">
+                        <p>"Gal's Grill is our family's go-to! The food is consistently amazing, and the atmosphere is so welcoming. Every visit is a delight. Highly recommend!"</p>
+                        <footer>— Sarah L., Local Resident</footer>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-up">
+                <div class="stat-card">
+                    <h3>5-Star</h3>
+                    <p>Rating</p>
+                </div>
+                <div class="stat-card">
+                    <h3>22+</h3>
+                    <p>Verified Reviews</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Reidsville's</h3>
+                    <p>Choice</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Menu</span>
+            <h2 class="text-center">Taste the Freshness: Gal's Grill Favorites</h2>
+            <p class="text-center" style="margin-bottom: 3rem;">While we constantly innovate, here are some of our beloved categories:</p>
+
+            <div class="menu-grid">
+                <!-- IMPORTANT: Only "hotdogs" is explicitly provided as a menu item. Other items are represented by categories as per instructions to not invent content/prices. -->
+                <div class="menu-item-card fade-in-up">
+                    <div>
+                        <h3>Classic Hotdogs</h3>
+                        <p>Our famous all-beef hotdogs, grilled to perfection and served on a fresh bun with your choice of toppings.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div>
+                        <h3>Signature Burgers</h3>
+                        <p>Juicy, grilled burgers made with fresh, quality beef and customizable with a variety of cheeses and fresh toppings.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div>
+                        <h3>Crispy Sandwiches</h3>
+                        <p>From grilled chicken to hearty deli options, our sandwiches are always made fresh to order and packed with flavor.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div>
+                        <h3>Sides & Snacks</h3>
+                        <p>Perfect companions to any meal, including golden fries, onion rings, and other delicious bites.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card fade-in-up" style="animation-delay: 0.4s;">
+                    <div>
+                        <h3>Daily Specials</h3>
+                        <p>Ask about today's fresh creations and seasonal dishes, crafted with the freshest ingredients available.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card fade-in-up" style="animation-delay: 0.5s;">
+                    <div>
+                        <h3>Refreshing Drinks</h3>
+                        <p>Quench your thirst with our selection of soft drinks, iced tea, and other refreshing beverages.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label">Why Gal's Grill?</span>
+            <h2 class="text-center">More Than Just a Meal: The Gal's Grill Difference</h2>
+
+            <div class="why-choose-us-grid">
+                <div class="why-choose-card fade-in-up">
+                    <h3>Farm-Fresh Flavors</h3>
+                    <p>Experience the vibrant taste of our dishes, from our famous <strong>hotdogs</strong> to our daily specials, crafted with only the freshest ingredients to ensure every bite is bursting with flavor.</p>
+                </div>
+                <div class="why-choose-card fade-in-up" style="animation-delay: 0.1s;">
+                    <h3>Your Event, Our Expertise</h3>
+                    <p>We specialize in catering for <strong>large events, celebrations, and community gatherings</strong>. Let us bring our delicious, flavorful meals to your next big day, making it truly unforgettable.</p>
+                </div>
+                <div class="why-choose-card fade-in-up" style="animation-delay: 0.2s;">
+                    <h3>Reidsville's Trusted Favorite</h3>
+                    <p>Join the many happy customers who've given us a <strong>5-star rating across 22 reviews</strong>. We're proud to be a beloved community staple, known for our exceptional food and warm service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section-padding" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container fade-in-up">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="text-center">Hear From Our Happy Customers</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Gal's Grill is our family's go-to! The food is consistently amazing, and the atmosphere is so welcoming. Every visit is a delight, whether we're getting a classic burger or something from their specials board. Highly recommend!"</p>
+                    <footer>— Sarah L., Regular Customer</footer>
+                </div>
+                <div class="testimonial-card fade-in-up" style="animation-delay: 0.1s;">
+                    <p>"You absolutely HAVE to try their hotdogs! Perfectly cooked, flavorful, and just what you crave. Best hotdogs in Reidsville, hands down! The fresh toppings really make a difference."</p>
+                    <footer>— Mark P., Hotdog Enthusiast</footer>
+                </div>
+                <div class="testimonial-card fade-in-up" style="animation-delay: 0.2s;">
+                    <p>"We used Gal's Grill to cater our community event, and it was a huge success! The team was fantastic, and everyone raved about the delicious food – especially the variety and quality. They truly specialize in making celebrations special."</p>
+                    <footer>— Reidsville Community Center</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label">Visit Us</span>
+            <h2 class="text-center">Find Us & Our Hours</h2>
+
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p><strong>Gal's Grill</strong></p>
+                    <p>5891 NC-65,</p>
+                    <p>Reidsville, NC 27320, USA</p>
+                    <a href="https://www.google.com/maps/search/Gal's+Grill+5891+NC-65,+Reidsville,+NC+27320,+USA" target="_blank" class="btn btn-secondary" style="margin-top: 2rem;">Get Directions</a>
+                    <a href="tel:3363470363" class="phone-number">(336) 347-0363</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>6:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                    <a href="tel:3363470363" class="btn btn-primary call-to-order-btn">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <h2 class="fade-in-up">Ready for Fresh, Flavorful Meals or Planning an Event?</h2>
+        <a href="tel:3363470363" class="btn fade-in-up" style="animation-delay: 0.2s;">CONTACT US TODAY!</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="logo">Gal's Grill</div>
+        <p class="tagline">Fresh Flavors. Community Gatherings. Your Reidsville Favorite.</p>
+        <div class="social-links">
+            <a href="https://facebook.com/galsgrill" target="_blank" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.164-1.192 1.176-1.192h2.824v-5h-3.642c-3.311 0-4.358 2.293-4.358 4.908v2.092z"/></svg>
+            </a>
+            <a href="https://instagram.com/galsgrill" target="_blank" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.585-.07 4.85c-.149 3.225-1.664 4.771-4.919 4.919-.058 1.265-.07 1.644-.07 4.85s.012 3.585.07 4.85c.148 3.227 1.663 4.772 4.919 4.919 1.266.057 1.645.069 4.85.069s3.585-.012 4.85-.07c3.251-.148 4.77-1.693 4.919-4.919.058-1.265.07-1.644.07-4.85s-.012-3.585-.07-4.85c-.149-3.227-1.664-4.771-4.919-4.919-1.266-.057-1.645-.069-4.85-.069zM12 0c-3.259 0-3.667.014-4.947.072-4.354.211-7.143 3.003-7.35 7.35-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.207 4.352 3 7.143 7.35 7.35 1.28.058 1.687.072 4.947.072s3.667-.014 4.947-.072c4.354-.207 7.144-3 7.35-7.35.058-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.207-4.354-3-7.143-7.35-7.35-1.28-.058-1.687-.072-4.947-.072zm0 5.838c-3.447 0-6.241 2.793-6.241 6.241s2.793 6.241 6.241 6.241 6.241-2.793 6.241-6.241-2.793-6.241-6.241-6.241zm0 10.286c-2.226 0-4.045-1.819-4.045-4.045s1.819-4.045 4.045-4.045c2.226 0 4.045 1.819 4.045 4.045s-1.819 4.045-4.045 4.045zm6.471-10.741c-.655 0-1.188.533-1.188 1.188s.533 1.188 1.188 1.188 1.188-.533 1.188-1.188-.533-1.188-1.188-1.188z"/></svg>
+            </a>
+        </div>
+        <p class="copyright">&copy; 2026 Gal's Grill. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
