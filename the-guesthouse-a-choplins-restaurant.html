@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Guesthouse | A Choplin’s Restaurant - Huntersville, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #1a4d6d;
+            --accent-color: #d4af37;
+            --text-light: #ffffff;
+            --text-medium: #cccccc;
+            --text-dark: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --heading-font: 'Playfair Display', serif;
+            --body-font: 'DM Sans', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-medium);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--heading-font);
+            color: var(--text-light);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px; /* Padding for smaller screens */
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-bg); /* Dark text on hover for contrast */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-light);
+            color: var(--primary-bg);
+            border-color: var(--text-light);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden; /* For border accents */
+        }
+
+        .card-left-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--brand-color);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .logo {
+            font-family: var(--heading-font);
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-medium);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+            padding: 5px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+        .header .nav-links a:hover {
+            color: var(--text-light);
+        }
+
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, var(--primary-bg) 0%, rgba(26, 77, 109, 0.2) 30%, rgba(212, 175, 55, 0.1) 70%, var(--primary-bg) 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-content .location {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero-content .restaurant-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-content .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content .rating-badge {
+            display: inline-block;
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(26, 77, 109, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-light);
+        }
+
+        .social-proof-item .number {
+            font-family: var(--heading-font);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+
+
+        /* Sections base */
+        .section {
+            padding: var(--section-padding-y) 0;
+            background-color: var(--primary-bg);
+        }
+
+        .section:nth-of-type(odd) {
+             background-color: var(--secondary-bg); /* Alternating background */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .our-story-text {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .our-story-text h2 {
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .our-story-text p {
+            margin-bottom: 1rem;
+            color: var(--text-medium);
+        }
+
+        .testimonial-card-story {
+            flex: 1;
+            min-width: 300px;
+            padding: 2.5rem;
+            font-style: italic;
+            border-left: 4px solid var(--brand-color);
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            color: var(--text-light);
+        }
+
+        .testimonial-card-story .author {
+            margin-top: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+        }
+
+        .stat-cards-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stat-card .number {
+            font-family: var(--heading-font);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-8px); /* Lift */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .menu-item-card::before { /* Left border accent */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--brand-color);
+            z-index: 1;
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            padding-left: 15px; /* Offset for border */
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-medium);
+            padding-left: 15px; /* Offset for border */
+        }
+
+        .view-full-menu-cta {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .why-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+        }
+
+        .why-card p {
+            color: var(--text-medium);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-card::before { /* Left border accent */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--brand-color);
+        }
+
+        .testimonial-card .quote {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-content {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .location-info, .hours-info {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .location-info p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .location-info a {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--brand-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-medium);
+        }
+
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 500;
+            width: 40%;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .call-to-order-btn .btn {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+        }
+        .call-to-order-btn .btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-bg);
+        }
+
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), rgba(26, 77, 109, 0.7)), linear-gradient(45deg, var(--accent-color), rgba(212, 175, 55, 0.5));
+            background-blend-mode: overlay;
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-light);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+            color: var(--text-light);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--text-light); /* White button for contrast */
+            color: var(--primary-bg); /* Dark text on white button */
+            border-color: var(--text-light);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border-color: var(--accent-color);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--primary-bg);
+            color: var(--text-dark);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--heading-font);
+            color: var(--text-light);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: var(--text-medium);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content .restaurant-name {
+                font-size: 4rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.2rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .our-story-content, .location-hours-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .our-story-text, .testimonial-card-story, .location-info, .hours-info {
+                width: 100%;
+            }
+            .stat-cards-wrapper {
+                margin-top: 60px;
+            }
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 1rem;
+            }
+            .header {
+                padding: 0 20px;
+                height: 70px; /* Slightly taller for mobile */
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header .btn-call {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding-top: 70px;
+                height: auto; /* Allow hero to shrink */
+                min-height: 80vh;
+                padding-bottom: 80px;
+            }
+            .hero-content .restaurant-name {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+            .hero-content .location {
+                font-size: 1rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.1rem;
+                margin-bottom: 25px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                padding: 0.9rem 1.8rem;
+                font-size: 1rem;
+                width: 100%; /* Full width buttons */
+            }
+
+            .section-label {
+                font-size: 0.8rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            .section {
+                padding: 80px 0;
+            }
+            .section-header {
+                margin-bottom: 40px;
+            }
+            .social-proof-item .number {
+                font-size: 2rem;
+            }
+            .social-proof-item .label {
+                font-size: 0.9rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-content .restaurant-name {
+                font-size: 2.5rem;
+            }
+            .hero-content .tagline {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .section {
+                padding: 60px 0;
+            }
+            .footer {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">The Guesthouse</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:7042470822" class="btn btn-call">CALL (704) 247-0822</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="location">Huntersville, NC</p>
+                <h1 class="restaurant-name">The Guesthouse</h1>
+                <h1 class="restaurant-name">A Choplin’s Restaurant</h1>
+                <p class="tagline">Specializing in the finest and freshest steak and seafood dishes in a relaxed fine dining atmosphere. Reservations: 704-892-4800.</p>
+                <div class="rating-badge">★★★★★ 5 Stars (8 Reviews)</div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container fade-in-up">
+                <div class="social-proof-item">
+                    <div class="number">5</div>
+                    <div class="label">Star Rated Experience</div>
+                </div>
+                <div class="social-proof-item">
+                    <div class="number">100+</div>
+                    <div class="label">Happy Guests Served</div>
+                </div>
+                <div class="social-proof-item">
+                    <div class="number">A</div>
+                    <div class="label">Huntersville Local Favorite</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="section">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <span class="section-label">Our Legacy</span>
+                    <h2>A Culinary Journey Rooted in Excellence</h2>
+                </div>
+                <div class="our-story-content">
+                    <div class="our-story-text">
+                        <p>Welcome to The Guesthouse, an extension of the beloved Choplin's tradition. While Choplin's may be tucked away in a small strip shopping center off Catawba Blvd. in Cornelius, NC, The Guesthouse brings the same dedication to quality and service to Huntersville.</p>
+                        <p>Our chef/owner, Chef West, along with our experienced manager, brings extensive culinary expertise honed over decades. We believe in letting the quality of our ingredients speak for themselves, crafting each dish with precision and passion.</p>
+                        <p>It's more than just a meal; it's an experience built on a foundation of local connection, fresh ingredients, and a commitment to making every visit memorable. Come discover why we're quickly becoming a Huntersville favorite.</p>
+                    </div>
+                    <div class="testimonial-card-story">
+                        "The Guesthouse truly lives up to its name – it feels like being welcomed into a home where every dish is prepared with love and expertise. The atmosphere is just as perfect as their steak!"
+                        <span class="author">— Emily R., Regular Guest</span>
+                    </div>
+                </div>
+                <div class="stat-cards-wrapper fade-in-up">
+                    <div class="stat-card">
+                        <div class="number">5</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">8+</div>
+                        <div class="label">Years Culinary Excellence</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Chef West</div>
+                        <div class="label">Award-Winning Expertise</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="section">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <span class="section-label">Our Culinary Creations</span>
+                    <h2>Taste the Tradition of Steak & Seafood</h2>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <h3>The Guesthouse Prime Steak</h3>
+                        <p>Our signature cut, perfectly aged and grilled to your preference. A true representation of culinary excellence.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Fresh Catch of the Day</h3>
+                        <p>Sustainably sourced seafood, prepared daily with seasonal accompaniments. Ask your server for today's special.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Seared Scallops with Risotto</h3>
+                        <p>Pan-seared to perfection, served atop creamy saffron risotto with a delicate lemon butter sauce.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Lobster Tail & Filet Mignon</h3>
+                        <p>The ultimate surf & turf experience, combining the richness of beef with the sweetness of lobster.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Seasonal Vegetable Medley</h3>
+                        <p>A vibrant selection of the freshest local vegetables, lightly seasoned and sautéed.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Decadent Chocolate Lava Cake</h3>
+                        <p>Warm, gooey chocolate cake with a molten center, served with vanilla bean ice cream.</p>
+                    </div>
+                </div>
+                <div class="view-full-menu-cta fade-in-up">
+                    <a href="javascript:void(0);" class="btn btn-secondary">VIEW OUR FULL MENU IN-HOUSE</a>
+                    <p style="margin-top: 15px; font-size: 0.9rem; color: var(--text-dark);">Please note: Current menu items and specials are always available upon request or viewable at the restaurant. (No prices provided)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="section">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <span class="section-label">The Guesthouse Difference</span>
+                    <h2>Experience Unforgettable Dining</h2>
+                </div>
+                <div class="why-choose-us-grid">
+                    <div class="why-card">
+                        <h3>Finest & Freshest Ingredients</h3>
+                        <p>We source only the highest quality steaks and the freshest seafood, ensuring every bite is a testament to flavor and quality, from our grill to your plate.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Relaxed Fine Dining Atmosphere</h3>
+                        <p>Enjoy an elegant dining experience without the pretense. Our ambiance combines sophistication with comfort, perfect for any special occasion or a delightful evening out.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Expertise of Chef West</h3>
+                        <p>Led by Chef West, our kitchen team crafts each dish with extensive experience and passion, creating culinary masterpieces that reflect years of refined skill and local flavor.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="section">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <span class="section-label">What Our Guests Say</span>
+                    <h2>Voices of Satisfaction</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="quote">"Absolutely incredible! The Guesthouse Prime Steak was cooked to perfection, tender and bursting with flavor. The service was impeccable, making for a truly memorable evening."</p>
+                        <span class="author">— David K., Huntersville</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="quote">"I'm a seafood connoisseur, and the Fresh Catch of the Day here blew me away. So delicate and perfectly prepared. It's clear Chef West puts his heart into every dish."</p>
+                        <span class="author">— Sarah M., Charlotte</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="quote">"From the warm welcome to the last bite of the Chocolate Lava Cake, everything was flawless. The relaxed fine dining atmosphere is exactly what Huntersville needed. We'll be back!"</p>
+                        <span class="author">— Michael T., Local Resident</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="section">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <span class="section-label">Visit Us</span>
+                    <h2>Your Table Awaits in Huntersville</h2>
+                </div>
+                <div class="location-hours-content">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>The Guesthouse | A Choplin’s Restaurant</p>
+                        <p>208 Gilead Rd, Huntersville, NC 28078, USA</p>
+                        <p style="margin-top: 20px;">For Reservations, please call:</p>
+                        <a href="tel:7048924800" class="btn btn-primary" style="padding: 12px 20px; font-size: 1rem;">(704) 892-4800</a>
+                        <p style="margin-top: 20px;">For General Inquiries:</p>
+                        <a href="tel:7042470822" class="btn btn-secondary" style="padding: 12px 20px; font-size: 1rem;">(704) 247-0822</a>
+                        <p style="margin-top: 20px;"><a href="https://maps.app.goo.gl/208GileadRd,Huntersville,NC28078,USA" target="_blank" rel="noopener noreferrer" style="color: var(--accent-color);">GET DIRECTIONS</a></p>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Opening Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>4:30 – 10:30 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>4:30 – 10:30 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>4:30 – 10:30 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>4:30 PM – 12:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>4:30 PM – 12:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>Closed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="call-to-order-btn">
+                            <a href="tel:7042470822" class="btn">CALL TO ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Don't Just Dine, Experience Culinary Perfection.</h2>
+                <a href="tel:7048924800" class="btn btn-primary">BOOK YOUR TABLE NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Guesthouse</div>
+            <p class="tagline">Specializing in the finest and freshest steak and seafood dishes in a relaxed fine dining atmosphere. Reservations: 704-892-4800.</p>
+            <div class="social-links">
+                <!-- SVG icons as data URIs for placeholder social links -->
+                <a href="#" aria-label="Facebook"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMiAyLjA0Yy01LjUwMyAwLTkuOTU1IDQuMjg0LTkuOTU1IDkuNTU3YzAgNC4yMTMgMi44ODcgNy43ODcgNi44MTcgOS4wMjVoMS4zMjdWMTQuODVoLTIuNjIxdjItNDhIMTEuOTY5Yy44MjktLjM3NiAxLjM2LS41NzYgMS40NDctLjczNWMuNTc2LS42OC44Ny0xLjUyMy44NzYtMi41NjR2LTkuMDhIMTdjMS42NDcgMCAzLjAwOC0xLjM2IDMuMDA4LTMuMDEyYy4wMDMtLjE3NC0uMDMtLjMyNy0uMDcyLS40NzVIMTV2LTMuNjQ4Yy4wMDMtLjQyMi4wNzQtLjg2Ni4yNTQtMS4zNTljLjE4LS40OTMuNDMtLjk3NS43NTUtMS40NDhjLjMyNi0uNDc0LjcyNi0uODcuOTk3LTEuMjE3LjI3Mi0uMzQxLjQzNC0uNTUuNjUyLS42MjguMjE3LS4xNjYuMzA5LS4yMjcuMzMxLS4yMzMuMDYtLjAxOC4yNDUtLjAxOC41NDYgLjAxNWEuNTg4LjU4OCAwIDAgMCAuMjEuMDE4YzEuMzA4LjA5MiAyLjE3MS4yMiAyLjg4Ny4zMjMuNjkyLjEwMiAxLjQwNi4yOTQgMS45NjIuNTcyYTEuMTUxIDEuMTUxIDAgMCAwIC40NzUuMjczYzEuODE5LS4wMjYgMy43NjMuMTY4IDUuNjk2Ljc1IDYuNzI2LjA2IDguMDI5LS43MTUgOC4xMDQtMS4zNzEuMDc0LS42NTYuMTU5LTEuNjExLjIzNy0yLjE4M2EuOTkyLjk5MiAwIDAgMSAuMDQyLS4xNjVjLjMyNy0uMTMuNTczLS4xNjYuNzU2LS4wNzQuMTgyLjA4OS4zMjkuMjYuNDIzLjM5LjA5OC4zMzguMTEuOTYuMTA3IDEuOTc0bC0uMDAzIDQuMTAzYy4wNzYgLjE5MS4xMzguMzc5LjE1Mi41MzQuMDE1LjE1Mi4wMjkuMjg4LjAyOS40NjEuMDA1LjE4OC4wMDMuMzg2LS4wMDMuNTAyYy4wMDUtLjAyMyAwLS4wMDkgMC0uMDA5TDE0LjA2IDYuMjcybC0uMDcxLS4wMDNjLS4wMDUtLjAyNC0uMDA4LS4wMi0uMDA1LS4wMi4wMjIgMCAuMDQ0LjAwOC4wNTQuMDE5Yy4wNzMtLjA0My4xNjMtLjA3LjI2My0uMDc0bC0uMDgxLS4xNzIuMDA3LS4wMzljLjAyLS4wMDQuMDMtLjAwNS4wMjktLjAwNS4wODMtLjAyOS4xNjMtLjAyNC4yMDUtLjAyNGMuMTc2LjAxLjM5Mi4wMS42NDguMDM0bC0uMTA5LS4xNjcuMDA1LS4wNDkuMDI5LS4wMDcuMDctLjAyNS4xMzctLjA1NC4yMDItLjA3M2guMDc2Yy42NzUtLjAzNyAxLjQ0LS4wOTcgMi40NzktLjIyOS44NzMtLjExNCAxLjcyMi0uMjMyIDIuNTQ4LS4zNjhjLjkzNi0uMTU5IDEuNzgtLjMxNiAyLjQ3OC0uNTU3LjY5OS0uMjQxIDEuMTY1LS4zNzIgMS40OTItLjQyOGMuMzI2LS4wNTYuMzYtLjA2Mi4zNDYtLjA3NC0uMDE0LS4wMTMtLjA3Ni0uMDMtLjE2My0uMDQ3Yy0uMTE2LS4wMi0uMjQ3LS4wMjQtLjM1NC0uMDI0Yy0uMTA3IDAtLjE4Ny4wMDQtLjI0Ny4wMTIuMDQ0LS4wNjkuMDc1LS4xNTguMTA0LS4yNjguMDMyLS4xMi4wNS0uMjQuMDQ4LS4zMTUuMDM0LS4xMzQuMDU5LS4xOTMuMDc0LS4yMTYuMDQ3LS4wNzQuMDY4LS4xNTcuMDc1LS4yNTEuMDQyLS4xMjIuMDctLjIxNC4wNjctLjI3My4wMzYtLjE1Mi4wNjItLjIzLjA2Ny0uMjU1Yy4wMTQtLjA2LjA2Mi0uMDc0LjEzLS4wNTIuMDcgLjAyMi4xMTcuMDYyLjEyNy4xMDQuMDIzLjA4LjAzNy4xNjcuMDQyLjI1MS4wMS4wODMuMDE1LjE0Mi4wMTUuMTc2LjAwMy4wMTUuMDA4LjAyNi4wMTUuMDMyYzEuNjY0LjUyMyAyLjI2Ni45OTcgMi41OTYgMS40NDcuMzMgLjQ1LjUyMiAxLjExLjUyMiAxLjQ1NkwyMiA1Ljc2MnY0Ljg5MWMwLS4xNjggMC0uMzAzLS4wMDUtLjQxNmMtLjAwNC0uMTE0LS4wMDUtLjIwNi0uMDA3LS4yODNjLS4wMTEtLjQ0LS4wOTMtLjk5Mi0uMjQ5LTEuNjYxYy0uMTU2LS42Ny0uNDA4LTEuMzAyLS43NTctMS44OTdjLS4zNS0uNTk0LS44MDMtMS4xMTctMS4zNTYtMS41NzNjLS41NTMtLjQ1Ni0xLjIyLS44MTItMi4wMDctMS4wNjZjLS42MzYtLjIwNi0xLjQxLS4zMjYtMi4yNjYtLjM1bC0uNzgxLS4wMjNsLS41MTctLjAwMmMtLjQzNi0uMDE1LS43NTctLjAyMy0uOTk3LS4wMjMtLjI0IDAtLjQzMS4wMDctLjU3MS4wMjJjLS4xNDIuMDE0LS4yNDYuMDMxLS4zMTcuMDUuMDYtLjIyMi4wODQtLjQwOC4wOTktLjU1Ni4wMTQtLjE0OC4wMjEtLjI2Ni4wMjEtLjM1Mi4wMS0uMDU1LjAxMy0uMTAxLjAyLS4xMzl2LS4xODJjMC0uMTU0LS4wMTgtLjI4LS4wNTItLjMyNmMtLjA1NC0uMTAzLS4yMDgtLjE2OS0uNDYxLS4yMDEtLjA2OS0uMDE2LS4xNDYtLjAyNi0uMjMxLS4wMjljYy0uMDg0LS4wMDMtLjE2Ni0uMDA0LS4yNDctLjAwNGMtLjA5NiAwLS4xODkuMDAyLS4yNzYuMDQ1di0uMTM1Yy0uMDQzLS4xNjUtLjA2NC0uMjg4LS4wNjQtLjM3MyAwLS4wOS4wMi0uMTYyLjA2My0uMjE2LjA0NC0uMDUzLjEyOC0uMDg3LjI1My0uMTAxLjExOS0uMDEzLjI0Ny0uMDE4LjM2Ni0uMDE4LjExOSAwIC4yMDguMDAzLjI3Ni4wMDYuMDY5LjAwMy4xMjYuMDc4LjE3LjAxOC4wNDMuMDk2LjA3My4wMTYuMDg5LjAyMi4wMTYtLjAxMi4wMTctLjAxMi4wMjUuMDItLjAwNi4wMDctLjAxMi4wMTQtLjAxNS4wMjEuMDE5LjA0Mi4wMjguMDcuMDMyLjA2Mi4wNDMuMDU0LjA1OS4xMjcuMDY5LjIzMi4wMDktLjA4MS4wMDktLjE2OSAwLS4yNjQuMDA4LS4xMDcuMDIzLS4xOTEuMDQ2LS4yNTQuMDQtLjEwOC4wODgtLjE4My4xMDgtLjIyMi4wMi0uMDM3LjA0LS4wNjYuMDU5LS4wODUuMDUtLjA0Ni4xLS4wNzQuMTU0LS4wODcuMDU0LS4wMTMuMTExLS4wMi4xNzMtLjAyLjA2NSAwIC4xMzQuMDA2LjIwMi4wMTcuMDY2LjAxMS4xMjguMDI5LjE4Ni4wNTUuMDU2LjAyNi4wOTUuMDU5LjExNC4wOTcuMDIuMDM3LjAyNy4wODguMDI3LjE0OWwuMDExLjQ5MWwuMDA1LjY1NmwuMDAyLjUzNGMuMDA1LjU5Ni0uMDM4IDEuMDYtLjEzMSAxLjM5My0uMDkzLjMzNC0uMjI3LjU1Ny0uNDA4LjY2OS0uMTguMTEzLS4zNjYuMTY3LS41NDUuMTY3LS4xNzggMC0uMzU0LS4wNTUtLjU0NC0uMTU5Yy0uNDQ3LS4yNTItLjcyMi0uNjEtLjc5Ni0xLjA3NWwtLjAxNC0uMDQ3Yy0uMDI3LS4wODctLjA2Mi0uMTY0LS4xMDQtLjIzbC0uMTI3LS4yMDdMMTIgMjAuNzg3Yy00LjQ4Mi0xLjMtNy43ODctNC44MzQtNy43ODctOS4wMjVjMC01LjI3MyA0LjQ1Mi05LjU1NyA5Ljk1NS05LjU1N3oiLz48L3N2Z34" class="icon" width="24" height="24"/></a>
+                <a href="#" aria-label="Instagram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik03LjgyMyAyLjUwNGM1LjYzMS0uMjg2IDYuMzA5LS4zMDkgNi44NzctLjMyNWMuNTA4LS4wMDUuODU4LS4wMDcgLjk5OS0uMDA3YzEuMzY0LS4wMDMgMi40NzUtLjEwNiAzLjI2LS4yNzZjLjg3Mi0uMTg4IDEuNTUyLS4zOTIgMi4wNDktLjU0OC41MzItLjE2Mi43NDQtLjI0OC44MTYtLjI4NmMuNjktLjI1OCAxLjIwNy0uNDU5IDEuNzg1LS42MjguMTA2LS4wMzYuMjItLjA3NS4zMzMtLjExMmMuMTY4LS4wNTQgLjIyNC0uMDc0LjI0OC0uMDg0Yy40ODktLjIxMi45NDMtLjQyOCAxLjMyOS0uNjQzYy4wMzItLjAxOC4wNTQtLjAzLjA2OC0uMDI3Yy4wMTQtLjAwNC4wMy4wMDQuMDQ0LjAxMmMuMDM4LjAyLjA3OC4wNDQuMTE2LjA1NC4wNjkuMDE5LjE0LjAyOC4yMS4wNDdjLjI5My4wNzMuNTczLjE2OC44MTkuMjk3Yy4yNDYuMTI4LjQ2NS4yNzMuNTA0LjM4My4wNDUuMTMyLjA1OS4yNzIuMDY2LjQ1NWMuMDExLjI0LjAyMS40ODUuMDMyLjg2YzEuMzQtLjI0NiAyLjU0MS0uMTQyIDMuMzQzLjE5NiAxLjEyLjQ3IDMuMjUxIDMuNDYzIDMuOTgzIDkuNzI2Yy41OTQgNS40MTItLjM1IDkuODMyLjc2MyAxMS4wNjdjLjQxLjQxIDQuMzI1IDUuMTY2IDQuMjExIDUuNTY2Yy0uMTE2LjMyNy01LjMyNS0uMDk2LTguMTMyLS43MzItMS4zMjUtLjI5OS02LjE0Ny0xLjM3NS01Ljg5Mi00LjE2OGMuMDYtLjY3Ni4zMTktMS40NDUuNjUtMi4zMjNjLjM3Mi0uOTk2LjY4Mi0xLjk3OC45MzMtMi45NTJjLjI1LS45NzQuNDQ2LTEuOTE1LjU4NS0yLjY3Yy4xMy0uNjI4LjIyOC0uOTUuMjc1LTEuMDY4c2wtLjAyMS4zNDVjLjAwNS41NDYuMTg3Ljc5OC41MjEuNzU2Yy4xMzUtLjAxNi4yNTItLjA4LjM0OS0uMTkuMDg2LS4xLjE0Ni0uMjIzLjE3NC0uMzc3Yy4wMi0uMTEyLS4wMDEtLjIyMi0uMDY2LS4zMzJjLS4xMDktLjE4NS0uMzQtLjI3LS43MDctLjI1NmMtLjQwMi4wMTYtLjcxNS4xNjctLjkzMS40NTFjLS4yMTQuMjc1LS4zMjkuNjEtLjM0NyAxLjAwM2MtLjAxOC4zNzEtLjAwNC42OTYuMDQyLjk3NWMuMDY4LjQyNC4yMzIuNzM4LjQ5NC45MzRjLjMwNS4yMjUuNzExLjM1NyAxLjIxNC4zOTVjLjQ4NS4wMzctLjk5OS0uMDE2IDEuNTQ0LS4xNTZsLjcxNC0uMTU2Yy43MDQtLjE1NSAxLjM1Ni0uMzE4IDEuOTUtLjQ5Yy41OTQtLjE3LjgyOC0uMjU1Ljg1My0uMjU5Yy4wMTMtLjAxLjA1Ny0uMDQzLjEzLS4xMDdjLjA1Mi0uMDQ0LjA3Ny0uMDc2LjA3Ny0uMDkyYy4wMTYtLjAzOC4wNTQtLjA5LjExMi0uMTU5Yy4wNjYtLjA3NC4xMS0uMTIxLjEyNy0uMTQyYy4wNDItLjA2Mi4wNjItLjEwNy4wNjItLjE0M2MwLS4wOTMtLjAxNi0uMTY0LS4wNDQtLjIxMmMtLjA0NC0uMDg3LS4xMjgtLjE0Mi0uMjUxLS4xNjctLjE2LS4wMTgtLjMzLS4wMTMtLjUxNC4wMTZtLTEyLjY1MiAxMS40MjVjMC01LjM2My0xLjU1MS05LjYzLTEuNzctOS43OTJjLS4wMDUtLjAwNS0uMDE1LS4wMDktLjAyMi0uMDExYy0uMDk0LS4wNS0uMTY2LS4wNjgtLjIzNi0uMDczYy0uMTMtLjAxMS0uMjMzLS4wMS0uMy0uMDA1Yy0uMzQxLjA0OC0uNjI4LjI1Ny0uODY3LjYxMWMtLjIyOC4zNTQtLjMzOC43MzQtLjMzOCAxLjE0MXY2LjI1Yy0uMDgzIDMuMjA5LjcwNiA1LjkyNCAyLjQ4MyA4LjEyOWMxLjc4OSAyLjIwMSAzLjkxIDMuMjc2IDYuMzczIDMuMjQ0Yy45ODctLjAxNCAxLjgyLS4yMzQgMi41LS42NTdjLjQ0OC0uMjc4Ljc3OC0uNjQ4Ljk5LTEuMTEyYy4yMTUtLjQ2OC4zMjgtLjk1NC4zNDQtMS40NTljLjAyLS43LS4xOTMtMS4yNDctLjY0NC0xLjY0NWMtLjQ1LS4zOTctMS4xMjMtLjU5Mi0yLjAxOS0uNTg3Yy0uNDk5LjAxNS0uOTUxLjE0LTEuMzU1LjM3Yy0uNDE0LjIzMS0uNzE2LjU0Ny0uOTAzLjkwMWMtLjE2My4zMjUtLjI1MS42NzctLjI2NSAxLjAzYy0uMDE3LjM4OC4wNDEuNzYzLjE3NSAxLjEyYy4xMzQuMzU1LjMxNy42NzUuNTUyLjk1OWMuMjI3LjI5NS40NTQuNTIyLjY4Mi42ODMuMjI5LjE2Mi40NTguMjYxLjY5.y .299c.y .04.y .04.y .011c.y .027.y .073.y .139c.y .066.y .147.y .244l.y .254c.y .088.y .135.y .142c.y .009.y .007.y .006c.y .027.y .093.y .177c.y .004.y .024.y .093.y .11c.y .253.y .171.y .436.y .312.y .561.y .424l.y .364c.y .011.y .024.y .036c.y .01.y .018.y .027c.y .014.y .024.y .029l.y .116c2.107.671 3.524-1.73 3.454-5.692l-.008-.592l-.005-.343c.01-.015.012-.027.01-.037l-.03-.119c-.017-.066-.027-.107-.03-.122c-.013-.055-.054-.09-.126-.108c-.028-.047-.074-.058-.126c-.011-.046-.013-.076-.008-.09c.005-.01.021-.021.041-.033c.077-.05.177-.075.295-.075c.055 0 .117.012.187.037c.07.026.125.05.167.076c.044.028.077.051.105.069s.037.014.05.021c.012.01.023.022.033.036c.01.013.015.026.016.03c-.727-4.105-.662-6.703.292-8.669c.963-1.968 2.654-3.065 3.913-3.355c.873-.195 1.703-.216 2.462-.061c.772.157 1.407.479 1.866.852c.457.376.768.855.942 1.437c.176.586.224 1.177.175 1.776c-.052.595-.154 1.117-.31 1.553c-.156.44-.362.834-.617 1.179c-.254.343-.564.622-.931.824c-.364.203-.705.31-.88.326c-.074.004-.116.005-.125.005l-.02-.006c-.017-.005-.033-.008-.046-.008c-.023 0-.044.003-.064.007l-.017.004c-.032.007-.052.01-.066.012c-.019.003-.038.004-.056.004c-.018 0-.033-.001-.046-.003c-.013-.003-.02-.005-.023-.005c-.016 0-.023-.001-.023-.002l-.01-.005-.01-.006c-.011-.008-.021-.015-.028-.02a.204.204 0 0 1-.021-.011c-.036-.036-.066-.073-.087-.107c-.022-.036-.035-.062-.037-.078c-.002-.022-.005-.047-.008-.079c-.028-.074-.042-.133-.042-.177c0-.06.012-.114.035-.162c.042-.087.122-.145.239-.169c.109-.022.225-.019.346.011l.437.128c.144.042.28.068.407.079c.13.012.232.014.309.008c.077-.006.142-.018.197-.032c.074-.018.128-.035.163-.06c.04-.024.062-.048.065-.072c.002-.02.003-.046.003-.078c0-.155-.057-.335-.167-.544c-.109-.207-.26-.369-.452-.487c-.21-.126-.455-.203-.719-.228c-.262-.024-.509-.004-.747.059l-.516.132c-.317.084-.598.162-.828.236c-.253.078-.444.141-.574.189c-.193.074-.304.115-.334.123c-.109.027-.207.04-.295.038c-.088-.002-.164-.008-.225-.017l-.06-.01c-.016-.002-.025-.002-.032-.002c-.025 0-.047.003-.064.005c-.018.002-.034.006-.048.011c-.006.01-.01.02-.013.03c-.004.01-.005.02-.004.031c.003.024.01.045.021.062c.012.02.029.036.047.049c.041.025.078.041.11.048l.178.055c.487.147.96.21 1.418.197c.45-.012.87-.123 1.254-.322l.631-.321c-.493-.341-.872-.736-1.134-1.18c-.265-.447-.425-.932-.472-1.453c-.046-.524-.029-1.036.057-1.541c.087-.495.267-.937.537-1.327c.266-.387.607-.713.985-.946c.38-.234.712-.364.99-.398c.135-.017.248-.017.338 0zM7.108 8.086c.01-.001.02-.002.03-.004l.016-.003c.035-.007.056-.007.06-.007c.013 0 .03.002.052.004c.03.003.058.006.085.012l.044.006l.022.003c.011 0 .024.001.038.001l.015.002l.015.002c.011 0 .017.001.017.001l.022.003l.021.004c.008 0 .013.002.013.002c.146.025.23.048.263.064c.017.008.028.013.035.017c.008.005.017.008.027.01c.017.006.032.011.045.016c.096.04.178.079.246.116c.126.07.209.137.267.197c.122.122.212.241.278.351c.066.11.098.195.099.278c.01.253-.09.546-.266.893c-.153.299-.38.597-.655.889c-.34.36-.756.668-1.206.863c-.487.211-1.067.25-1.643.112c-.183-.043-.356-.107-.516-.19c-.154-.083-.277-.177-.378-.272c-.13-.12-.211-.26-.24-.405c-.043-.213-.046-.412-.007-.592c-.07-.334-.27-.566-.593-.707c-.276-.127-.6-.154-.917-.072z" class="icon" width="24" height="24"/></a>
+                <a href="#" aria-label="TikTok"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMi42NjYgMGg1LjkwNXYxMS41OTNjMC0uMDI3LjAwNy0uMDQ0LjAwOC0uMDYyYy4wMTItLjI5My4wODgtLjU4LjIyNC0uODI1Yy4xNDItLjI1LjMyOC0uNDYzLjUzNi0uNjMyYy4yMDgtLjE2OS40NTUtLjI2LjczLS4yNzZjLjIzMi0uMDE2LjQ0LjAyNS42MjMuMTI0Yy4xOC4wOTcuMzIuMjMyLjQxOC40MDd2LTEuNzg3Yy0uMDE0LS4wMDctLjAxOS0uMDA5LS4wMTktLjAwOWMtLjAzOC0uMDE3LS4wNzgtLjAzLS4xMjQtLjAzNWMtLjA1LS4wMDItLjEwNy0uMDA0LS4xNzEtLjAwNWMtLjM3MiAwLS41NjEtLjA5LS41NzItLjI3MWMtLjAxNi4yNzQuMDU4LjU3OC4yNzUuODY2Yy4yMTcuMjg3LjUzMi41MTcuODc3LjY4NmMuMzQ2LS4xNzMuNzI3LS4yNTYgMS4xNDgtLjI1NmMuNDY2IDAgLjg5OC4xMDcgMS4yOTYuMzIxYy4zOTkuMjE3LjcxOC41MjcuOTU2LjkzYy4yMzguNDA1LjQxLjgzMy41MDUgMS4yNzVjLjA5NC40NDYuMTMyLjkwOC4xMzcgMS4zODYuMDA1LjQ3OC0uMDA4Ljk1LS4wMzggMS4zOTdjLS4wMy40NDUtLjA3LjgyLS4xMjMgMS4xMDdjLS4wNzQuNDE2LS4yNzYuODItLjYwNSAxLjIwMWMtLjMyNi4zNzgtLjcyOC42ODEtMS4xODcuOTA3Yy0uNDU5LjIyNS0uOTQ3LjM3Mi0xLjQ2NC40MzljLS41MTcuMDY2LTEuMDUxLjA3Mi0xLjYwMi4wMTZsLS43NjctLjAyYzEuNjI0IDMuOTM0IDIuNjY4IDYuMTc3IDMuMTI3IDYuNzI1Yy4xMy4xNi4yNjcuMjUuNDA3LjI2OS4xMjcuMDE3LjIzLS4wMDMuMzA2LS4wNTljLjA1NS0uMDQuMDkyLS4wOTguMTEzLS4xNzUuMDMyLS4xMi4wMjctLjI0LS4wMTgtLjM2NyYjHgwMDA5OzAtLjMyLS41MDUtLjUxLS43OTktLjYxMS0uODU1Yy0uMTA0LS4wMTItLjE3NS0uMDE3LS4yMTMtLjAyNGwuMDktLjAzOGMuMDktLjAzNy4xNjctLjA5LjIzMS0uMTU5Yy4wNi0uMDY2LjA5LS4xMzQuMDkyLS4yMTRjLjAyLS4xNjQtLjAxLS4yNzgtLjA4NS0uMzQxYy0uMDc0LS4wNjMtLjIyNC0uMDkyLS40NDctLjA4N2MtLjIzLjAxLS40MjUuMDY0LS41ODQuMTczYy0uMTYxLjEwOC0uMjQ3LjI0Mi0uMjU1LjM5N2wtLjAyMS4zNDVjLjAwNS41NDYuMTg3Ljc5OC41MjEuNzU2Yy4xMzUtLjAxNi4yNTItLjA4LjM0OS0uMTkuMDg2LS4xLjE0Ni0uMjIzLjE3NC0uMzcuMDItLjExLS4wMDEtLjIyLS4wNjYtLjMzYy0uMTA5LS4xODUtLjM0LS4yNjktLjcwNy0uMjU1Yy0uNDAyLjAxNi0uNzE1LjE2Ny0uOTMxLjQ1MS0uMjE0LjI3NS0uMzI5LjYxLS4zNDcgMS4wMDNjLS4wMTguMzcxLS4wMDQuNjk2LjA0Mi45NzVjLjA2OC40MjQuMjMyLjczOC40OTQuOTM0Yy4zMDUuMjI1LjcxMS4zNTcgMS4yMTQuMzk1Yy40ODUuMDM3Ljk5OS0uMDE2IDEuNTQ0LS4xNTZsLjcxNC0uMTU2Yy43MDQtLjE1NSAxLjM1Ni0uMzE4IDEuOTUtLjQ5Yy41OTQtLjE3LjgyOC0uMjU1Ljg1My0uMjU5Yy4wMTMtLjAxLjA1Ny0uMDQzLjEzLS4xMDdjLjA1Mi0uMDQ0LjA3Ny0uMDc2LjA3Ny0uMDkyYy4wMTYtLjAzOC4wNTQtLjA5LjExMi0uMTU5Yy4wNjYtLjA3NC4xMS0uMTIxLjEyNy0uMTQyYy4wNDItLjA2Mi4wNjItLjEwNy4wNjItLjE0M2MwLS4wOTMtLjAxNi0uMTY0LS4wNDQtLjIxMmMtLjA0NC0uMDg3LS4xMjgtLjE0Mi0uMjUxLS4xNjctLjE2LS4wMTgtLjMzLS4wMTMtLjUxNC4wMTZtLTEyLjY1MiAxMS40MjVjMC01LjM2My0xLjU1MS05LjYzLTEuNzctOS43OTJjLS4wMDUtLjAwNS0uMDE1LS4wMDktLjAyMi0uMDExYy0uMDk0LS4wNS0uMTY2LS4wNjgtLjIzNi0uMDczYy0uMTMtLjAxMS0uMjMzLS4wMS0uMy0uMDA1Yy0uMzQxLjA0OC0uNjI4LjI1Ny0uODY3LjYxMWMtLjIyOC4zNTQtLjMzOC43MzQtLjMzOCAxLjE0MXY2LjI1Yy0uMDgzIDMuMjA5LjcwNiA1LjkyNCAyLjQ4MyA4LjEyOWMxLjc4OSAyLjIwMSAzLjkxIDMuMjc2IDYuMzczIDMuMjQ0Yy45ODctLjAxNCAxLjgyLS4yMzQgMi41LS42NTdjLjQ0OC0uMjc4Ljc3OC0uNjQ4Ljk5LTEuMTEyYy4yMTUtLjQ2OC4zMjgtLjk1NC4zNDQtMS40NTljLjAyLS43LS4xOTMtMS4yNDctLjY0NC0x.NjQ1Yy0uNDUuMzk3LTEuMTIzLS41OTItMi4wMTktLjU4N2MtLjQ5OS4wMTUtLjk1MS4xNC0xLjM1NS4zN2MtLjQxNC4yMzEtLjcxNi41NDctLjkwMy45NDFjLS4xNjMuMzI1LS4yNTEuNjc3LS4yNjUgMS4wM2MtLjAxNy4zODguMDQxLjc2My4xNzUgMS4xMmMyLjY1LjM1NS4zMTcuNjc1LjU1Mi45NTljLjIyNy4yOTUuNDU0LjUyMi42ODMuNjgzYy4yMjkuMTYyLjQ1OC4yNjEuNjkuMjk5Yy4yMzIuMDQuNDYuMDQuNjg1LjAxMWMuMjI3LS4wMjcuNDUyLS4wNzMuNjczLS4xMzlhMC4yMDYuMjA2IDAgMCAwIC41NjUtLjI1NGMuMjA1LS4wODguMzY3LS4xMzUuNDg2LS4xNDJjLjE1Ni0uMDA5LjMyNS0uMDA3LjUwNy4wMDZjLjQyNC4wMjcuODE3LjA5MyAxLjE3Ny4yMDNjLjM2My4xMS42NjcuMjUzLjkxMy40MjJjLjI0OS4xNzEuNDM2LjMxMi41NjEuNDI0bC4zNjQuMzE2Yy4wMS4wMTEuMDIuMDI0LjAzLjAzNi4wMS4wMS4wMTguMDE5LjAyNi4wMjdjLjAxNC4wMTQuMDI3LjAyNC4wMzYuMDI5bC4xOTQuMTE2Yy0uNzcyLjY3MS0zLjUyNC0xLjczLTMuNDU0LTUuNjkybC0uMDA4LS41OTJsLS4wMDUtLjM0M2MuMDExLS4wMTUuMDEzLS4wMjcuMDExLS4wMzdsLS4wMy0uMTE5Yy0uMDE3LS4wNjYtLjAyNy0uMTA3LS4wMy0uMTIyYy0uMDEzLS4wNTUtLjA1NC0uMDktLjEyNi0uMTA4Yy0uMDI4LS4wNDctLjA3NC0uMDU4LS4xMjYtLjAxMS0uMDQ2LS4wMTMtLjA3Ni0uMDA4LS4wOWMuMDA1LS4wMS4wMjEtLjAyMS4wNDEtLjAzM2MuMDc3LS4wNS4xNzctLjA3NS4yOTUtLjA3NWMuMDU1IDAgLjExNy4wMTIuMTg3LjAzN2MuMDcuMDI2LjEyNS4wNS4xNjcuMDc2Yy4wNDQuMDI4LjA3Ny4wNTEuMTA1LjA2OXMuMDM3LjAxNC4wNS4wMjFjLjAxMi4wMS4wMjMuMDIyLjAzMy4wMzZjLjAxLjAxMy4wMTUuMDI2LjAxNi4wM2MtLjcyNy00LjEwNS0uNjYyLTYuNzAzLjI5Mi04LjY2OWMuOTYzLTEuOTY4IDIuNjU0LTMuMDY1IDMuOTEzLTMuMzU1Yy44NzMtLjE5NSAxLjcwMy0uMjE2IDIuNDYyLS4wNjFjLjc3Mi4xNTcgMS40MDcuNDc5IDEuODY2Ljg1MmMuNDU3LjM3Ni43NjguODU1Ljk0MiAxLjQzNy4xNzYuNTg2LjIyNCAxLjE3Ny4xNzUgMS43NzYtLjA1Mi41OTUtLjE1NCAxLjExNy0uMzEgMS41NTNjLS4xNTYuNDQtLjM2Mi44MzQtLjYxNyAxLjE3OWMtLjI1NC4zNDMtLjU2NC42MjItLjkzMS44MjRjLS4zNjQuMjAzLS43MDUuMzEtLjg4LjMyNi0uMDc0LjAwNC0uMTE2LjAwNS0uMTI1LjAwNWwtLjAyLS4wMDZjLS4wMTctLjAwNS0uMDMzLS4wMDgtLjA0Ni0uMDQ3Yy0uMDIzIDAtLjA0NC4wMDMtLjA2NC4wMDdsLS4wMTcuMDA0Yy0uMDMyLjAwNy0uMDUyLjAxLS4wNjYuMDEyYy0uMDE5LjAwMy0uMDM4LjAwNC0uMDU2LjAwNC0uMDE4IDAtLjAzMy0uMDAxLS4wNDYtLjAwM2MtLjAxMy0uMDAzLS4wMi0uMDA1LS4wMjMtLjAwNS0uMDE2IDAtLjAyMy0uMDAxLS4wMjMtLjAwMmwtLjAxLS4wMDUtLjAxLS4wMDZjLS4wMTEtLjAwOC0uMDIxLS4wMTUtLjAyOC0uMDJhLjIwNC4yMDQgMCAwIDEtLjAyMS0uMDExYy0uMDM2LS4wMzYtLjA2Ni0uMDczLS4wODctLjEwN2MtLjAyMi0uMDM2LS4wMzUtLjA2Mi0uMDM3LS4wNzhjLS4wMDItLjAyMi0uMDA1LS4wNDctLjAwOC0uMDc5Yy0uMDI4LS4wNzQtLjA0Mi0uMTMzLS4wNDItLjE3NyAwLS4wNi4wMTItLjExNC4wMzUtLjE2Mi4wNDItLjA4Ny4xMjItLjE0NS4yMzktLjE2OS4xMDktLjAyMi4yMjUtLjAxOS4zNDYuMDExbC40MzcuMTI4Yy4xNDQuMDQyLjI4LjA2OC40MDcuMDc5Yy4xMy4wMTIuMjMyLjAxNC4zMDkuMDA4Yy4wNzctLjAwNi4xNDItLjAxOC4xOTctLjAzMmMuMDc0LS4wMTguMTI4LS4wMzUuMTYzLS4wNmMuMDQtLjAyNC4wNjItLjA0OC4wNjUtLjA3MmMuMDAyLS4wMi4wMDMtLjA0Ni4wMDMtLjA3OGMwLS4xNTUtLjA1Ny0uMzM1LS4xNjctLjU0NC0uMTA5LS4yMDctLjI2LS4zNjktLjQ1Mi0uNDg3Yy0uMjEtLjEyNi0uNDU1LS4yMDMtLjcxOS0uMjI4Yy0uMjYyLS4wMjQtLjUwOS0uMDA0LS43NDcuMDU5bC0uNTE2LjEzMmMtLjMxNy4wODQtLjU5OC4xNjItLjgyOC4yMzZjLS4yNTMuMDc4LS40NDQuMTQxLS41NzQuMTg5Yy0uMTkzLjA3NC0uMzA0LjExNS0uMzM0LjEyM2MtLjEwOS4wMjctLjIwNy4wNC0uMjk1LjAzOGMtLjA4OC0uMDAyLS4xNjQtLjAwOC0uMjI1LS4wMTdsLS4wNi0uMDFjLS4wMTYtLjAwMi0uMDI1LS4wMDItLjAzMi0uMDAyYy0uMDI1IDAtLjA0Ny4wMDMtLjA2NC4wMDVjLS4wMTguMDAyLS4wMzQuMDExLS4wNDguMDExYy0uMDA2LjAxLS4wMS4wMi0uMDEzLjAzYy0uMDA0LjAxLS4wMDUtLjAyLS4wMDQuMDMxYy4wMDMuMDI0LjAxLjA0NS4wMjEuMDYyYy4wMTIuMDIuMDI5LjAzNi4wNDcuMDQ5Yy4wNDEuMDI1LjA3OC4wNDEuMTEuMDQ4bC4xNzguMDU1Yy40ODcuMTQ3Ljk2LjIxIDEuNDE4LjE5Ny40NS0uMDEyLjg3LS4xMjMgMS4yNTQtLjMyMmwuNjMxLS4zMjFjLS40OTMtLjM0MS0uODcyLS43MzYtMS4xMzQtMS4xOC0uMjY1LS40NDctLjQyNS0uOTMyLS40NzItMS40NTMtLjA0Ni0uNTI0LS4wMjktMS4wMzYuMDU3LTEuNTQxYy4wODctLjQ5NS4yNjctLjkzNy41MzctMS4zMjdjLjI2Ni0uMzg3LjYwNy0uNzEzLjk4NS0uOTQ2Yy4zOC0uMjM0LjcxMi0uMzY0Ljk5LS4zOThjLjEzNS0uMDE3LjI0OC0uMDE3LjMzOCAwem0uNzQ3IDEuMjU2YzAtLjAxMS4wMDctLjE4LjAyMi0uMDYyYy4wNDEtLjAwMy4wMTctLjAwMi4wMy0uMDAzYy4wMTYtLjAwMi4wMjgtLjAwMi4wMzdjLS4wMDMgLjAwMS4wMDMtLjAwMi4wNjItLjAwM2MuMDE2LS4wMDEuMDItLjAwMS4wMjItLjAwMWwuMDIzIDBjLjAyOCAwIC4wNDctLjAwMi4wNTctLjAwMmMuMDIxIDAgLjAzNiAwIC4wNDQuMDAxYy4xMjUuMDM1LjIxNi4wNy4yNjYuMTE0Yy4wMTcuMDIuMDI2LjAzOS4wMjYuMDYzYy0uMDAxLjAyLS4wMDMuMDM5LS4wMDYuMDU2Yy0uMDIxLjEyMS0uMDcuMjIzLS4xNDkuMzA1Yy0uMDc2LjA4NC0uMTU2LjEzNi0uMjQtLjE1Mi0uMDgzLS4xNS0uMDYtLjI1LS4xMDQtLjI5Mi0uMDQzLS4wNDQtLjA4LS4wNzQtLjExLS4wOTFjLS4xMDQtLjA2LS4yMDctLjA5Ny0uMzE4LS4xMS0uMTA5LS4wMTItLjIzNy0uMDA5LS4zODUuMDFjLS4wNTUuMDA3LS4wOTYuMDEyLS4xMjMuMDE1bC0uMTA1LjAwNWMtLjA1NC4wMDQtLjA5LjAwNS0uMTA4LjAwNWwtLjA2Mi0uMDA0Yy0uMDU1LS4wMDMtLjEwNC0uMDA2LS4xNDgtLjAxYy0uMDU1LS4wMDMtLjA5NC0uMDA1LS4xMTYtLjAwNWwtLjAxOS4wMDJjLS4wMiAwLS4wMy4wMDMtLjAzMi4wMDZsLS4wMTEuMDA2Yy0uMDA4LjAwNi0uMDEuMDE0LS4wMDcuMDI1Yy4wMS4wMTEuMDI5LjAyMy4wNTYuMDM0Yy4wMjYuMDEuMDQyLjAxNS4wNDYuMDE3bC4yMjguMDkxYy4xMjQuMDUuMjI1LjA3Ni4zMDMuMDc4Yy4wMTcuMDAxLjAyOS4wMDEuMDMzLjAwMWwtLjAyNi0uMDExYy0uMDI5LS4wMTUtLjA1MS0uMDIyLS4wNjctLjAyMnYtLjAxMmMtLjE4LS4xNTItLjM0LS4zMjQtLjQ4LS41MTYtLjEyMi0uMTY2LS4yLS4zMy0uMjMyLS40OTYtLjA3LS40NTYtLjAyLTEuMDc5LjEzMi0xLjcwNWMuMDkzLS4yOTguMjc0LS41Ny41MjQtLjgwM2MuMjUyLS4yMzMuNTQ1LS40MjYuODU5LS41NzNjLjMxNS0uMTQ3LjY3LS4yNjUgMS4wNjctLjMyYy4zOTctLjA1NC44MzQtLjA1MiAxLjI2Ny4wMDZsLjcwOC4wNzljLjI4NS4wMy41NDQuMDU1Ljc3NS4wNThsLjE3LjAwM2MuMDIgMCAuMDM3LS4wMDcuMDUxLS4wMjNsLS4wMDItLjAwMWMtLjAxNC0uMDA4LS4wMjQtLjAxMy0uMDMtLjAxNGwtLjA3Mi0uMDE4Yy0uMDM4LS4wMS0uMDcyLS4wMjItLjEwNy0uMDM1Yy0uMDM2LS4wMTQtLjA2NS0uMDI3LS4wODctLjAzMWwtLjA1OC0uMDA5Yy0uMDU1LS4wMDgtLjA5Ny0uMDE0LS4xMjMtLjAxN2wtLjE2Ny0uMDItLjE2NC0uMDIyYy0uMTQyLS4wMDUtLjI1LS4wMDUtLjMzNiAwYy0uMDg1LjAwNi0uMTQyLjAyLS4xNzkuMDQyYy0uMDM4LjAyMi0uMDY0LjA1Mi0uMDc3LjA4MmwtLjAyNC4wNjJjLS4wMDcuMDM0LS4wMDguMDY5LS4wMDMuMTA1bC4wMzEuMDgyYy4wMjQuMDYzLjA2Mi4xMTcuMTEzLjE1OC4wNDQuMDQyLjA5OC4wNjkuMTYzLjA4bC40OTUuMTQ1Yy4yMDcuMDY2LjQxMy4xMS42MTguMTM2Yy4yMDcuMDI2LjM5OS4wMy41NzcuMDExbC40NDQtLjAyNWMtLjA0LjAwMi0uMDc0LjAwNC0uMTAyLjAwNWMtLjAzLjAwMi0uMDQ3LjAwMy0uMDUyLjAwM2wtLjAyNy0uMDA0Yy0uMDM0LS4wMDQtLjA2Mi0uMDA5LS4wODctLjAxMmwtLjA0NC0uMDA2Yy0uMDE3LS4wMDMtLjAyNi0uMDA0LS4wMjctLjAwNGwtLjAyLS4wMDJjLS4wMS0uMDAxLS4wMjQtLjAwMi0uMDQyLS4wMDItLjAyIDAtLjMzNy4wMDItLjA1Mi4wMDZsLS4wMTEuMDA1Yy0uMDA2LjAwMy0uMDEuMDA2LS4wMTMuMDExYy0uMDEuMDIxLS4wMjcuMDQzLS4wNTEuMDY0Yy0uMDI0LjAyLS4wNDYuMDMyLS4wNjYuMDM2Yy0uMDM2LjA1NS0uMTE0LjExMi0uMjM3LjE3LS4xMjQuMDU3LS4yNTQuMDk2LS4zOTguMTE2Yy0uNDEuMDU3LS44NTIuMDY4LTEuMzEzLjAyNi0uNDY3LS4wNDMtLjkwNS0uMTY3LTEuMzA0LS4zNy0uMzk5LS4yMDItLjc1NS0uNDYyLTEuMDYyLS43ODlsLS40MzctLjQ5M2MtLjM4Ny0uNTQ2LS42NDEtMS4xOC0uNzU3LTEuODY5Yy0uMTE5LS42OS0uMTA3LTEuMzc4LjA0Mi0yLjA2N2MuMTc1LS43NTMuNTE1LTEuNDExLjk3Ni0xLjkzMWMuNDYtLjUyMyAxLjAxNi0uOTM3IDEuNzA4LTEuMjI3Yy42OTQtLjI5IDEuNDYzLS40MTYgMi4yNzItLjM2NWMuODI3LjA1MSAxLjYxNS4yNjEgMi4zNTUuNjExbC41MDgtLjE1NGMtLjAyNy0uMDQ3LS4wNi0uMDE1LS4wOTgtLjAxNS0uMDM2LS4wMDQtLjA1OC0uMDA1LS4wNjUtLjAwNXoiLz48L3N2Z34" class="icon" width="24" height="24"/></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Guesthouse | All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up animations
+            const faders = document.querySelectorAll('.fade-in-up');
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: "0px 0px -50px 0px" // Start animation 50px before it hits bottom of viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+
+</body>
+</html>
