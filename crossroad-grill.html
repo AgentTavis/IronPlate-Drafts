@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Crossroad Grill: Waxhaw's favorite Mom and Pop bar and grill, serving old-fashioned food, unbeatable hot dogs, and true Southern comfort. Home of the best hot dogs in town!">
+    <title>Crossroad Grill | Waxhaw, NC - Best Hot Dogs in Town!</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Design System Colors */
+        :root {
+            --bg-main: #181410;
+            --bg-secondary: #201C18; /* Slightly lighter for alternating sections */
+            --brand-color: #5C4033;
+            --accent-color: #C19A6B;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --footer-bg: #100E0C;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3rem; } /* Base for larger screens, adjusted in hero */
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2.2rem; }
+        h4 { font-size: 1.8rem; }
+
+        p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Padding */
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Section Header Styling */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .section-headline {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-top: 0.5rem;
+        }
+
+        /* Utilities */
+        .text-center { text-align: center; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .grid { display: grid; gap: 2rem; }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); }
+
+        /* Fade-in-up animation (Intersection Observer will add 'visible' class) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(24, 20, 16, 0.95); /* Semi-transparent dark background */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Keep button content on one line */
+            margin-left: 2rem;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mobile Nav Toggle (hidden by default) */
+        .nav-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 2rem;
+            color: var(--text-heading);
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, #201C18 70%, rgba(92, 64, 51, 0.1) 100%); /* Rich dark gradient with subtle brand color hint */
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(193, 154, 107, 0.05) 0%, transparent 50%); /* Subtle glow */
+            z-index: -1;
+        }
+
+        .hero-content {
+            padding: 0 1rem;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: 2px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--cccccc);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-tagline {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            max-width: 800px;
+        }
+
+        .hero-rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(193, 154, 107, 0.15); /* Accent color, low opacity */
+            color: var(--accent-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(193, 154, 107, 0.3);
+        }
+        .hero-rating-badge::before {
+            content: '⭐';
+            margin-right: 0.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(92, 64, 51, 0.05); /* Brand color at very low opacity */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+        }
+
+        .social-proof-item strong {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .social-proof-item span {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            font-weight: 400;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        
+        .story-text h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-highlight-quote {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            margin-top: 2rem;
+            font-style: italic;
+            color: var(--text-body);
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+        .story-highlight-quote::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .story-highlight-quote p {
+            font-size: 1.15rem;
+            margin-bottom: 0.5rem;
+            padding-left: 2rem; /* Make space for the quote mark */
+        }
+        .story-highlight-quote span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .stat-card strong {
+            display: block;
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card span {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h4 {
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .why-card h4 {
+            color: var(--text-heading);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Left border accent */
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            padding-left: 2rem; /* Make space for the quote mark */
+        }
+
+        .testimonial-card .author {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .location-info .map-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .location-info .map-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .location-info h3, .hours-info h3 {
+            margin-bottom: 1rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-info .address {
+            color: var(--text-body);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            background-color: rgba(92, 64, 51, 0.1); /* Subtle brand color tint */
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-info .phone-number {
+            display: block;
+            font-size: 1.4rem;
+            font-family: 'Oswald', sans-serif;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .hours-info .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--accent-color) 100%); /* Brand color gradient */
+            padding: 80px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-heading);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .btn-cta-dark {
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            border: 2px solid var(--bg-main);
+            padding: 1.2rem 3rem;
+        }
+        .final-cta .btn-cta-dark:hover {
+            background-color: var(--bg-secondary);
+            border-color: var(--bg-secondary);
+            transform: scale(1.02);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--text-secondary);
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer-tagline {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .social-icons {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            font-size: 1.8rem;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        /* Placeholder for social icons - using simple letters for now, in a real site, FontAwesome or SVGs would be used */
+        .social-icons a[aria-label="Facebook"]::before { content: 'F'; }
+        .social-icons a[aria-label="Instagram"]::before { content: 'I'; }
+        .social-icons a[aria-label="Twitter"]::before { content: 'T'; }
+        .social-icons a[aria-label="Yelp"]::before { content: 'Y'; }
+
+
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .header-call-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                margin-left: 1rem;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-content {
+                grid-template-columns: 1fr;
+            }
+            .story-stats-grid {
+                margin-top: 2rem;
+            }
+            .story-highlight-quote {
+                margin-top: 4rem; /* More space when stacked */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .sticky-header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 1rem 1.5rem;
+                justify-content: center;
+            }
+            .sticky-header .header-logo {
+                flex-basis: auto; /* Allow logo to size naturally */
+                order: 1; /* Keep logo at start */
+                margin-bottom: 0;
+                text-align: left;
+                flex-grow: 1; /* Let it take available space */
+            }
+            .header-nav {
+                flex-basis: 100%; /* Nav takes full width when expanded */
+                order: 3; /* Move nav to bottom when expanded */
+                flex-direction: column;
+                display: flex; /* Keep flex context for toggle */
+            }
+            .nav-toggle {
+                display: block; /* Show toggle button */
+                order: 2; /* Place toggle next to logo */
+            }
+            .nav-links {
+                display: none; /* Hide desktop nav by default */
+                flex-direction: column;
+                width: 100%;
+                text-align: center;
+                background-color: rgba(24, 20, 16, 0.98);
+                padding: 1rem 0;
+                margin-top: 1rem;
+            }
+            .nav-links.active {
+                display: flex; /* Show nav links when active */
+            }
+            .nav-links li {
+                margin-bottom: 0.75rem;
+            }
+            .header-call-btn {
+                display: none; /* Hide top-right call button on small mobile */
+                /* Add a call button to the mobile nav if desired, for now it's just removed */
+            }
+            .nav-links.active .header-call-btn {
+                 display: block; /* Show the call button inside the mobile nav */
+                 margin: 1rem auto 0.5rem auto; /* Center button in mobile nav */
+                 width: fit-content;
+            }
+
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .social-proof-item {
+                max-width: 100%;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+            .story-text h3 {
+                font-size: 1.8rem;
+            }
+            .menu-card h4 {
+                font-size: 1.5rem;
+            }
+            .why-card h4 {
+                font-size: 1.7rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .header-logo {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Crossroad Grill</a>
+        <nav class="header-nav">
+            <button class="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+                <li><a href="tel:+17042430683" class="header-call-btn">CALL (704) 243-0683</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Waxhaw, NC</p>
+            <h1>CROSSROAD GRILL</h1>
+            <p class="hero-tagline">Mom and Pop restaurant located smack dab in the middle of NC! Old fashioned food with old fashioned prices! Home of the best hot dogs in town!</p>
+            <div class="hero-rating-badge">4.6 Stars (8 Reviews)</div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">
+                <strong>4.6</strong>
+                <span>Star Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>8+</strong>
+                <span>Loyal Reviews</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>The Best</strong>
+                <span>Local Hot Dogs</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-headline">A Legacy of Flavor, Right Here in Waxhaw.</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="story-text fade-in-up">
+                    <h3>Taste the Tradition, Feel the Family.</h3>
+                    <p>Crossroad Grill isn't just a place to eat; it's a cornerstone of the Waxhaw community. As a beloved Mom and Pop establishment, we've poured our heart into serving up old-fashioned food with old-fashioned prices. We believe in honest, delicious meals that bring people together, just like they used to.</p>
+                    <p>While Tripadvisor highlights the diverse dining scene with 1699 traveler reviews across 58 Waxhaw restaurants, we're proud to be one that locals consistently choose, renowned for our welcoming atmosphere and, of course, the best hot dogs in town! Every dish is a taste of home, prepared with care and tradition, making every visit a memorable one.</p>
+                    <div class="story-highlight-quote">
+                        <p>"This place is a true gem! Their hot dogs are legendary, and the whole atmosphere just feels like coming home. You won't find better comfort food in Waxhaw."</p>
+                        <span>— A Happy Local</span>
+                    </div>
+                </div>
+                <div class="story-stats-grid fade-in-up">
+                    <div class="stat-card">
+                        <strong>4.6</strong>
+                        <span>Star Rating</span>
+                    </div>
+                    <div class="stat-card">
+                        <strong>8+</strong>
+                        <span>Verified Reviews</span>
+                    </div>
+                    <div class="stat-card">
+                        <strong>The Best</strong>
+                        <span>Hot Dogs in Town</span>
+                    </div>
+                    <div class="stat-card">
+                        <strong>Mom & Pop</strong>
+                        <span>Tradition</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Menu</span>
+                <h2 class="section-headline">Classic Comfort, Unbeatable Value.</h2>
+                <p>Simple, hearty, and always delicious. We focus on classic Bar and Grill favorites made with care.</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h4>The Waxhaw Dog</h4>
+                    <p>Our famous hot dog, the one everyone raves about! Perfectly grilled and served just how you like it.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Classic Grill Burger</h4>
+                    <p>A juicy, seasoned patty grilled to perfection, served with your choice of classic toppings.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Crispy Golden Fries</h4>
+                    <p>The perfect companion to any meal. Hot, crispy, and seasoned just right.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Homestyle Chili</h4>
+                    <p>A hearty bowl of our comforting chili, made from a secret family recipe. Perfect on its own or over a hot dog.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Daily Blue Plate Special</h4>
+                    <p>Ask about today's rotating special – a home-cooked meal that changes daily to keep things fresh.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Southern Sweet Tea</h4>
+                    <p>A refreshing glass of authentic Southern sweet tea, brewed fresh daily.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Hearty Breakfast Platter</h4>
+                    <p>Start your day right with eggs, bacon, sausage, and your choice of grits or home fries. Served daily from 5 AM!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Grilled Cheese Sandwich</h4>
+                    <p>Classic comfort, melted to perfection on buttered toast. A simple pleasure.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h4>Onion Rings</h4>
+                    <p>Crispy, golden-fried onion rings, a perfect appetizer or side dish.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Why Crossroad Grill?</span>
+                <h2 class="section-headline">Experience the Heart of Southern Comfort.</h2>
+                <p>More than just food, it's an experience built on tradition, quality, and community.</p>
+            </div>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up">
+                    <h4>Unbeatable Hot Dogs</h4>
+                    <p>Our tagline says it all: we're home to the best hot dogs in Waxhaw! Crafted with care and generations of flavor, it's a taste you won't forget and a local legend.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h4>Mom & Pop Charm</h4>
+                    <p>Forget the chains. We're a true Mom and Pop establishment, where every guest feels like family and every meal is made with love. It's old-fashioned hospitality at its finest, recognized by our 4.6-star rating.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h4>Old-Fashioned Value</h4>
+                    <p>Enjoy delicious, hearty meals without breaking the bank. We believe great food shouldn't cost a fortune, offering old-fashioned prices for old-fashioned goodness that keeps our customers coming back.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">What Our Customers Say</span>
+                <h2 class="section-headline">Real Reviews, Real Flavors.</h2>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"The hot dogs here are truly the best I've ever had! Crossroad Grill is my go-to for a comforting, delicious meal every time. The staff are always so friendly, too."</p>
+                    <span class="author">— Emily R.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Came in for breakfast, stayed for the atmosphere. This mom-and-pop spot nails it with classic grill fare and super friendly service. Their breakfast platter got my day started right!"</p>
+                    <span class="author">— Mark T.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Finally, a place that delivers on 'old fashioned prices' AND 'old fashioned food'. Their chili cheese dogs are out of this world. A true Waxhaw treasure I'm glad I found!"</p>
+                    <span class="author">— Jessica L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="location-hours">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Find Us</span>
+                <h2 class="section-headline">Your Table Awaits in Waxhaw.</h2>
+            </div>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Visit Crossroad Grill</h3>
+                    <p class="address">
+                        315 N Broome St<br>
+                        Waxhaw, NC 28173, USA
+                    </p>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3246.069438018247!2d-80.74900702381156!3d34.93664537281313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885698b60b134d19%3A0x6d2c4b574a49c4e0!2sCrossroad%20Grill!5e0!3m2!1sen!2sus!4v1701726000000!5m2!1sen!2sus"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=315+N+Broome+St,+Waxhaw,+NC+28173,+USA" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Hours of Operation</h3>
+                    <a href="tel:+17042430683" class="phone-number">(704) 243-0683</a>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday</td><td>5:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Tuesday</td><td>5:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Wednesday</td><td>5:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Thursday</td><td>5:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Friday</td><td>5:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Saturday</td><td>8:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Sunday</td><td>9:00 AM – 7:00 PM</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+17042430683" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Miss Out on Waxhaw's Best Hot Dogs and Homestyle Comfort!</h2>
+            <a href="#location-hours" class="btn btn-cta-dark">VISIT US TODAY</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">Crossroad Grill</span>
+            <p class="footer-tagline">Mom and Pop restaurant located smack dab in the middle of NC! Old fashioned food with old fashioned prices! Home of the best hot dogs in town!</p>
+            <ul class="social-icons">
+                <li><a href="#" aria-label="Facebook"></a></li>
+                <li><a href="#" aria-label="Instagram"></a></li>
+                <li><a href="#" aria-label="Twitter"></a></li>
+                <li><a href="#" aria-label="Yelp"></a></li>
+            </ul>
+            <p>&copy; 2026 Crossroad Grill. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for smooth scrolling and fade-in animations -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile nav if open
+                if (window.innerWidth <= 768 && document.querySelector('.nav-links').classList.contains('active')) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0.1, // Element is visible by 10%
+            rootMargin: "0px 0px -50px 0px" // Start appearing a bit earlier
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Mobile Navigation Toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close nav on outside click for mobile
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768 && navLinks.classList.contains('active') && 
+                !navLinks.contains(event.target) && !navToggle.contains(event.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Ensure header call button is clickable when nav is open on mobile
+        const headerCallBtn = document.querySelector('.header-call-btn');
+        if (headerCallBtn) {
+            headerCallBtn.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
