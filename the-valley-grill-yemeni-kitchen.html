@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Valley Grill & Yemeni Kitchen - Indian Trail, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-alt: rgba(255, 255, 255, 0.03); /* Lighter for alternating sections */
+            --brand-color: #FFF475;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4rem; } /* Base for hero, overridden by specific hero styles */
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem; /* Default body font size */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #e5d76d; /* Slightly darker yellow */
+            border-color: #e5d76d;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+        }
+
+        /* Section Labels */
+        .section-label {
+            color: var(--brand-color);
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Flexbox utilities */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .justify-center { justify-content: center; }
+        .align-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-4 { gap: 1rem; }
+        .gap-8 { gap: 2rem; }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            margin-left: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .sticky-header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none; /* No border for header button */
+        }
+        .sticky-header .btn-call:hover {
+            background-color: #e5d76d;
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(255, 244, 117, 0.05) 50%, var(--bg-dark) 100%);
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 244, 117, 0.3);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 244, 117, 0.15);
+            color: var(--brand-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero .rating-badge svg {
+            margin-right: 8px;
+            fill: var(--brand-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(255, 244, 117, 0.04); /* Brand color low opacity */
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .social-proof .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+        }
+        .social-proof .proof-item span {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .our-story .story-content {
+            font-size: 1.1rem;
+        }
+        .our-story .quote-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px 30px;
+            margin-top: 40px;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--text-body);
+            position: relative;
+        }
+        .our-story .quote-card::before {
+            content: "“";
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            color: rgba(255, 244, 117, 0.2);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            line-height: 1;
+            z-index: 0;
+        }
+        .our-story .quote-card p {
+            position: relative;
+            z-index: 1;
+        }
+        .our-story .quote-card footer {
+            margin-top: 15px;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 50px;
+        }
+        .our-story .stat-card {
+            text-align: center;
+            padding: 30px;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            color: var(--text-heading);
+        }
+        .our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .our-story .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-light-alt);
+        }
+        .menu-section .menu-description {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.15rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .menu-section .menu-featured {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        .menu-section .menu-featured-card {
+            border-left: 5px solid var(--brand-color);
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-section .menu-featured-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+        .menu-section .menu-featured-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+        .menu-section .menu-featured-card p {
+            color: var(--text-body);
+            margin-bottom: 0;
+            font-size: 1rem;
+        }
+        .menu-section .btn-full-menu {
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .why-choose-us .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+        }
+        .why-choose-us .feature-card h3 {
+            color: var(--brand-color);
+            margin-top: 20px;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+        .why-choose-us .feature-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+        .why-choose-us .feature-card svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--brand-color);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-light-alt);
+        }
+        .testimonials .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .testimonials .testimonial-card {
+            border-left: 5px solid var(--brand-color);
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            font-style: italic;
+            position: relative;
+        }
+        .testimonials .testimonial-card::before {
+            content: "“";
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: rgba(255, 244, 117, 0.2);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            line-height: 1;
+            z-index: 0;
+        }
+        .testimonials .testimonial-card p {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .testimonials .testimonial-card footer {
+            font-weight: 600;
+            color: var(--brand-color);
+            text-align: right;
+            font-style: normal;
+        }
+        .testimonials .testimonial-card .rating {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+        .testimonials .testimonial-card .rating svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--brand-color);
+            margin-left: 3px;
+        }
+
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+        .location-hours .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .location-hours .location-info a {
+            font-weight: 600;
+        }
+        .location-hours .map-placeholder {
+            background: linear-gradient(45deg, rgba(255,244,117,0.1), rgba(17,17,17,0.8));
+            height: 300px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 30px;
+            border: 1px solid var(--card-border);
+            font-size: 1rem;
+        }
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+        .location-hours .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .location-hours .hours-table td {
+            color: var(--text-body);
+        }
+        .location-hours .hours-table tr:last-child td,
+        .location-hours .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .location-hours .phone-cta {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .location-hours .phone-cta .btn {
+            font-size: 1.1rem;
+            padding: 18px 40px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(255, 244, 117, 0.1) 0%, rgba(255, 244, 117, 0.03) 50%, rgba(255, 244, 117, 0.1) 100%);
+            text-align: center;
+            padding: 120px 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            text-shadow: 0 0 15px rgba(255, 244, 117, 0.2);
+        }
+        .final-cta .btn {
+            font-size: 1.2rem;
+            padding: 20px 50px;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c;
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .footer .tagline {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 12px;
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .our-story .grid-2-col,
+            .location-hours .grid-2-col {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story .story-content,
+            .location-hours .location-info {
+                order: 1; /* For better flow on mobile */
+            }
+            .our-story .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            section {
+                padding: 60px 0;
+            }
+            .social-proof .flex {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-choose-us .grid-3-col,
+            .testimonials .grid-3-col {
+                grid-template-columns: 1fr;
+            }
+            .menu-section .menu-featured {
+                grid-template-columns: 1fr;
+            }
+            .location-hours .hours-table {
+                font-size: 0.95rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">The Valley Grill</div>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:(704) 218-2210" class="btn btn-call">CALL (704) 218-2210</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="container fade-in-up">
+            <p class="location">Indian Trail, NC</p>
+            <h1>The Valley Grill & Yemeni Kitchen</h1>
+            <p class="tagline">SkyTab Restaurant</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.8 stars (346 reviews)
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container flex justify-center align-center gap-8 fade-in-up">
+            <div class="proof-item">4.8 Stars<span>(346 Reviews)</span></div>
+            <div class="proof-item">1000+<span>Happy Guests</span></div>
+            <div class="proof-item">A True<span>Local Favorite</span></div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container fade-in-up">
+            <p class="section-label">Our Journey</p>
+            <h2>More Than Just a Meal: Our Story of Flavor and Community.</h2>
+            <div class="grid-2-col">
+                <div class="story-content">
+                    <p>The Valley Grill & Yemeni Kitchen is a beloved local spot in Indian Trail, NC, renowned for bringing together the best of classic American grill fare with the rich, authentic flavors of Yemeni cuisine. Since its inception, it has become a true community hub, offering a diverse menu, warm hospitality, and a welcoming atmosphere where every guest feels like family.</p>
+                    <p>Our passion lies in crafting dishes that satisfy every palate, from juicy burgers and steaks to aromatic Mandi and flavorful Salta. We pride ourselves on using fresh ingredients and traditional techniques to ensure every bite is an experience to remember. Come join our family table and discover why we're a cherished destination for food lovers.</p>
+                    <div class="quote-card">
+                        <p>"Every visit to The Valley Grill is an experience. The Yemeni dishes are simply phenomenal, and their grill classics never disappoint. It's truly a unique and cherished spot in our town."</p>
+                        <footer>— A Happy Local</footer>
+                    </div>
+                </div>
+                <div class="story-image">
+                    <div style="background: linear-gradient(45deg, rgba(255,244,117,0.1), rgba(17,17,17,0.8)); height: 450px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); font-style: italic; border: 1px solid var(--card-border);">
+                        [Image: Warm, inviting interior or signature dish]
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-up" style="margin-top: 80px;">
+                <div class="stat-card">
+                    <div class="number">4.8</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">346</div>
+                    <div class="label">Raving Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">7</div>
+                    <div class="label">Days a Week</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container fade-in-up">
+            <p class="section-label">Our Culinary Offerings</p>
+            <h2>A Fusion of American Grill Favorites & Authentic Yemeni Cuisine.</h2>
+            <p class="menu-description">Explore our diverse menu, crafted with passion and the finest ingredients. From sizzling American classics to exotic Yemeni delights, there's something to tantalize every taste bud. Since no specific menu items are available at the moment, here's a glimpse into our unique culinary world.</p>
+            <div class="menu-featured">
+                <div class="menu-featured-card">
+                    <h3>Grill Favorites</h3>
+                    <p>Indulge in classic American comfort food, expertly prepared. Juicy burgers, tender steaks, and hearty sandwiches await.</p>
+                </div>
+                <div class="menu-featured-card">
+                    <h3>Yemeni Delights</h3>
+                    <p>Embark on a culinary journey with our authentic Yemeni dishes, rich in flavor and tradition. Experience the true taste of Yemen.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="btn btn-primary btn-full-menu">VIEW FULL MENU</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container fade-in-up">
+            <p class="section-label">Why Dine With Us?</p>
+            <h2>Experience the Difference at The Valley Grill & Yemeni Kitchen.</h2>
+            <div class="grid-3-col">
+                <div class="feature-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zM9.999 17l.001-6h2v4h-2l-.001 2zM12 7c-1.103 0-2 .897-2 2s.897 2 2 2 2-.897 2-2-.897-2-2-2z"/></svg>
+                    <h3>Authentic Yemeni Flavors</h3>
+                    <p>Savor the rich, aromatic spices and time-honored recipes of Yemen, meticulously prepared by our skilled chefs.</p>
+                </div>
+                <div class="feature-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-1-5h2v-4h-2zm0-6h2V7h-2z"/></svg>
+                    <h3>Classic American Grill</h3>
+                    <p>From juicy burgers to perfectly grilled steaks, enjoy your favorite American comfort foods cooked to perfection.</p>
+                </div>
+                <div class="feature-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm-2-9c0 .552.448 1 1 1h.5v2h-1v2h3v-4c0-.552-.448-1-1-1h-.5v-2h1V7h-3v2z"/></svg>
+                    <h3>Exceptional Local Service</h3>
+                    <p>Join a community favorite with a 4.8-star rating, known for warm hospitality and a welcoming atmosphere for all.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container fade-in-up">
+            <p class="section-label">What Our Guests Say</p>
+            <h2>Hear From Our Happy Customers.</h2>
+            <div class="grid-3-col">
+                <div class="testimonial-card">
+                    <p>"The best of both worlds! I love that I can get a fantastic burger and my friend can enjoy truly authentic Yemeni dishes. A fantastic place for any craving!"</p>
+                    <footer>— Sarah J.</footer>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Always a warm welcome and incredible food. The atmosphere is just right for a family dinner or a casual night out with friends. Truly a hidden gem!"</p>
+                    <footer>— Mike D.</footer>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"You can taste the passion in every dish. A true gem in Indian Trail with a diverse menu that never disappoints. Highly recommend exploring their unique offerings!"</p>
+                    <footer>— Emily R.</footer>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container fade-in-up">
+            <p class="section-label">Visit Us</p>
+            <h2>Find Your Way to Unforgettable Flavors.</h2>
+            <div class="grid-2-col">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>The Valley Grill & Yemeni Kitchen</p>
+                    <p>6443 Old Monroe Rd, Indian Trail, NC 28079, USA</p>
+                    <p>
+                        Get Directions: <a href="https://www.google.com/maps/search/?api=1&query=6443+Old+Monroe+Rd,+Indian+Trail,+NC+28079" target="_blank" rel="noopener noreferrer" style="color: var(--brand-color);">View on Google Maps</a>
+                    </p>
+                    <div class="map-placeholder">
+                        [Map Placeholder]
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>10:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>10:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>10:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>10:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>10:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>10:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>10:00 AM – 10:00 PM</td></tr>
+                    </table>
+                    <div class="phone-cta">
+                        <p style="font-size: 1.1rem; margin-bottom: 20px;">Questions or Ready to Order?</p>
+                        <a href="tel:(704) 218-2210" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Just Dream About It. Taste It!</h2>
+            <a href="tel:(704) 218-2210" class="btn btn-primary">ORDER NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">The Valley Grill</span>
+            <p class="tagline">SkyTab Restaurant</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.353c-.597 0-.647.252-.647.877v1.123h2l-.209 2h-1.791v7h-3v-7h-2v-2h2v-1.723c0-2.43 1.036-3.277 3.276-3.277h2.724v3z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.772 1.666 4.901 4.901.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.148 3.252-1.666 4.772-4.901 4.901-1.265.058-1.645.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.772-1.666-4.901-4.901-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.148-3.252 1.666-4.772 4.901-4.901 1.265-.058 1.645-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.359 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.668-.014 4.948-.072c4.359-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.066 9.645c.188 3.091-2.016 6.772-6.593 6.772-1.325 0-2.559-.398-3.596-1.085.452.056.891.083 1.341.083 2.502 0 4.298-.868 5.297-2.36-.612-.116-2.925-.262-3.32-.9-.056-.09-.079-.199-.079-.318l.004-.366c.337.152.684.269 1.054.341-1.05-.765-1.728-2.261-1.728-3.921 0-.825.21-1.554.582-2.185 1.967 2.68 4.96 4.417 8.309 4.585-.065-.357-.101-.734-.101-1.116 0-2.69 2.181-4.872 4.872-4.872 1.405 0 2.671.597 3.565 1.557.108-.021.21-.04.307-.06.27-.054.527-.128.769-.228-.093.287-.291.545-.515.748-.225.204-.473.385-.733.541.258-.03.511-.06.758-.097.433-.064.856-.134 1.26-.226-.246.241-.482.464-.707.662-.224.198-.456.377-.696.536z"/></svg></a>
+            </div>
+            <p class="copyright">© 2026 The Valley Grill & Yemeni Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" /* Start animation 50px before entering viewport */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
