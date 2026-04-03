@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridgett's Kitchen - Southern Comfort in Lexington, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Variables */
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-primary: #8B4513; /* Saddle Brown */
+            --brand-accent: #D4AF37; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4.5rem; } /* Hero section title, overwritten there */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.1rem; margin-bottom: 1rem; }
+        a {
+            color: var(--brand-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden; /* For fade-in-up */
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            min-width: 180px; /* Ensure consistent width */
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border-color: var(--brand-primary);
+        }
+        .btn-primary:hover {
+            background-color: #A35A27; /* Slightly darker primary */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.4);
+        }
+
+        /* Section Labels */
+        .section-label {
+            color: var(--brand-primary);
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .sticky-header nav a:hover {
+            color: var(--brand-accent);
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .sticky-header .call-button:hover {
+            background-color: #A35A27;
+            transform: scale(1.03);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.95) 40%, rgba(139,69,19,0.1) 80%, rgba(17,17,17,0.95) 100%),
+                        linear-gradient(225deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.95) 40%, rgba(212,175,55,0.08) 80%, rgba(17,17,17,0.95) 100%),
+                        var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(17,17,17,0) 0%, rgba(17,17,17,0.1) 40%, var(--bg-dark) 80%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 900;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--brand-accent);
+            color: var(--bg-dark);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+        .hero .rating-badge svg {
+            margin-right: 8px;
+            fill: var(--bg-dark);
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color, very low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .social-proof-item {
+            text-align: center;
+            flex-basis: 28%; /* Roughly 3 items per row */
+            min-width: 200px;
+        }
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-accent);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .our-story .grid-2-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .our-story-content {
+            padding-right: 40px;
+        }
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            text-align: right;
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--brand-accent);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-light); /* Alternating background */
+            text-align: center;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .grid-3-cols {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        .choice-card .icon {
+            color: var(--brand-primary);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .choice-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .choice-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-light); /* Alternating background */
+            text-align: center;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            font-style: italic;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .testimonial-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        .testimonial-item .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-style: normal;
+            font-size: 0.95rem;
+            display: block;
+            text-align: right;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .grid-2-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        .location-map {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            height: 400px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .location-map::before {
+            content: 'Map Placeholder';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            opacity: 0.7;
+            font-family: var(--font-heading);
+        }
+        .location-info h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--brand-accent);
+        }
+        .location-info p {
+            margin-bottom: 0.5rem;
+        }
+        .location-info .address {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .location-info .phone {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-primary);
+            margin-bottom: 30px;
+            display: block;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 1.05rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 100px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .location-hours .cta-buttons {
+            margin-top: 40px;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #A35A27 100%);
+            text-align: center;
+            padding: 100px 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--brand-accent);
+            color: var(--bg-dark);
+            border-color: var(--brand-accent);
+            font-size: 1.2rem;
+            padding: 18px 40px;
+        }
+        .final-cta .btn:hover {
+            background-color: #E2BB4C; /* Lighter accent */
+            border-color: #E2BB4C;
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 60px 0 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: block;
+            text-decoration: none;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Intersection Observer Fade-in-up */
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            .hero h1 { font-size: 4rem; }
+            .sticky-header nav { display: none; }
+            .sticky-header { justify-content: space-between; padding: 0 20px; }
+            .sticky-header .logo { font-size: 1.6rem; }
+            .sticky-header .call-button { font-size: 0.9rem; padding: 6px 15px; }
+
+            .our-story .grid-2-cols,
+            .location-hours .grid-2-cols {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story-content {
+                padding-right: 0;
+            }
+            .location-map {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            .hero h1 { font-size: 3rem; margin-bottom: 5px;}
+            .hero .location { font-size: 1rem; margin-bottom: 5px;}
+            .hero .tagline { font-size: 1.1rem; margin-bottom: 20px;}
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; margin: 0 auto; }
+
+            section { padding: 80px 0; }
+
+            .social-proof-grid { flex-direction: column; gap: 20px; }
+            .social-proof-item { flex-basis: 100%; }
+
+            .stats-grid,
+            .menu-grid,
+            .why-choose-us .grid-3-cols,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                margin-top: 40px;
+            }
+
+            .final-cta h2 { font-size: 2.5rem; }
+            .footer .logo { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .rating-badge { padding: 6px 15px; font-size: 0.9rem; }
+            h2 { font-size: 1.8rem; }
+            .section-label { font-size: 1rem; }
+            .final-cta h2 { font-size: 2rem; }
+            .btn { padding: 12px 25px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Bridgett's Kitchen</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3365909759" class="btn call-button">CALL (336) 590-9759</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content hidden">
+                <span class="location">Lexington, NC</span>
+                <h1>Bridgett's Kitchen</h1>
+                <p class="tagline">⭐️ BRIDGETT'S KITCHEN ✨ 206 W Center St A, Lexington, NC 27292 @bridgettskitchennc ♥️FOOD: Food came out fast, hot and comforting. The brisket is exceptional...</p>
+                <div class="rating-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.27l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+                    4.7 Stars (453 Reviews)
+                </div>
+                <div class="cta-buttons">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container social-proof-grid hidden">
+                <div class="social-proof-item">
+                    <h3>4.7</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>453+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>Local Favorite</h3>
+                    <p>Lexington's Best Bar & Grill</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container grid-2-cols">
+                <div class="our-story-content hidden">
+                    <span class="section-label">Our Journey</span>
+                    <h2 class="section-headline">Where Southern Comfort Meets Lexington Charm</h2>
+                    <div class="story-text">
+                        <p>Welcome to Bridgett's Kitchen, your cozy eatery nestled right in the heart of Lexington, NC. Since opening our doors, our mission has been simple: to serve up traditional Southern comfort food that warms the soul and delights the taste buds.</p>
+                        <p>We believe great food comes from the heart, prepared with passion and served with a smile. From our slow-smoked brisket to our comforting sides, every dish tells a story of heritage and flavor. We're more than just a bar and grill; we're a gathering place for friends, family, and anyone looking for a truly satisfying meal.</p>
+                        <p>Come on in and taste why Bridgett's Kitchen is a beloved staple in the community. Experience food that's fast, hot, and comforting, just like Grandma used to make.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Bridgett's Kitchen is truly a gem! The brisket is unbelievably tender, and every visit feels like coming home. Definitely a must-try in Lexington!"</p>
+                        <span class="author">— A Happy Local Diner</span>
+                    </div>
+                </div>
+                <div class="stats-grid hidden">
+                    <div class="stat-card">
+                        <div class="number">4.7</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">453+</div>
+                        <div class="label">Satisfied Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Coziness</div>
+                        <div class="label">Guaranteed</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <span class="section-label hidden">Our Delicious Offerings</span>
+                <h2 class="section-headline text-center hidden">Taste the Comfort, One Dish at a Time</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card hidden">
+                        <h3>Smoked Brisket Plate</h3>
+                        <p>Tender, slow-smoked brisket, hand-carved and served with your choice of two sides.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Classic Pulled Pork Sandwich</h3>
+                        <p>Juicy pulled pork, slow-cooked to perfection, piled high on a toasted bun.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Crispy Fried Chicken</h3>
+                        <p>Our famous crispy fried chicken, seasoned and fried golden brown, always hot and delicious.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Homestyle Mac & Cheese</h3>
+                        <p>Creamy, cheesy, and utterly comforting. A classic side that's a meal in itself.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Sweet Tea</h3>
+                        <p>The quintessential Southern beverage, perfectly brewed and sweetened.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Peach Cobbler</h3>
+                        <p>Warm, gooey peach cobbler with a sweet, buttery topping. The perfect end to any meal.</p>
+                    </div>
+                    <div class="menu-item-card hidden">
+                        <h3>Cornbread & Honey Butter</h3>
+                        <p>Freshly baked cornbread, served warm with a side of our sweet honey butter.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <span class="section-label hidden">Our Promise</span>
+                <h2 class="section-headline text-center hidden">Why Bridgett's Kitchen is Your Go-To</h2>
+                <div class="why-choose-us .grid-3-cols">
+                    <div class="choice-card hidden">
+                        <div class="icon">🍖</div>
+                        <h3>Lexington's Best Brisket</h3>
+                        <p>Our brisket, mentioned by countless happy customers, is slow-smoked for hours until it's fork-tender and bursting with flavor. A true labor of love!</p>
+                    </div>
+                    <div class="choice-card hidden">
+                        <div class="icon">✨</div>
+                        <h3>Fast, Hot & Comforting</h3>
+                        <p>We pride ourselves on serving delicious Southern comfort food that comes out fast, hot, and satisfying, every single time. No long waits for great taste.</p>
+                    </div>
+                    <div class="choice-card hidden">
+                        <div class="icon">❤️</div>
+                        <h3>A True Local Gem</h3>
+                        <p>With a 4.7-star rating from over 453 reviews, Bridgett's Kitchen is a beloved part of the Lexington community, cherished for our food and friendly service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials" class="testimonials-section">
+            <div class="container">
+                <span class="section-label hidden">Hear From Our Guests</span>
+                <h2 class="section-headline text-center hidden">What Our Happy Customers Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-item hidden">
+                        <p>"The smoked brisket here is absolutely melt-in-your-mouth perfection. Paired with the homestyle mac & cheese, it's my go-to order every time. Bridgett's never disappoints!"</p>
+                        <span class="author">— Michael T.</span>
+                    </div>
+                    <div class="testimonial-item hidden">
+                        <p>"Every dish feels like a warm hug from grandma. Their crispy fried chicken is unbelievably good, and the sweet tea is just right. Such a comforting meal!"</p>
+                        <span class="author">— Sarah L.</span>
+                    </div>
+                    <div class="testimonial-item hidden">
+                        <p>"Bridgett's truly lives up to its 'fast, hot, and comforting' promise. The pulled pork sandwich is a must-try, always hits the spot after a long day. Love this place!"</p>
+                        <span class="author">— David R.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="location-hours">
+            <div class="container grid-2-cols">
+                <div class="location-info hidden">
+                    <span class="section-label">Visit Us</span>
+                    <h2 class="section-headline">Find Your Way to Southern Comfort</h2>
+                    <p class="address">206 W Center St # A, Lexington, NC 27292, USA</p>
+                    <p>Stop by Bridgett's Kitchen today for an unforgettable dining experience. We're easy to find and always ready to serve you the best Southern comfort food in Lexington.</p>
+                    <a href="tel:3365909759" class="phone">(336) 590-9759</a>
+
+                    <h3 class="mt-4">Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td class="closed">Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td class="closed">Closed</td></tr>
+                    </table>
+                    <div class="cta-buttons">
+                        <a href="tel:3365909759" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+                <div class="location-map hidden">
+                    <!-- Placeholder for map -->
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container hidden">
+                <h2>Ready for a Taste of True Southern Comfort?</h2>
+                <a href="#menu" class="btn">Explore Our Full Menu Now</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Bridgett's Kitchen</a>
+            <p class="tagline">Southern Comfort Food, Fast, Hot & Comforting.</p>
+            <div class="social-links">
+                <a href="https://www.instagram.com/bridgettskitchennc" target="_blank" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.78-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4c0 2.208-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <!-- Add other social links as needed -->
+            </div>
+            <p class="copyright">&copy; 2026 Bridgett's Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                        entry.target.classList.remove('hidden'); // Remove hidden after animation
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            // Select all elements to animate (excluding the sticky header)
+            document.querySelectorAll('section > .container > *:not(.sticky-header), .hero-content, .social-proof-item, .stat-card, .menu-item-card, .choice-card, .testimonial-item, .location-info, .location-map, .final-cta > .container').forEach(el => {
+                el.classList.add('hidden'); // Add hidden class initially
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
