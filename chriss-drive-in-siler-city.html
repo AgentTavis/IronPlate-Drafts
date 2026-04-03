@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chris's Drive In Siler City | Authentic Southern Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-section-alt: rgba(255,255,255,0.02);
+            --brand-color: #C41E3A;
+            --accent-color: #F5F5F5;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --section-padding: 80px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding) 0;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+
+        .section-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            font-family: 'Oswald', serif;
+        }
+
+        .section-headline {
+            font-size: 2.5rem; /* Base size for section headlines */
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1.1rem;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: darken(var(--brand-color), 10%);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width); /* Ensure header content aligns with main content */
+        }
+
+        .header-logo {
+            font-family: 'Oswald', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            transform: scale(1.05);
+            background-color: #A31B32; /* Slightly darker brand color */
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-color: var(--bg-main);
+            background-image: linear-gradient(135deg, var(--bg-main), rgba(196, 30, 58, 0.1), var(--bg-main));
+            position: relative;
+            padding-top: 60px; /* Account for sticky header */
+            opacity: 1; /* Hero is visible by default, no fade-in-up */
+            transform: translateY(0);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-name {
+            font-size: 4.5rem; /* Massive, bold */
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            text-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 400;
+        }
+
+        .hero-tagline {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.5;
+        }
+
+        .hero-rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            color: var(--accent-color);
+            gap: 8px;
+        }
+
+        .hero-rating-badge svg {
+            fill: #FFD700; /* Gold star */
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+
+        .story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.15rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-accent);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-section-alt);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-section-alt);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-accent);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-item footer {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info .address {
+            font-weight: 600;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.4rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .location-info .btn {
+            margin-right: 15px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.15rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color), rgba(196, 30, 58, 0.7));
+            padding: 100px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.2rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', serif;
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.5;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--accent-color);
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-name { font-size: 3.5rem; }
+            .section-headline { font-size: 2.2rem; }
+            .our-story-grid { grid-template-columns: 1fr; }
+            .story-content, .stats-grid { text-align: center; }
+            .stats-grid, .testimonials-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+            .location-hours-grid { grid-template-columns: 1fr; }
+            .location-info, .hours-info { text-align: center; }
+            .hours-table { margin: 20px auto; max-width: 400px; }
+            .hero-tagline { font-size: 1.2rem; }
+            .final-cta-section h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .header-nav { display: none; }
+            .hero-name { font-size: 2.8rem; }
+            .hero-location { font-size: 1rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .hero-ctas { flex-direction: column; gap: 15px; max-width: 300px; margin: 0 auto; }
+            .btn { width: 100%; }
+            .social-proof-grid { grid-template-columns: 1fr; }
+            .section-padding { padding: 60px 0; }
+            .section-headline { font-size: 2rem; margin-bottom: 30px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-card { max-width: 300px; margin: 0 auto; }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .final-cta-section h2 { font-size: 2rem; }
+            .footer-logo { font-size: 2rem; }
+            .footer-tagline { font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .header-logo { font-size: 1.5rem; }
+            .sticky-header .header-call-btn { font-size: 0.8rem; padding: 6px 12px; }
+            .hero-name { font-size: 2.2rem; }
+            .hero-rating-badge { font-size: 0.9rem; padding: 6px 15px; }
+            .section-headline { font-size: 1.8rem; }
+            .menu-card h3 { font-size: 1.5rem; }
+            .why-card h3 { font-size: 1.5rem; }
+            .final-cta-section h2 { font-size: 1.8rem; }
+            .location-info .phone-number { font-size: 1.2rem; }
+            .location-info .btn { width: 100%; margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="header-logo"><a href="#" class="header-logo">Chris's Drive In</a></div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+19196632333" class="header-call-btn">CALL (919) 663-2333</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section" id="hero">
+        <div class="container hero-content">
+            <h2 class="hero-location">Siler City, NC</h2>
+            <h1 class="hero-name">Chris's Drive In</h1>
+            <p class="hero-tagline">The blended pork and beef dog: flavourful, hot, and authentically Siler City. The joint you'd expect, and then some.</p>
+            <div class="hero-rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.373 8.118 1.18c.676.098.949.932.457 1.455l-5.875 5.728 1.388 8.087c.117.677-.597 1.196-1.192.863L12 18.57l-7.242 3.804c-.595.333-1.309-.186-1.192-.863l1.388-8.087L.793 10.595c-.492-.523-.22-1.357.457-1.455l8.118-1.18L12 .587z"/></svg>
+                <span>4.7 Stars (425 Reviews)</span>
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip is-visible">
+        <div class="container">
+            <div class="social-proof-grid">
+                <div class="social-proof-item">
+                    <h3>4.7 Stars</h3>
+                    <p>Overall Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>425+</h3>
+                    <p>Happy Customers</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>Siler City</h3>
+                    <p>Local Favorite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <p class="section-label text-center">Our Story</p>
+            <h2 class="section-headline text-center">More Than Just a Meal: It's Siler City Tradition.</h2>
+            <div class="our-story-grid">
+                <div class="story-content">
+                    <p>Welcome to Chris's Drive In, where Siler City flavor meets genuine Southern hospitality! For years, we've been the go-to spot for locals and travelers alike, serving up dishes that are truly unbeatable.</p>
+                    <p>Our dedication to classic comfort food, combined with a five-star service experience, creates an old-school charm ambiance that's well worth any drive. Whether you're craving our legendary blended pork and beef dog or looking to upgrade to a 'Rollie' for that extra satisfaction, we promise a meal that's bigger on flavor and even bigger on heart.</p>
+                    <p>Come on down and taste the tradition! We're proud to be a cornerstone of the Siler City community, offering delicious food and a welcoming atmosphere that feels just like home.</p>
+                    <div class="testimonial-card">
+                        <p>"The food is unbeatable and service is 5-star! Old Skool Southern charm ambiance well worth a long drive!!!"</p>
+                        <footer>– A Satisfied Customer</footer>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>4.7 Stars</h3>
+                        <p>Overall Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>425+</h3>
+                        <p>Happy Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>5-Star</h3>
+                        <p>Service Experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <p class="section-label text-center">Our Offerings</p>
+            <h2 class="section-headline text-center">Flavorful Feasts, Siler City Style.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>The Classic 'Rollie' Dog</h3>
+                    <p>Our legendary blended pork & beef dog, perfectly grilled. Get it "Rollie" style for a bigger bite!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Chris's Signature Cheeseburger</h3>
+                    <p>Juicy, flame-grilled patty with fresh lettuce, tomato, onion, and melted cheese.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Crispy Chicken Sandwich</h3>
+                    <p>Golden-fried chicken breast, crisp pickles, and our secret sauce on a toasted bun.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Loaded Southern Fries</h3>
+                    <p>Our crispy fries piled high with cheddar, bacon, and a drizzle of ranch. Pure comfort!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>'Rollie' Nachos</h3>
+                    <p>A mountain of crispy tortilla chips topped with chili, cheese, jalapeños, and all the fixings.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Hand-Spun Milkshake</h3>
+                    <p>Thick, creamy, and nostalgic – choose from classic vanilla, chocolate, or strawberry.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Sweet Tea</h3>
+                    <p>A tall glass of perfectly brewed, authentically Southern sweet tea. Refreshing!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Onion Ring Tower</h3>
+                    <p>A towering stack of golden, crunchy, and irresistibly seasoned onion rings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <p class="section-label text-center">The Chris's Drive In Difference</p>
+            <h2 class="section-headline text-center">Why Locals Keep Coming Back for More.</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-card">
+                    <h3>The 'Rollie' Difference</h3>
+                    <p>Our signature blended pork and beef hot dogs are a local legend. Ask for anything "Rollie" and experience the bigger, bolder flavor that's become a Siler City favorite!</p>
+                </div>
+                <div class="why-card">
+                    <h3>Unbeatable Southern Charm</h3>
+                    <p>Step into an ambiance brimming with "Old Skool Southern charm." Our food is unbeatable, and our welcoming atmosphere makes every visit feel like coming home.</p>
+                </div>
+                <div class="why-card">
+                    <h3>5-Star Service, Every Visit</h3>
+                    <p>From the moment you arrive, our "5 star" service ensures a pleasant and memorable dining experience. Friendly faces and genuine hospitality are our promise.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <p class="section-label text-center">Hear From Our Fans</p>
+            <h2 class="section-headline text-center">What Happy Customers Are Saying.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <p>"Just had 'The Classic Rollie Dog' and it's everything they promise – flavourful, hot, and truly authentic. The bun was perfect, definitely a 7.5/10! You won't find a better dog in Siler City. This joint nails it every time!"</p>
+                    <footer>– Emily R., Siler City Local</footer>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Chris's Signature Cheeseburger is a game changer! Paired with the Loaded Southern Fries, it was the perfect comfort meal. The 'Old Skool Southern charm' really comes through in the food and the friendly atmosphere. Five stars for food and service!"</p>
+                    <footer>– Mark T., Road Tripper</footer>
+                </div>
+                <div class="testimonial-item">
+                    <p>"My family always makes the drive for Chris's Crispy Chicken Sandwich and a Hand-Spun Milkshake. The 'Rollie' options are fantastic for hearty appetites. The service is always top-notch, makes you feel right at home. A true local gem!"</p>
+                    <footer>– Sarah L., Regular Customer</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <p class="section-label text-center">Visit Us</p>
+            <h2 class="section-headline text-center">Find Your Way to Siler City's Best.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p class="address">1329 N 2nd Ave, Siler City, NC 27344, USA</p>
+                    <a href="tel:+19196632333" class="phone-number">(919) 663-2333</a>
+                    <p>We're conveniently located in Siler City, ready to serve up your favorite Bar & Grill classics with a smile. Easy to find, impossible to forget!</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Chris's+Drive+In+Siler+City+1329+N+2nd+Ave,+Siler+City,+NC+27344" target="_blank" class="btn btn-primary" rel="noopener noreferrer">Get Directions</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday</td><td>10:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Tuesday</td><td>10:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Wednesday</td><td>10:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Thursday</td><td>10:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Friday</td><td>10:30 AM – 8:00 PM</td></tr>
+                            <tr><td>Saturday</td><td>10:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Sunday</td><td>Closed</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+19196632333" class="btn btn-primary" style="margin-top: 30px;">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section is-visible">
+        <div class="container">
+            <h2>Taste Siler City's Best. Don't Miss Out!</h2>
+            <a href="tel:+19196632333" class="btn btn-secondary">CALL TO ORDER (919) 663-2333</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">Chris's Drive In</span>
+            <p class="footer-tagline">The blended pork and beef dog: flavourful, hot, and authentically Siler City. The joint you'd expect, and then some.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook">Facebook</a></li>
+                <li><a href="#" aria-label="Instagram">Instagram</a></li>
+                <li><a href="#" aria-label="Twitter">Twitter</a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Chris's Drive In. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scroll for Navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in-up on Scroll (IntersectionObserver)
+        const sections = document.querySelectorAll('section:not(.hero-section, .social-proof-strip, .final-cta-section)'); // Hero, social strip, final cta are visible by default or animated differently
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
