@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ikura Hibachi Express - Kernersville, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #C41E3A;
+            --accent-color: #1A1A1A;
+            --bg-main: #111111;
+            --bg-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding: 80px 40px;
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+        }
+
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding);
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .flex { display: flex; }
+        .flex-column { flex-direction: column; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .gap-4 { gap: 1rem; }
+        .gap-8 { gap: 2rem; }
+        .gap-12 { gap: 3rem; }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(196, 30, 58, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+        }
+
+        .section-label {
+            color: var(--primary-color);
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .sticky-header .call-btn {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: var(--font-heading);
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sticky-header .call-btn:hover {
+            background-color: var(--primary-color); /* Keep primary color */
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, #111111EE 40%, rgba(196, 30, 58, 0.1) 60%, var(--bg-main) 100%);
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(196, 30, 58, 0.4);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+        }
+        .hero .rating-badge span {
+            color: gold;
+            font-size: 1.3rem;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color, low opacity */
+            padding: 2.5rem 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-proof .proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+
+        .social-proof .proof-item .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* Our Story Section */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .our-story .story-text {
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .our-story .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .our-story .quote-card {
+            margin-top: 2rem;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            background-color: rgba(255,255,255,0.02);
+        }
+
+        .our-story .quote-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+        }
+
+        .our-story .quote-card cite {
+            display: block;
+            text-align: right;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .our-story .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .our-story .stat-item .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .our-story .stat-item .label {
+            font-size: 1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-choose-us .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .why-choose-us .reason-card h4 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-us .reason-card p {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.05rem;
+            display: block;
+        }
+
+        .testimonial-card .author-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .location-info p {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.3rem;
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .location-info .map-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: var(--text-heading);
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            padding-right: 2rem;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(90deg, var(--primary-color) 0%, #C41E3AEE 100%);
+            padding: 5rem 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--text-heading);
+        }
+
+        .final-cta .btn {
+            background-color: var(--bg-main);
+            color: var(--primary-color);
+            border: 2px solid var(--bg-main);
+            padding: 1rem 3rem;
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--bg-main);
+            color: var(--primary-color);
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-light);
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 0.8rem;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+            .sticky-header nav ul {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 60px 20px;
+            }
+            .sticky-header {
+                padding: 0 20px;
+                height: 70px; /* Slightly taller for mobile */
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav on mobile for simplicity, could implement hamburger */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero .btn {
+                width: 100%;
+                padding: 0.8rem 1.5rem;
+            }
+            .social-proof .flex {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .our-story .content-grid,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            h2 { font-size: 2rem; }
+            .our-story .quote-card { margin-top: 0; }
+            .footer .tagline { margin-top: 1rem; }
+            .final-cta h2 { font-size: 2.2rem; }
+            .footer .social-links { margin-top: 2rem; }
+            .footer .copyright { margin-top: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+            .sticky-header .call-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-choose-us .reasons-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Ikura Hibachi Express</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13363104628" class="call-btn">CALL (336) 310-4628</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero fade-in-up">
+        <p class="location">Kernersville, NC</p>
+        <h1>Ikura Hibachi Express</h1>
+        <p class="tagline">Get your hibachi fix any day of the week - we're always open, serving authentic flavors with passion.</p>
+        <div class="rating-badge"><span aria-hidden="true">⭐</span> 4.8 stars (45 reviews)</div>
+        <div class="cta-group">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof fade-in-up">
+        <div class="container flex justify-center align-center gap-12">
+            <div class="proof-item">
+                <div class="value">4.8</div>
+                <div class="label">Star Rating</div>
+            </div>
+            <div class="proof-item">
+                <div class="value">45+</div>
+                <div class="label">Happy Reviews</div>
+            </div>
+            <div class="proof-item">
+                <div class="value">Local</div>
+                <div class="label">Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="section-padding fade-in-up">
+        <div class="container">
+            <p class="section-label">Our Journey</p>
+            <h2 class="text-center">Bringing Authentic Hibachi to Kernersville</h2>
+            <div class="content-grid" style="margin-top: 3rem;">
+                <div class="story-text">
+                    <p>Ikura Hibachi Express isn't just a restaurant; it's a culinary destination in Kernersville, NC. Located at 428 N Main St, Ste F, we're proud to bring the vibrant flavors and exciting experience of hibachi right to your neighborhood. Our passion is crafting delicious meals that bring smiles to faces, from sizzling lunch specials to delightful adult beverages.</p>
+                    <p>We believe in providing an authentic, memorable dine-in experience, open six days a week from 11 AM to 9 PM, ensuring your hibachi fix is always within reach. Every dish is prepared with care, using fresh ingredients to deliver the quality you deserve. Come on in and taste the difference that has earned us a stellar 4.8-star rating from our wonderful community!</p>
+                    <div class="quote-card fade-in-up" style="margin-top: 3rem;">
+                        <p>"Ikura Hibachi Express has truly become a local gem. Their commitment to quality and the warm atmosphere make it our go-to spot for any occasion. A true taste of community!"</p>
+                        <cite>- Kernersville Tribune</cite>
+                    </div>
+                </div>
+                <div class="flex flex-column justify-center align-center">
+                    <div class="stats-grid">
+                        <div class="stat-item fade-in-up">
+                            <div class="number">4.8</div>
+                            <div class="label">Star Rating</div>
+                        </div>
+                        <div class="stat-item fade-in-up">
+                            <div class="number">45+</div>
+                            <div class="label">Glowing Reviews</div>
+                        </div>
+                        <div class="stat-item fade-in-up">
+                            <div class="number">Dine-In</div>
+                            <div class="label">Only Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="section-padding fade-in-up" style="background-color: var(--bg-light);">
+        <div class="container">
+            <p class="section-label text-center">Our Offerings</p>
+            <h2 class="text-center">Savor the Flavors of Ikura</h2>
+            <div class="menu-grid" style="margin-top: 3rem;">
+                <div class="menu-item fade-in-up">
+                    <h3>Classic Chicken Hibachi</h3>
+                    <p>Tender grilled chicken, fresh seasonal vegetables, and our signature sauce, cooked to perfection.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Sizzling Steak Hibachi</h3>
+                    <p>Juicy, perfectly seared steak, cooked to your preference and served with crisp veggies.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Shrimp & Scallop Delight</h3>
+                    <p>A succulent combination of grilled shrimp and tender scallops, a true seafood lover's dream.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Vegetable Harmony</h3>
+                    <p>A vibrant medley of fresh, seasonal vegetables expertly grilled and seasoned to perfection.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Ninja Hibachi Special</h3>
+                    <p>Ask your server about our chef's daily creative masterpiece – always a delightful surprise!</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Kids Mini Hibachi</h3>
+                    <p>A fun-sized portion of chicken or steak hibachi, specially crafted for our younger guests.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Signature Fried Rice</h3>
+                    <p>Our fluffy, flavorful fried rice, a perfect complement to any hibachi meal.</p>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <h3>Premium Adult Beverages</h3>
+                    <p>A curated selection of refreshing beers, fine wines, and spirits to complement your meal.</p>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 4rem;">
+                <a href="#find-us" class="btn btn-secondary">Visit Us Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">Our Promise</p>
+            <h2 class="text-center">Experience the Ikura Difference</h2>
+            <div class="reasons-grid">
+                <div class="reason-card fade-in-up">
+                    <h4>Perfect Lunch Spot</h4>
+                    <p>Break up your workday with our speedy and satisfying lunch specials. Get your hibachi fix without the wait!</p>
+                </div>
+                <div class="reason-card fade-in-up">
+                    <h4>Unwind with Adult Beverages</h4>
+                    <p>Enhance your meal with our selection of beers, wines, and spirits, perfect for a relaxing evening.</p>
+                </div>
+                <div class="reason-card fade-in-up">
+                    <h4>Authentic Dine-In Only!</h4>
+                    <p>We focus on providing a full, immersive hibachi experience in our cozy restaurant, no takeout compromises.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="section-padding fade-in-up" style="background-color: var(--bg-light);">
+        <div class="container">
+            <p class="section-label text-center">Hear From Our Guests</p>
+            <h2 class="text-center">What Our Community Says</h2>
+            <div class="testimonials-grid" style="margin-top: 3rem;">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"The Sizzling Steak Hibachi here is unbelievably good! Cooked to perfection every time, it's my go-to. Plus, the atmosphere is always so welcoming and cozy."</p>
+                    <div>
+                        <span class="author">A. Johnson</span>
+                        <span class="author-title">Local Patron</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"Finally found my favorite lunch spot! The Classic Chicken Hibachi is fantastic value, and I always leave feeling satisfied. Highly recommend their adult beverages too!"</p>
+                    <div>
+                        <span class="author">M. Davis</span>
+                        <span class="author-title">Kernersville Resident</span>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"I love that Ikura Hibachi Express is dedicated to dine-in. It truly makes the experience special and intimate. The Ninja Hibachi Special I had last week was an absolute masterpiece!"</p>
+                    <div>
+                        <span class="author">S. Chen</span>
+                        <span class="author-title">Happy Customer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">Visit Us</p>
+            <h2 class="text-center">Find Your Way to Ikura</h2>
+            <div class="location-hours-grid" style="margin-top: 3rem;">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p><strong>Ikura Hibachi Express</strong></p>
+                    <p>428 N Main St F,</p>
+                    <p>Kernersville, NC 27284, USA</p>
+                    <a href="tel:+13363104628" class="phone-number">(336) 310-4628</a>
+                    <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK" target="_blank" class="map-link">Get Directions on Google Maps</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                    <div style="margin-top: 2rem;">
+                        <a href="tel:+13363104628" class="btn btn-primary">CALL US TODAY</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2>Ready for an Unforgettable Hibachi Experience?</h2>
+            <a href="#find-us" class="btn">DINE WITH US</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Ikura Hibachi Express</div>
+            <p class="tagline">Ikura Hibachi Express Kernersville Menu · Get your hibachi fix any day of the week!</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Ikura Hibachi Express. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha512-..." crossorigin="anonymous"></script>
+
+    <!-- IntersectionObserver for fade-in-up effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
