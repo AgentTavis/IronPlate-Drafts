@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyce & Family Restaurant | Homestyle Southern Eats in Fuquay-Varina, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --brand-primary: #DC143C;
+            --brand-accent: #FFFFFF;
+            --bg-dark: #111111;
+            --bg-light-dark: #1a1a1a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            color: var(--brand-primary);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--brand-accent);
+            border-color: var(--brand-primary);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: darken(var(--brand-primary), 10%); /* Placeholder for darken, will adjust manually if needed */
+            filter: brightness(0.9);
+        }
+
+        .btn-secondary {
+            background: none;
+            color: var(--brand-accent);
+            border-color: var(--brand-accent);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-accent);
+            color: var(--bg-dark);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        .card-menu {
+            border-left: 5px solid var(--brand-primary);
+        }
+        .card-menu:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card-testimonial {
+            border-left: 5px solid var(--brand-primary);
+        }
+
+        /* Utility grid for responsive layouts */
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+        .grid-3-cols {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        .grid-2-cols {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+        }
+
+        /* Fade-in-up animation (CSS part only, JS would trigger the `revealed` class) */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* For this static HTML, we will just apply the revealed state to demonstrate the final look */
+
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--brand-accent);
+        }
+
+        .sticky-header .nav-links a {
+            color: var(--brand-accent);
+            font-weight: 600;
+            margin-left: 30px;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+        
+        .sticky-header .call-button {
+            background-color: var(--brand-primary);
+            color: var(--brand-accent);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-family: var(--font-body); /* More subtle for button in header */
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sticky-header .call-button:hover {
+            background-color: #a7112f; /* Slightly darker */
+            transform: scale(1.03);
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(220, 20, 60, 0.1) 50%, var(--bg-dark) 100%);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(220, 20, 60, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: -2px;
+        }
+
+        .hero-content .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hero-content .tagline {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            line-height: 1.5;
+        }
+
+        .hero-content .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--brand-accent);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(220, 20, 60, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--brand-accent);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+        .social-proof-strip .proof-item span:first-child {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+        .social-proof-strip .proof-item span:last-child {
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--text-body);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-light-dark);
+        }
+        .our-story-section h2 {
+            margin-bottom: 25px;
+        }
+        .our-story-section p {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            font-size: 1.1rem;
+        }
+        .story-testimonial {
+            max-width: 700px;
+            margin: 40px auto;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--brand-accent);
+            border-left: 5px solid var(--brand-primary);
+            padding-left: 25px;
+            position: relative;
+        }
+        .story-testimonial::before {
+            content: "“";
+            font-family: serif;
+            font-size: 6rem;
+            color: var(--brand-primary);
+            position: absolute;
+            left: -10px;
+            top: -30px;
+            opacity: 0.2;
+            line-height: 1;
+        }
+        .story-testimonial footer {
+            margin-top: 15px;
+            font-style: normal;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .stats-grid .stat-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+        .stats-grid .stat-card span:first-child {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            line-height: 1;
+        }
+        .stats-grid .stat-card span:last-child {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--brand-accent);
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-section h2 {
+            margin-bottom: 40px;
+        }
+        .menu-grid .menu-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .menu-grid .menu-item h3 {
+            font-size: 1.6rem;
+            color: var(--brand-accent);
+            margin-bottom: 0;
+            line-height: 1.3;
+        }
+        .menu-grid .menu-item p {
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-light-dark);
+        }
+        .why-choose-us-section h2 {
+            margin-bottom: 40px;
+        }
+        .why-choose-us-grid .feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 30px;
+        }
+        .why-choose-us-grid .feature-card h3 {
+            color: var(--brand-primary);
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+        .why-choose-us-grid .feature-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section h2 {
+            margin-bottom: 40px;
+        }
+        .testimonial-item {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 25px;
+        }
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--brand-accent);
+        }
+        .testimonial-item footer {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            align-items: start;
+        }
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-primary);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .location-info a {
+            color: var(--brand-accent);
+            font-weight: 600;
+        }
+        .location-info .map-embed {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            aspect-ratio: 16/9;
+            width: 100%;
+        }
+        .location-info .map-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .hours-table th {
+            color: var(--brand-accent);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table td.closed {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+        .call-to-order-btn {
+            margin-top: 30px;
+            width: 100%;
+            padding: 18px 0;
+            font-size: 1.1rem;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-primary), #a7112f);
+            padding: 100px 0;
+            color: var(--brand-accent);
+        }
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta-section .btn {
+            font-size: 1.2rem;
+            padding: 18px 40px;
+            background-color: var(--brand-accent);
+            color: var(--brand-primary);
+            border-color: var(--brand-accent);
+        }
+        .final-cta-section .btn:hover {
+            filter: brightness(0.9);
+            transform: scale(1.03);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--brand-accent);
+            margin-bottom: 15px;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+        .footer .social-links a {
+            color: var(--brand-accent);
+            margin: 0 15px;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .footer .copyright {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Media Queries */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.15rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header .nav-links a {
+                margin-left: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+            .sticky-header .nav-links {
+                margin-top: 10px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header .nav-links a {
+                margin: 5px 10px;
+            }
+            .sticky-header .call-button {
+                margin-top: 10px;
+            }
+
+            .hero-section {
+                padding-top: 120px; /* Account for collapsed header */
+                height: auto;
+                min-height: 100vh;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content .location {
+                font-size: 0.9rem;
+            }
+            .hero-content .tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .grid-3-cols, .grid-2-cols {
+                grid-template-columns: 1fr;
+            }
+            .social-proof-strip .proof-item {
+                margin-bottom: 25px;
+            }
+            .social-proof-strip .proof-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta-section .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            .footer .social-links a {
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo {
+                font-size: 1.4rem;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content .tagline {
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .section-label {
+                font-size: 0.8rem;
+            }
+            .story-testimonial {
+                font-size: 1rem;
+            }
+            .stats-grid .stat-card span:first-child {
+                font-size: 2.5rem;
+            }
+            .menu-grid .menu-item h3 {
+                font-size: 1.4rem;
+            }
+            .why-choose-us-grid .feature-card h3 {
+                font-size: 1.6rem;
+            }
+            .testimonial-item p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Joyce & Family Restaurant</a>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:9195671717" class="btn call-button">CALL (919) 567-1717</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="container hero-content revealed">
+            <span class="location">Fuquay-Varina, NC</span>
+            <h1>Joyce & Family Restaurant</h1>
+            <p class="tagline">Buffet spot of homestyle southern eats in simple digs. WE ALSO CATER!!! OPEN UNTIL 8PM TUES-SAT. Open til 4 on Sundays ! Come on and eat nie!</p>
+            <span class="rating-badge">⭐ 4.3 Stars (1143 Reviews)</span>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container grid grid-3-cols">
+            <div class="proof-item revealed">
+                <span>4.3</span>
+                <span>Average Rating</span>
+            </div>
+            <div class="proof-item revealed">
+                <span>1143+</span>
+                <span>Happy Customers</span>
+            </div>
+            <div class="proof-item revealed">
+                <span>Fuquay-Varina's</span>
+                <span>Local Favorite Since '97</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section text-center">
+        <div class="container">
+            <span class="section-label revealed">Our Story</span>
+            <h2 class="revealed">More Than Just a Meal, It's Family Tradition.</h2>
+            <p class="revealed">
+                Established in 1997, Joyce & Family Restaurant isn't just a place to eat – it's a cornerstone of the Fuquay-Varina community. We are renowned for our signature, made-from-scratch brand of southern cuisine, served with love and a smile.
+                Located at 129 N Main St, we've been proudly serving heartwarming dishes and creating lasting memories for over two decades. Every plate tells a story, and every meal feels like coming home. Come taste the tradition that goes into every single bite!
+            </p>
+            <blockquote class="story-testimonial revealed">
+                "Joyce & Family truly embodies Southern hospitality. Their dishes taste just like grandma's cooking, packed with flavor and tradition. It's our go-to spot for a comforting meal that never disappoints!"
+                <footer>— A Loyal Customer from Fuquay-Varina</footer>
+            </blockquote>
+            <div class="grid grid-3-cols stats-grid">
+                <div class="stat-card revealed">
+                    <span>27</span>
+                    <span>Years of Homestyle Cooking</span>
+                </div>
+                <div class="stat-card revealed">
+                    <span>1143+</span>
+                    <span>Positive Reviews</span>
+                </div>
+                <div class="stat-card revealed">
+                    <span>Signature</span>
+                    <span>Scratch-Made Cuisine</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section text-center">
+        <div class="container">
+            <span class="section-label revealed">Our Menu</span>
+            <h2 class="revealed">Taste the Southern Comfort We're Known For.</h2>
+            <div class="grid grid-3-cols menu-grid">
+                <div class="card card-menu menu-item revealed">
+                    <h3>Signature Fried Chicken</h3>
+                    <p>Crispy, juicy, and seasoned to perfection – a true Southern classic, made from scratch.</p>
+                </div>
+                <div class="card card-menu menu-item revealed">
+                    <h3>Creamy Mac & Cheese</h3>
+                    <p>Our famously rich and cheesy baked macaroni, a crowd-pleaser for all ages.</p>
+                </div>
+                <div class="card card-menu menu-item revealed">
+                    <h3>Slow-Cooked Collard Greens</h3>
+                    <p>Tender greens simmered to perfection with smoked meats for that authentic Southern flavor.</p>
+                </div>
+                <div class="card card-menu menu-item revealed">
+                    <h3>Fluffy Cornbread</h3>
+                    <p>Sweet and savory, baked fresh daily to accompany any meal.</p>
+                </div>
+                <div class="card card-menu menu-item revealed">
+                    <h3>Sweet Potato Casserole</h3>
+                    <p>A decadent and comforting side, perfectly spiced and topped with a sweet pecan streusel.</p>
+                </div>
+                <div class="card card-menu menu-item revealed">
+                    <h3>Homemade Peach Cobbler</h3>
+                    <p>A warm, bubbling dessert with fresh peaches and a golden, buttery crust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section text-center">
+        <div class="container">
+            <span class="section-label revealed">Why Choose Us</span>
+            <h2 class="revealed">Experience the Joyce & Family Difference.</h2>
+            <div class="grid grid-3-cols why-choose-us-grid">
+                <div class="card feature-card revealed">
+                    <h3>Authentic Homestyle Flavors</h3>
+                    <p>From our Signature Fried Chicken to our Creamy Mac & Cheese, every dish is made from scratch daily, just like grandma used to make. We use time-honored recipes and fresh ingredients for that unmistakable taste of home.</p>
+                </div>
+                <div class="card feature-card revealed">
+                    <h3>Generous Buffet & Variety</h3>
+                    <p>As Fuquay-Varina's favorite buffet spot, we offer an abundant spread of Southern eats. Enjoy a wide selection of rotating meats, fresh vegetables, and delicious sides – perfect for satisfying any craving.</p>
+                </div>
+                <div class="card feature-card revealed">
+                    <h3>Full-Service Catering Experts</h3>
+                    <p>Planning an event? Let Joyce & Family bring the comfort to you! We offer full catering services for any occasion, ensuring your guests enjoy the same beloved Southern dishes that have made us famous since 1997.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section text-center">
+        <div class="container">
+            <span class="section-label revealed">What Our Guests Say</span>
+            <h2 class="revealed">Hear From Our Valued Family.</h2>
+            <div class="grid grid-3-cols">
+                <div class="card testimonial-item revealed">
+                    <p>"The Signature Fried Chicken here is absolutely incredible! Perfectly seasoned and crispy, it reminds me of my childhood. A must-try every time I visit!"</p>
+                    <footer>— Sarah J., Local Resident</footer>
+                </div>
+                <div class="card testimonial-item revealed">
+                    <p>"Their buffet is fantastic, always fresh and full of variety. The Sweet Potato Casserole is out of this world, and the staff treats you like family."</p>
+                    <footer>— David P., Frequent Diner</footer>
+                </div>
+                <div class="card testimonial-item revealed">
+                    <p>"We had Joyce & Family cater our holiday party, and it was a huge hit! Everyone raved about the Mac & Cheese and Collard Greens. So easy to work with!"</p>
+                    <footer>— Emily R., Event Organizer</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container grid location-hours-grid">
+            <div class="location-info revealed">
+                <h3>Find Us</h3>
+                <p><strong>Joyce & Family Restaurant</strong></p>
+                <p>129 N Main St</p>
+                <p>Fuquay-Varina, NC 27526, USA</p>
+                <p>Call us directly: <a href="tel:9195671717" style="color:var(--brand-primary);">(919) 567-1717</a></p>
+                <div class="map-embed">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3230.126430342939!2d-78.78422638890784!3d35.58043627246473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89ac870c6a858e7f%3A0xc3f6a297e61a6c0b!2sJoyce%20%26%20Family%20Restaurant!5e0!3m2!1sen!2sus!4v1701389278275!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="hours-info revealed">
+                <h3>Our Hours</h3>
+                <table class="hours-table">
+                    <tr><th>Monday</th><td class="closed">Closed</td></tr>
+                    <tr><th>Tuesday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    <tr><th>Wednesday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    <tr><th>Thursday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    <tr><th>Friday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    <tr><th>Saturday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    <tr><th>Sunday</th><td>11:00 AM – 4:00 PM</td></tr>
+                </table>
+                <a href="tel:9195671717" class="btn btn-primary call-to-order-btn">CALL TO ORDER OR CATERING INQUIRY</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section text-center">
+        <div class="container">
+            <h2 class="revealed">Ready for Some Homestyle Southern Goodness? Dine-In, Carry-Out, or Let Us Cater Your Next Event!</h2>
+            <a href="#find-us" class="btn revealed">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Joyce & Family Restaurant</div>
+            <p class="tagline">Buffet spot of homestyle southern eats in simple digs. We also cater!</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">F</a> <!-- Placeholder for social icon -->
+                <a href="#" aria-label="Instagram">I</a> <!-- Placeholder for social icon -->
+                <a href="#" aria-label="Yelp">Y</a>   <!-- Placeholder for social icon -->
+            </div>
+            <p class="copyright">&copy; 2026 Joyce & Family Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer for fade-in-up effect (JS would be here if allowed, for static HTML CSS rules applied for revealed state) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal-on-scroll').forEach(element => {
+                observer.observe(element);
+            });
+
+            // For static HTML demo, ensure elements initially visible if they are higher up
+            // This is just a fallback for the demo, real implementation would rely on observer
+            document.querySelectorAll('.hero-content, .social-proof-strip .proof-item, .section-label, h2, p, blockquote, .stat-card, .menu-item, .feature-card, .testimonial-item, .location-info, .hours-info, .final-cta-section h2, .final-cta-section .btn').forEach(el => {
+                if (!el.classList.contains('revealed') && el.getBoundingClientRect().top < window.innerHeight) {
+                     el.classList.add('revealed');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
