@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistro Tropical - Elizabeth City's Premier Seafood & Central American Cuisine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System - Global Styles */
+        :root {
+            --bg-main: #111111;
+            --bg-light-alt: rgba(255,255,255,0.02); /* Slightly lighter background for alternating sections */
+            --brand-color: #2D5016;
+            --accent-color: #F4D03F;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17,17,17,0.9);
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --transition-speed: 0.3s ease;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.1rem; /* Body font size */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color var(--transition-speed);
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section Specific Backgrounds */
+        .social-proof-strip {
+            background-color: rgba(45, 80, 22, 0.05); /* Brand color at low opacity */
+        }
+        #our-story, #why-choose-us, #location-hours {
+            background-color: var(--bg-main); /* Default to main bg */
+        }
+        #menu, #testimonials {
+            background-color: var(--bg-light-alt); /* Lighter alt bg */
+        }
+        .final-cta {
+            background: linear-gradient(to bottom right, var(--brand-color), rgba(45, 80, 22, 0.8));
+            color: var(--text-heading);
+        }
+        .final-cta h2, .final-cta p {
+            color: var(--text-heading);
+        }
+
+        .section-label {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* Section headline size */
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform var(--transition-speed), background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #244112; /* Manual darken for #2D5016 */
+            border-color: #244112;
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: var(--border-radius-sm);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: background-color var(--transition-speed);
+        }
+        .btn-call:hover {
+            background-color: #244112; /* Manual darken for #2D5016 */
+            color: var(--text-heading);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            white-space: nowrap; /* Prevent wrapping */
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        .sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom right, var(--bg-main), rgba(45, 80, 22, 0.2), var(--bg-main), rgba(244, 208, 63, 0.1), var(--bg-main));
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            padding: 0 20px; /* Ensure padding on mobile */
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+
+        .hero-content {
+            z-index: 1; /* Ensure content is above any subtle effects */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* LARGEST text */
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(45, 80, 22, 0.3);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem; /* Tagline smaller, lighter */
+            font-weight: 400;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 30px;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            gap: 5px;
+        }
+        .rating-badge svg {
+            fill: var(--accent-color);
+            width: 14px;
+            height: 14px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            padding: 40px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+            background-color: rgba(45, 80, 22, 0.05); /* Brand color at low opacity */
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .social-proof-item .value {
+            font-family: 'Lora', serif;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .social-proof-item .label {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        #our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 60px;
+        }
+        #our-story .story-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        #our-story .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            text-align: right;
+            font-style: normal;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 80px;
+            text-align: center;
+        }
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: var(--border-radius-md);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .stat-item .value {
+            font-family: 'Lora', serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .stat-item .label {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 5. MENU SECTION */
+        #menu {
+            text-align: center;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: var(--border-radius-md);
+            text-align: left;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .menu-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        #why-choose-us .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            padding: 30px;
+            text-align: center;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .reason-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .reason-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        #testimonials {
+            text-align: center;
+        }
+        #testimonials .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        #testimonials .testimonial-card {
+            text-align: left;
+        }
+
+
+        /* 8. LOCATION & HOURS SECTION */
+        #location-hours .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+        #location-hours .location-info {
+            text-align: left;
+        }
+        #location-hours .location-info h3,
+        #location-hours .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+        #location-hours .address {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+        #location-hours .phone {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 30px;
+        }
+        #location-hours .phone:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            padding: var(--section-padding);
+            text-align: center;
+            color: var(--text-heading);
+        }
+        .final-cta h2 {
+            font-size: 3.2rem;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            color: var(--text-heading); /* Override default heading color for this section */
+        }
+        .final-cta .btn {
+            padding: 16px 40px;
+            font-size: 1.1rem;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer .tagline-short {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color var(--transition-speed);
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .sticky-header nav ul {
+                gap: 20px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            #our-story .story-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            #location-hours .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+            .sticky-header .logo {
+                margin-bottom: 10px;
+            }
+            .sticky-header nav ul {
+                width: 100%;
+                justify-content: center;
+                gap: 15px;
+                flex-wrap: wrap;
+                margin-bottom: 10px;
+            }
+            .sticky-header .btn-call {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .hero {
+                padding-top: 120px; /* Adjust for taller header */
+                min-height: 100vh;
+                height: auto;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 0.95rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .reasons-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header nav ul li a {
+                font-size: 0.9rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Bistro Tropical</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:2526797766" class="btn btn-call">CALL (252) 679-7766</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content">
+                <p class="location">Elizabeth City, NC</p>
+                <h1>Bistro Tropical</h1>
+                <p class="tagline">☕ ⏰ HOURS: Brunch Menu: 9:00 AM – 2:00 PM 🍽️ Lunch & Dinner Menu: 11:00 AM – 10:00 PM Bistro Tropical 400 S Water Street, Unit 102 Waterworks Building ...</p>
+                <div class="rating-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    3.8 Stars (65 Reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">View Menu</a>
+                    <a href="#location-hours" class="btn btn-secondary">Find Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="social-proof-item">
+                <span class="value">3.8</span>
+                <span class="label">Star Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <span class="value">65+</span>
+                <span class="label">Happy Reviews</span>
+            </div>
+            <div class="social-proof-item">
+                <span class="value">Local</span>
+                <span class="label">Favorite</span>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="container">
+            <p class="section-label">Our Journey</p>
+            <h2 class="section-headline">Taste the Passion in Every Dish.</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>From the heart of Elizabeth City, Bistro Tropical began with a simple passion: to bring the freshest seafood and vibrant Central American flavors to our beloved community. We believe in culinary excellence, using only the best ingredients to craft dishes that delight and inspire.</p>
+                    <p>Every plate, from our signature Coconut Shrimp Platter to our savory Shrimp Empanadas, is prepared with meticulous care and attention to detail. Our commitment is to provide not just a meal, but a memorable experience, filled with authentic tastes and a warm, inviting atmosphere.</p>
+                    <p>It's this dedication to quality and flavor that keeps our guests coming back, making Bistro Tropical a true local gem.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Just stopped by for lunch and it was absolutely delicious in every detail! We had Coconut Shrimp platter and Shrimp Empanadas with a fresh garden salad. Truly a highlight!"</p>
+                    <span class="author">— A Happy Diner</span>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="value">3.8</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="stat-item">
+                    <span class="value">65+</span>
+                    <span class="label">Customer Reviews</span>
+                </div>
+                <div class="stat-item">
+                    <span class="value">Fresh</span>
+                    <span class="label">Locally Sourced</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="container">
+            <p class="section-label">Our Offerings</p>
+            <h2 class="section-headline">Explore Our Irresistible Menu.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Coconut Shrimp Platter</h3>
+                    <p>Crispy, golden-fried shrimp coated in sweet coconut, served with a tangy dipping sauce.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Shrimp Empanadas</h3>
+                    <p>Hand-crafted pastries filled with seasoned shrimp, a taste of Central American tradition.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Tropical Fish Tacos</h3>
+                    <p>Fresh, flaky fish, vibrant slaw, and a zesty mango salsa in warm tortillas.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Ceviche Clasico</h3>
+                    <p>A refreshing mix of fresh seafood marinated in lime juice with onions, cilantro, and spices.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Seafood Paella</h3>
+                    <p>Our house specialty, a rich and savory rice dish loaded with an assortment of fresh seafood.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Lobster Tail Boil</h3>
+                    <p>Succulent lobster tail, perfectly seasoned and boiled, served with your choice of sides.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Key Lime Pie</h3>
+                    <p>A classic dessert with a perfect balance of tart and sweet, a refreshing finish to any meal.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="container">
+            <p class="section-label">Our Promise</p>
+            <h2 class="section-headline">Experience the Bistro Tropical Difference.</h2>
+            <div class="reasons-grid">
+                <div class="reason-card">
+                    <h3>Fresh Seafood Daily</h3>
+                    <p>Sourced from the freshest catches, ensuring every bite of our Coconut Shrimp Platter or Seafood Paella is pure bliss.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Authentic Central American Flavors</h3>
+                    <p>Experience the vibrant spices and traditional techniques in dishes like our savory Shrimp Empanadas and refreshing Ceviche Clasico.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Voted a Local Favorite</h3>
+                    <p>With 3.8 stars from 65 glowing reviews, our community loves the unique taste and warm atmosphere of Bistro Tropical.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section id="testimonials" class="container">
+            <p class="section-label">What Our Guests Say</p>
+            <h2 class="section-headline">Hear From Our Happy Customers.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"The Coconut Shrimp Platter was absolutely divine! Perfectly crispy with a tender, juicy interior. A must-try for anyone visiting!"</p>
+                    <span class="author">— Sarah L.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"My first time trying Shrimp Empanadas, and Bistro Tropical set the bar high! So flavorful, especially with the fresh garden salad. Loved it!"</p>
+                    <span class="author">— Mark T.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Every detail of our lunch was delicious. The Tropical Fish Tacos were incredible, fresh, and perfectly seasoned. We'll be back!"</p>
+                    <span class="author">— Emily R.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="container">
+            <p class="section-label">Visit Us</p>
+            <h2 class="section-headline">Find Us & See Our Hours.</h2>
+            <div class="content-wrapper">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p class="address">
+                        400 S Water St unit 102<br>
+                        Waterworks Building<br>
+                        Elizabeth City, NC 27909, USA
+                    </p>
+                    <a href="tel:2526797766" class="phone">(252) 679-7766</a>
+                    <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-primary">Get Directions</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>11:00 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>10:00 AM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>10:00 AM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td>10:00 AM – 8:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:2526797766" class="btn btn-secondary" style="margin-top: 30px;">Call to Order</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2>Ready for an Unforgettable Dining Experience?</h2>
+                <a href="tel:2526797766" class="btn btn-primary">Call to Reserve Your Table Today!</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo">Bistro Tropical</a>
+            <p class="tagline-short">Fresh Seafood & Central American Flavors.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.4 0-5 1.57-5 4.7V9.5H7.5v4H10V22h4v-8.5z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C8.68 2 8.33 2.01 7.26 2.06c-1.07.05-1.79.23-2.42.47-.63.25-1.18.59-1.74 1.15-.56.56-.9 1.11-1.15 1.74-.24.63-.42 1.35-.47 2.42-.05 1.07-.06 1.42-.06 4.74s.01 3.67.06 4.74c.05 1.07.23 1.79.47 2.42.25.63.59 1.18 1.15 1.74.56.56 1.11.9 1.74 1.15.63.24 1.35.42 2.42.47 1.07.05 1.42.06 4.74.06s3.67-.01 4.74-.06c1.07-.05 1.79-.23 2.42-.47.63-.25 1.18-.59 1.74-1.15.56-.56.9-1.11 1.15-1.74.24-.63.42-1.35.47-2.42.05-1.07.06-1.42.06-4.74s-.01-3.67-.06-4.74c-.05-1.07-.23-1.79-.47-2.42-.25-.63-.59-1.18-1.15-1.74-.56-.56-1.11-.9-1.74-1.15-.63-.24-1.35-.42-2.42-.47C15.67 2.01 15.32 2 12 2zm0 1.6c3.38 0 3.79.01 4.83.06 1.04.05 1.6.21 1.95.35.35.14.63.31.91.59.28.28.45.56.59.91.14.35.3.91.35 1.95.05 1.04.06 1.45.06 4.83s-.01 3.79-.06 4.83c-.05 1.04-.21 1.6-.35 1.95-.14.35-.31.63-.59.91-.28.28-.56.45-.91.59-.35.14-.91.3-1.95.35-1.04.05-1.45.06-4.83.06s-3.79-.01-4.83-.06c-1.04-.05-1.6-.21-1.95-.35-.35-.14-.63-.31-.91-.59-.28-.28-.45-.56-.59-.91-.14-.35-.3-.91-.35-1.95-.05-1.04-.06-1.45-.06-4.83s.01-3.79.06-4.83c.05-1.04.21-1.6.35-1.95.14-.35.31-.63.59-.91.28.28.56.45.91-.59.35-.14.91-.3 1.95-.35 1.04-.05 1.45-.06 4.83-.06zm0 2.4c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10.4c-2.43 0-4.4-1.97-4.4-4.4s1.97-4.4 4.4-4.4 4.4 1.97 4.4 4.4-1.97 4.4-4.4 4.4zm6.5-11.9c0 .7-.56 1.25-1.25 1.25s-1.25-.56-1.25-1.25.56-1.25 1.25-1.25 1.25.56 1.25 1.25z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Bistro Tropical. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section must be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Removed unobserve to allow sections to fade in again if scrolled past and then back
+                    // For a one-time animation, keep it: observer.unobserve(entry.target);
+                } else {
+                    entry.target.classList.remove('visible'); // Optional: fade out when scrolled away
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Ensure sticky header background is present on load
+        document.addEventListener('DOMContentLoaded', () => {
+             const header = document.querySelector('.sticky-header');
+             header.style.backgroundColor = 'var(--header-bg)';
+        });
+    </script>
+</body>
+</html>
