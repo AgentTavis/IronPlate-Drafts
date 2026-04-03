@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elk Restaurant - Monroe, NC | Bar And Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-primary: #D4AF37;
+            --brand-accent: #8B6914;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-primary);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem; /* Body font size as per spec */
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+        
+        section:nth-of-type(even) {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter for alternating sections */
+        }
+
+        /* Typography */
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            color: var(--brand-primary);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* Section headlines */
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+        
+        @media (max-width: 768px) {
+            .section-headline {
+                font-size: 2rem;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--bg-dark);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-primary);
+            color: var(--bg-dark);
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-with-accent {
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 0 8px 8px 0;
+            padding-left: 25px;
+        }
+
+        /* Specific Components */
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            letter-spacing: 0.1em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-primary);
+            color: var(--bg-dark);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--brand-accent);
+            color: var(--text-heading);
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide nav links on mobile, could add a hamburger menu */
+            }
+            .header-logo {
+                font-size: 1.4rem;
+            }
+            .header-call-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .sticky-header {
+                padding: 0 15px;
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--bg-dark); /* Base for gradient */
+            background-image: radial-gradient(circle at center, rgba(212,175,55,0.1) 0%, rgba(139,105,20,0.05) 50%, rgba(17,17,17,1) 100%);
+        }
+        
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 10px;
+            line-height: 1;
+            text-transform: uppercase;
+            color: var(--text-heading);
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 300;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        .hero-rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(212,175,55,0.2);
+            color: var(--brand-primary);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            gap: 8px;
+        }
+        .hero-rating-badge svg {
+            fill: var(--brand-primary);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(212,175,55,0.05); /* Tinted with brand color at low opacity */
+            padding: 40px 0;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            margin-bottom: 0;
+            letter-spacing: 0.03em;
+        }
+        
+        @media (max-width: 768px) {
+            .proof-item h3 {
+                font-size: 2rem;
+            }
+            .proof-item p {
+                font-size: 1rem;
+            }
+        }
+
+        /* Our Story Section */
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .story-text {
+            color: var(--text-body);
+        }
+
+        .story-text h3 {
+            color: var(--brand-primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .stat-card h4 {
+            font-size: 2.2rem;
+            color: var(--brand-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            letter-spacing: 0.03em;
+        }
+        
+        @media (max-width: 768px) {
+            .story-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Menu Section */
+        .menu-section {
+            text-align: center;
+        }
+
+        .menu-placeholder {
+            margin-top: 50px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 60px 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .menu-placeholder h3 {
+            font-size: 2rem;
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+        }
+
+        .menu-placeholder p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item-card h4 {
+            font-size: 1.6rem;
+            color: var(--brand-primary);
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-primary);
+            margin-bottom: 15px;
+            letter-spacing: 0.03em;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 0 8px 8px 0;
+            padding: 30px;
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-item span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-primary);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            margin-bottom: 1em;
+        }
+
+        .location-info .address {
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+        
+        .location-info a {
+            font-size: 1.15rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .closed-day {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .call-to-order-btn {
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background-color: var(--brand-primary);
+            background-image: linear-gradient(to right, var(--brand-primary), var(--brand-accent));
+            color: var(--bg-dark);
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .final-cta-section .section-headline {
+            color: var(--bg-dark);
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--bg-dark);
+            color: var(--brand-primary);
+            border: 2px solid var(--bg-dark);
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: rgba(17,17,17,0.8);
+            color: var(--text-heading);
+            border-color: rgba(17,17,17,0.8);
+            transform: scale(1.02);
+        }
+        
+        @media (max-width: 768px) {
+            .final-cta-section .section-headline {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-size: 2.5rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 40px;
+        }
+        
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">
+            <a href="#hero">Elk Restaurant</a>
+        </div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+17049930744" class="header-call-btn">CALL (704) 993-0744</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Monroe, NC</p>
+            <h1 class="hero-name">Elk Restaurant</h1>
+            <p class="hero-tagline">Come with me and my son as we attend a soft opening for my classmate Jason Hill's new restaurant Elk located in downtown Monroe, North Carolina.</p>
+            <div class="hero-rating-badge">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.568 8.332 1.21-6.001 5.855 1.416 8.281L12 18.896l-7.415 3.895 1.416-8.281-6.001-5.855 8.332-1.21L12 .587z"/></svg>
+                <span>4.9 Stars (44 Reviews)</span>
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container fade-in-up">
+            <div class="social-proof-grid">
+                <div class="proof-item">
+                    <h3>4.9 Stars</h3>
+                    <p>Exceptional Rating</p>
+                </div>
+                <div class="proof-item">
+                    <h3>44</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="proof-item">
+                    <h3>Local Favorite</h3>
+                    <p>Downtown Monroe's New Gem</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Story</p>
+            <h2 class="section-headline fade-in-up">A Taste of Monroe, Crafted with Care.</h2>
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p>We can't wait to host you! Elk Restaurant is bringing a fresh and inviting Bar And Grill experience to the heart of downtown Monroe, North Carolina. We are passionate about creating a space where friends, family, and neighbors can gather to enjoy great food, refreshing drinks, and memorable times.</p>
+                    <p>Our doors are open Sunday, Monday & Thursday from 11am-8pm, and Friday & Saturday from 11am-10pm. We take pride in our commitment to quality and community, and we're thrilled to become a new cornerstone for dining and socializing in Monroe. Join us soon!</p>
+                    <div class="testimonial-card">
+                        <p>"Elk Restaurant is exactly what Monroe needed! The atmosphere is fantastic, and you can truly feel the local love in every detail. A perfect spot for a casual meal or a night out."</p>
+                        <span>— A Happy Monroe Local</span>
+                    </div>
+                </div>
+                <div class="fade-in-up">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h4>4.9</h4>
+                            <p>Star Rating</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>44</h4>
+                            <p>Customer Reviews</p>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Downtown</h4>
+                            <p>Monroe Location</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Offerings</p>
+            <h2 class="section-headline fade-in-up">Our Culinary Creations</h2>
+            <div class="menu-placeholder fade-in-up">
+                <h3>Our Exciting Menu is Being Perfected!</h3>
+                <p>Get ready for a delicious experience that celebrates local flavors and classic bar & grill favorites. We're busy crafting dishes that will tantalize your taste buds.</p>
+                <a href="#" class="btn btn-primary">VIEW FULL MENU (Coming Soon!)</a>
+                <!-- No specific menu items provided, hence the placeholder. -->
+            </div>
+            <!--
+            <div class="menu-grid">
+                 Example structure if menu items were provided:
+                <div class="menu-item-card fade-in-up">
+                    <h4>Grilled Ribeye</h4>
+                    <p>Perfectly seared, served with seasonal vegetables.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h4>Classic Burger</h4>
+                    <p>Our signature patty, fresh toppings, toasted bun.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h4>Crispy Chicken Wings</h4>
+                    <p>Your choice of buffalo, BBQ, or garlic parmesan.</p>
+                </div>
+                ... up to 6-9 items
+            </div>
+            -->
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <p class="section-label fade-in-up">Experience Elk</p>
+            <h2 class="section-headline text-center fade-in-up">Why Locals Love Elk Restaurant</h2>
+            <div class="why-choose-us-grid">
+                <div class="card why-card fade-in-up">
+                    <h3>Warm, Welcoming Atmosphere</h3>
+                    <p>Step into a space designed for comfort and good times. Our bar and grill offers a relaxed yet vibrant setting, perfect for unwinding after a long day or celebrating with loved ones.</p>
+                </div>
+                <div class="card why-card fade-in-up">
+                    <h3>Perfect for Every Occasion</h3>
+                    <p>Whether it's a casual lunch, a lively dinner, or a weekend gathering, Elk Restaurant caters to all. With extended hours on weekends, we're your go-to spot for any moment.</p>
+                </div>
+                <div class="card why-card fade-in-up">
+                    <h3>Experience the Heart of Monroe</h3>
+                    <p>Located right in downtown Monroe, we are proud to be a part of the community. Enjoy our local hospitality and discover why we're quickly becoming a favorite among residents.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <p class="section-label fade-in-up">What Our Guests Say</p>
+            <h2 class="section-headline text-center fade-in-up">Real Words from Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <p>"Fantastic new spot in Monroe! The atmosphere is lively, and the food perfectly complements the bar experience. A must-visit!"</p>
+                    <span>— Alex P., Local Enthusiast</span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <p>"So glad Elk Restaurant is here! Everything we tried was top-notch, and the service was incredibly friendly. We'll be back every weekend!"</p>
+                    <span>— Sarah M., Regular Patron</span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <p>"Just what downtown Monroe needed! Great vibe, delicious drinks, and plates that truly hit the spot. Couldn't ask for more from a new local gem."</p>
+                    <span>— Jason H., Community Member</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <p class="section-label fade-in-up">Visit Us</p>
+            <h2 class="section-headline text-center fade-in-up">Find Us & Plan Your Visit</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p class="address">301 E Franklin St, Monroe, NC 28112, USA</p>
+                    <p>We're conveniently located in the vibrant heart of downtown Monroe. Plenty of parking is available nearby.</p>
+                    <p><a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">GET DIRECTIONS</a></p>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td class="closed-day">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td class="closed-day">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 10:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>11:00 AM – 10:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+17049930744" class="btn btn-primary call-to-order-btn">CALL US (704) 993-0744</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container fade-in-up">
+            <h2 class="section-headline">Ready for an Unforgettable Meal?</h2>
+            <a href="#find-us" class="btn">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo fade-in-up">Elk Restaurant</div>
+            <p class="footer-tagline fade-in-up">Come with me and my son as we attend a soft opening for my classmate Jason Hill's new restaurant Elk located in downtown Monroe, North Carolina.</p>
+            <div class="social-links fade-in-up">
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 .276-2h3.224V2.042S16.578 2 15.02 2c-2.71 0-4.02 1.625-4.02 4.14v3.36H7v4h4v7h5v-7h3.5l1-4H16z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 2C4.463 2 2 4.463 2 7.5v9C2 19.537 4.463 22 7.5 22h9c3.037 0 5.5-2.463 5.5-5.5v-9C22 4.463 19.537 2 16.5 2h-9zm0 2h9c1.933 0 3.5 1.567 3.5 3.5v9c0 1.933-1.567 3.5-3.5 3.5h-9c-1.933 0-3.5-1.567-3.5-3.5v-9C4 5.567 5.567 4 7.5 4zm4.5 3c-2.761 0-5 2.239-5 5s2.239 5 5 5 5-2.239 5-5-2.239-5-5-5zm0 2c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm4.5-5c-.829 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5 1.5-.671 1.5-1.5-.671-1.5-1.5-1.5z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22 4.028c-.733.326-1.52.547-2.348.646.847-.506 1.488-1.309 1.795-2.259-.791.469-1.666.81-2.59.992-.748-.795-1.812-1.29-3.004-1.29-2.264 0-4.095 1.83-4.095 4.095 0 .32.036.63.104.926-3.403-.171-6.417-1.799-8.435-4.276-.353.606-.557 1.31-.557 2.059 0 1.419.721 2.67 1.819 3.407-.67-.02-1.296-.205-1.846-.508-.001.017-.001.034-.001.051 0 1.983 1.41 3.639 3.279 4.01-.343.093-.705.143-1.077.143-.264 0-.52-.025-.769-.074.52 1.626 2.03 2.81 3.821 2.844-1.401 1.096-3.172 1.751-5.093 1.751-.331 0-.657-.019-.979-.057 1.81 1.164 3.961 1.842 6.279 1.842 7.535 0 11.644-6.247 11.644-11.643 0-.177-.004-.354-.012-.529.805-.582 1.499-1.314 2.047-2.146z"/></svg></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Elk Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener("DOMContentLoaded", function() {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
