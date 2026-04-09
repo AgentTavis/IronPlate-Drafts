@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agapé Coffee + Handcrafted Doughnuts | Plymouth, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --color-bg-main: #111111;
+            --color-brand: #D4A574;
+            --color-accent: #2C2C2C;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4.5rem; line-height: 1.1; } /* Hero text */
+        h2 { font-size: 2.8rem; line-height: 1.2; } /* Section headlines */
+        h3 { font-size: 1.8rem; line-height: 1.3; }
+        h4 { font-size: 1.4rem; line-height: 1.4; }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-body);
+        }
+
+        a {
+            color: var(--color-brand);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #E6B584; /* A slightly lighter shade of brand color for hover */
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* For animations */
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--color-brand);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-bg-main);
+            border: 2px solid var(--color-brand);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #E6B584;
+            border-color: #E6B584;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-brand);
+            border: 2px solid var(--color-brand);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--color-brand);
+            color: var(--color-bg-main);
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-text-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .sticky-header nav a {
+            color: var(--color-text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        .sticky-header nav a:hover {
+            color: var(--color-brand);
+        }
+
+        .sticky-header .call-btn {
+            background-color: var(--color-brand);
+            color: var(--color-bg-main);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sticky-header .call-btn:hover {
+            background-color: #E6B584; /* Lighter brand color on hover */
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(44,44,44,0.7) 40%, rgba(212,165,116,0.3) 100%), var(--color-bg-main);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Larger for hero */
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--color-brand);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--color-text-body);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            color: var(--color-text-heading);
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+        }
+        .hero .rating-badge .star {
+            color: var(--color-brand);
+            font-size: 1.2rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(212,165,116, 0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            text-align: center;
+            color: var(--color-text-heading);
+        }
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--color-brand);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-body); /* Numbers look better in sans-serif */
+            font-weight: 700;
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            margin: 0;
+            color: var(--color-text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+        .social-proof-item .star {
+            color: var(--color-brand);
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+        .our-story-text h2 {
+            margin-bottom: 1.5rem;
+        }
+        .our-story-text p {
+            margin-bottom: 1rem;
+        }
+        .our-story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+        }
+        .stat-card h3 {
+            color: var(--color-brand);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-body);
+        }
+        .stat-card p {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+        .story-testimonial-card {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+            margin-top: 3rem;
+        }
+        .story-testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-body);
+        }
+        .story-testimonial-card cite {
+            display: block;
+            text-align: right;
+            font-weight: 500;
+            color: var(--color-brand);
+            font-size: 0.95rem;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 1.8rem;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .menu-item-card h3 {
+            color: var(--color-text-heading);
+            margin-bottom: 0.75rem;
+            font-size: 1.5rem;
+        }
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            margin: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+        .why-card {
+            text-align: center;
+            padding: 2.5rem;
+            border-radius: 8px;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+        }
+        .why-card h3 {
+            color: var(--color-brand);
+            margin-bottom: 1rem;
+            font-size: 1.7rem;
+        }
+        .why-card p {
+            color: var(--color-text-body);
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 2rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-body);
+        }
+        .testimonial-card cite {
+            display: block;
+            text-align: right;
+            font-weight: 500;
+            color: var(--color-brand);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+            margin-top: 4rem;
+        }
+        .location-info h3, .hours-info h3 {
+            margin-bottom: 1.5rem;
+            color: var(--color-text-heading);
+            font-size: 2rem;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .location-info a {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--color-card-border);
+        }
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 500;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--color-text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .call-to-order-btn {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(212,165,116,0.9) 0%, rgba(212,165,116,0.7) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            color: var(--color-bg-main);
+            margin-bottom: 2rem;
+            font-size: 3rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .final-cta .btn-primary {
+            background-color: var(--color-bg-main);
+            color: var(--color-brand);
+            border-color: var(--color-bg-main);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--color-accent);
+            color: var(--color-brand);
+            border-color: var(--color-accent);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-accent);
+            padding: 5rem 0;
+            text-align: center;
+            color: var(--color-text-secondary);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--color-text-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: var(--color-text-body);
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .social-links a {
+            color: var(--color-text-heading);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--color-brand);
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Intersection Observer Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.8rem;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header nav ul {
+                gap: 1.5rem;
+            }
+            .section-heading h2 {
+                font-size: 2.2rem;
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+                gap: 10px;
+            }
+            .sticky-header nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .sticky-header .call-btn {
+                margin-top: 10px;
+            }
+            .hero {
+                padding-top: 120px; /* Adjust for header height */
+                height: auto;
+                min-height: 100vh;
+                padding-bottom: 80px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+                margin-bottom: 0.5rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .social-proof-item {
+                padding: 1rem 0;
+            }
+
+            .our-story-content, .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .our-story-text {
+                order: 1;
+            }
+            .our-story-stats {
+                grid-template-columns: 1fr;
+            }
+            .story-testimonial-card {
+                margin-top: 2rem;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header nav ul {
+                display: none; /* Hide nav links on very small screens, keep call button */
+            }
+            .sticky-header .call-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .final-cta h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sticky-header">
+        <div class="logo">Agapé Coffee</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(252) 945-4170" class="btn call-btn">CALL (252) 945-4170</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero" id="hero">
+            <div class="container hero-content animate-on-scroll">
+                <p class="location">Plymouth, NC</p>
+                <h1>Agapé Coffee + Handcrafted Doughnuts</h1>
+                <p class="tagline">Agape Coffee + Handcrafted Doughnuts will be open TODAY 9-3!! more. August 3, 2024 · carolinapsalms's profile ...</p>
+                <div class="rating-badge">
+                    <span class="star">⭐</span> 4.9 Stars (40 Reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">View Menu</a>
+                    <a href="#find-us" class="btn btn-secondary">Find Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container social-proof-grid animate-on-scroll">
+                <div class="social-proof-item">
+                    <h3><span class="star">⭐</span> 4.9 / 5</h3>
+                    <p>Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>40+</h3>
+                    <p>Customer Reviews</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3>Local Favorite</h3>
+                    <p>Plymouth, NC</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section class="our-story" id="our-story">
+            <div class="container">
+                <div class="section-heading animate-on-scroll">
+                    <span class="section-label">Our Story</span>
+                    <h2>More Than Just Coffee, It's a Community.</h2>
+                </div>
+                <div class="our-story-content">
+                    <div class="our-story-text animate-on-scroll">
+                        <p>At Agapé Coffee + Handcrafted Doughnuts, we believe in crafting joy, one cup and one doughnut at a time. Nestled in the heart of Plymouth, NC, we’re more than just a place to grab a quick bite; we're a community hub where every visit feels like coming home.</p>
+                        <p>We pour our passion into every batch of our unique, handcrafted doughnuts and every perfectly brewed coffee, ensuring a delightful experience that brightens your day. Come taste the difference made with love and dedication, and become a part of our growing family here in Plymouth.</p>
+                        <div class="story-testimonial-card animate-on-scroll">
+                            <blockquote>"The Maple Bacon Doughnut here is a revelation! Every visit is a treat, and the coffee always hits the spot. A true Plymouth gem."</blockquote>
+                            <cite>— Sarah L., Local Foodie</cite>
+                        </div>
+                    </div>
+                    <div class="our-story-stats animate-on-scroll">
+                        <div class="stat-card">
+                            <h3>4.9 <span class="star">/ 5</span></h3>
+                            <p>Stars</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>40+</h3>
+                            <p>Reviews</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>3+</h3>
+                            <p>Years Serving Plymouth</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section class="menu" id="menu">
+            <div class="container">
+                <div class="section-heading animate-on-scroll">
+                    <span class="section-label">Our Menu</span>
+                    <h2>Handcrafted Delights, Freshly Made.</h2>
+                </div>
+                <div class="menu-grid animate-on-scroll">
+                    <div class="menu-item-card">
+                        <h3>Classic Glazed Doughnut</h3>
+                        <p>Our signature, perfectly sweet and airy.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Chocolate Frosted Doughnut</h3>
+                        <p>Rich chocolate glaze, a timeless favorite.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Maple Bacon Doughnut</h3>
+                        <p>Sweet and savory perfection, a crowd-pleaser.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Espresso</h3>
+                        <p>A robust shot, perfectly extracted for a pure coffee experience.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Latte</h3>
+                        <p>Smooth espresso with steamed milk, a comforting classic.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Caramel Macchiato</h3>
+                        <p>Layers of rich espresso, creamy milk, and sweet caramel drizzle.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Seasonal Berry Doughnut</h3>
+                        <p>Fresh berries baked into a light glaze (ask for current special!).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section class="why-choose-us" id="why-choose-us">
+            <div class="container">
+                <div class="section-heading animate-on-scroll">
+                    <span class="section-label">Why Choose Us</span>
+                    <h2>Experience the Agapé Difference.</h2>
+                </div>
+                <div class="why-choose-us-grid animate-on-scroll">
+                    <div class="why-card">
+                        <h3>Doughnuts Made with Love, Every Morning</h3>
+                        <p>Our handcrafted doughnuts are prepared fresh daily, using only the finest ingredients to ensure a melt-in-your-mouth experience with every bite. From classic glazed to adventurous maple bacon, quality is our promise.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Premium Coffee, Perfectly Brewed</h3>
+                        <p>Whether it's a bold Espresso or a creamy Caramel Macchiato, our expert baristas meticulously craft each drink. We source quality beans to deliver a consistent, delightful coffee experience, every time.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>Your Community Hub in Plymouth, NC</h3>
+                        <p>With 4.9 stars from 40 reviews, we're a beloved local favorite. We pride ourselves on creating a warm, welcoming atmosphere where friends and family can gather, connect, and enjoy delicious treats.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-heading animate-on-scroll">
+                    <span class="section-label">What Our Customers Say</span>
+                    <h2>Raving Reviews from Our Agapé Family.</h2>
+                </div>
+                <div class="testimonials-grid animate-on-scroll">
+                    <div class="testimonial-card">
+                        <blockquote>"Absolutely love the Maple Bacon Doughnut! It's the perfect blend of sweet and savory. And their Lattes are always spot on – my daily ritual."</blockquote>
+                        <cite>— Emily R., Satisfied Customer</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <blockquote>"Agapé Coffee + Handcrafted Doughnuts is my go-to for my morning Espresso and a Classic Glazed. Consistently delicious and the best way to start my day!"</blockquote>
+                        <cite>— David P., Regular Patron</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <blockquote>"The Seasonal Berry Doughnut was a delightful surprise, and their Caramel Macchiato is divine. A true gem in Plymouth with such friendly staff!"</blockquote>
+                        <cite>— Jessica M., Visiting Fan</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section class="location-hours" id="find-us">
+            <div class="container">
+                <div class="section-heading animate-on-scroll">
+                    <span class="section-label">Find Us</span>
+                    <h2>Visit Us in Plymouth, NC!</h2>
+                </div>
+                <div class="location-hours-content">
+                    <div class="location-info animate-on-scroll">
+                        <h3>Our Location</h3>
+                        <p>Come on down and experience the warmth of Agapé Coffee + Handcrafted Doughnuts firsthand.</p>
+                        <p><strong>Address:</strong><br>
+                        344 US-64, Plymouth, NC 27962, USA</p>
+                        <p><strong>Phone:</strong><br>
+                        <a href="tel:(252) 945-4170">(252) 945-4170</a></p>
+                        <a href="https://www.google.com/maps/search/344+US-64,+Plymouth,+NC+27962,+USA" target="_blank" class="btn btn-secondary" style="margin-top: 1.5rem;">Get Directions</a>
+                    </div>
+                    <div class="hours-info animate-on-scroll">
+                        <h3>Our Hours</h3>
+                        <p>We're open and ready to serve you fresh coffee and delicious doughnuts!</p>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>8:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>8:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>8:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>8:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>8:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>Closed</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>Closed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="call-to-order-btn">
+                            <a href="tel:(252) 945-4170" class="btn btn-primary">Call to Order Now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container animate-on-scroll">
+                <h2>Ready for Your Daily Dose of Deliciousness?</h2>
+                <a href="#hero" class="btn btn-primary">Visit Us Today!</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Agapé Coffee</span>
+            <p class="tagline">Handcrafted Doughnuts & Fresh Coffee in Plymouth, NC.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 2.154-4.192 4.167v3.833z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.667 4.97 4.97.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.198 3.303-1.718 4.822-4.97 4.97-1.267.058-1.647.069-4.85.069-3.205 0-3.584-.012-4.849-.069-3.252-.148-4.772-1.667-4.97-4.97-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.198-3.303 1.718-4.822 4.97-4.97 1.266-.058 1.646-.069 4.849-.069zm0-2.163c-3.259 0-3.668.014-4.949.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.691-.073 4.949 0 3.259.014 3.668.072 4.949.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.691.073 4.949.073 3.259 0 3.668-.014 4.949-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.281.073-1.691.073-4.949 0-3.259-.014-3.668-.072-4.949-.199-4.358-2.618-6.78-6.979-6.98-1.281-.059-1.691-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Agapé Coffee + Handcrafted Doughnuts. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up animation
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of element visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
