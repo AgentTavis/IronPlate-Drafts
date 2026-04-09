@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Becca's Backwoods Bean Coffee Shop | Sparta, NC - Diner & Coffee</title>
+    <meta name="description" content="Experience Sparta's best comfort food and coffee at Becca's Backwoods Bean. Famous for our Cinnamon Babka, delicious Chicken Salad, and authentic Cuban sandwiches. Visit us today!">
+    <link rel="canonical" href="https://www.beccasbackwoodsbean.com"> <!-- Placeholder for actual domain -->
+
+    <!-- Google Fonts for Diner/Pizza type: Bitter (serif) + Inter (sans-serif) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS Reset & Base Styles --- */
+        :root {
+            --color-primary-bg: #111111;
+            --color-secondary-bg: rgba(255,255,255,0.02); /* Slightly lighter for alternating sections */
+            --color-brand: #8B6F47;
+            --color-accent: #000000;
+            --color-heading: #ffffff;
+            --color-body: #cccccc;
+            --color-secondary-text: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --section-padding-y: 100px;
+            --container-max-width: 1200px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 1.1rem; /* Adjusted for 1.05-1.15rem */
+            line-height: 1.7;
+            color: var(--color-body);
+            background-color: var(--color-primary-bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: var(--color-brand);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #bfa881; /* Lighter shade of brand color */
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up effects */
+        }
+        section:nth-of-type(even) {
+            background-color: var(--color-secondary-bg);
+        }
+
+        /* --- Global Components --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-heading);
+            border-color: var(--color-brand);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #a3855e; /* Slightly darker brand color */
+            border-color: #a3855e;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-brand);
+            border-color: var(--color-brand);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--color-brand);
+            color: var(--color-heading);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-brand);
+            margin-bottom: 1.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* Adjusted for 2.5-3rem */
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        /* --- Specific Section Styles --- */
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s ease;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header-nav a {
+            color: var(--color-body);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            transition: color 0.3s ease;
+        }
+        .header-nav a:hover {
+            color: var(--color-brand);
+        }
+
+        .header-cta .btn {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            height: 40px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: 
+                linear-gradient(rgba(17,17,17,0.85), rgba(17,17,17,0.85)),
+                radial-gradient(ellipse at bottom, rgba(139,111,71,0.1) 0%, transparent 70%),
+                radial-gradient(ellipse at top, rgba(139,111,71,0.05) 0%, transparent 80%);
+            background-color: var(--color-primary-bg); /* Base color */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            padding-top: 60px; /* Offset for sticky header */
+            max-width: 900px;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--color-secondary-text);
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* Large text, 4-6rem */
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.04em;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--color-body);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-heading);
+            margin-bottom: 3rem;
+            gap: 0.5rem;
+        }
+        .hero-rating span {
+            color: #FFD700; /* Gold star color */
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(139, 111, 71, 0.05); /* Brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+        }
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .social-proof-item {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-heading);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .social-proof-item span {
+            color: var(--color-brand);
+            font-size: 1.5rem;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            padding-top: 50px;
+        }
+        .our-story-text {
+            text-align: left;
+        }
+        .our-story-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .our-story-quote {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-style: italic;
+            position: relative;
+        }
+        .our-story-quote::before {
+            content: "“";
+            font-family: serif;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: 0px;
+            left: 20px;
+            line-height: 1;
+        }
+        .our-story-quote p {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+            color: var(--color-heading);
+        }
+        .our-story-quote span {
+            display: block;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--color-secondary-text);
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-direction: column; /* Stack vertically for smaller screen on the right */
+            gap: 30px;
+            padding-left: 40px;
+        }
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--color-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--color-heading);
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--color-body);
+            margin-bottom: 0;
+        }
+        .menu-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            margin-top: 1rem;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-top: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+        .why-choose-us-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--color-heading);
+        }
+        .why-choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--color-body);
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-brand);
+            padding: 2.5rem;
+            border-radius: 8px;
+        }
+        .testimonial-card p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--color-heading);
+            margin-bottom: 1rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-body);
+            display: block;
+        }
+        .testimonial-card .source {
+            font-size: 0.9rem;
+            color: var(--color-secondary-text);
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--color-heading);
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+        }
+        .location-info a {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+        .location-info .btn {
+            margin-top: 1.5rem;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .hours-table th {
+            color: var(--color-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--color-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--color-brand);
+            font-weight: 500;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--color-brand) 0%, #a3855e 100%);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+            color: var(--color-heading);
+        }
+        .final-cta-headline {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta .btn {
+            background-color: var(--color-primary-bg);
+            color: var(--color-brand);
+            border-color: var(--color-primary-bg);
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+        }
+        .final-cta .btn:hover {
+            background-color: var(--color-accent);
+            color: var(--color-brand);
+            border-color: var(--color-accent);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--color-accent);
+            color: var(--color-secondary-text);
+            padding: 60px 0;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-heading);
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--color-body);
+            font-size: 1.5rem;
+        }
+        .social-links a:hover {
+            color: var(--color-brand);
+        }
+        .footer-copyright {
+            margin-top: 2rem;
+            color: var(--color-secondary-text);
+        }
+
+        /* --- Fade-in-up effect CSS --- */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up--active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .our-story-content,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .stats-grid {
+                padding-left: 0;
+                margin-top: 50px;
+            }
+            .stat-card {
+                padding: 2rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-text h3 {
+                font-size: 1.8rem;
+            }
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .final-cta-headline {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                display: none; /* Hide nav links on smaller screens for simplicity */
+            }
+            .header .container {
+                justify-content: center; /* Center logo and CTA */
+            }
+            .header-cta {
+                position: absolute; /* Keep CTA visible but not interfering with logo */
+                right: 20px;
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .social-proof .container {
+                flex-direction: column;
+            }
+            .section-padding-y {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-quote {
+                padding: 1.5rem;
+            }
+            .our-story-quote p {
+                font-size: 1rem;
+            }
+            .stat-card .number {
+                font-size: 2.5rem;
+            }
+            .final-cta-headline {
+                font-size: 2rem;
+            }
+            .footer-tagline {
+                font-size: 1rem;
+            }
+            .social-links {
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="header-logo">Becca's Backwoods Bean</a>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+13363727888" class="btn btn-primary header-cta">CALL (336) 372-7888</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="hero fade-in-up">
+            <div class="container hero-content">
+                <p class="hero-location fade-in-up">Sparta, NC</p>
+                <h1 class="hero-title fade-in-up">BECCA'S BACKWOODS BEAN</h1>
+                <p class="hero-tagline fade-in-up">I cook things. Mother of 2. · And so my hand went numb · This cinnamon babka is the best thing we make.</p>
+                <div class="hero-rating fade-in-up">
+                    <span>⭐</span> 4.7 stars (332 reviews)
+                </div>
+                <div class="hero-ctas fade-in-up">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof fade-in-up">
+            <div class="container">
+                <div class="social-proof-item"><span>⭐</span> 4.7 Stars (332 Reviews)</div>
+                <div class="social-proof-item"><span>❤️</span> 332+ Happy Customers</div>
+                <div class="social-proof-item"><span>📍</span> Sparta's Local Favorite</div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <span class="section-label fade-in-up">Our Journey</span>
+                <h2 class="section-headline fade-in-up">Where Every Dish Tells a Tale of Heart & Home.</h2>
+                <div class="our-story-content">
+                    <div class="our-story-text fade-in-up">
+                        <p>We believe in good food, made with love, and served with a smile. Becca's Backwoods Bean is more than just a coffee shop; it's a culinary haven nestled in the heart of Sparta, NC, where the aroma of freshly brewed coffee mingles with the irresistible scent of homemade delights.</p>
+                        <p>During the bustling Heritage Festival, many found themselves pleasantly surprised by our unexpected culinary excellence. We were busy, but our staff kept spirits high and bellies full. Guests raved about our phenomenal chicken salad and the Cuban sandwich that was "out of this world."</p>
+                        <p>This dedication to delicious, high-quality food in a warm, welcoming environment is what defines us. We pour our heart into every dish, ensuring each visit is a delightfully memorable experience. Come discover your new favorite spot.</p>
+                        <div class="our-story-quote fade-in-up">
+                            <p>"I had never tasted such good chicken salad and his Cuban was out of this world. Even though they were super busy - I took the time to compliment them on this delectably delightful experience."</p>
+                            <span>- A Delighted Customer during the Heritage Festival</span>
+                        </div>
+                    </div>
+                    <div class="stats-grid fade-in-up">
+                        <div class="stat-card">
+                            <div class="number">4.7</div>
+                            <div class="label">Star Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">332</div>
+                            <div class="label">Happy Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">3</div>
+                            <div class="label">Convenient Services</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu">
+            <div class="container">
+                <span class="section-label fade-in-up">Our Flavors</span>
+                <h2 class="section-headline fade-in-up">Our Irresistible Flavors. Come Taste the Difference.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Cinnamon Babka</h3>
+                        <p>Our pride and joy – a sweet, spiced, and utterly delicious braided bread. Truly the best thing we make!</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Backwoods Chicken Salad</h3>
+                        <p>Creamy, savory perfection with tender chicken, fresh ingredients, and our secret blend of spices. A local legend!</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Authentic Cuban Sandwich</h3>
+                        <p>A taste of tradition! Slow-roasted pork, ham, Swiss cheese, pickles, and mustard on toasted bread.</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Freshly Brewed Coffee</h3>
+                        <p>Start your day right or enjoy an afternoon pick-me-up with our expertly roasted and brewed coffee selections.</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Homemade Pastries</h3>
+                        <p>A rotating selection of daily baked sweet treats, from flaky croissants to rich muffins. Perfect with your coffee!</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Hearty Breakfast Burrito</h3>
+                        <p>Packed with eggs, cheese, your choice of meat, and fresh veggies. A flavorful and filling way to kickstart your morning.</p>
+                        <!-- <span class="price"></span> No price provided -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <span class="section-label fade-in-up">Our Promise</span>
+                <h2 class="section-headline fade-in-up">Why Locals Love Becca's Backwoods Bean.</h2>
+                <div class="grid-3-col why-choose-us-grid">
+                    <div class="why-choose-us-card fade-in-up">
+                        <h3>Unbeatable Cinnamon Babka</h3>
+                        <p>Our famous cinnamon babka isn't just a dessert; it's a statement. Voted "the best thing we make" by Becca herself, it's a must-try for any sweet tooth.</p>
+                    </div>
+                    <div class="why-choose-us-card fade-in-up">
+                        <h3>Delicious Diner Classics</h3>
+                        <p>From our "out of this world" Cuban sandwich to our chicken salad that customers say they've "never tasted such good," we elevate classic diner comfort food.</p>
+                    </div>
+                    <div class="why-choose-us-card fade-in-up">
+                        <h3>Warm, Welcoming Atmosphere</h3>
+                        <p>Even when bustling, our staff keeps everyone happy. Experience genuine Southern hospitality in a cozy setting perfect for families and friends.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <span class="section-label fade-in-up">Kind Words</span>
+                <h2 class="section-headline fade-in-up">What Our Amazing Customers Say.</h2>
+                <div class="grid-3-col testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The chicken salad here is seriously the best I've ever had! And my partner's Cuban was just phenomenal. We were so impressed even during a busy festival."</p>
+                        <span class="author">Alex P.</span>
+                        <span class="source">Satisfied Yelp Reviewer</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"I drive out of my way just for Becca's cinnamon babka. It's rich, perfectly spiced, and truly is the best thing they make. A perfect treat every time!"</p>
+                        <span class="author">Sarah M.</span>
+                        <span class="source">Local Regular</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"This place is a gem! The coffee is superb, and the atmosphere is so inviting. They handle crowds like pros and always make you feel welcome. Highly recommend!"</p>
+                        <span class="author">David L.</span>
+                        <span class="source">Coffee Enthusiast</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <span class="section-label fade-in-up">Visit Us</span>
+                <h2 class="section-headline fade-in-up">Your Spot for Great Coffee & Comfort Food.</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info fade-in-up">
+                        <h3>Find Becca's Backwoods Bean</h3>
+                        <p><strong>Address:</strong> 21 N Main St, Sparta, NC 28675, USA</p>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Becca's+Backwoods+Bean+Coffee+Shop+Sparta+NC" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                        <p style="margin-top: 2rem;"><strong>Phone:</strong> <a href="tel:+13363727888" style="color: var(--color-brand); font-size: 1.5rem; display: inline-block;">(336) 372-7888</a></p>
+                        <p>We offer:</p>
+                        <ul style="list-style: none; padding-left: 0; margin-top: 0.5rem;">
+                            <li>&bull; Take-Out</li>
+                            <li>&bull; Delivery</li>
+                            <li>&bull; Accepts Credit Cards</li>
+                        </ul>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Our Hours</h3>
+                        <p>Planning your visit? Here's when you can find us:</p>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Monday:</td><td>7:00 AM – 5:00 PM</td></tr>
+                                <tr><td>Tuesday:</td><td>7:00 AM – 5:00 PM</td></tr>
+                                <tr><td>Wednesday:</td><td>7:00 AM – 5:00 PM</td></tr>
+                                <tr><td>Thursday:</td><td>7:00 AM – 8:30 PM</td></tr>
+                                <tr><td>Friday:</td><td>7:00 AM – 5:00 PM</td></tr>
+                                <tr><td>Saturday:</td><td>7:00 AM – 5:00 PM</td></tr>
+                                <tr><td>Sunday:</td><td class="closed">Closed</td></tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+13363727888" class="btn btn-primary" style="margin-top: 2rem;">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2 class="final-cta-headline">Don't Miss Out on Sparta's Best Comfort Food & Coffee.</h2>
+                <a href="#find-us" class="btn">PLAN YOUR VISIT NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Becca's Backwoods Bean</a>
+            <p class="footer-tagline">I cook things. Mother of 2. · And so my hand went numb · This cinnamon babka is the best thing we make.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.772 1.691 4.91 4.908.058 1.264.07 1.644.07 4.849 0 3.206-.012 3.586-.07 4.85-.148 3.225-1.664 4.771-4.91 4.91-.95.044-1.294.056-4.85.056-3.204 0-3.584-.012-4.85-.07c-3.252-.149-4.771-1.692-4.91-4.91-.058-1.264-.07-1.644-.07-4.849 0-3.206.012-3.586.07-4.85.149-3.227 1.664-4.771 4.91-4.91 1.264-.058 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4c0 2.208-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.44-.645 1.44-1.44s-.645-1.44-1.44-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10.151 16.366c.21.32.146.745-.147.986l-1.493 1.22c-.293.24-.712.18-.922-.14l-2.008-3.056c-.21-.32-.146-.745.147-.986l1.493-1.22c.293-.24.712-.18.922.14l2.008 3.056zM22 6c0-3.314-2.686-6-6-6h-8c-3.314 0-6 2.686-6 6v12c0 3.314 2.686 6 6 6h8c3.314 0 6-2.686 6-6v-12zm-3 12.06c0 1.624-1.336 2.94-2.983 2.94h-8.034c-1.647 0-2.983-1.316-2.983-2.94v-12.121c0-1.624 1.336-2.94 2.983-2.94h8.034c1.647 0 2.983 1.316 2.983 2.94v12.121zm-10.027-14.92c-.21-.32-.629-.38-.922-.14l-1.493 1.22c-.293.24-.357.665-.147.986l2.008 3.056c.21.32.629.38.922.14l1.493-1.22c.293-.24.357-.665.147-.986l-2.008-3.056zM15 12c0 1.104-.896 2-2 2h-1v-4h1c1.104 0 2 .896 2 2zM12 9h-1v-2h1c1.104 0 2 .896 2 2v1h-2v-2zM12 17v-3h-1c-1.104 0-2-.896-2-2v-1h2v-2h-2c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1h-1c-1.104 0-2 .896-2 2v2h2v1c0 1.104.896 2 2 2h1v3h-1c-1.104 0-2 .896-2 2v1c0 1.104.896 2 2 2h1v1h-1c-1.104 0-2-.896-2-2s.896-2 2-2zM15 15c-1.104 0-2-.896-2-2v-1h-1v4h2c1.104 0 2-.896 2-2v-1h-1v1zM15 9h-2v-1c0-1.104-.896-2-2-2h-1v1h2v2h-2c-1.104 0-2 .896-2 2s.896 2 2 2h1v1h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.896-2-2s.896-2 2-2h1v-1c0-1.104-.896-2-2-2h-1c-1.104 0-2-.8
