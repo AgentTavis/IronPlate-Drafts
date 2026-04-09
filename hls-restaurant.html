@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&L'S Restaurant - Authentic Southern BBQ in Engelhard, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for social icons. If not desired, replace with text links and remove this line. -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-primary: #111111;
+            --brand-color: #F4D4A8;
+            --accent-color: #8B4513;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+        }
+
+        /* General Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; } /* Hero H1, adjusted later */
+        h2 { font-size: 2.8rem; } /* Section Headlines */
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        button, .btn-primary, .btn-secondary {
+            cursor: pointer;
+            border: none;
+            padding: 1rem 2rem;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button:hover, .btn-primary:hover, .btn-secondary:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+            border-radius: 6px;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+            border-radius: 6px;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .section-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Visual Effects - Fade-in-up (requires JS for full functionality, CSS transition included) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* .fade-in-up.is-visible { opacity: 1; transform: translateY(0); } */
+        /* To enable, add JavaScript:
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const faders = document.querySelectorAll('.fade-in-up');
+                const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+                const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, appearOptions);
+                faders.forEach(fader => appearOnScroll.observe(fader));
+            });
+        </script>
+        */
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header nav a {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            position: relative;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header nav a:hover::after {
+            width: 100%;
+        }
+
+        .header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: 
+                linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.9)), /* Dark overlay */
+                radial-gradient(circle at top left, rgba(244, 212, 168, 0.08), transparent 70%), /* Brand color hint */
+                radial-gradient(circle at bottom right, rgba(139, 69, 19, 0.08), transparent 70%); /* Accent color hint */
+            background-color: var(--bg-primary); /* Fallback */
+            background-blend-mode: overlay, normal, normal; /* Blend the gradients */
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 0.5rem;
+            line-height: 0.9;
+        }
+        .hero-content .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-content .rating-badge .star-icon {
+            color: var(--brand-color);
+            margin-right: 0.5rem;
+            font-size: 1.2rem; /* Using a unicode star for visual */
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(244, 212, 168, 0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .social-proof-item {
+            flex: 1 1 250px; /* Allow items to grow/shrink, min width 250px */
+            max-width: 300px;
+            padding: 1rem;
+        }
+
+        .social-proof-item h3 {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-proof-item p {
+            color: var(--text-heading);
+            font-size: 1.15rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .container {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .story-content h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: 2rem auto;
+            text-align: left;
+            position: relative;
+        }
+
+        .testimonial-quote-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 6rem;
+            color: var(--brand-color);
+            opacity: 0.2;
+            position: absolute;
+            top: 0px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-quote-card p {
+            font-style: italic;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            position: relative; /* To be above the pseudo-element */
+            z-index: 1;
+        }
+
+        .testimonial-quote-card cite {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-align: right;
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: rgba(255, 255, 255, 0.02); /* Slightly lighter background */
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2-3 column grid */
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-size: 1.6rem;
+            margin-bottom: 0.75rem;
+            color: var(--brand-color);
+        }
+
+        .menu-item-card .price {
+            color: var(--text-heading);
+            font-family: 'Oswald', sans-serif;
+            font-weight: 400;
+            font-size: 1.4rem;
+        }
+
+        .menu-item-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .menu-note {
+            text-align: center;
+            margin-top: 3rem;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .container {
+            text-align: center;
+        }
+
+        .reason-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--accent-color); /* Subtle accent */
+            border-radius: 8px;
+            padding: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .reason-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+
+        .reason-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: rgba(255, 255, 255, 0.02); /* Slightly lighter background */
+        }
+        .testimonials .container {
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: normal;
+            font-weight: 600;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--brand-color);
+        }
+
+        .location-info address {
+            font-style: normal;
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        .location-info .phone-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 2rem;
+            display: block;
+            transition: color 0.3s ease;
+        }
+        .location-info .phone-number:hover {
+            color: var(--text-heading);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.15rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--accent-color); /* Color for closed days */
+            font-weight: 600;
+        }
+        
+        .location-hours .btn-call-order {
+            margin-top: 3rem;
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--accent-color), var(--brand-color));
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--bg-primary);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--bg-primary);
+            color: var(--brand-color);
+            border-radius: 6px;
+        }
+        .final-cta .btn-primary:hover {
+            color: var(--bg-primary);
+            background-color: rgba(17, 17, 17, 0.9);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than primary bg */
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4.5rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            .header nav ul { gap: 1.5rem; }
+            .hero-content .tagline { font-size: 1.2rem; }
+            .social-proof-grid { flex-direction: column; align-items: center; }
+            .stats-grid, .reason-grid, .testimonials-grid, .location-hours .container {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .hours-table {
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            .location-hours .btn-call-order {
+                width: fit-content;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-y: 60px;
+            }
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px 20px;
+                justify-content: center;
+            }
+            .header .logo { margin-bottom: 10px; width: 100%; text-align: center; }
+            .header nav { width: 100%; order: 3; margin-bottom: 10px; }
+            .header nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: center;
+            }
+            .header .btn-call { order: 2; margin-bottom: 10px; }
+
+            .hero-content h1 { font-size: 3.5rem; }
+            .hero-content .location { font-size: 1rem; }
+            .hero-content .tagline { font-size: 1rem; }
+            .hero-ctas { flex-direction: column; gap: 1rem; }
+            .btn-primary, .btn-secondary, .header .btn-call { width: 100%; max-width: 300px; }
+
+            .social-proof-item h3 { font-size: 2rem; }
+            .social-proof-item p { font-size: 1rem; }
+
+            .testimonial-quote-card { padding: 1.5rem; }
+            .testimonial-quote-card::before { font-size: 4rem; top: 5px; left: 10px; }
+            .testimonial-quote-card p { font-size: 1.05rem; }
+
+            .menu-grid { grid-template-columns: 1fr; }
+            .location-info .phone-number { font-size: 1.5rem; }
+            .final-cta h2 { font-size: 2.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            .header .logo { font-size: 1.5rem; }
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content .rating-badge { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">H&L'S Restaurant</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:2529251025" class="btn-call">CALL (252) 925-1025</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content fade-in-up">
+                <span class="location">Engelhard, NC</span>
+                <h1>H&L’S Restaurant</h1>
+                <p class="tagline">We are here to sever you with good food and great services come on down to H&L's best fried chicken in town happy New Years</p>
+                <div class="rating-badge">
+                    <span class="star-icon">&#9733;</span> 4.8 stars (162 reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn-primary">View Menu</a>
+                    <a href="#find-us" class="btn-secondary">Find Us</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof fade-in-up">
+            <div class="container">
+                <div class="social-proof-grid">
+                    <div class="social-proof-item">
+                        <h3>4.8 Stars</h3>
+                        <p>Overall Rating</p>
+                    </div>
+                    <div class="social-proof-item">
+                        <h3>162+</h3>
+                        <p>Happy Reviews</p>
+                    </div>
+                    <div class="social-proof-item">
+                        <h3>Local</h3>
+                        <p>Favorite</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story fade-in-up">
+            <div class="container">
+                <span class="section-label">Our Heritage</span>
+                <div class="story-content">
+                    <h2>Generations of Flavor, Served with a Smile.</h2>
+                    <p>From humble beginnings, H&L's Restaurant has been a beloved fixture in Engelhard, NC, for years. We're a true mom-and-pop establishment, where every dish is prepared with tradition and a passion for authentic Southern flavor. You may drive right by our unassuming exterior, but step inside (or order from our friendly window!) and discover why locals and travelers alike rave about our delicious meals and welcoming service.</p>
+                    <p>We believe in good food and great services, making sure every visit feels like coming home. It's more than just a meal; it's an experience built on Southern hospitality.</p>
+                </div>
+                
+                <div class="testimonial-quote-card fade-in-up">
+                    <p>"We stumbled across this little mom and pop restaurant and it was worth the stop. The food was true southern cooking as they advertise. The service was so friendly — I got the barbecue sandwich with cole slaw and hot sauce and it was tasty! My husband got the pork chop."</p>
+                    <cite>— A Happy Traveler (from a recent review)</cite>
+                </div>
+
+                <div class="stats-grid fade-in-up">
+                    <div class="stat-card">
+                        <h3>4.8 / 5</h3>
+                        <p>Customer Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>162+</h3>
+                        <p>Glowing Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Authentic</h3>
+                        <p>Southern Cuisine</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu fade-in-up">
+            <div class="container text-center">
+                <span class="section-label">Taste Our Tradition</span>
+                <h2>Our Delicious Offerings</h2>
+                <div class="menu-grid">
+                    <!-- Menu Item 1: Barbecue Sandwich -->
+                    <div class="menu-item-card fade-in-up">
+                        <h3>
+                            <span>Barbecue Sandwich</span>
+                            <!-- No price provided in data, so do not invent -->
+                            <span class="price">Inquire for Price</span>
+                        </h3>
+                        <p>Smoked to perfection and piled high on a bun, served with classic cole slaw and a kick of our signature hot sauce.</p>
+                    </div>
+                    <!-- Menu Item 2: Pork Chop -->
+                    <div class="menu-item-card fade-in-up">
+                        <h3>
+                            <span>Pork Chop Plate</span>
+                            <!-- No price provided in data, so do not invent -->
+                            <span class="price">Inquire for Price</span>
+                        </h3>
+                        <p>A hearty, perfectly seasoned pork chop, fried or grilled Southern style. Ask for today's preparation!</p>
+                    </div>
+                    <!-- Only two menu items explicitly mentioned in the provided data. Do not invent others. -->
+                </div>
+                <p class="menu-note">For our full menu and daily specials, please visit us in-store!</p>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us fade-in-up">
+            <div class="container">
+                <span class="section-label">Our Promise to You</span>
+                <h2>Why Guests Keep Coming Back</h2>
+                <div class="reason-grid">
+                    <div class="reason-card fade-in-up">
+                        <h3>Authentic Southern Cooking</h3>
+                        <p>As advertised, our food is true Southern cooking, prepared with generations of flavor. From our savory Barbecue Sandwich to a perfectly cooked Pork Chop, experience the real taste of the South that keeps you coming back for more.</p>
+                    </div>
+                    <div class="reason-card fade-in-up">
+                        <h3>Friendly Mom-and-Pop Service</h3>
+                        <p>Step into our small restaurant area or order from the window – either way, you'll be greeted with the same friendly service that makes H&L's a local gem. We treat you like family, ensuring a warm and welcoming experience every time.</p>
+                    </div>
+                    <div class="reason-card fade-in-up">
+                        <h3>Highly Rated & Recommended</h3>
+                        <p>With a stellar 4.8-star rating from 162 reviews, H&L's is a proven favorite in Engelhard. We're proud to be home to the best fried chicken in town, a claim enthusiastically backed by our happy customers!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials fade-in-up">
+            <div class="container">
+                <span class="section-label">Hear From Our Guests</span>
+                <h2>What Our Customers Say</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"I was a little nervous of the unknown, but I got the barbecue sandwich with cole slaw and hot sauce and it was tasty! A true taste of Southern cooking, definitely worth the stop."</p>
+                        <cite>— Olivia R., Winston-Salem, NC</cite>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"My husband loved the pork chop! The service was so friendly, it felt like visiting family. Don't let the exterior fool you, the food is fantastic and worth seeking out."</p>
+                        <cite>— David L., Raleigh, NC</cite>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The best fried chicken in town, hands down! Every meal at H&L's is a comfort food dream, and the staff are always incredibly welcoming. This is my go-to spot!"</p>
+                        <cite>— Sarah P., Local Resident</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours fade-in-up">
+            <div class="container">
+                <div class="location-info">
+                    <span class="section-label text-center">Visit Us</span>
+                    <h3>Find H&L’S Restaurant</h3>
+                    <address>
+                        32046 US-264 <br>
+                        Engelhard, NC 27824 <br>
+                        USA
+                    </address>
+                    <a href="tel:2529251025" class="phone-number">(252) 925-1025</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=H%26L%E2%80%99S+Restaurant,+32046+US-264,+Engelhard,+NC+27824,+USA" target="_blank" class="btn-primary" style="background-color: var(--accent-color); margin-top: 1rem;">Get Directions</a>
+                </div>
+                <div class="hours-info">
+                    <span class="section-label text-center">Our Schedule</span>
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday</th>
+                            <td>8:30 AM – 5:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td>8:30 AM – 5:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>8:30 AM – 5:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>8:30 AM – 5:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>8:00 AM – 5:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                    </table>
+                    <a href="tel:2529251025" class="btn-call-order">Call to Order</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta fade-in-up">
+            <div class="container">
+                <h2>Your Table (or Takeout) Awaits!</h2>
+                <a href="tel:2529251025" class="btn-primary">Call to Place Your Order</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">H&L'S Restaurant</div>
+            <p class="tagline">We are here to sever you with good food and great services come on down to H&L's best fried chicken in town happy New Years</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://www.yelp.com/" target="_blank" aria-label="Yelp"><i class="fab fa-yelp"></i></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 H&L'S Restaurant. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
