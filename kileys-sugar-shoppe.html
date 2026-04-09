@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiley's Sugar Shoppe - Taste the Local Flavor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --primary-bg: #111111;
+            --section-bg-light: #161616; /* Slightly lighter for alternating sections */
+            --brand-color: #D4A574;
+            --accent-color: #2D2D2D;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            /* Typography */
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --hero-name-size: 5.5rem;
+            --section-headline-size: 2.8rem;
+            --body-text-size: 1.1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            font-size: var(--body-text-size);
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #E8B985; /* Slightly lighter brand color on hover */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        h1 { font-size: var(--hero-name-size); }
+        h2 { font-size: var(--section-headline-size); }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #E8B985; /* Slightly lighter */
+            border-color: #E8B985;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(212, 165, 116, 0.1);
+            color: #E8B985;
+            border-color: #E8B985;
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            color: var(--text-heading);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta-button {
+            background-color: var(--brand-color);
+            color: var(--primary-bg);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.9rem;
+            border: none;
+        }
+
+        .header-cta-button:hover {
+            background-color: #E8B985;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(45, 45, 45, 0.9) 50%, rgba(212, 165, 116, 0.1) 100%), var(--primary-bg);
+            background-size: cover;
+            background-position: center;
+            color: var(--text-heading);
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: var(--hero-name-size);
+            line-height: 1;
+            margin-bottom: 15px;
+            color: var(--brand-color);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 10px;
+            text-transform: none;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            line-height: 1.4;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--accent-color);
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .rating-badge .star {
+            color: #FFD700; /* Gold star color */
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+
+        .hero-ctas .btn {
+            margin: 0 10px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(212, 165, 116, 0.05); /* Brand color low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .social-proof-item h3 {
+            color: var(--brand-color);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .social-proof-item p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Our Story Section */
+        .our-story {
+            background-color: var(--section-bg-light); /* Slightly lighter */
+            text-align: center;
+        }
+
+        .our-story-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .our-story .section-headline {
+            margin-bottom: 40px;
+        }
+
+        .our-story p {
+            font-size: var(--body-text-size);
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .testimonial-card-story {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 60px auto;
+            max-width: 700px;
+            text-align: left;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card-story p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+        }
+
+        .testimonial-card-story .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu {
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .menu-card h4 {
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        .menu .disclaimer {
+            margin-top: 40px;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--section-bg-light);
+            text-align: center;
+        }
+
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-bottom: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .why-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--section-bg-light);
+            text-align: center;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: var(--body-text-size);
+            color: var(--text-body);
+            margin-bottom: 10px;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #E8B985 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--primary-bg);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .final-cta h2 {
+            color: var(--primary-bg);
+            font-size: 3rem;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .final-cta .btn {
+            background-color: var(--primary-bg);
+            color: var(--brand-color);
+            border: 2px solid var(--primary-bg);
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--accent-color);
+            color: var(--text-secondary);
+            padding: 60px 0 30px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--brand-color);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .nav-links {
+                display: none; /* Hide nav links on smaller screens for simplicity */
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                margin-bottom: 40px;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                margin-bottom: 20px;
+            }
+            .social-proof-item:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 0;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas .btn {
+                margin: 10px 0;
+                display: block;
+                width: 80%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .sticky-header {
+                padding: 0 15px;
+            }
+            .header-cta-button {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .stat-grid, .menu-grid, .why-cards-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-content, .testimonial-card-story {
+                margin: 40px auto;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+            .social-links a {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 0.9rem;
+            }
+            .rating-badge {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+            .header-logo {
+                font-size: 1.2rem;
+            }
+            .header-cta-button {
+                display: none; /* Hide button on very small screens if necessary to save space */
+            }
+            .sticky-header {
+                justify-content: center; /* Center logo if button is hidden */
+            }
+        }
+
+        /* Basic social icons - For production, use a library like FontAwesome */
+        .social-links a::before {
+            font-family: 'Source Sans 3', sans-serif; /* Using body font for simplicity */
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 1em;
+            margin-right: 0.2em;
+        }
+        .social-links a[aria-label="Facebook"]::before { content: "Fb"; }
+        .social-links a[aria-label="Instagram"]::before { content: "Ig"; }
+        .social-links a[aria-label="Twitter"]::before { content: "Tw"; }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">Kiley's Sugar Shoppe</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+18283529033" class="header-cta-button">CALL (828) 352-9033</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero is-visible">
+        <div class="hero-content">
+            <p class="location">Taylorsville, NC</p>
+            <h1>Kiley's Sugar Shoppe</h1>
+            <p class="tagline">Where good times and great flavors meet! Experience the warmth of local hospitality with dishes 100% recommended by our community.</p>
+            <div class="rating-badge">
+                <span class="star">★</span> 4.8 Stars (57 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof is-visible">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3 class="number">4.8<span style="font-size:1.5rem;">★</span></h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="number">57+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="number">Local</h3>
+                <p>Taylorsville Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container our-story-content">
+            <span class="section-label">Our Journey</span>
+            <h2 class="section-headline">Taste the Heart of Taylorsville</h2>
+            <p>Welcome to Kiley's Sugar Shoppe, a true local gem in Taylorsville, NC. More than just a Bar And Grill, we're a place where friends and family gather, laughter flows, and every meal is made with a sprinkle of local love. Founded with a passion for good food and community spirit, we've dedicated ourselves to creating a welcoming atmosphere where everyone feels at home.</p>
+            <p>From our sizzling grills to our refreshing drinks, we believe in quality ingredients and a friendly smile. We're proud to be a part of Taylorsville's vibrant community and cherish every customer who walks through our doors. Come on in, pull up a chair, and let us share our 'sugar' with you!</p>
+
+            <div class="testimonial-card-story">
+                <p>"Kiley's is the heart of our town! The atmosphere is always buzzing, and the food always hits the spot. It's our go-to for a relaxed evening out."</p>
+                <p class="author">- A loyal Taylorsville local</p>
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="number">4.8</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">57+</div>
+                    <div class="label">Customer Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">100%</div>
+                    <div class="label">Recommended</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <span class="section-label">Our Flavors</span>
+            <h2 class="section-headline">Savor Our Signature Bites</h2>
+
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div>
+                        <h4>The Kiley Burger</h4>
+                        <p>Our classic, perfectly grilled patty, fresh toppings, and our secret sauce.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Crispy Chicken Sandwich</h4>
+                        <p>Golden-fried chicken, crisp lettuce, and pickles on a toasted bun.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Hand-Cut Fries</h4>
+                        <p>Perfectly seasoned, crispy on the outside, fluffy on the inside.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Signature Wings</h4>
+                        <p>Your choice of classic buffalo, tangy BBQ, or sweet & spicy.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Fresh Garden Salad</h4>
+                        <p>Crisp greens, fresh vegetables, and your favorite dressing.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h4>Local Craft Brews</h4>
+                        <p>A rotating selection of the finest local and regional beers on tap.</p>
+                    </div>
+                </div>
+            </div>
+            <p class="disclaimer">Please note: Specific menu items and prices are available in-store. Our offerings are always evolving!</p>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label">Why Kiley's?</span>
+            <h2 class="section-headline">More Than Just a Meal</h2>
+
+            <div class="why-cards-grid">
+                <div class="why-card">
+                    <h3>Unbeatable Flavor</h3>
+                    <p>Our commitment to fresh ingredients and homemade recipes ensures every dish, from our juicy burgers to our crispy fries, is packed with flavor that keeps you coming back.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Warm Local Vibe</h3>
+                    <p>We're proud to be a cornerstone of Taylorsville, offering a friendly, welcoming atmosphere where community truly comes first. Our 4.8-star rating speaks for itself!</p>
+                </div>
+                <div class="why-card">
+                    <h3>Crafted for You</h3>
+                    <p>Whether you're craving a cold craft brew or a perfectly cooked meal, our diverse menu and attentive staff are here to make your experience special.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">Hear From Our Guests</span>
+            <h2 class="section-headline">What Our Customers Say</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Absolutely love the atmosphere here! The Kiley Burger is a must-try – perfectly cooked and so juicy. Best Bar And Grill in Taylorsville!"</p>
+                    <p class="author">- Jessica M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Came in for a quick bite and was blown away. The Hand-Cut Fries are addictive, and the staff are incredibly friendly. A true local gem!"</p>
+                    <p class="author">- Mark T.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Fantastic place for a casual dinner. Their Signature Wings are perfectly sauced, and they always have a great selection of local craft brews."</p>
+                    <p class="author">- Sarah L.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Find Your Way to Kiley's</h2>
+
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>We're conveniently located in the heart of Taylorsville, NC.</p>
+                    <p><strong>Kiley's Sugar Shoppe</strong><br>130 Main Ave Dr<br>Taylorsville, NC 28681, USA</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Kiley%E2%80%99s+Sugar+Shoppe,130+Main+Ave+Dr,Taylorsville,NC" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td>Closed</td></tr>
+                        <tr><th>Tuesday</th><td>Closed</td></tr>
+                        <tr><th>Wednesday</th><td>Closed</td></tr>
+                        <tr><th>Thursday</th><td>11:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Friday</th><td>11:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Saturday</th><td>11:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Sunday</th><td>Closed</td></tr>
+                    </table>
+                    <p>Craving Kiley's? Give us a ring!</p>
+                    <a href="tel:+18283529033" class="btn btn-primary">CALL TO ORDER (828) 352-9033</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready for a taste of Taylorsville's best?</h2>
+            <p style="color: var(--primary-bg); font-size: 1.2rem; margin-bottom: 40px; font-weight: 400;">Join us this week for an unforgettable experience!</p>
+            <a href="#find-us" class="btn">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">Kiley's Sugar Shoppe</span>
+            <p class="footer-tagline">Where good times and great flavors meet, 100% recommended by our community.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"></a>
+                <a href="#" aria-label="Instagram"></a>
+                <a href="#" aria-label="Twitter"></a>
+            </div>
+            <p class="copyright">&copy; 2026 Kiley's Sugar Shoppe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // IntersectionObserver for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section must be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // If the section is intersecting and not the hero section (which is already visible)
+                if (entry.isIntersecting && !entry.target.classList.contains('hero')) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            // Apply observer to all sections except the hero
+            if (!section.classList.contains('hero')) {
+                observer.observe(section);
+            }
+        });
+    </script>
+</body>
+</html>
