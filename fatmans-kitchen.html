@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatman's Kitchen - Lilesville's Beloved Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --primary-color: #CC0000;
+            --accent-color: #FFD700;
+            --bg-main: #111111;
+            --bg-light: #1a1a1a; /* Slightly lighter for alternating sections */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --section-padding-y: 100px;
+            --primary-color-rgb: 204, 0, 0; /* For rgba transparency effects */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero size, adjusted dynamically */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .section-label {
+            color: var(--primary-color);
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: var(--text-body);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.5px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .header .btn-call {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header .btn-call:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.85) 50%, rgba(17,17,17,0.95) 100%),
+                        linear-gradient(45deg, rgba(var(--primary-color-rgb),0.1) 0%, rgba(255,215,0,0.05) 100%); /* Rich dark gradient using brand colors */
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            position: relative;
+            overflow: hidden;
+            padding: 0 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem); /* Massive, bold, responsive */
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 0.1em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-heading);
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            font-weight: 400;
+            color: var(--text-body);
+            margin-top: 15px;
+            max-width: 800px;
+        }
+
+        .hero .rating-badge {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 4px 10px rgba(var(--primary-color-rgb), 0.2);
+        }
+
+        .hero .rating-badge svg {
+            fill: var(--accent-color);
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero .hero-ctas {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(var(--primary-color-rgb), 0.05); /* Tinted with brand color at very low opacity */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+        }
+
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item .label {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-main);
+            padding-bottom: 0; /* No padding at bottom as stats follow */
+        }
+        
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .our-story .content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .our-story .content p {
+            margin-bottom: 1.5em;
+        }
+
+        .our-story .quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--primary-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+
+        .our-story .quote-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+
+        .our-story .quote-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            text-align: right;
+            display: block;
+        }
+
+        .stats-grid {
+            background-color: var(--bg-light); /* Lighter background for stats */
+            padding: 50px 0; /* Smaller padding */
+            margin-top: var(--section-padding-y); /* Gap from story section */
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stats-grid .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .stat-card .value {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: var(--bg-main);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--primary-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .menu-card .item-name {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .menu-card .item-price {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+
+        .menu-card .item-description {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-top: 10px;
+        }
+        
+        .menu .full-menu-cta {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .choose-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-main);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--primary-color);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-style: normal;
+            display: block;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-light);
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-details, .hours-details {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .location-details h3, .hours-details h3 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .location-details p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .location-details .address {
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .location-details .phone {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 30px;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
+        .location-details .phone:hover {
+            color: var(--accent-color);
+        }
+
+        .location-details .btn {
+            width: fit-content;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+            font-weight: 400;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(90deg, var(--primary-color) 0%, rgba(var(--primary-color-rgb),0.8) 50%, var(--primary-color) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 40px;
+            line-height: 1.3;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            padding: 18px 40px;
+            font-size: 1.1rem;
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            color: var(--primary-color);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c;
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer .copyright {
+            font-size: 0.9rem;
+            margin-top: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .location-hours-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 15px;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on small screens */
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .btn-call {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding-top: 60px; /* Account for sticky header */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .hero .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero .btn {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+
+            h2 { font-size: 2.2rem; }
+            .section-label { font-size: 0.8rem; }
+
+            .our-story .quote-card {
+                margin-left: 15px;
+                margin-right: 15px;
+            }
+
+            .stats-grid .container {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why-choose-us-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-details, .hours-details {
+                padding: 30px 25px;
+            }
+
+            .location-hours-grid {
+                gap: 40px;
+            }
+
+            .footer .logo {
+                font-size: 2rem;
+            }
+            .footer .tagline {
+                font-size: 0.95rem;
+            }
+            .footer .social-links {
+                gap: 15px;
+            }
+
+            body { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">Fatman's Kitchen</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17042700076" class="btn btn-call">Call (704) 270-0076</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <p class="location fade-in-up">Lilesville, NC</p>
+        <h1 class="fade-in-up">Fatman's Kitchen</h1>
+        <p class="tagline fade-in-up">Specializing in chicken wings, fried fish, salmon bites, our infamous comfort food done right.</p>
+        <div class="rating-badge fade-in-up">
+            <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63L2 9.24l5.46 4.73L5.82 21L12 17.27z"/></svg>
+            4.5 Stars (8 Reviews)
+        </div>
+        <div class="hero-ctas fade-in-up">
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#find-us" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="social-proof-item fade-in-up">
+                <div class="value">4.5</div>
+                <div class="label">Star Rating</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="value">8</div>
+                <div class="label">Genuine Reviews</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="value">Local</div>
+                <div class="label">Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="content">
+                <span class="section-label fade-in-up">Our Heritage</span>
+                <h2 class="text-center fade-in-up">More Than Just a Meal, It's a Lilesville Tradition.</h2>
+                <p class="fade-in-up">Fatman's Kitchen is more than just a place to eat; it's a beloved local spot in Lilesville, NC, where delicious food meets a warm, welcoming atmosphere. We've poured our heart and soul into creating a dining experience that feels like home, serving up classic diner comfort with a signature touch.</p>
+                <p class="fade-in-up">From our savory chicken wings to our perfectly fried fish and irresistible salmon bites, every dish is crafted with fresh ingredients and a passion for flavor. Come in and discover why we've become a favorite gathering place for families and friends across Lilesville.</p>
+
+                <div class="quote-card fade-in-up">
+                    <p>"Fatman's Kitchen feels like a true community hub. The food is consistently amazing, and the staff always makes you feel like family. It’s exactly what Lilesville needs!"</p>
+                    <span class="author">— A Loyal Local Customer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stat Cards (following Our Story) -->
+    <section class="stats-grid">
+        <div class="container">
+            <div class="stat-card fade-in-up">
+                <div class="value">4.5</div>
+                <div class="label">Stars Rating</div>
+            </div>
+            <div class="stat-card fade-in-up">
+                <div class="value">8</div>
+                <div class="label">Genuine Reviews</div>
+            </div>
+            <div class="stat-card fade-in-up">
+                <div class="value">Beloved</div>
+                <div class="label">Local Spot</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Our Delicious Offerings</span>
+            <h2 class="fade-in-up">Discover Your Next Favorite Dish</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 20px auto 0;">From hearty diner classics to our famous specialties, every item on our menu is prepared with the freshest ingredients and a whole lot of love. Here's a taste of what awaits you.</p>
+
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <div class="item-header">
+                        <span class="item-name">3 Pieces Lamb Chops</span>
+                        <span class="item-price">$25.00</span>
+                    </div>
+                    <p class="item-description">Perfectly grilled or fried, these tender lamb chops are a must-try for meat lovers.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div class="item-header">
+                        <span class="item-name">Smash Burger And Fries</span>
+                        <span class="item-price">$14.99</span>
+                    </div>
+                    <p class="item-description">A juicy, perfectly seared smash burger paired with our classic, crispy fries.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div class="item-header">
+                        <span class="item-name">3 Pieces Chicken Tender</span>
+                        <span class="item-price">$15.00</span>
+                    </div>
+                    <p class="item-description">Your choice of crispy fried or tender grilled chicken tenders, seasoned to perfection.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div class="item-header">
+                        <span class="item-name">BLT</span>
+                        <span class="item-price">$10.00</span>
+                    </div>
+                    <p class="item-description">A timeless classic: crisp bacon, fresh lettuce, ripe tomato, and creamy mayo on toasted bread.</p>
+                </div>
+            </div>
+            <div class="full-menu-cta fade-in-up">
+                <a href="tel:+17042700076" class="btn btn-primary">Call to Order Now!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">The Fatman's Difference</span>
+            <h2 class="fade-in-up">Experience Diner Comfort Like Never Before</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 20px auto 0;">We're dedicated to providing an exceptional dining experience that keeps our community coming back for more.</p>
+
+            <div class="why-choose-us-grid">
+                <div class="choose-card fade-in-up">
+                    <h3>Homestyle Cooking</h3>
+                    <p>Every dish, from our "Smash Burger" to our "3 Pieces Chicken Tender", is prepared with that comforting, homemade taste you crave. We use quality ingredients to bring you genuine diner flavors.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h3>Signature Specialties</h3>
+                    <p>Go beyond the ordinary with our unique offerings like the "3 Pieces Lamb Chops" and delectable fried fish and salmon bites (mentioned in our tagline). Discover new favorites that set us apart from any other diner.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h3>Community & Comfort</h3>
+                    <p>As a beloved local spot in Lilesville, we pride ourselves on a welcoming atmosphere where everyone feels like family. It's the perfect place to gather, relax, and enjoy a great meal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">What Our Customers Say</span>
+            <h2 class="fade-in-up">Hear From Our Happy Diners</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 20px auto 0;">Don't just take our word for it – our loyal customers rave about their Fatman's Kitchen experience.</p>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"The Smash Burger and Fries are a game-changer! Juicy, flavorful, and perfectly cooked every time. It’s my go-to order now."</p>
+                    <span class="author">— John D.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Never thought I'd find lamb chops this good at a diner. Absolutely delicious and perfectly prepared. A true hidden gem!"</p>
+                    <span class="author">— Sarah K.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"My go-to for a perfect BLT. Fresh ingredients, crispy bacon, and always satisfying. Fatman's Kitchen never disappoints!"</p>
+                    <span class="author">— Michael T.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Visit Us Today</span>
+            <h2 class="fade-in-up">Your Table Awaits in Lilesville</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 20px auto 0;">Find us easily and plan your visit. We're ready to serve you up the best diner food in town!</p>
+
+            <div class="location-hours-grid">
+                <div class="location-details fade-in-up">
+                    <h3>Our Location</h3>
+                    <p class="address">3944 Vintage Rd, Lilesville, NC 28091, USA</p>
+                    <a href="tel:+17042700076" class="phone">(704) 270-0076</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Fatmans+kitchen,3944+Vintage+Rd,+Lilesville,+NC+28091,+USA" target="_blank" class="btn btn-primary">Get Directions</a>
+                </div>
+                <div class="hours-details fade-in-up">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>11:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:00 AM – 5:00 PM</td></tr>
+                    </table>
+                    <div class="text-center" style="margin-top: 30px;">
+                        <a href="tel:+17042700076" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Don't Miss Out on Lilesville's Best Diner Experience!</h2>
+            <a href="tel:+17042700076" class="btn btn-primary">Call Fatman's Kitchen Now!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Fatman's Kitchen</span>
+            <p class="tagline">Fatman's Kitchen. Food truck and Restaurant specializing in chicken wings, fried fish, salmon bites, our infamous comfort food done right.</p>
+            <ul class="social-links">
+                <li><a href="#"><!-- Placeholder for Facebook icon --><svg fill="currentColor" viewBox="0 0 24 24" width="1em" height="1em"><path d="M12 2.04C6.52 2.04 2 6.51 2 11.97c0 5.06 3.69 9.27 8.5 9.94v-7h-2.5v-2.94h2.5v-2.18c0-2.48 1.48-3.85 3.73-3.85 1.07 0 2.22.19 2.22.19v2.44h-1.25c-1.24 0-1.63.77-1.63 1.56v1.84h2.75l-.44 2.94h-2.31v7c4.81-.67 8.5-4.88 8.5-9.94.01-5.46-4.46-9.93-9.94-9.93z"></path></svg></a></li>
+                <li><a href="#"><!-- Placeholder for Instagram icon --><svg fill="currentColor" viewBox="0 0 24 24" width="1em" height="1em"><path d="M7.5 2C4.46 2 2 4.46 2 7.5v9C2 19.54 4.46 22 7.5 22h9c3.04 0 5.5-2.46 5.5-5.5v-9C22 4.46 19.54 2 16.5 2h-9zm0 2h9c2.08 0 3.79 1.71 3.79 3.79v9c0 2.08-1.71 3.79-3.79 3.79h-9c-2.08 0-3.79-1.71-3.79-3.79v-9c0-2.08 1.71-3.79 3.79-3.79zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6.5-4c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"></path></svg></a></li>
+                <li><a href="#"><!-- Placeholder for Twitter icon --><svg fill="currentColor" viewBox="0 0 24 24" width="1em" height="1em"><path d="M22.46 6c-.77.34-1.6.58-2.47.67.88-.53 1.55-1.37 1.87-2.37-.83.5-1.75.86-2.73 1.05C18.17 4.54 16.94 4 15.6 4c-2.36 0-4.29 1.93-4.29 4.29 0 .34.04.67.11.98C8.24 8.75 5.48 7.37 3.66 5.25c-.37.64-.58 1.39-.58 2.18 0 1.49.76 2.81 1.91 3.59-.7-.02-1.35-.21-1.92-.53v.05c0 2.08 1.48 3.82 3.44 4.21-.36.1-.73.15-1.11.15-.27 0-.53-.02-.79-.07.54 1.7 2.1 2.94 3.96 2.98C12 19.68 9.53 20.3 7 20.3c-.46 0-.9-.02-1.34-.08 3.09 1.97 6.76 3.12 10.73 3.12 12.87 0 19.95-10.68 19.95-19.95 0-.31-.01-.62-.02-.93.92-.66 1.72-1.47 2.35-2.41z"></path></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Fatman's Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('active');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
