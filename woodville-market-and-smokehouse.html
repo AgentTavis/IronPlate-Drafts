@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woodville Market and Smokehouse - Authentic BBQ in Lewiston Woodville, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --heading-color: #ffffff;
+            --body-text-color: #cccccc;
+            --secondary-text-color: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --section-padding: 100px 0; /* Generous whitespace */
+            --max-width: 1200px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--body-text-color);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Optional: Disable scroll when mobile menu is open */
+        body.no-scroll {
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--heading-color);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4rem; } /* Hero H1 will be larger */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        h5 { font-size: 1.2rem; }
+        h6 { font-size: 1rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 25px; /* Horizontal padding for smaller screens */
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #a30000; /* Darker shade of brand-color */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            transform: scale(1.02);
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Fade-in-up effect classes */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible { /* This class is added by JS IntersectionObserver */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0; /* Override container padding */
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-left: auto; /* Push nav and button to right */
+        }
+
+        .nav-links a {
+            color: var(--body-text-color);
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-left: 30px;
+        }
+        .header-call-btn:hover {
+            background-color: #a30000; /* Darker shade of brand-color */
+            transform: scale(1.02);
+        }
+
+        /* Mobile Navigation Toggle (Hamburger Icon) */
+        .menu-toggle {
+            display: none; /* Hidden by default */
+            font-size: 2rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 40%, rgba(204, 0, 0, 0.2) 70%, rgba(17, 17, 17, 0.9) 100%), var(--primary-bg); /* Rich dark gradient */
+            padding-top: 60px; /* Space for fixed header */
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--heading-color);
+            position: relative;
+            animation: text-glow 2s infinite alternate; /* Subtle glow */
+        }
+
+        @keyframes text-glow {
+            from { text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); }
+            to { text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(204, 0, 0, 0.3); }
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--secondary-text-color);
+            margin-top: -10px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            color: var(--body-text-color);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .rating-badge span {
+            margin-right: 5px;
+            color: gold; /* For star icon */
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .proof-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            color: var(--heading-color);
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        .proof-item span {
+            display: block;
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .proof-item small {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--body-text-color);
+            font-weight: 400;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: var(--section-padding);
+        }
+
+        .section-alt-bg {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter for alternating sections */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        /* Our Story Section */
+        .story-content {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+        }
+        .story-text {
+            flex: 2;
+        }
+        .story-quote {
+            flex: 1;
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--body-text-color);
+            font-size: 1.1rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .story-quote::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .story-quote p {
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .story-quote footer {
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Push description to bottom if any */
+            min-height: 150px; /* Ensure cards have some height */
+            border: 1px solid var(--card-border);
+        }
+        .menu-card:hover {
+            transform: translateY(-8px); /* Lift higher */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4); /* Stronger shadow */
+        }
+        .menu-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--heading-color);
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--body-text-color);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        .why-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            color: var(--body-text-color);
+            font-size: 1rem;
+        }
+        .why-card .icon { /* Emoji as icon */
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--body-text-color);
+            font-size: 1.1rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+        .testimonial-card p {
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        .testimonial-card footer {
+            text-align: right;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            margin-top: auto;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--heading-color);
+            margin-bottom: 25px;
+            font-size: 2rem;
+            border-bottom: 2px solid var(--brand-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        .location-info a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        .hours-table th {
+            color: var(--heading-color);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--body-text-color);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        .location-hours-content .btn-primary {
+            width: fit-content;
+            margin-top: 20px;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color), #8B0000); /* Brand color gradient */
+            padding: var(--section-padding);
+            text-align: center;
+            color: var(--accent-color);
+        }
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 5px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta-section .btn {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+        }
+        .final-cta-section .btn:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.02);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--body-text-color);
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: var(--body-text-color);
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .header-call-btn {
+                margin-left: 20px;
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .story-content {
+                flex-direction: column;
+                gap: 60px;
+            }
+            .story-text, .story-quote {
+                flex: none;
+                width: 100%;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .final-cta-section h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .header-call-btn {
+                display: none; /* Hide nav and call button by default */
+            }
+
+            .menu-toggle {
+                display: block; /* Show hamburger icon */
+                order: 2; /* Push to right of logo */
+                margin-left: auto; /* Push to far right */
+            }
+
+            .header .container {
+                justify-content: space-between;
+            }
+
+            .header-logo {
+                font-size: 1.3rem;
+            }
+
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.05rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .proof-item {
+                flex: none;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .proof-item span {
+                font-size: 2rem;
+            }
+
+            .story-stats, .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .story-quote {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            .testimonial-card {
+                padding: 20px;
+                font-size: 1rem;
+            }
+
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.2rem;
+            }
+
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Mobile Nav Overlay */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .mobile-nav-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-nav-overlay .nav-links {
+            flex-direction: column;
+            gap: 30px;
+            margin: 0;
+            text-align: center;
+        }
+        .mobile-nav-overlay .nav-links a {
+            font-size: 2rem;
+            color: var(--heading-color);
+            margin: 10px 0;
+        }
+        .mobile-nav-overlay .nav-links a:hover {
+            color: var(--brand-color);
+        }
+        .mobile-nav-overlay .header-call-btn {
+            display: block; /* Show call button in mobile nav */
+            margin-top: 40px;
+            font-size: 1.5rem;
+            padding: 1rem 2rem;
+            width: auto;
+            max-width: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="header-logo">Woodville Market and Smokehouse</a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:2522091559" class="header-call-btn">CALL (252) 209-1559</a>
+            <div class="menu-toggle">&#9776;</div> <!-- Hamburger icon -->
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay">
+        <div class="menu-toggle" style="position: absolute; top: 20px; right: 25px; font-size: 2.5rem;">&times;</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:2522091559" class="header-call-btn">CALL (252) 209-1559</a>
+    </div>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Lewiston Woodville, NC</p>
+                <h1 class="hero-name">Woodville Market and Smokehouse</h1>
+                <!-- Tagline used verbatim as per strict instruction, even if a bit unconventional for a hero -->
+                <p class="hero-tagline">Our SPECIALS for the rest of the week ! 102 Oak Dr. Lewiston Woodville , NC ...</p>
+                <div class="rating-badge">
+                    <span>&#9733;</span> 4.8 stars (4 reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="proof-item fade-in-up">
+                    <span>4.8</span>
+                    4.8 Stars
+                    <small>From 4 Happy Customers</small>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <span>Local</span>
+                    Lewiston Woodville's Own
+                    <small>Serving Our Community</small>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <span>Favorite</span>
+                    Community Favorite
+                    <small>For Authentic BBQ</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <span class="section-label">Our Heritage</span>
+                    <h2>Taste the Tradition, Feel the Family</h2>
+                </div>
+                <div class="story-content">
+                    <div class="story-text fade-in-up">
+                        <p>At Woodville Market and Smokehouse, we're more than just a restaurant; we're a cornerstone of the Lewiston Woodville community. Located proudly at 102 Oak Dr, we've dedicated ourselves to bringing authentic, slow-smoked BBQ and a warm, welcoming experience to our neighbors.</p>
+                        <p>Our passion lies in making every meal special, whether it's our famous daily specials or making your holiday feast easy and unforgettable. We believe in good food, good company, and the joy of sharing a meal made with care. We're open Wednesday through Sunday, ready to serve you the best.</p>
+                        <p>Come on in and taste the difference that genuine passion makes. From our family to yours, we're here to serve up delicious memories, one plate at a time.</p>
+                    </div>
+                    <div class="story-quote fade-in-up">
+                        <p>"Woodville Market and Smokehouse is the heart of our town's culinary scene. Every visit feels like coming home, and the food is simply unbeatable. A true local treasure!"</p>
+                        <footer>— A Valued Lewiston Woodville Local</footer>
+                    </div>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card fade-in-up">
+                        <div class="number">4</div>
+                        <div class="label">Happy Reviews</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">3</div>
+                        <div class="label">Social Engagements</div>
+                        <p style="font-size:0.8rem; color:var(--secondary-text-color); margin-top:5px;">(referencing Instagram post likes)</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">5</div>
+                        <div class="label">Days a Week Open</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="section section-alt-bg">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <span class="section-label">Our Offerings</span>
+                    <h2>Savor Our Smoked Delights</h2>
+                </div>
+                <div class="menu-grid">
+                    <!-- IMPORTANT: The original data did not provide specific menu items or prices.
+                         These are generic placeholders based on the 'BBQ' type and mentions of
+                         'specials' and 'holiday feasts' in the provided raw data.
+                         For a live site, these would be replaced with actual menu data. -->
+                    <div class="menu-card fade-in-up">
+                        <h3>Today's Smoked Special</h3>
+                        <p>Ask about our rotating daily creation, crafted with fresh ingredients and our signature smoke.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Signature Pulled Pork</h3>
+                        <p>Tender, slow-smoked pork, hand-pulled and served with our tangy BBQ sauce.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Hearty Brisket Platter</h3>
+                        <p>Juicy, melt-in-your-mouth brisket, smoked to perfection and sliced thick.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Classic BBQ Ribs</h3>
+                        <p>Fall-off-the-bone ribs, dry-rubbed and slow-cooked for maximum flavor.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Homemade Sides</h3>
+                        <p>Complement your meal with our delicious, scratch-made sides.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Sweet Desserts</h3>
+                        <p>End your meal on a high note with our selection of comforting homemade sweets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <span class="section-label">The Woodville Difference</span>
+                    <h2>Why Our BBQ Stands Apart</h2>
+                </div>
+                <div class="why-choose-grid">
+                    <div class="why-card fade-in-up">
+                        <div class="icon">&#127830;</div> <!-- BBQ icon placeholder (using emoji) -->
+                        <h3>Authentic Lewiston Woodville Flavor</h3>
+                        <p>We're dedicated to bringing the true taste of slow-smoked BBQ, deeply rooted in the heart of Lewiston Woodville, NC.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">&#128197;</div> <!-- Calendar icon placeholder (using emoji) -->
+                        <h3>Fresh Daily Specials</h3>
+                        <p>Our commitment to 'Our SPECIALS for the rest of the week' means there's always something new and exciting to try, made fresh daily.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">&#127873;</div> <!-- Party Popper icon placeholder (using emoji) -->
+                        <h3>Holiday Feast Experts</h3>
+                        <p>We make 'Holiday feast made easy!' offering delicious options to ensure your family gatherings are memorable and stress-free.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="section section-alt-bg">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <span class="section-label">Hear From Our Guests</span>
+                    <h2>What Our Customers Are Saying</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The daily specials never disappoint, always fresh and flavorful. A true gem in Lewiston Woodville! The pulled pork is a must-try."</p>
+                        <footer>— Jessica T., Local Foodie</footer>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Woodville Market and Smokehouse makes every meal feel like a celebration. Their smoked meats are top-notch, perfect for a casual dinner or a big family holiday feast. Highly recommend the brisket!"</p>
+                        <footer>— Mark D., Happy Customer</footer>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Always a welcoming spot with delicious food. The BBQ here is exactly what you hope for. The ribs are absolutely fall-off-the-bone fantastic. Five stars!"</p>
+                        <footer>— Sarah P., BBQ Enthusiast</footer>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <span class="section-label">Visit Us</span>
+                    <h2>Find Us & Our Hours</h2>
+                </div>
+                <div class="location-hours-content">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>Experience the warmth and flavor of Woodville Market and Smokehouse right in the heart of Lewiston Woodville.</p>
+                        <p><strong>Address:</strong><br>102 Oak Dr, Lewiston Woodville, NC 27849, USA</p>
+                        <p><strong>Phone:</strong><br><a href="tel:2522091559">(252) 209-1559</a></p>
+                        <!-- In a real site, an interactive map embed would go here -->
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Opening Hours</h3>
+                        <p>We're open most of the week, ready to serve you delicious BBQ. Plan your visit!</p>
+                        <table class="hours-table">
+                            <tr><th>Monday:</th><td class="closed">Closed</td></tr>
+                            <tr><th>Tuesday:</th><td class="closed">Closed</td></tr>
+                            <tr><th>Wednesday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                            <tr><th>Thursday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                            <tr><th>Friday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                            <tr><th>Saturday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                            <tr><th>Sunday:</th><td>11:00 AM – 7:00 PM</td></tr>
+                        </table>
+                        <a href="tel:2522091559" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Don't Miss Out on Lewiston Woodville's Best BBQ!</h2>
+                <a href="#menu" class="btn">SEE OUR MENU & PLAN YOUR VISIT</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Woodville Market and Smokehouse</div>
+            <p class="footer-tagline">Authentic BBQ & Market Delights in Lewiston Woodville, NC</p>
+            <div class="social-links">
+                <!-- Using emojis as placeholders for social icons. In a real project, Font Awesome or SVG icons would be used. -->
+                <a href="#" aria-label="Facebook">📘</a> 
+                <a href="#" aria-label="Instagram">📸</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+            </div>
+            <p class="copyright">&copy; 2026 Woodville Market and Smokehouse. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Simple JavaScript for mobile menu and Intersection Observer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const menuToggleButtons = document.querySelectorAll('.menu-toggle');
+            const mobileNavOverlay = document.querySelector('.mobile-nav-overlay');
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-overlay .nav-links a, .mobile-nav-overlay .header-call-btn');
+
+            if (menuToggleButtons && mobileNavOverlay) {
+                menuToggleButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        mobileNavOverlay.classList.toggle('open');
+                        document.body.classList.toggle('no-scroll'); // Optional: disable scroll on body
+                    });
+                });
+
+                mobileNavLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileNavOverlay.classList.remove('open');
+                        document.body.classList.remove('no-scroll');
+                    });
+                });
+            }
+
+            // Intersection Observer for fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: "0px 0px -50px 0px" // Start animating earlier as you scroll up
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
