@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Gathering Place - Classic Diner in Sparta, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-section-alt: #1a1a1a; /* Using accent color for a slightly lighter section background */
+            --brand-color: #D4AF37;
+            --brand-color-rgb: 212, 175, 55;
+            --accent-color: #1a1a1a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-serif: 'Bitter', serif;
+            --font-sans: 'Inter', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #e0bb4f; /* Slightly lighter brand color on hover */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.2rem;
+            border-radius: 5px;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #e0bb4f; /* Slightly lighter brand color */
+            border-color: #e0bb4f;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-accent-left {
+            border-left: 4px solid var(--brand-color);
+            border-right: 1px solid var(--card-border);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .card.hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Utility grid/flex for common layouts */
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(26, 26, 26, 0.95); /* Semi-transparent dark background */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.05em;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta-button {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            background: linear-gradient(135deg,
+                var(--bg-main) 0%,
+                rgba(var(--brand-color-rgb), 0.08) 25%,
+                var(--bg-main) 50%,
+                rgba(var(--brand-color-rgb), 0.08) 75%,
+                var(--bg-main) 100%
+            );
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(var(--brand-color-rgb), 0.05) 0%, transparent 70%);
+            animation: pulse-glow 10s infinite alternate ease-in-out;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); opacity: 0.05; }
+            100% { transform: scale(1.05); opacity: 0.15; }
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 0.5rem;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .rating-badge svg {
+            fill: var(--brand-color);
+            margin-right: 0.5rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .social-proof-strip .grid-3-col {
+            gap: 20px;
+            align-items: center;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .social-proof-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* About Section */
+        .about-section .grid-2-col {
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .about-stats {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 0.95rem;
+            color: var(--text-heading);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.8rem;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .menu-item p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-section-alt);
+        }
+
+        .reason-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .reason-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+
+        .reason-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: left;
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-main);
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info a {
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #e0bb4f 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: var(--bg-main);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--bg-main); /* Ensure headline is dark on light background */
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .final-cta-section .btn-dark {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-main);
+        }
+
+        .final-cta-section .btn-dark:hover {
+            background-color: #333;
+            border-color: #333;
+            color: var(--brand-color);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--accent-color);
+            padding: 60px 0 30px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer .header-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .main-nav {
+                display: none; /* Hide nav on smaller screens, could implement a hamburger menu */
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .container {
+                padding: 0 15px;
+            }
+            .grid-2-col {
+                grid-template-columns: 1fr;
+            }
+            .about-section .grid-2-col > div:first-child {
+                order: 2; /* Move image/testimonial below text on mobile */
+            }
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+            .location-map {
+                margin-bottom: 3rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+            .section-label {
+                text-align: center;
+            }
+            .about-text {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+            .hero-location { font-size: 1rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .section-padding-y { padding: 80px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta-button {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.8rem;
+            }
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                width: 90%;
+            }
+            .social-proof-item h3 {
+                font-size: 1.8rem;
+            }
+            .social-proof-item p {
+                font-size: 0.9rem;
+            }
+            .stat-card .number {
+                font-size: 2rem;
+            }
+            .stat-card .label {
+                font-size: 0.85rem;
+            }
+            .menu-grid, .grid-3-col {
+                grid-template-columns: 1fr;
+            }
+            .reason-card {
+                padding: 1.5rem;
+            }
+            .testimonial-card {
+                padding: 1.5rem;
+            }
+            .final-cta-section h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">The Gathering Place</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13363725077" class="btn btn-primary header-cta-button">CALL (336) 372-5077</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <p class="hero-location">Sparta, NC</p>
+            <h1>The Gathering Place</h1>
+            <p class="hero-tagline">Hearty Meals, Warm Smiles – Your Favorite Local Diner.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.6 18L195 150.3 51.4 171.5c-11.4 1.7-20.4 10.1-24.5 21.5s-1.7 23.7 7.9 32.7L137.8 329 113.2 474.7c-2.3 14.8 5.1 29.3 18.2 38.4s30.9 8.5 43.9-2.6L288.1 400.7 425.9 509.1c13 11.1 32.9 11.9 43.9 2.6s20.5-23.6 18.2-38.4L438.2 329 542.4 225.9c9.6-9 11.4-22.8 7.9-32.7s-13.1-19.8-24.5-21.5L381.2 150.3 316.9 18z"/></svg>
+                4.9 Stars (62 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container grid-3-col">
+            <div class="social-proof-item">
+                <h3>4.9 Stars</h3>
+                <p>Average Customer Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>62+</h3>
+                <p>Verified Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Local Favorite</h3>
+                <p>Serving the Sparta Community</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="about-section">
+        <div class="container text-center">
+            <p class="section-label">Our Journey</p>
+            <h2>A Taste of Tradition, Crafted with Love.</h2>
+        </div>
+        <div class="container grid-2-col" style="margin-top: 3rem;">
+            <div class="about-text">
+                <p>Nestled in the heart of Sparta, NC, The Gathering Place has been a beloved community cornerstone for years. We believe in the simple joy of good food, warm company, and genuine hospitality. Our diner isn't just a place to eat; it's where friendships are forged, families connect, and memories are made over plates of home-cooked comfort.</p>
+                <p>From the moment you step through our doors, you're treated like family. We pride ourselves on serving up classic diner fare with a touch of local charm, using fresh ingredients and recipes passed down through generations. Every dish tells a story, and every visit adds to the rich tapestry of our Sparta community. Come on in, pull up a chair, and let us serve you a slice of home.</p>
+            </div>
+            <div>
+                <div class="card card-accent-left">
+                    <p style="font-size: 1.1rem; font-style: italic;">"The Gathering Place is truly the heart of Sparta. The food is always fantastic, and the staff make you feel right at home. It's our go-to for breakfast and lunch!"</p>
+                    <p class="author">— A Loyal Customer, Sparta Resident</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="number">4.9</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">62+</div>
+                        <div class="label">Verified Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Countless</div>
+                        <div class="label">Memories Made</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section" style="background-color: var(--bg-section-alt);">
+        <div class="container text-center">
+            <p class="section-label">Our Offerings</p>
+            <h2>Comfort Classics & Daily Delights.</h2>
+            <p style="max-width: 700px; margin: 1rem auto 3rem auto; color: var(--text-body);">Savor the taste of home with our selection of diner favorites, crafted fresh daily. *Prices available in-store.</p>
+        </div>
+        <div class="container menu-grid">
+            <div class="menu-item hover-lift">
+                <h3>Classic Diner Breakfast</h3>
+                <p>Two farm-fresh eggs any style, crispy bacon or sausage, golden hash browns, and your choice of toast.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Homestyle Pancakes Stack</h3>
+                <p>Fluffy buttermilk pancakes, served with warm maple syrup and butter. Add berries for an extra treat!</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Gathering Place Burger</h3>
+                <p>Juicy beef patty, fresh lettuce, tomato, onion, and pickles on a toasted bun. Served with a side of fries.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Daily Lunch Special</h3>
+                <p>Ask your server about today's unique creation, a local favorite crafted fresh from our kitchen.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Grilled Chicken Sandwich</h3>
+                <p>Marinated grilled chicken breast, lettuce, tomato, and mayo on a soft roll. A healthy and delicious option.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Sweet Potato Fries</h3>
+                <p>A delicious alternative to regular fries, perfectly seasoned and served hot.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Freshly Brewed Coffee</h3>
+                <p>Start your day right or enjoy a warm cup anytime with our rich, aromatic coffee.</p>
+            </div>
+            <div class="menu-item hover-lift">
+                <h3>Homemade Apple Pie</h3>
+                <p>A classic dessert, baked fresh daily with crisp apples and a buttery crust. Add a scoop of vanilla ice cream!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container text-center">
+            <p class="section-label">Our Promise</p>
+            <h2>Why Locals Keep Coming Back.</h2>
+        </div>
+        <div class="container grid-3-col" style="margin-top: 3rem;">
+            <div class="reason-card">
+                <h3>Hearty Portions, Honest Prices</h3>
+                <p>We believe good food shouldn't break the bank. Enjoy generous servings of delicious, home-style cooking that satisfies both your appetite and your wallet.</p>
+            </div>
+            <div class="reason-card">
+                <h3>Fresh, Local Ingredients</h3>
+                <p>Supporting our community means sourcing locally whenever possible. We use fresh ingredients to bring out the authentic flavors in every dish, from our 'Homestyle Pancakes' to our 'Gathering Place Burger'.</p>
+            </div>
+            <div class="reason-card">
+                <h3>Friendly Service, Family Atmosphere</h3>
+                <p>Beyond the food, it's the welcoming smiles and comfortable ambiance that make us special. Our team is dedicated to making every visit feel like coming home.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <p class="section-label">What Our Customers Say</p>
+            <h2>Hear From Our Wonderful Customers.</h2>
+        </div>
+        <div class="container grid-3-col" style="margin-top: 3rem;">
+            <div class="testimonial-card">
+                <p>"The 'Classic Diner Breakfast' is my weekend ritual! The eggs are always perfect, and the hash browns are incredibly crispy. It's the best way to start a Saturday in Sparta."</p>
+                <p class="author">— Sarah K., Sparta Resident</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"I can't get enough of their 'Daily Lunch Special'! It's always something new and delicious, a real taste of local cooking. Plus, the staff is so friendly."</p>
+                <p class="author">— Mark T., Regular Customer</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"You haven't lived until you've tried 'The Gathering Place Burger' with a side of 'Sweet Potato Fries'. It's pure comfort food perfection. A 5-star experience every time!"</p>
+                <p class="author">— Emily R., Visited from out of town</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section" style="background-color: var(--bg-section-alt);">
+        <div class="container text-center">
+            <p class="section-label">Visit Us</p>
+            <h2>Find Us in Sparta & See Our Hours.</h2>
+        </div>
+        <div class="container grid-2-col" style="margin-top: 3rem;">
+            <div class="location-map">
+                <h3>Our Location</h3>
+                <p style="margin-bottom: 1rem;">Come enjoy a meal with us!</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3183.076899723225!2d-81.12157072365287!3d36.49132517238202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885060b86a88b56d%3A0xc39c4e23a3889104!2sThe%20Gathering%20Place!5e0!3m2!1sen!2sus!4v1701123456789!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div class="contact-info" style="margin-top: 1.5rem;">
+                    <p><strong>Address:</strong> 81 W Doughton St, Sparta, NC 28675, USA</p>
+                    <p><strong>Phone:</strong> <a href="tel:+13363725077" style="color: var(--brand-color);">(336) 372-5077</a></p>
+                </div>
+            </div>
+            <div class="hours-info">
+                <h3>Opening Hours</h3>
+                <p style="margin-bottom: 1.5rem;">We look forward to serving you!</p>
+                <table class="hours-table">
+                    <tr><th>Monday:</th><td>7:00 AM – 5:00 PM</td></tr>
+                    <tr><th>Tuesday:</th><td>7:00 AM – 5:00 PM</td></tr>
+                    <tr><th>Wednesday:</th><td>7:00 AM – 1:00 PM</td></tr>
+                    <tr><th>Thursday:</th><td>7:00 AM – 5:00 PM</td></tr>
+                    <tr><th>Friday:</th><td>7:00 AM – 5:00 PM</td></tr>
+                    <tr><th>Saturday:</th><td>8:00 AM – 2:00 PM</td></tr>
+                    <tr><th>Sunday:</th><td>Closed</td></tr>
+                </table>
+                <div style="margin-top: 2rem;">
+                    <a href="tel:+13363725077" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2>Ready for a Taste of Home? Visit Us Today!</h2>
+            <a href="#find-us" class="btn btn-dark">GET DIRECTIONS</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="header-logo">The Gathering Place</div>
+            <p>Hearty Meals, Warm Smiles – Your Favorite Local Diner.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V349.99H174.82V256h34.43V221.04c0-34.78 20.84-53.62 52.17-53.62 14.86 0 29.82 2.65 29.82 2.65v50.21h-25.13c-24.69 0-32.35 15.37-32.35 31.09V256h47.24l-7.46 93.99H288.13V501C409.32 481.33 504 379.73 504 256z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1-27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.2-26.2 26.2-34.4 58-36.2 93.9-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.2 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.9zM399 403.1c-1.6 34.2-8.7 53.3-23.2 67.8s-33.6 21.6-67.8 23.2c-37 1.7-117 1.7-154 0-34.2-1.6-53.3-8.7-67.8-23.2s-21.6-33.6-23.2-67.8c-1.7-37-1.7-117 0-154 1.6-34.2 8.7-53.3 23.2-67.8s33.6-21.6 67.8-23.2c37-1.7 117-1.7 154 0 34.2 1.6 53.3 8.7 67.8 23.2s21.6 33.6 23.2 67.8c1.7 37 1.7 117 0 154z"/></svg></a>
+                <a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M226.7 377.7c-40.4 34-80.3 67.4-110.8 91.8C89.3 487.6 70.4 500 52.4 500c-35.3 0-53.4-30.8-44.1-68.8 8.8-35.8 33.7-111.4 69.5-175.7 6.4-11.4 13.7-22.3 21.6-32.9l-8.6-13.8C80 186.1 76 172.1 76 157.9c0-30.7 21.9-58 60.2-66.9l69.7-16.1c.4-1.3 7.7-23.7 7.9-24.2 1.9-4.5 9-17.2 23.6-17.2 15.6 0 21.6 13.6 23.6 17.2 1.4 2.6 7.6 24.5 7.9 24.9l69.7 16.1c38.3 8.9 60.2 36.2 60.2 66.9 0 14.2-4 28.2-12 41.2l-8.6 13.8c7.9 10.6 15.2 21.5 21.6 32.9 35.8 64.3 60.7 139.9 69.5 175.7 9.3 38-8.8 68.8-44.1 68.8-18 0-36.9-12.4-63.5-34.5-30.5-24.4-70.4-57.8-110.8-91.8z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Gathering Place. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect (CSS classes are already defined)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            // Add fade-in-up class to elements that should animate
+            const animatableElements = document.querySelectorAll('section > .container > *:not(.section-label), .card, .menu-item, .reason-card, .testimonial-card, .social-proof-item, .hero-content > *');
+            animatableElements.forEach(el => {
+                el.classList.add('fade-in-up');
+                observer.observe(el);
+            });
+        });
+    </script>
+    <style>
+        /* Fade-in-up animation CSS */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</body>
+</html>
