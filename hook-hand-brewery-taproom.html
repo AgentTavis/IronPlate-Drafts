@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hook Hand Brewery Taproom & Art Gallery - Williamston, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-main: #111111;
+            --color-bg-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --color-brand: #1B5E7F;
+            --color-accent: #FFA500;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --section-padding: 100px 0; /* Generous whitespace */
+            --max-width: 1200px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* 1.05-1.15rem */
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--color-text-heading);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-brand);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            opacity: 0; /* For fade-in-up animation */
+            transform: translateY(50px); /* For fade-in-up animation */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--color-brand);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* 2.5-3rem */
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 35px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            background-color: darken(var(--color-brand), 10%);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-accent);
+            border: 2px solid var(--color-accent);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(var(--color-accent), 0.1);
+            transform: scale(1.02);
+            color: var(--color-accent);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            letter-spacing: 0.5px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 35px;
+        }
+
+        .main-nav a {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        .main-nav a:hover {
+            color: var(--color-brand);
+        }
+
+        .header-call-btn {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: darken(var(--color-brand), 10%);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95) 0%, rgba(27, 94, 127, 0.1) 40%, rgba(255, 165, 0, 0.05) 60%, rgba(17, 17, 17, 0.95) 100%), var(--color-bg-main);
+            background-size: cover;
+            background-position: center;
+            padding: 0 20px;
+            opacity: 1; /* Hero is always visible */
+            transform: translateY(0);
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* 4-6rem, massive */
+            font-weight: 700;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--color-text-body);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--color-accent);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+
+        .hero-rating span {
+            color: var(--color-text-heading);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 25px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(27, 94, 127, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .proof-item {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+        }
+
+        .proof-item .value {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            margin-bottom: 5px;
+        }
+
+        .proof-item .label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--color-text-body);
+        }
+
+        .proof-item .label.accent {
+            color: var(--color-accent);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--color-bg-light);
+            text-align: center;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+            color: var(--color-text-body);
+        }
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-accent); /* Accent border for stats */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .description {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--color-text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--color-bg-main);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .menu-item-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            align-self: flex-end;
+        }
+
+        .no-menu-message {
+            text-align: center;
+            padding: 50px 20px;
+            border: 1px dashed var(--color-card-border);
+            border-radius: 8px;
+            background-color: var(--color-card-bg);
+            margin-top: 60px;
+        }
+        .no-menu-message h3 {
+            font-size: 2rem;
+            color: var(--color-brand);
+            margin-bottom: 20px;
+        }
+        .no-menu-message p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--color-bg-light);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 5px solid var(--color-brand); /* Bottom accent */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-brand);
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--color-bg-main);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--color-text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-author {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            text-transform: uppercase;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--color-bg-light);
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--color-text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-details p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .location-details a {
+            color: var(--color-brand);
+            font-weight: 600;
+        }
+
+        .location-details a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-card-border);
+        }
+
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--color-text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--color-brand) 0%, rgba(27, 94, 127, 0.8) 50%, rgba(255, 165, 0, 0.6) 100%);
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .final-cta-section .section-headline {
+            color: var(--color-text-heading);
+            margin-bottom: 40px;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0A0A0A;
+            color: var(--color-text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--color-text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: var(--color-brand);
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .hours-table {
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .main-nav ul {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            .main-nav {
+                margin-top: 15px;
+                width: 100%;
+            }
+            .main-nav ul {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .header-call-btn {
+                margin-top: 15px;
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .social-proof-strip {
+                padding: 30px 0;
+            }
+            .proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .proof-item .value {
+                font-size: 2.8rem;
+            }
+            .proof-item .label {
+                font-size: 1rem;
+            }
+
+            .story-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta-section .section-headline {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Hook Hand</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:N/A" class="header-call-btn">CALL US</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <p class="hero-location">Williamston, NC</p>
+        <h1 class="hero-name">Hook Hand brewery taproom</h1>
+        <p class="hero-tagline">Hook Hand Brewery Taproom & Art Gallery. A brewery experience like none you've ever had.</p>
+        <div class="hero-rating">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--color-accent)" width="20px" height="20px"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            5 Stars <span>(2 Reviews)</span>
+        </div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip is-visible">
+        <div class="container proof-grid">
+            <div class="proof-item">
+                <div class="value">5</div>
+                <div class="label">Star Rating</div>
+            </div>
+            <div class="proof-item">
+                <div class="value">2</div>
+                <div class="label">Happy Patrons</div>
+            </div>
+            <div class="proof-item">
+                <div class="value" style="font-size: 3rem;">Local</div>
+                <div class="label accent">Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <span class="section-label">Our Story</span>
+            <h2 class="section-headline">More Than Just a Brewery, It's an Experience</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>We have been all over the country seeing breweries, and this by far is the most eccentric and perfectly cool place. Hook Hand Brewery Taproom & Art Gallery isn't just a spot for great BBQ and craft brews; it's a destination where art, atmosphere, and community converge.</p>
+                    <p>Bright colors and unique posters have you feeling like you just smoked a mushroom. Maybe? Idk but we had a great time. Our owner is dedicated to creating a vibrant, welcoming space that stands out from the ordinary, offering a brewery experience like none you've ever had.</p>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card">
+                        <div class="number">5</div>
+                        <div class="description">Star Average</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2</div>
+                        <div class="description">Reviews to Date</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number" style="font-size: 2.5rem;">Art & Brews</div>
+                        <div class="description">Combined</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <span class="section-label">Our Selection</span>
+            <h2 class="section-headline">Craft Brews & BBQ Delights</h2>
+            <div class="no-menu-message">
+                <h3>Our Menu is Currently Brewing!</h3>
+                <p>We're diligently crafting a full menu of unique BBQ dishes and refreshing craft beers, inspired by our eccentric vibe. While we finalize our delicious offerings, please visit Hook Hand Brewery Taproom & Art Gallery in person to discover our current selections and daily specials. We promise an experience for your taste buds that's as vibrant as our gallery!</p>
+            </div>
+            <!-- Placeholder grid for visual structure if menu items were available -->
+            <div class="menu-grid" style="display: none;">
+                <div class="menu-item-card">
+                    <h3>Smoked Brisket Sandwich</h3>
+                    <p>Slow-smoked to perfection, piled high on a brioche bun with our signature BBQ sauce.</p>
+                    <span class="price"></span> <!-- No price provided -->
+                </div>
+                <div class="menu-item-card">
+                    <h3>Craft IPA</h3>
+                    <p>A hoppy and refreshing India Pale Ale, brewed in-house with local ingredients.</p>
+                    <span class="price"></span>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Pulled Pork Platter</h3>
+                    <p>Tender pulled pork, coleslaw, and a side of cornbread. Classic BBQ done right.</p>
+                    <span class="price"></span>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Seasonal Stout</h3>
+                    <p>Rich and malty stout, perfect for cooler evenings. Ask your server for this season's brew.</p>
+                    <span class="price"></span>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Artisan Sausage Link</h3>
+                    <p>Locally sourced sausage, grilled and served with a tangy mustard dip.</p>
+                    <span class="price"></span>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Light Lager</h3>
+                    <p>Crisp, clean, and supremely drinkable. Our take on a classic refreshing lager.</p>
+                    <span class="price"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <span class="section-label">Experience the Difference</span>
+            <h2 class="section-headline">Why Hook Hand is Your Next Favorite Spot</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <h3>Unforgettable Atmosphere</h3>
+                    <p>Dive into an eccentric world of bright colors, unique posters, and a vibe that truly stands out. It's a feast for your eyes and your soul, making every visit an adventure.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Curated Art & Craft Brews</h3>
+                    <p>We're not just a brewery; we're an art gallery. Enjoy delicious BBQ and a selection of unique craft beers surrounded by inspiring local art, fostering creativity and good times.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Rated 5 Stars by Locals</h3>
+                    <p>Our commitment to a unique experience and great hospitality has earned us a perfect 5-star rating from our cherished patrons. Come see why everyone loves Hook Hand!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label">What People Are Saying</span>
+            <h2 class="section-headline">Hear From Our Happy Patrons</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"This place truly lives up to its hype! The atmosphere is incredible – bright, quirky, and full of character. We spent hours just soaking it all in and enjoying their fantastic selection of brews. Definitely an experience unlike any other in Williamston!"</p>
+                    <span class="testimonial-author">- Jamie L.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"As avid brewery-goers, Hook Hand totally blew us away. The 'feeling like you just smoked a mushroom' description is spot-on, in the best possible way! The unique art and the cool, relaxed vibe made our evening. Can't wait to come back for more of their delicious BBQ and amazing craft beers."</p>
+                    <span class="testimonial-author">- Mark T.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">"The owner is neat, and the entire taproom reflects that personality. Every corner has something interesting to look at. We had such a great time, the ambiance is perfectly cool, and it's clear they put a lot of love into this place. A definite must-visit for anyone looking for a unique brewery experience!"</p>
+                    <span class="testimonial-author">- Sarah P.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Find Your Way to Hook Hand</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <div class="location-details">
+                        <p><strong>Hook Hand brewery taproom</strong></p>
+                        <p>106 Railroad St</p>
+                        <p>Williamston, NC 27892, USA</p>
+                        <p><a href="https://www.google.com/maps/search/?api=1&query=Hook+Hand+brewery+taproom+106+Railroad+St,+Williamston,+NC+27892,+USA" target="_blank">Get Directions</a></p>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>4:00 PM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>4:00 PM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                    <a href="tel:N/A" class="btn btn-primary call-to-order-btn">CALL US</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="section-headline">Ready for an experience unlike any other?</h2>
+            <a href="#find-us" class="btn btn-secondary">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Hook Hand</div>
+            <p class="footer-tagline">Hook Hand Brewery Taproom & Art Gallery. A brewery experience like none you've ever had.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.504-4.192 4.44v2.56h-3z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.662 4.972 4.904.024.318.047.64.047 1.094 0 1.282-.011 1.6-.07 4.86c-.149 3.24-1.664 4.755-4.918 4.957-.319.024-.64.047-1.096.047-1.282 0-1.599-.012-4.85-.07-3.252-.148-4.772-1.662-4.973-4.904-.024-.319-.047-.64-.047-1.094 0-1.282.011-1.6.07-4.86.149-3.24 1.664-4.756 4.918-4.957.319-.024.64-.047 1.096-.047zm0-2.163c-3.63 0-4.06.016-5.483.076-3.77.17-5.894 2.296-6.07 6.07C.016 7.94.0 8.37.0 12c0 3.63.016 4.06.076 5.483.17 3.77 2.296 5.894 6.07 6.07C7.94 23.984 8.37 24 12 24c3.63 0 4.06-.016 5.483-.076 3.77-.17 5.894-2.296 6.07-6.07.06-.318.076-.75.076-5.483 0-3.63-.016-4.06-.076-5.483-.17-3.77-2.296-5.894-6.07-6.07C16.06.016 15.63 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.5-11.838a1.44 1.44 0 10-2.88 0 1.44 1.44 0 002.88 0z"/></svg></a></li>
+                <li><a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.791-1.574 2.161-2.723-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.594 0-6.494 2.901-6.494 6.494 0 .509.058 1.006.162 1.488-5.39-.272-10.187-2.857-13.39-6.777-.56.961-.884 2.074-.884 3.242 0 2.259 1.159 4.249 2.919 5.424-.807-.026-1.566-.247-2.228-.616v.085c0 3.149 2.239 5.767 5.207 6.362-.54.148-1.107.227-1.69.227-.412 0-.814-.039-1.204-.114.823 2.572 3.204 4.444 6.04 4.49-.22.17-.442.333-.669.489-.611.439-1.393.737-2.247.737-2.26 0-4.1-1.84-4.1-4.103 0-.102.008-.204.024-.305C5.833 21.057 9.537 21.5 13.568 21.5c4.032 0 7.736-.443 11.439-.015.302.321.492.686.492 1.115 0 .285-.058.558-.168.809.919-.687 1.7-1.597 2.37-2.71z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Hook Hand brewery taproom. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade-in-up on scroll via IntersectionObserver
+            const sections = document.querySelectorAll('section:not(.hero-section):not(.social-proof-strip)'); // Exclude hero and social proof which are visible immediately
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+             // Also observe the social proof strip to ensure it's handled if JS loads late
+             document.querySelector('.social-proof-strip').classList.add('is-visible');
+        });
+    </script>
+</body>
+</html>
