@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beaufort Cafe - Your Daily Dose of Deliciousness in Beaufort, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@303;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-secondary: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #8B4513; /* Saddle Brown */
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding: 100px 0; /* Generous whitespace */
+            --mobile-padding: 60px 0;
+            --header-height: 60px;
+        }
+
+        /* Global Resets & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; } /* Hero size adjusted by section */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+        p { margin-bottom: 1em; }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px; /* Horizontal padding for smaller screens */
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative; /* For fade-in-up animations */
+            overflow: hidden; /* To clip animations */
+        }
+
+        /* Section Specific Backgrounds */
+        .section-dark { background-color: var(--bg-main); }
+        .section-light-bg { background-color: var(--bg-secondary); } /* Used for alternating sections */
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .uppercase { text-transform: uppercase; }
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(139, 69, 19, 0.9);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-weight: 400;
+            font-size: 1rem;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after,
+        .header-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: rgba(139, 69, 19, 0.9);
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for fixed header */
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 50%, rgba(139,69,19,0.1) 100%), var(--bg-main);
+            position: relative;
+            z-index: 1; /* Ensure content is above background effects */
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 0.1em;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.8em;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--accent-color);
+            padding: 0.5em 1em;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            margin-bottom: 2em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 400;
+        }
+
+        .hero .rating-badge::before {
+            content: '⭐'; /* Star emoji */
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color low opacity */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .social-proof-item .label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Section Header Common Styles */
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--brand-color);
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5em;
+        }
+
+        .our-story-highlight-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            margin-top: 30px;
+        }
+
+        .our-story-highlight-card blockquote {
+            font-style: italic;
+            font-size: 1.25rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .our-story-highlight-card cite {
+            display: block;
+            text-align: right;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        .our-story-stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes content and button apart */
+            min-height: 220px; /* Ensure cards have similar height */
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows paragraph to take up space */
+        }
+        
+        .menu-card .menu-cta {
+            margin-top: auto; /* Pushes button to the bottom */
+            display: inline-block;
+            color: var(--brand-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+        .menu-card .menu-cta:hover {
+            text-decoration: underline;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.7rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+        .testimonial-card .author span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .location-info .address {
+            margin-bottom: 20px;
+        }
+
+        .location-info a.phone {
+            color: var(--brand-color);
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .location-info a.phone:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-cta {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 100%);
+            padding: var(--section-padding);
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: #f0f0f0;
+            color: var(--brand-color);
+            border-color: #f0f0f0;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 { font-size: 4.5rem; }
+            h2 { font-size: 2.2rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            .our-story-content, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story-stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .stat-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .section { padding: var(--mobile-padding); }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+            }
+            .header-nav ul {
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 15px;
+            }
+            .header-call-btn {
+                margin-top: 15px;
+                width: 100%;
+            }
+
+            .hero h1 { font-size: 3.5rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .rating-badge { font-size: 1rem; }
+            .hero .hero-ctas { flex-direction: column; gap: 15px; width: 80%; }
+            .hero .hero-ctas .btn { width: 100%; }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .social-proof-item { min-width: unset; width: 100%; }
+
+            h2 { font-size: 2rem; }
+            .section-header h2 { font-size: 2rem; }
+            .our-story-text, .location-info, .hours-info { text-align: center; }
+            .hours-table { margin: 0 auto; max-width: 400px; }
+            .hours-table th, .hours-table td { text-align: center; }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 0.9rem; }
+            .hero .rating-badge { font-size: 0.9rem; }
+            .section { padding: 40px 0; }
+            .section-header { margin-bottom: 40px; }
+            .section-header h2 { font-size: 1.8rem; }
+            .stat-card .number { font-size: 2.5rem; }
+            .final-cta h2 { font-size: 2rem; }
+            .header-logo { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">Beaufort Cafe</div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(252) 728-4400" class="header-call-btn">CALL (252) 728-4400</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero fade-in-up">
+        <p class="location fade-in-up" style="animation-delay: 0.1s;">Beaufort, NC</p>
+        <h1 class="fade-in-up" style="animation-delay: 0.2s;">Beaufort Cafe</h1>
+        <p class="tagline fade-in-up" style="animation-delay: 0.3s;">Your Daily Dose of Deliciousness. The BEST Breakfast in Beaufort!</p>
+        <div class="rating-badge fade-in-up" style="animation-delay: 0.4s;">
+            4.4 Stars (736 Reviews)
+        </div>
+        <div class="hero-ctas fade-in-up" style="animation-delay: 0.5s;">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="social-proof-item fade-in-up">
+                <span class="value">4.4 / 5</span>
+                <span class="label">Customer Rating</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="animation-delay: 0.1s;">
+                <span class="value">736+</span>
+                <span class="label">Happy Reviews</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="animation-delay: 0.2s;">
+                <span class="value">Local</span>
+                <span class="label">Favorite Diner</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="section-dark">
+        <div class="container fade-in-up">
+            <div class="section-header text-center">
+                <span class="section-label uppercase">Our Story</span>
+                <h2>A Taste of Home, Served with a Smile.</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="our-story-text fade-in-up" style="animation-delay: 0.1s;">
+                    <p>At Beaufort Cafe, we're more than just a place to eat; we're a cherished part of the Beaufort community. For years, locals and visitors alike have started their day with us, enjoying comforting breakfast favorites served fresh off the griddle.</p>
+                    <p>We pride ourselves on creating a warm, welcoming atmosphere where everyone feels like family. Our dedicated team works hard to ensure every visit is a pleasant one, bringing you the best of classic diner hospitality. While things can get bustling, our commitment to good food and friendly service never wavers. It's the simple charm and delicious meals that keep our patrons coming back, morning after morning.</p>
+                    <div class="our-story-highlight-card">
+                        <blockquote>"We stopped here every morning for breakfast while we were on vacation. The food was good. The waitresses were nice!"</blockquote>
+                        <cite>— A Happy Vacationer</cite>
+                    </div>
+                </div>
+                <div class="our-story-stats fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="stat-card">
+                        <div class="number text-brand">4.4</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-brand">736</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-brand">Daily</div>
+                        <div class="label">Breakfast Specials</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="section-light-bg">
+        <div class="container fade-in-up">
+            <div class="section-header text-center">
+                <span class="section-label uppercase">Our Menu</span>
+                <h2>Savor Your Morning: Breakfast Favorites & Daily Specials.</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up" style="animation-delay: 0.1s;">
+                    <h3>Classic Breakfast Plates</h3>
+                    <p>Hearty options to start your day right. From fluffy pancakes to eggs cooked just the way you like them.</p>
+                    <a href="#find-us" class="menu-cta">See Full Menu In-Store</a>
+                </div>
+                <div class="menu-card fade-in-up" style="animation-delay: 0.2s;">
+                    <h3>Daily Specials</h3>
+                    <p>Ask your server about today's fresh, rotating specials. Always something new and delicious to try!</p>
+                    <a href="tel:(252) 728-4400" class="menu-cta">Call for Today's Special</a>
+                </div>
+                <div class="menu-card fade-in-up" style="animation-delay: 0.3s;">
+                    <h3>Fresh Brewed Coffee</h3>
+                    <p>The perfect companion to any meal. Our coffee is always hot, fresh, and ready to get your day going.</p>
+                    <a href="#find-us" class="menu-cta">Grab a Cup Now</a>
+                </div>
+                <div class="menu-card fade-in-up" style="animation-delay: 0.4s;">
+                    <h3>Southern Comforts</h3>
+                    <p>Experience true Southern hospitality with our selection of grits, biscuits, and country ham.</p>
+                    <a href="#find-us" class="menu-cta">Visit Us to Explore</a>
+                </div>
+                <div class="menu-card fade-in-up" style="animation-delay: 0.5s;">
+                    <h3>Light & Healthy Options</h3>
+                    <p>For those seeking a lighter start, we offer fresh fruit and lighter portions without compromising on taste.</p>
+                    <a href="#find-us" class="menu-cta">Discover Your Favorite</a>
+                </div>
+                <div class="menu-card fade-in-up" style="animation-delay: 0.6s;">
+                    <h3>Kids' Corner</h3>
+                    <p>Delicious and fun choices for our younger guests. Perfect for family outings!</p>
+                    <a href="#find-us" class="menu-cta">Bring the Whole Family</a>
+                </div>
+            </div>
+            <div class="text-center" style="margin-top: 60px;">
+                <a href="tel:(252) 728-4400" class="btn btn-primary fade-in-up" style="animation-delay: 0.7s;">CALL FOR TODAY'S FULL MENU</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-dark">
+        <div class="container fade-in-up">
+            <div class="section-header text-center">
+                <span class="section-label uppercase">Why Beaufort Cafe?</span>
+                <h2>More Than Just a Meal, It's an Experience.</h2>
+            </div>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="icon">🍳</div>
+                    <h3>The Best Breakfast in Beaufort</h3>
+                    <p>Our patrons consistently rave about our breakfast, calling it the 'BEST' in town. Fresh ingredients, classic recipes, and generous portions.</p>
+                </div>
+                <div class="why-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="icon">😊</div>
+                    <h3>Friendly Service, Every Visit</h3>
+                    <p>Even on our busiest mornings, our waitstaff is known for their warm smiles and attentive service, making you feel right at home.</p>
+                </div>
+                <div class="why-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="icon">👨‍👩‍👧‍👦</div>
+                    <h3>A Local Gem for Groups & Kids</h3>
+                    <p>With a lively, family-friendly vibe, Beaufort Cafe is the perfect spot for group gatherings or a casual meal out with the little ones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="section-light-bg">
+        <div class="container fade-in-up">
+            <div class="section-header text-center">
+                <span class="section-label uppercase">What Our Guests Say</span>
+                <h2>Real Stories from Our Happy Customers.</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up" style="animation-delay: 0.1s;">
+                    <blockquote>"Absolutely love starting my day at Beaufort Cafe. The breakfast is consistently delicious, and the coffee in Beaufort doesn't get any better than here!"</blockquote>
+                    <p class="author">Jessica T. <span>— Local Regular</span></p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="animation-delay: 0.2s;">
+                    <blockquote>"Such a charming, divey spot with incredible food. The waitresses are always so kind and make you feel appreciated, even when they're swamped. A true Beaufort treasure."</blockquote>
+                    <p class="author">Mark R. <span>— Visiting from Raleigh</span></p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="animation-delay: 0.3s;">
+                    <blockquote>"Good for groups and good for kids! We bring our whole family here every Saturday. Everyone finds something they love, and the moderate noise level means we can actually enjoy our meal."</blockquote>
+                    <p class="author">Sarah P. <span>— Happy Parent</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-dark">
+        <div class="container fade-in-up">
+            <div class="section-header text-center">
+                <span class="section-label uppercase">Find Us</span>
+                <h2>Your Table Awaits in the Heart of Beaufort.</h2>
+            </div>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up" style="animation-delay: 0.1s;">
+                    <h3>Visit Beaufort Cafe</h3>
+                    <p class="address">817 Cedar St, Beaufort, NC 28516, USA</p>
+                    <p>Parking can be a little tricky, but it's always worth it for the food!</p>
+                    <a href="tel:(252) 728-4400" class="phone">(252) 728-4400</a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Beaufort+Cafe+817+Cedar+St,+Beaufort,+NC+28516" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up" style="animation-delay: 0.2s;">
+                    <h3>Our Daily Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>6:30 AM – 12:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>6:30 AM – 12:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>6:30 AM – 12:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>6:30 AM – 12:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>6:30 AM – 12:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>6:30 AM – 1:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>6:30 AM – 1:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="location-cta">
+                        <a href="tel:(252) 728-4400" class="btn btn-secondary">CALL TO ORDER TAKE-OUT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for Beaufort's Best Breakfast Experience?</h2>
+            <a href="#find-us" class="btn btn-primary">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Beaufort Cafe</div>
+            <p class="footer-tagline">Serving the BEST Breakfast in Beaufort with a smile, every day.</p>
+            <ul class="social-links">
+                <li><a href="#"><span class="sr-only">Facebook</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.512-4.192 4.442v2.558z"/></svg></a></li>
+                <li><a href="#"><span class="sr-only">Instagram</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.225-.148-4.77-1.664-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="https://www.yelp.com/biz/w480Xcr413qSYCPkEUUqMQ" target="_blank"><span class="sr-only">Yelp</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M21.921 11.233c.046-.401-.157-.751-.591-1.002-1.928-1.096-4.636-2.529-6.38-3.49-1.87-1.042-2.308-1.258-3.134-1.261-.318 0-.616.035-.873.106-.217.06-.479.167-.624.27-.145.103-.189.26-.062.433.097.135.291.22.502.261.26.049.605.07.917.07 1.488 0 2.375-.542 4.198-1.554 1.341-.758 2.651-1.503 3.651-2.035-.386-.113-.742-.164-1.127-.164-1.146 0-1.896.262-2.887.671-.871.36-1.83.916-2.616 1.57-.456.377-.827.766-1.13 1.155-.304.389-.527.778-.696 1.155-.169.377-.266.756-.307 1.123-.042.368.077.747.355 1.092.278.344.698.665 1.255.932.557.268 1.258.487 2.059.623.8.136 1.705.184 2.645.184.825 0 1.734-.078 2.72-.234 1.059-.164 2.128-.423 3.098-.755.96-.331 1.839-.731 2.585-1.161.737-.423 1.353-.872 1.794-1.317.442-.446.75-.92.894-1.39.145-.47.169-.93.076-1.367zm-7.617 8.163c-.046-.401-.157-.751-.591-1.002-1.928-1.096-4.636-2.529-6.38-3.49-1.87-1.042-2.308-1.258-3.134-1.261-.318 0-.616.035-.873.106-.217.06-.479.167-.624.27-.145.103-.189.26-.062.433.097.135.291.22.502.261.26.049.605.07.917.07 1.488 0 2.375-.542 4.198-1.554 1.341-.758 2.651-1.503 3.651-2.035-.386-.113-.742-.164-1.127-.164-1.146 0-1.896.262-2.887.671-.871.36-1.83.916-2.616 1.57-.456.377-.827.766-1.13 1.155-.304.389-.527.778-.696 1.155-.169.377-.266.756-.307 1.123-.042.368.077.747.355 1.092.278.344.698.665 1.255.932.557.268 1.258.487 2.059.623.8.136 1.705.184 2.645.184.825 0 1.734-.078 2.72-.234 1.059-.164 2.128-.423 3.098-.755.96-.331 1.839-.731 2.585-1.161.737-.423 1.353-.872 1.794-1.317.442-.446.75-.92.894-1.39.145-.47.169-.93.076-1.367zm-7.617 8.163c-.046-.401-.157-.751-.591-1.002-1.928-1.096-4.636-2.529-6.38-3.49-1.87-1.042-2.308-1.258-3.134-1.261-.318 0-.616.035-.873.106-.217.06-.479.167-.624.27-.145.103-.189.26-.062.433.097.135.291.22.502.261.26.049.605.07.917.07 1.488 0 2.375-.542 4.198-1.554 1.341-.758 2.651-1.503 3.651-2.035-.386-.113-.742-.164-1.127-.164-1.146 0-1.896.262-2.887.671-.871.36-1.83.916-2.616 1.57-.456.377-.827.766-1.13 1.155-.304.389-.527.778-.696 1.155-.169.377-.266.756-.307 1.123-.042.368.077.747.355 1.092.278.344.698.665 1.255.932.557.268 1.258.487 2.059.623.8.136 1.705.184 2.645.184.825 0 1.734-.078 2.72-.234 1.059-.164 2.128-.423 3.098-.755.96-.331 1.839-.731 2.585-1.161.737-.423 1.353-.872 1.794-1.317.442-.446.75-.92.894-1.39.145-.47.169-.93.076-1.367zm-7.617 8.163c-.046-.401-.157-.751-.591-1.002-1.928-1.096-4.636-2.529-6.38-3.49-1.87-1.042-2.308-1.258-3.134-1.261-.318 0-.616.035-.873.106-.217.06-.479.167-.624.27-.145.103-.189.26-.062.433.097.135.291.22.502.261.26.049.605.07.917.07 1.488 0 2.375-.542 4.198-1.554 1.341-.758 2.651-1.503 3.651-2.035-.386-.113-.742-.164-1.127-.164-1.146 0-1.896.262-2.887.671-.871.36-1.83.916-2.616 1.57-.456.377-.827.766-1.13 1.155-.304.389-.527.778-.696 1.155-.169.377-.266.756-.307 1.123-.042.368.077.747.355 1.092.278.344.698.665 1.255.932.557.268 1.258.487 2.059.623.8.136 1.705.184 2.645.184.825 0 1.734-.078 2.72-.234 1.059-.164 2.128-.423 3.098-.755.96-.331 1.839-.731 2.585-1.161.737-.423 1.353-.872 1.794-1.317.442-.446.75-.92.894-1.39.145-.47.169-.93.076-1.367zm-7.617 8.163c-.046-.401-.157-.751-.591-1.002-1.928-1.096-4.636-2.529-6.38-3.49-1.87-1.042-2.308-1.258-3.134-1.261-.318 0-.616.035-.873.106-.217.06-.479.167-.624.27-.145.103-.189.26-.062.433.097.135.291.22.502.261.26.049.605.07.917.07 1.488 0 2.375-.542 4.198-1.554 1.341-.758 2.651-1.503 3.651-2.035-.386-.113-.742-.164-1.127-.164-1.146 0-1.896.262-2.887.671-.871.36-1.83.916-2.616 1.57-.456.377-.827.766-1.13 1.155-.304.389-.527.778-.696 1.155-.169.377-.266.756-.307 1.123-.042.368.077.747.355 1.092.278.344.698.665 1.255.932.557.268 1.258.487 2.059.623.8.136 1.705.184 2.645.184.825 0 1.734-.078 2.72-.234 1.059-.164 2.128-.423 3.098-.755.96-.331 1.839-.731 2.585-1.161.737-.423 1.353-.872 1.794-1.317.442-.446.75-.92.894-1.39.145-.47.169-.93.076-1.367z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Beaufort Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- IntersectionObserver for fade-in-up effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, /* percentage of target visible */
+                rootMargin: "0px 0px -50px 0px" /* bottom offset to trigger earlier */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for nav links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    const headerOffset = document.querySelector('.sticky-header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 20; /* 20px extra padding */
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
