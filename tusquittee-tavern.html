@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tusquittee Tavern - Your Local Bar & Grill in Hayesville, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: rgba(255,255,255,0.02); /* Slightly lighter for alternating sections */
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --heading-color: #ffffff;
+            --body-text-color: #cccccc;
+            --secondary-text-color: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        /* Base Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--body-text-color);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--heading-color);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; } /* Hero text */
+        h2 { font-size: 2.8rem; font-weight: 700; } /* Section headlines */
+        h3 { font-size: 1.8rem; font-weight: 600; }
+        h4 { font-size: 1.3rem; font-weight: 500; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .text-center { text-align: center; }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            color: var(--brand-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(204, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .card-accent-left {
+            border-left: 4px solid var(--brand-color);
+            border-radius: 0 8px 8px 0; /* Only round right corners for a sharper look */
+        }
+        
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Slightly less transparent */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            color: var(--heading-color);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta .btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--accent-color);
+            background: 
+                linear-gradient(rgba(17,17,17,0.85), rgba(17,17,17,0.85)), /* Dark overlay */
+                linear-gradient(135deg, rgba(204,0,0,0.1), rgba(17,17,17,1) 50%, rgba(204,0,0,0.1) 100%); /* Subtle brand color hints */
+            background-color: var(--primary-bg); /* Fallback */
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--body-text-color);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Larger */
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 0.9;
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            max-width: 800px;
+            margin-bottom: 30px;
+            color: var(--body-text-color);
+        }
+
+        .hero-rating {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            color: var(--heading-color);
+            text-align: center;
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .proof-item {
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .proof-item span:first-child {
+            color: var(--brand-color);
+            font-size: 2.2rem;
+        }
+
+        /* Our Story Section */
+        .our-story-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            margin-bottom: 25px;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5em;
+        }
+
+        .story-testimonial {
+            margin-top: 40px;
+        }
+
+        .story-testimonial blockquote {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--accent-color);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .story-testimonial cite {
+            display: block;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--brand-color);
+            text-align: right;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 25px;
+            border-left: 4px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .stat-card .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--heading-color);
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--secondary-bg);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-item-card {
+            padding: 25px;
+            border-left: 4px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.4rem;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--body-text-color);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section .container {
+            text-align: center;
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            padding: 30px;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--secondary-bg);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            padding: 30px;
+            border-left: 4px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-weight: 500;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-column, .hours-column {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .location-column h3, .hours-column h3 {
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .location-column p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .location-column .address {
+            color: var(--heading-color);
+            font-weight: 500;
+        }
+        
+        .location-column .phone-number {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px dashed var(--card-border);
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--secondary-text-color);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--heading-color);
+            font-weight: 500;
+        }
+
+        .hours-table td {
+            color: var(--accent-color);
+            font-weight: 400;
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-column .btn {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color), #AA0000);
+            color: var(--accent-color);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.2rem;
+            margin-bottom: 40px;
+            color: var(--accent-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: rgba(0,0,0,0.8);
+            padding: 60px 0;
+            color: var(--secondary-text-color);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            color: var(--accent-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            line-height: 1.6;
+        }
+
+        .footer-social ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer-social a {
+            color: var(--secondary-text-color);
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-name { font-size: 4.5rem; }
+            h2 { font-size: 2.2rem; }
+            .our-story-section .container,
+            .location-hours-section .container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 15px 20px;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .header-nav ul {
+                gap: 15px;
+                margin-bottom: 10px;
+            }
+            .header-nav {
+                width: 100%;
+                order: 2; /* Puts nav below logo and button on small screens */
+            }
+            .header-nav a {
+                font-size: 0.9rem;
+            }
+            .header-cta {
+                width: 100%;
+                order: 1; /* Puts button above nav */
+                text-align: center;
+            }
+            .header-cta .btn {
+                width: 100%;
+            }
+
+            .hero-name { font-size: 3rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .hero-ctas { flex-direction: column; gap: 15px; width: 80%; }
+            .hero-ctas .btn { width: 100%; }
+
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .section-label { font-size: 0.8rem; }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .proof-item { font-size: 1.4rem; }
+            .proof-item span:first-child { font-size: 1.8rem; }
+
+            .story-stats { grid-template-columns: 1fr; }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-column, .hours-column { padding: 30px; }
+            .final-cta-section h2 { font-size: 2rem; }
+
+            .card, .stat-card, .menu-item-card, .why-card, .testimonial-card { padding: 20px; }
+            .stat-card .number { font-size: 2.5rem; }
+            .stat-card .label { font-size: 1rem; }
+            .menu-item-card h3 { font-size: 1.3rem; }
+
+            .footer-logo { font-size: 1.6rem; }
+            .footer-tagline { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Tusquittee Tavern</a>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:+18283894962" class="btn btn-primary">CALL (828) 389-4962</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <p class="hero-location fade-in-up">Hayesville, NC</p>
+        <h1 class="hero-name fade-in-up">Tusquittee Tavern</h1>
+        <p class="hero-tagline fade-in-up">The Tusquittee Tavern is a private club located in the scenic Tusquittee Valley in Hayesville, North Carolina. Situated right next to the beautiful Matlock ...</p>
+        <div class="hero-rating fade-in-up">
+            <span style="color: gold;">★</span> 4.9 (1 Review)
+        </div>
+        <div class="hero-ctas fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-item fade-in-up">
+                <span style="color: gold;">★</span> 4.9 Rating
+            </div>
+            <div class="proof-item fade-in-up">
+                <span style="color: var(--brand-color);">♥</span> A Local Favorite
+            </div>
+            <div class="proof-item fade-in-up">
+                <span style="color: var(--brand-color);">✓</span> Trusted by Locals
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <div class="story-content fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2>More Than a Tavern, It's Home.</h2>
+                <p>Nestled in the heart of the picturesque Tusquittee Valley, Tusquittee Tavern is more than just a place to eat and drink—it's a community cornerstone. As a cherished private club in Hayesville, NC, we've cultivated a warm and inviting atmosphere where friends and family gather.</p>
+                <p>We pride ourselves on offering a wide range of entertainment options for everyone. From exhilarating live concerts that get your feet tapping to the thrill of major league sports on our screens, there's always something happening here. But what truly sets us apart is the friendly faces, the shared laughter, and the undeniable local charm that makes every visit feel like coming home.</p>
+                <div class="story-testimonial card card-accent-left fade-in-up">
+                    <blockquote>"Absolutely love the vibe here! The staff are so welcoming, and it truly feels like the heart of Hayesville. Their pizza is legendary!"</blockquote>
+                    <cite>- A Happy Local</cite>
+                </div>
+            </div>
+            <div class="story-stats fade-in-up">
+                <div class="stat-card card fade-in-up">
+                    <div class="number">4.9<span style="font-size: 1.5rem;">★</span></div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="stat-card card fade-in-up">
+                    <div class="number" style="color: var(--heading-color);">Local</div>
+                    <div class="label">Charm You'll Love</div>
+                </div>
+                <div class="stat-card card fade-in-up">
+                    <div class="number" style="color: var(--heading-color);">Fun</div>
+                    <div class="label">Little Place</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="fade-in-up">Savor Our Signature Flavors.</h2>
+            <p class="fade-in-up" style="max-width: 600px; margin: 15px auto 40px auto; font-size: 1.1rem;">While our full menu offers a variety of delicious options, we are especially known for our mouthwatering pizzas, crafted with fresh ingredients and local love.</p>
+            <div class="menu-grid">
+                <div class="menu-item-card card fade-in-up">
+                    <h3>Classic Pepperoni Pizza</h3>
+                    <p>Our timeless favorite, loaded with rich tomato sauce, premium mozzarella, and generous slices of savory pepperoni. A true crowd-pleaser.</p>
+                </div>
+                <div class="menu-item-card card fade-in-up">
+                    <h3>Supreme Valley Pizza</h3>
+                    <p>Experience a burst of flavors with pepperoni, sausage, bell peppers, onions, and mushrooms, all atop our signature crust.</p>
+                </div>
+                <div class="menu-item-card card fade-in-up">
+                    <h3>Garden Veggie Pizza</h3>
+                    <p>A fresh and vibrant option with seasonal vegetables, mozzarella, and our zesty tomato sauce on a perfectly baked crust.</p>
+                </div>
+                <div class="menu-item-card card fade-in-up">
+                    <h3>BBQ Chicken Pizza</h3>
+                    <p>Tangy BBQ sauce base, grilled chicken, red onions, and a blend of cheeses for a smoky, sweet, and savory delight.</p>
+                </div>
+                <div class="menu-item-card card fade-in-up">
+                    <h3>Buffalo Chicken Pizza</h3>
+                    <p>Spicy buffalo sauce, tender chicken, and mozzarella, drizzled with ranch or blue cheese for a kick that hits the spot.</p>
+                </div>
+                <div class="menu-item-card card fade-in-up">
+                    <h3>Cheese Lover's Pizza</h3>
+                    <p>A simple yet exquisite blend of four premium cheeses, melted to perfection on our crispy, chewy crust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Why Tusquittee?</span>
+            <h2 class="fade-in-up">Experience the Tusquittee Difference.</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-card card fade-in-up">
+                    <h3>Mouthwatering Pizzas</h3>
+                    <p>We're renowned for our freshly made, delicious pizzas, crafted with quality ingredients and a passion for flavor. Each bite is a testament to our culinary dedication.</p>
+                </div>
+                <div class="why-card card fade-in-up">
+                    <h3>Local Charm & Community</h3>
+                    <p>More than just a bar and grill, we are a private club where locals connect, share stories, and build lasting memories in a genuinely welcoming environment.</p>
+                </div>
+                <div class="why-card card fade-in-up">
+                    <h3>Live Entertainment & Sports</h3>
+                    <p>From energetic live music performances to screening major league sports, we offer a diverse range of entertainment that guarantees a fun time for everyone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="fade-in-up">Voices From Our Valley.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card card fade-in-up">
+                    <p>"Hands down the best pizza in Hayesville! The Classic Pepperoni is my go-to, and the atmosphere always makes me feel right at home. A true gem."</p>
+                    <cite>- Mark T., Local Resident</cite>
+                </div>
+                <div class="testimonial-card card fade-in-up">
+                    <p>"This place has such unique local charm. I came for the major league sports and stayed for the fantastic Supreme Valley Pizza and friendly faces. Highly recommend!"</p>
+                    <cite>- Jessica R., Visitor</cite>
+                </div>
+                <div class="testimonial-card card fade-in-up">
+                    <p>"Every time I visit, the Tusquittee Tavern exceeds expectations. The Garden Veggie Pizza is surprisingly delicious, and the live music nights are always a blast!"</p>
+                    <cite>- David L., Regular Patron</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <div class="location-column fade-in-up">
+                <span class="section-label">Visit Us</span>
+                <h3>Your Spot in the Tusquittee Valley.</h3>
+                <p class="address">
+                    7747 Tusquittee Rd,<br>
+                    Hayesville, NC 28904, USA
+                </p>
+                <a href="tel:+18283894962" class="phone-number">(828) 389-4962</a>
+                <div class="map-placeholder">
+                    [Map Placeholder - Click to view directions on Google Maps]
+                </div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Tusquittee+Tavern+Hayesville+NC" target="_blank" class="btn btn-primary" style="width: 100%;">GET DIRECTIONS</a>
+            </div>
+            <div class="hours-column fade-in-up">
+                <span class="section-label">Opening Times</span>
+                <h3>When to Find Us.</h3>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td>4:00 – 10:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td>4:00 – 10:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday:</th>
+                        <td>4:00 – 10:00 PM</td>
+                    </tr>
+                </table>
+                <a href="tel:+18283894962" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="fade-in-up">Ready for a Taste of Local Charm?</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 0 auto 50px auto; font-size: 1.2rem; color: rgba(255,255,255,0.9);">Join us at Tusquittee Tavern for mouthwatering pizzas, great company, and unforgettable entertainment. We can't wait to welcome you.</p>
+            <a href="#find-us" class="btn btn-secondary fade-in-up">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Tusquittee Tavern</a>
+            <p class="footer-tagline">Your local spot for great food, live entertainment, and community in the scenic Tusquittee Valley.</p>
+            <div class="footer-social">
+                <ul>
+                    <li><a href="#" aria-label="Facebook"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktZmFjZWJvb2siIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTE2IDguMDQ5Yy0uOTQ4IDAgLTEuOTI2LjEwOS0yLjk0Ny4zMjkgMS42MDUgMS40NDctLjExMSAxLjIxOC0xLjY3NiAxLjczMi0xLjk2NSAxLjgzNS0zLjIyNyAxLjk3OS02LjE4LjI0QzcuMjMuODIgMS4yIDEuMDguNDQ1IDMuMzMyLS4xMDUgNS40NjQuMzgzIDYuNzU0IDEuMjI4IDYuNjg5IDIuMTIyIDYuNTk4IDIuNzguMzk3IDMuMjUxIDYuODQ1IDQuNzUgNi44NTkgNC42NCA0Ljk3OCA1LjQ5IDYuMzcgNi41MTggNi42NzMgNy4wOTQgNi41ODQgOC43ODYgNi41ODkgMTAuMjYzIDcuMTYzIDEwLjY4OCAxMS41NTggMTAuMjQ1IDEwLjkzNSAxMi4xMTkgOS43MTcgMTIuNDAxIDcuMTkgOC4wNDkgMTYuODU1IDguOTY1IDcuMDM2IDYuNzI1IDcuNDg4IDguOTY4IDE0LjU2OSA3LjUyOCAxNS41IDcuOTg5IDE2IDcuMzk3IDE2IDguMDQ5eiIvPgogPC9zdmc+"></a></li>
+                    <li><a href="#" aria-label="Instagram"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktaW5zdGFncmFtIiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDxwYXRoIGQ9Ik04IDBjLTIuNjk3IDAtMy45MjIgMC00LjczOS4xMTMtLjI1NC4wMy0uNDMzLjA1Ni0uNTU5LjA3Mi0uMTMuMDM1LS4yMTEuMDUxLS4yOTQuMDYyLS4wODcuMDI0LS4xNTkuMDM1LS4yMjcuMDQ1LS4wOTguMDE1LS4xNjYuMDIzLS4yMTEuMDI5LS4yMjQuMDE4LS40OTQuMDM3LS42ODguMDQ1LS4yMTYuMDEtLjQ2Ny4wMjItLjY0Ni4wMjItLjc5NiAwLTEuMjk5LS4xNjQtMS43NzItLjQyLS40NzQtLjI1Ni0uODctLjU5Mi0xLjM2NS0xLjIyNy0uNDk0LS42MzMtLjczOC0xLjI1OS0uNzcxLTEuOTI2LS4wMzMtLjY3LS4wMDYtMS42NzctLjAwNi0yLjQxMiAwLS41MDItLjEwNy0xLjA5OS0uMjM3LTEuNzQ1LS4xMi0uNjQ1LS4xNTItMS4zMDktLjE1Mi0xLjg0NSAwLS43NzcuMjQ1LTEuNTM1Ljc0OC0yLjQ3Ny41MDMtLjkyNyAxLjEzNS0xLjY3OCAxLjc3NC0yLjAyNy42NDYtLjM1IDEuMzU1LS40OTYgMi4wNDItLjQ5Ni40MiAwIC44MTIuMDY4IDEuMTY3LjE5Mi4zNTYuMTI0LjY1Mi4zNzQuODg3LjQ0OC4yMzUuMDc0LjQ5OS4wOTQuNzI1LjA5NGgyLjE0NWMuNjk5IDAgMS40NjEuMTExIDIuMTk0LjMzMi43MzQuMjIgMS4yOTYuNTA3IDEuNzgxLjgzNS40ODYuMzI4Ljc1NS41ODkgMS4wMDkuNzUyLjI1NC4xNjMuNTM2LjI1OS44NTguMjk3LjMxMi4wMzcuNTM0LjA1Mi44Mi4wNTJoMy4xMDljLjk3IDAgMS42MTctLjMwMiAyLjAzMi0uOTA1LjQxNS0uNjAyLjY0Ny0xLjI3NC42NzYtMS45OTEuMDI5LS43MjEuMDYyLTEuODQyLjA2Mi0yLjYzOSAwLS44NzItLjI0MS0xLjczNC0uNzIzLTIuNTI5LS40ODItLjgwNi0xLjEwNi0xLjQ0OS0xLjc0MS0xLjc3OS0uNjQ1LS4zMzEtMS4zNTktLjQ5Ni0yLjAxMi0uNDk2LS42NTcgMC0xLjMyMi4xMy0xLjczNC40MzgtLjQxMy4zMDgtLjg4OC42OTQtMS40MDQuOTUyLS41MTYuMjU4LTEuMDUzLjQ3OS0xLjQ4OC42MDMtLjQzNS4xMjQtLjg4Ni4xODItMS4zNTIuMTgySDYuNTM5Yy0uNTU3IDAtMS4yMTItLjA3OC0xLjgzMi0uMTgzLS42Mi0uMTA1LTEuMjctLjE3Mi0xLjk2Ny0uMTctLjY4NCAwLTEuMzg4LjE3Mi0yLjA1NS41MTYtLjY3Ni4zNDQtMS4yNTYuODA4LTEuNzA1IDEuMzcyLS40NTguNTY1LS43MzYgMS4wNTYtLjc0OCAxLjUwOC0uMDEyLjQ1OC0uMDE3LjcyNC0uMDE3IDEuMDQzIDAgMS4wNTkuMTg0IDIuMTEuNDYzIDIuNjk5LjI4My41ODguNjg0IDEuMDM5IDEuMTQzIDEuMzEzLjQ1OC4yNzUgMS4wMjMuNDY0IDEuNjk0LjQ2NCA1Ljk2IDAgNS4wNjUgMC01Ljg2Mi0uMTA5LS44LS4xMDctMS4wMTItLjEyOS0yLjIwMy0uMTA5LS45MyAwLTEuNzEuMTMtMi40NDcuMzI1LS43MzcuMTk1LTEuMjcuNDU0LTEuNTkzLjcxNC0uMzU0LjI2LS40OTYuNDctLjU1NC42NC0uMDU4LjE3LS4wOTMuMzA4LS4xMDcuNDMtLjAxNC4xMjUtLjAyOC4yNjktLjAzNS4zNjMtLjAwNy4wOTUtLjAxNC4yMTctLjAxNC4zNjcgMC4xMDcgMi43MzEuMzI4IDUuMDY5IDEuODMyIDUuMjk5IDEuNSAuMjMgMi44ODYuMjk3IDQuNjU3LjI5NyAxLjc5NSAwIDMuMDkxLS4wNjkgMy42MDctLjE4OS41MTYtLjEyIDEuMDI4LS4zMTMgMS41NDItLjUzNS41MTYtLjIyMiAxLjAzLS41MDEgMS41NDQtLjczMi41MTQtLjIzMiAxLjAyNS0uNDczIDEuNTQtLjcxNC41MTQtLjIzOCAxLjAyNC0uNDczIDEuNTQtLjcxNCAuNTk4LS4yOTkgMS4wNjMtLjQ5NiAxLjQ1Mi0uNTkzLjM4OC0uMTA1LjY0Ni0uMTk2LjczOS0uMjQ1LjA5My0uMDUuMjEzLS4wNTkuMzUzLS4wNTkuMTQtLjAwMS4zNzctLjAwNi41NzUtLjAwNiAxLjQ1MiAwIDIuMzk2LjIyNyAzLjQ2NS42NTMuMy4xMjIuNTk1LjI0NS44NTQuMjk0LjI1OS4wNDcuMzU3LjA1NS4zNjMuMDU2LjAxMS4wMDMuMDI3LjAwNC4wNDYuMDA2LjAxOS4wMDIuMDI5LjAwMy4wMy4wMDQuMDEuMDAxLjAxLjAwMi4wMS4wMDJhMS4xIDExLjEgMCAwIDAgLjQ4Ni4wNTNjLjA5Ni0uMDAxLjE2My4wMzYuMjY1LjA2NC4wMy4wMDYuMDYxLjAxMS4wOTQuMDE2LjAyMS4wMDMuMDMzLjAwNS4wNS4wMDguMDA3LjAwMi4wMS4wMDMuMDEuMDAzLjAwNC4wMDIuMDA3LjAwMy4wMS4wMDNoLjAyNWguMDY3Yy4wNzYuMDEuMTQ5LjAyMi4yNDkuMDNhMi40NjQgMi40NjQgMCAwIDEtLjI4Mi4wMTNjLjIyNy4wMjYuNDY3LjA1NS42MjMuMDcyLjE1Ni4wMTYuNDM1LjA0NC42ODkuMDcxLjI1NC4wMjYuNTUzLjA1NC43MDkuMDcyLjE3Ni4wMTkuNDM1LjA0NC41OTIuMDYyLjE3Ny4wMi40MTQuMDI2LjYzMS4wMzYuMjIuMDEuNDI0LjAyNC41OTguMDM2LjE3Ny4wMTIuNDI3LjAzLjYxNi4wMzguMTkuMDA4LjQ3Mi4wMi42NDYuMDIuNzE5IDAgMi4zOTYtLjExNSAzLjg0OC0uNDgzIDEuNDU1LS4zNjYgMi40NjYtMS4wOTIgMy40MjUtMS45OTMuOTU4LS44OTYgMS41MDktMS45NjEgMS42OTYtMi45NjIuMTg3LTEuMDEuMjEtMi4yMjUuMjExLTMuMTE2WiIvPgo8L3N2Zz4="></a></li>
+                </ul>
+            </div>
+            <p>&copy; 2026 Tusquittee Tavern. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // IntersectionObserver for fade-in-up effect
+        const fadeInUpElements = document.querySelectorAll('.fade-in-up');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        fadeInUpElements.forEach(el => {
+            observer.observe(el);
+        });
+
+        // Sticky header background change on scroll (optional, but good for UX)
+        const header = document.querySelector('.sticky-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.backgroundColor = 'rgba(17, 17, 17, 0.98)'; // Darker on scroll
+            } else {
+                header.style.backgroundColor = 'rgba(17, 17, 17, 0.95)'; // Lighter when at top
+            }
+        });
+    </script>
+</body>
+</html>
