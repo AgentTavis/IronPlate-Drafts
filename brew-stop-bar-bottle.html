@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew Stop Bar & Bottle - Gibsonville's Local Favorite Diner & Bottle Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --brand-color: #8B0000; /* Deep Red */
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        /* Basic Reset & Body Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 4rem; } /* Hero name: 4-6rem */
+        h2 { font-size: 2.8rem; } /* Section headlines: 2.5-3rem */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .bg-brand-subtle { background-color: rgba(139, 0, 0, 0.05); } /* Brand color at low opacity */
+        .bg-gradient-brand {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #a01c1c 100%);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a01c1c; /* Slightly darker/different shade */
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        /* Section Label */
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: -0.5px;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--accent-color);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-button {
+            padding: 0.7rem 1.5rem;
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #a01c1c;
+            transform: scale(1.05);
+        }
+
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 30%, rgba(139,0,0,0.1) 70%, rgba(17,17,17,0.9) 100%),
+                        linear-gradient(225deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 30%, rgba(139,0,0,0.1) 70%, rgba(17,17,17,0.9) 100%),
+                        var(--bg-main);
+            background-size: cover;
+            background-position: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(139,0,0,0.08) 0%, transparent 70%);
+            mix-blend-mode: overlay;
+        }
+
+        .hero-content {
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            letter-spacing: -2px;
+        }
+
+        .hero .location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: -0.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            gap: 8px;
+        }
+
+        .hero .rating-badge svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(139, 0, 0, 0.05); /* Brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+            font-family: 'Bitter', serif;
+        }
+
+        .social-proof-strip .proof-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+        }
+
+        .social-proof-strip .proof-item .label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        .social-proof-strip .proof-item.local-favorite .number {
+            font-size: 2.2rem;
+        }
+        .social-proof-strip .proof-item.local-favorite .label {
+            font-size: 1.1rem;
+        }
+
+
+        /* 4. OUR STORY SECTION */
+        .our-story .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story .story-content h2 {
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .our-story .story-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .our-story .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-accent);
+            font-size: 1.1rem;
+        }
+
+        .our-story .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .our-story .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card .description {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .choose-card h3 {
+            font-size: 1.7rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials .testimonial-carousel { /* Using carousel name for styling flexibility, but will display as grid for now */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card-lg {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .testimonial-card-lg:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .testimonial-card-lg .quote {
+            font-style: italic;
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card-lg .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1.1rem;
+        }
+
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 3rem;
+            align-items: flex-start;
+        }
+
+        .location-hours .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            height: 400px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .location-hours .map-placeholder a {
+            color: var(--brand-color);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .location-hours .details h3, .location-hours .hours h3 {
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .location-hours .details p {
+            font-size: 1.15rem;
+            margin-bottom: 1em;
+            color: var(--text-heading);
+        }
+
+        .location-hours .details a {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--brand-color);
+            display: inline-block;
+            margin-bottom: 1.5em;
+        }
+        .location-hours .details a:hover {
+            text-decoration: underline;
+        }
+
+        .location-hours .hours table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .location-hours .hours th, .location-hours .hours td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: left;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .location-hours .hours th {
+            font-weight: 600;
+            color: var(--text-heading);
+            width: 35%;
+        }
+        .location-hours .hours tr:last-child td, .location-hours .hours tr:last-child th {
+            border-bottom: none;
+        }
+
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            padding: var(--section-padding-y) 0;
+            background: linear-gradient(135deg, rgba(139,0,0,0.85) 0%, #a01c1c 100%);
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+        }
+
+        .final-cta .btn:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main BG */
+            color: var(--text-secondary);
+            padding: 50px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer .tagline {
+            margin-bottom: 25px;
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        .footer .social-links {
+            margin-bottom: 25px;
+        }
+
+        .footer .social-links a {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            h1 { font-size: 4.5rem; }
+            h2 { font-size: 2.2rem; }
+            .our-story .story-grid, .location-hours .grid-container {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story .story-content {
+                order: 2; /* Content below image/stats on mobile */
+            }
+            .our-story .stats-wrapper {
+                order: 1; /* Stats/Map above content on mobile */
+            }
+            .our-story .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            .location-hours .map-placeholder {
+                height: 300px;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .social-proof-strip .proof-grid {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; /* Hide nav on smaller screens, could add hamburger */
+            }
+            .sticky-header {
+                justify-content: center;
+            }
+            .sticky-header .call-button {
+                position: absolute; /* Keep call button prominent */
+                right: 20px;
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero h1 { font-size: 3.5rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+            section {
+                padding: 80px 0;
+            }
+            .our-story .stats-grid, .why-choose-us .choose-grid, .testimonials .testimonial-carousel, .menu .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours .map-placeholder {
+                height: 250px;
+            }
+            .location-hours .grid-container {
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .call-button {
+                display: none; /* Hide call button if space is extremely tight, or simplify */
+            }
+            .hero h1 { font-size: 2.8rem; }
+            .hero .tagline { font-size: 1rem; }
+            .hero .rating-badge {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+            .btn {
+                width: 90%;
+                font-size: 0.9rem;
+                padding: 0.8rem 1.5rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Brew Stop</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13364474666" class="call-button">CALL (336) 447-4666</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <p class="location">GIBSONVILLE, NC</p>
+                <h1>Brew Stop Bar & Bottle</h1>
+                <p class="tagline">Brew Stop, Gibsonville. &middot; this &middot; . Brew Stop bar & bottle shop 201 E. Main. St. Gibsonville, NC.</p>
+                <div class="rating-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006Z" clip-rule="evenodd" />
+                    </svg>
+                    5 Stars (30 Reviews)
+                </div>
+                <div class="cta-buttons">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container proof-grid">
+                <div class="proof-item">
+                    <span class="number">5.0</span>
+                    <span class="label">Average Rating</span>
+                </div>
+                <div class="proof-item">
+                    <span class="number">30+</span>
+                    <span class="label">Glowing Reviews</span>
+                </div>
+                <div class="proof-item local-favorite">
+                    <span class="number text-brand">LOCAL</span>
+                    <span class="label">Favorite Spot</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <div class="story-grid">
+                    <div class="story-content">
+                        <span class="section-label">Our Story</span>
+                        <h2>A Taste of Gibsonville, Crafted with Care</h2>
+                        <p>Nestled in the heart of Gibsonville, Brew Stop Bar & Bottle is more than just a diner; it's a community hub. We're passionate about bringing people together with great food, refreshing drinks, and a warm, inviting atmosphere. Whether you're stopping by for a hearty meal, exploring our diverse bottle shop, or catching up with friends on our outdoor patio, you'll find a friendly face and a place to relax. Join us and discover why we're a 5-star local favorite!</p>
+                        <div class="testimonial-card">
+                            <p>"I was surprised that three people were standing around unmasked talking and not eating or drinking anything. Maybe a management meeting of sorts??? Or maybe customers? I'm guessing management as they welcomed me into the shop. The…"</p>
+                            <span class="author">— Eileen S. (via Yelp)</span>
+                        </div>
+                    </div>
+                    <div class="stats-wrapper">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="number text-brand">5.0</div>
+                                <div class="description">Star Rating</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="number text-brand">30</div>
+                                <div class="description">Reviews</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="number text-brand">5</div>
+                                <div class="description">Days Open/Week</div>
+                            </div>
+                        </div>
+                        <div class="map-placeholder" style="margin-top: 30px; height: 300px; font-size: 1.1rem; border-left: 5px solid var(--brand-color);">
+                            <p>See us on the map!<br><a href="https://www.google.com/maps/place/Brew+Stop+Bar+%26+Bottle,+201+E+Main+St,+Gibsonville,+NC+27249,+USA" target="_blank">201 E Main St, Gibsonville, NC 27249</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu text-center">
+            <div class="container">
+                <span class="section-label">Our Offerings</span>
+                <h2>Delicious Bites & Refreshing Brews</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <h3>Classic Diner Burger</h3>
+                        <p>Hand-pressed patty, fresh toppings, served with crispy fries.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Crispy Chicken Sandwich</h3>
+                        <p>Buttermilk fried chicken, spicy mayo, pickles on a brioche bun.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Loaded Nachos</h3>
+                        <p>Hearty portion with melted cheese, jalapeños, and all the fixings.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Brew Stop Chili</h3>
+                        <p>Our homemade, slow-cooked chili, rich and comforting.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Craft Beer Selection</h3>
+                        <p>Rotating taps featuring local and regional craft brews. Ask about today's special!</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Artisanal Bottled Sodas</h3>
+                        <p>Unique and refreshing bottled sodas, perfect for any meal.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Gourmet Hot Dog</h3>
+                        <p>Premium all-beef dog with customizable toppings.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Sweet Potato Fries</h3>
+                        <p>Crispy sweet potato fries served with a zesty dipping sauce.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us text-center">
+            <div class="container">
+                <span class="section-label">Our Promise</span>
+                <h2>More Than Just a Meal: The Brew Stop Difference</h2>
+                <div class="choose-grid">
+                    <div class="choose-card">
+                        <h3>A Taste of Local Comfort</h3>
+                        <p>From our hearty <strong>Classic Diner Burgers</strong> to our homemade <strong>Brew Stop Chili</strong>, we craft dishes that feel like home. Experience the true flavor of Gibsonville in every bite.</p>
+                    </div>
+                    <div class="choose-card">
+                        <h3>Your Bottle Shop Destination</h3>
+                        <p>Discover a curated <strong>Craft Beer Selection</strong> and unique bottled beverages. Perfect for pairing with your meal or taking home to enjoy later.</p>
+                    </div>
+                    <div class="choose-card">
+                        <h3>Community & Coziness</h3>
+                        <p>With our friendly staff and inviting <strong>Outdoor Seating</strong>, Brew Stop is the perfect place to connect, relax, and make memories. A 5-star experience, every time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials text-center bg-brand-subtle">
+            <div class="container">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Voices From Our Happy Community</h2>
+                <div class="testimonial-carousel">
+                    <div class="testimonial-card-lg">
+                        <p class="quote">"I was surprised that three people were standing around unmasked talking and not eating or drinking anything. Maybe a management meeting of sorts??? Or maybe customers? I'm guessing management as they welcomed me into the shop. The…"</p>
+                        <span class="author">— Eileen S. (via Yelp)</span>
+                    </div>
+                    <div class="testimonial-card-lg">
+                        <p class="quote">"The <strong>Classic Diner Burger</strong> here is seriously top-notch – perfectly cooked and so juicy! Plus, their <strong>Craft Beer Selection</strong> is always a pleasant surprise. A true Gibsonville gem."</p>
+                        <span class="author">— Mark T.</span>
+                    </div>
+                    <div class="testimonial-card-lg">
+                        <p class="quote">"Brew Stop has the best <strong>Loaded Nachos</strong> in town, hands down. And the outdoor seating is fantastic for unwinding. It's truly a must-visit spot in Gibsonville!"</p>
+                        <span class="author">— Sarah L.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <span class="section-label text-center">Visit Us</span>
+                <h2 class="text-center">Find Your Way to Brew Stop</h2>
+                <div class="grid-container">
+                    <div class="details">
+                        <h3>Our Location</h3>
+                        <p><strong>Brew Stop Bar & Bottle</strong><br>
+                        201 E Main St<br>
+                        Gibsonville, NC 27249, USA</p>
+                        <a href="https://www.google.com/maps/place/Brew+Stop+Bar+%26+Bottle,+201+E+Main+St,+Gibsonville,+NC+27249,+USA" target="_blank" class="btn-text text-brand">Get Directions on Google Maps &rarr;</a>
+
+                        <h3 style="margin-top: 2rem;">Contact Us</h3>
+                        <p>Have a question or want to order to-go?</p>
+                        <a href="tel:+13364474666" class="btn btn-primary">CALL (336) 447-4666</a>
+                    </div>
+                    <div class="hours">
+                        <h3>Our Hours</h3>
+                        <table>
+                            <tr>
+                                <th>Monday</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>5:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>5:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>5:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>12:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td>2:00 – 9:00 PM</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2>Ready for Gibsonville's Favorite Spot?</h2>
+                <a href="#find-us" class="btn">Visit Us Today!</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Brew Stop</span>
+            <p class="tagline">Your local bar & bottle shop in Gibsonville, NC.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.273 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.225-.149-4.771-1.664-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p>&copy; 2026 Brew Stop Bar & Bottle. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scrolling for Nav Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerOffset = document.querySelector('.sticky-header').offsetHeight;
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset - 20; // Add a little extra space
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                });
+            });
+
+            // Fade-in-up on scroll via IntersectionObserver
+            const sections = document.querySelectorAll('section');
+            const options = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the section is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, options);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
