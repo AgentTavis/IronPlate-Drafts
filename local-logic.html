@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Logic - Mt Holly Bar And Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #1B9BC4;
+            --accent-color: #8B4513;
+            --text-white: #ffffff;
+            --text-light-grey: #cccccc;
+            --text-medium-grey: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-light-grey);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-white);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 3rem; } /* Adjusted for general section headings */
+        h2 { font-size: 2.5rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-white);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 80px 0 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.5rem; /* Section headlines */
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-white);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .header nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem; /* Increased gap */
+            margin: 0 2rem;
+        }
+
+        .header nav a {
+            color: var(--text-light-grey);
+            font-weight: 500;
+            position: relative;
+            padding: 0.25rem 0;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header nav a:hover::after,
+        .header nav a.active::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-white);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(27, 155, 196, 0.05) 50%, rgba(139, 69, 19, 0.05) 100%);
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* LARGEST text on page, massive */
+            font-weight: 900;
+            margin-bottom: 0.2em;
+            letter-spacing: -2px;
+            text-shadow: 0 0 20px rgba(27, 155, 196, 0.3), 0 0 40px rgba(139, 69, 19, 0.2);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-light-grey);
+            margin-bottom: 0.5em;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--text-medium-grey);
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-white);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+        }
+
+        .hero .rating-badge svg {
+            color: #FFD700; /* Gold star */
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .hero .cta-group .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-white);
+        }
+
+        .hero .cta-group .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(27, 155, 196, 0.05); /* Brand color at low opacity */
+            padding: 2.5rem 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof .proof-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .social-proof .proof-item {
+            flex-basis: 30%;
+            min-width: 200px;
+            color: var(--text-white);
+        }
+
+        .social-proof .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+        }
+
+        .social-proof .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-light-grey);
+        }
+
+        /* Our Story Section */
+        .our-story .content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .our-story .story-text {
+            flex: 2;
+            padding-right: 2rem;
+        }
+
+        .our-story .story-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-light-grey);
+            font-size: 1.1rem;
+        }
+
+        .our-story .story-text p strong {
+            color: var(--text-white);
+        }
+
+        .our-story .stats-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid var(--brand-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .our-story .stat-card h4 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+        }
+
+        .our-story .stat-card p {
+            font-size: 1rem;
+            color: var(--text-light-grey);
+        }
+
+        .our-story .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            border-left: 4px solid var(--accent-color); /* Use accent for quotes */
+        }
+
+        .our-story .testimonial-quote-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 0.5rem;
+            left: 1.5rem;
+            line-height: 1;
+            opacity: 0.3;
+        }
+
+        .our-story .testimonial-quote-card p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            padding-left: 2rem; /* Make space for the quote mark */
+        }
+
+        .our-story .testimonial-quote-card .author {
+            font-weight: bold;
+            color: var(--brand-color);
+            text-align: right;
+            display: block;
+            margin-top: 1rem;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-card p {
+            color: var(--text-light-grey);
+            font-size: 0.95rem;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .why-choose-us .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 4px solid var(--accent-color); /* Use accent for these cards */
+        }
+
+        .why-choose-us .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-choose-us .feature-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-white);
+            margin-bottom: 1rem;
+        }
+
+        .why-choose-us .feature-card p {
+            color: var(--text-light-grey);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding-bottom: 120px;
+        }
+
+        .testimonials .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonials .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-light-grey);
+            font-size: 1.05rem;
+        }
+
+        .testimonials .testimonial-card .author {
+            font-weight: bold;
+            color: var(--brand-color);
+            font-size: 1rem;
+            display: block;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+
+        .location-hours .content-wrapper {
+            display: flex;
+            gap: 4rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .location-hours .location-info,
+        .location-hours .hours-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .location-hours .location-info h3,
+        .location-hours .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-white);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-hours .address {
+            font-size: 1.15rem;
+            color: var(--text-light-grey);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .location-hours .phone-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--brand-color);
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .location-hours .map-link {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--text-white);
+            padding: 0.8rem 1.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .location-hours .map-link:hover {
+            transform: scale(1.02);
+            background-color: #a0522d; /* Slightly darker accent */
+        }
+
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            padding: 0.8rem 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-light-grey);
+        }
+
+        .location-hours .hours-table th {
+            color: var(--text-white);
+            font-weight: bold;
+            width: 120px;
+        }
+
+        .location-hours .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .location-hours .call-to-order-button {
+            background-color: var(--brand-color);
+            color: var(--text-white);
+            margin-top: 3rem;
+            width: fit-content;
+            padding: 1rem 2.5rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.7) 100%);
+            padding: 5rem 0;
+            text-align: center;
+            color: var(--text-white);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--text-white);
+        }
+
+        .final-cta .btn-cta {
+            background-color: var(--text-white);
+            color: var(--bg-dark);
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+        }
+
+        .final-cta .btn-cta:hover {
+            background-color: var(--text-light-grey);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            color: var(--text-medium-grey);
+            padding: 4rem 0 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer .social-links {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer .social-links a {
+            color: var(--text-medium-grey);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-medium-grey);
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .header nav {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 1rem 1.5rem;
+            }
+            .header .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            .header nav {
+                order: 2;
+                width: 100%;
+                justify-content: center;
+                margin: 0;
+                margin-bottom: 1rem;
+            }
+            .header .call-button {
+                order: 3;
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 1.2rem;
+            }
+
+            .hero {
+                padding-top: 120px; /* Adjust for wrap-around header */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location, .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+                width: 80%;
+            }
+            .hero .cta-group button {
+                width: 100%;
+            }
+
+            .social-proof .proof-items {
+                flex-direction: column;
+            }
+            .social-proof .proof-item {
+                flex-basis: 100%;
+            }
+
+            .our-story .content-wrapper {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .our-story .story-text, .our-story .stats-wrapper {
+                padding-right: 0;
+                width: 100%;
+            }
+
+            .menu-grid, .why-choose-us .cards-grid, .testimonials .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours .content-wrapper {
+                flex-direction: column;
+            }
+            .location-hours .location-info, .location-hours .hours-info {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            section {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+            .header nav a {
+                font-size: 0.9rem;
+            }
+            .header .call-button {
+                font-size: 0.85rem;
+            }
+            body {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <a href="#hero" class="logo">Local Logic</a>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#location-hours">Find Us</a>
+        </nav>
+        <a href="tel:+17045551234" class="call-button">CALL (704) 555-1234</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <h1 class="fade-in-up">LOCAL LOGIC</h1>
+        <p class="location fade-in-up">Mt Holly, NC</p>
+        <p class="tagline fade-in-up">Watch short videos about local logic mount holly menu from people around the world.</p>
+        <div class="rating-badge fade-in-up">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+            4.7 Stars (35 Reviews)
+        </div>
+        <div class="cta-group fade-in-up">
+            <a href="#menu" class="btn-primary button">VIEW MENU</a>
+            <a href="#location-hours" class="btn-secondary button">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container proof-items">
+            <div class="proof-item fade-in-up">
+                <h3>4.7 Stars</h3>
+                <p>Based on 35 Reviews</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3>15,000+</h3>
+                <p>Happy Customers Served</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3>Local Favorite</h3>
+                <p>Mt Holly's Premier Bar & Grill</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">OUR STORY</span>
+            <h2 class="section-headline fade-in-up">More Than Just a Meal, It's an Experience.</h2>
+
+            <div class="content-wrapper">
+                <div class="story-text fade-in-up">
+                    <p>At Local Logic, we're building a community around great food and genuine hospitality. We believe in transparency and honest feedback, ensuring every visit is based on authentic experiences.</p>
+                    <p><strong>Your trust is our priority, so businesses can't pay to alter or remove their reviews.</strong> <a href="https://www.yelp.com/reviews-trust-link-tree?l=en_US" target="_blank">Learn more about reviews.</a></p>
+                    <p>We're passionate about bringing people together over delicious food and a lively atmosphere right here in Mt Holly. Come and see why we've become a cornerstone of local dining and entertainment.</p>
+                </div>
+                <div class="stats-wrapper">
+                    <div class="stat-card fade-in-up">
+                        <h4>4.7 Stars</h4>
+                        <p>Our average customer rating</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h4>35 Reviews</h4>
+                        <p>Authentic feedback from our guests</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h4>Local Best</h4>
+                        <p>Voted Mt Holly's Top Bar & Grill</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-quote-card fade-in-up">
+                <p>"Every time I visit Local Logic, I feel right at home. The vibe is unmatched, and the team always makes sure we have a fantastic time. Truly a gem in Mt Holly!"</p>
+                <span class="author">— A Happy Regular</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">OUR MENU</span>
+            <h2 class="section-headline fade-in-up">Classic Comforts, Elevated Flavors.</h2>
+
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Burger</h3>
+                    <p>Our classic patty, perfectly seasoned and grilled, with fresh toppings on a brioche bun.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Crispy Wings</h3>
+                    <p>Jumbo wings tossed in your choice of sauce: BBQ, Buffalo, or Garlic Parmesan.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Craft Beer Selection</h3>
+                    <p>A rotating selection of local and regional craft beers on tap and bottled.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Loaded Nachos</h3>
+                    <p>Crispy tortilla chips piled high with melted cheese, jalapeños, salsa, and sour cream.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Steak Frites</h3>
+                    <p>Tender sirloin steak cooked to perfection, served with golden crispy fries.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Seasonal Salad</h3>
+                    <p>Fresh greens, seasonal vegetables, and house-made dressing. A light and healthy option.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">WHY LOCAL LOGIC?</span>
+            <h2 class="section-headline fade-in-up">Experience the Difference in Mt Holly.</h2>
+
+            <div class="cards-grid">
+                <div class="feature-card fade-in-up">
+                    <h3>Unbeatable Atmosphere</h3>
+                    <p>From our cozy interior to our vibrant patio, Local Logic offers the perfect backdrop for any occasion.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>Fresh, Quality Ingredients</h3>
+                    <p>We pride ourselves on using locally sourced produce and premium meats to craft our delicious menu.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>Community Hub</h3>
+                    <p>More than just a restaurant, we're a place where friends and family gather, make memories, and enjoy good times.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">HEAR FROM OUR GUESTS</span>
+            <h2 class="section-headline fade-in-up">Stories from the Heart of Mt Holly.</h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"The Signature Burger was perfectly cooked and absolutely delicious! Best I've had in a long time. Definitely coming back for more."</p>
+                    <span class="author">— Emily R.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Loved the Crispy Wings, especially with the Buffalo sauce. The staff was super friendly, and the atmosphere was fantastic. A must-visit!"</p>
+                    <span class="author">— David L.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Great place for a casual night out. Their Craft Beer Selection is impressive, and the Loaded Nachos hit the spot every time. Highly recommend!"</p>
+                    <span class="author">— Jessica M.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <span class="section-label fade-in-up">FIND US</span>
+            <h2 class="section-headline fade-in-up">Your Table Awaits in Downtown Mt Holly.</h2>
+
+            <div class="content-wrapper">
+                <div class="location-info fade-in-up">
+                    <h3>Visit Us</h3>
+                    <address class="address">
+                        121 S Main St<br>
+                        Mt Holly, NC 28120, USA
+                    </address>
+                    <a href="tel:+17045551234" class="phone-number">(704) 555-1234</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=121+S+Main+St,+Mt+Holly,+NC+28120" target="_blank" class="map-link button">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>Closed</td></tr>
+                        <tr><th>Thursday:</th><td>4:00 – 10:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>4:00 – 11:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>4:00 – 11:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>Closed</td></tr>
+                    </table>
+                    <a href="tel:+17045551234" class="call-to-order-button button">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Miss Out &ndash; Reserve Your Spot Tonight!</h2>
+            <a href="#location-hours" class="btn-cta button fade-in-up">MAKE A RESERVATION</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Local Logic</span>
+            <p class="tagline">Watch short videos about local logic mount holly menu from people around the world.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.088 3.85.048 4.703.01 5.556 0 5.829 0 8s.01 2.444.048 3.297c.04.853.174 1.432.372 1.943.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.943.372C5.556 15.99 5.829 16 8 16s2.444-.01 3.297-.048c.853-.04 1.432-.174 1.943-.372a3.917 3.917 0 0 0 1.417-.923c.445-.445.718-.891.923-1.417.198-.51.333-1.09.372-1.943C15.99 10.444 16 10.171 16 8s-.01-2.444-.048-3.297c-.04-.853-.174-1.432-.372-1.943a3.917 3.917 0 0 0-.923-1.417A3.927 3.927 0 0 0 13.24 0.42c-.51-.198-1.09-.333-1.943-.372C10.444.01 10.171 0 8 0zm0 1.6c2.172 0 2.444.01 3.298.048.85.04 1.17.174 1.285.272.473.438.827.792 1.104 1.069.277.277.62.62.924 1.285.098.115.232.435.272 1.285.038.854.048 1.127.048 3.298s-.01 2.444-.048 3.298c-.04.85-.174 1.17-.272 1.285a3.917 3.917 0 0 1-1.069 1.104c-.277.277-.62.62-.924.924-.115.098-.435.232-1.285.272-.854.038-1.127.048-3.298.048s-2.444-.01-3.298-.048c-.85-.04-1.17-.174-1.285-.272a3.917 3.917 0 0 1-1.104-1.069c-.277-.277-.62-.62-.924-.924-.098-.115-.232-.435-.272-1.285C1.61 10.444 1.6 10.171 1.6 8s.01-2.444.048-3.298c.04-.85.174-1.17.272-1.285a3.917 3.917 0 0 1 1.069-1.104c.277-.277.62-.62.924-.924.115-.098.435-.232.272-1.285C5.556 1.61 5.829 1.6 8 1.6z"/><path d="M9.916 10.5c-.235-.457-.65-.8-1.18-1.05C8.36 9.1 8 8.46 8 8c0-.46.36-.86 7.27-1.455.53-.25 1.09-.34 1.18-1.05.08-.72.63-1.23 1.18-1.05.235.457.65.8 1.18 1.05C8.36 6.9 8 7.54 8 8c0 .46-.36.86-7.27 1.455-.53.25-1.09.34-1.18 1.05-.08.72-.63 1.23-1.18 1.05zM8 5.8a2.2 2.2 0 1 0 0 4.4 2.2 2.2 0 0 0 0-4.4zm0 3.2a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.325l5.794-6.66L0 .75h5.013l3.425 4.48L12.6.75Zm-.86 13.028h1.36L4.323 2.145H2.864l8.876 11.633Z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Local Logic. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
