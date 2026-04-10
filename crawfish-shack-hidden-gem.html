@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crawfish Shack / Hidden Gem - Hertford, NC</title>
+    <!-- Google Fonts: Lora for headings, Open Sans for body (Seafood theme) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --bg-primary: #111111;
+            --bg-secondary: #1a1a1a; /* Slightly lighter for alternating sections */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+
+            --font-serif: 'Lora', serif;
+            --font-sans: 'Open Sans', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Will be overwritten for Hero */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-brand {
+            color: var(--brand-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a30000; /* Darker brand color */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            transform: scale(1.02);
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+        .rating-badge svg {
+            margin-right: 5px;
+            color: gold; /* Star color */
+            flex-shrink: 0;
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Fade-in-up on scroll (simplified for static HTML, JS adds 'is-visible') */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .sticky-header nav ul li {
+            margin-left: 2.5rem;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.05rem;
+            position: relative;
+        }
+
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .sticky-header .btn-call:hover {
+            background-color: #A30000; /* Darker brand color */
+            transform: scale(1.02);
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(204, 0, 0, 0.1) 40%, rgba(204, 0, 0, 0.1) 60%, var(--bg-primary) 100%);
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(17, 17, 17, 0) 0%, rgba(17, 17, 17, 0.6) 70%, var(--bg-primary) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding-top: 60px; /* Space for sticky header */
+        }
+
+        .hero-content h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 0.2em;
+            text-shadow: 0 0 15px rgba(204, 0, 0, 0.5);
+            line-height: 1;
+        }
+        .hero-content h1 span {
+            display: block;
+            font-size: 0.4em; /* For 'Hidden Gem' */
+            font-weight: 400;
+            color: var(--text-heading);
+            margin-top: 0.5em;
+        }
+
+        .hero-content .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.4rem;
+            color: var(--text-body);
+            font-weight: 400;
+            max-width: 800px;
+            margin: 1.5rem auto 2rem;
+        }
+
+        .hero-ctas {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(204, 0, 0, 0.05); /* Very low opacity brand color */
+            padding: 2.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--accent-color);
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.3);
+        }
+        .social-proof-strip .proof-item .value {
+            font-size: 2.5rem;
+            font-family: var(--font-serif);
+            color: var(--brand-color);
+            margin-bottom: 0.2em;
+            line-height: 1;
+        }
+        .social-proof-strip .proof-item .label {
+            font-size: 0.9rem;
+            color: var(--text-body);
+        }
+        .social-proof-strip .proof-item svg {
+            margin-left: 5px;
+            color: gold;
+            flex-shrink: 0;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-primary);
+        }
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .our-story-text h2 {
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .our-story-text p {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            font-style: italic;
+            margin-top: 2rem;
+        }
+        .testimonial-card p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-body);
+        }
+        .testimonial-card .author {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+        }
+        .our-story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .our-story-stats .stat-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        .our-story-stats .stat-card .number {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.3em;
+        }
+        .our-story-stats .stat-card .label {
+            font-size: 1.05rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-secondary); /* Alternating section background */
+        }
+        .menu-section h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .menu-disclaimer {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-primary);
+        }
+        .why-choose-us-section h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .why-card h3 {
+            margin-top: 1rem;
+            font-size: 1.8rem;
+        }
+        .why-card p {
+            color: var(--text-body);
+            margin-top: 0.8rem;
+        }
+        .why-card svg {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-secondary);
+        }
+        .testimonials-section h2 {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            font-style: italic;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-item p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .testimonial-item .author {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-primary);
+        }
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .location-info h2, .hours-info h2 {
+            margin-bottom: 1.5rem;
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .location-info a {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 2rem;
+        }
+        .location-info iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+            border-radius: 8px;
+            filter: grayscale(80%) invert(92%) contrast(80%); /* Dark map styling */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 700;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .call-text {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+        .hours-info .btn {
+            width: 100%;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #A30000 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta-section h2 {
+            color: var(--accent-color);
+            font-size: 3.2rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+        .final-cta-section .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.25rem;
+        }
+        .final-cta-section .btn-primary:hover {
+            background-color: #f0f0f0;
+            color: #8C0000;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 0.8rem;
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 2.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 4.5rem;
+            }
+            .hero-content h1 span {
+                font-size: 0.35em;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .sticky-header nav ul li {
+                margin-left: 1.5rem;
+            }
+            .our-story-content, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .our-story-text, .location-info, .hours-info {
+                padding-right: 0;
+            }
+            .location-info iframe {
+                margin-top: 2rem;
+            }
+            .our-story-stats {
+                margin-top: 4rem; /* More space when stacked */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+            .sticky-header nav ul {
+                margin-top: 10px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header nav ul li {
+                margin: 0 10px 5px;
+            }
+            .sticky-header .btn-call {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .hero-content h1 span {
+                font-size: 0.3em;
+            }
+            .hero-content .location {
+                font-size: 1rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 20px;
+            }
+            .btn {
+                width: 100%;
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+
+            .social-proof-strip .proof-item {
+                flex-basis: 100%;
+                margin-bottom: 1rem;
+            }
+            .social-proof-strip .proof-grid {
+                flex-direction: column;
+            }
+
+            .our-story-content {
+                gap: 2rem;
+            }
+            .our-story-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-content {
+                gap: 2rem;
+            }
+            .location-info h2, .hours-info h2 {
+                text-align: center;
+            }
+            .location-info iframe {
+                height: 250px;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content h1 span {
+                font-size: 0.25em;
+            }
+            .hero-content .tagline {
+                font-size: 1rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header nav ul li a {
+                font-size: 0.9rem;
+            }
+            .sticky-header .btn-call {
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .social-proof-strip .proof-item .value {
+                font-size: 2rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Crawfish Shack</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:2525628233" class="btn-call">CALL (252) 562-8233</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero-section">
+        <div class="hero-content fade-in-up">
+            <p class="location">Hertford, NC</p>
+            <h1>Crawfish Shack <br><span>A Hidden Gem</span></h1>
+            <p class="tagline">Open dates available for your special event! Message me with any questions or to schedule a tour...</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.188l-4.389 2.255z"/>
+                </svg>
+                4.9 Stars (112 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip section-padding">
+        <div class="container proof-grid fade-in-up">
+            <div class="proof-item">
+                <div class="value">4.9<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.188l-4.389 2.255z"/>
+                </svg></div>
+                <div class="label">Customer Rating</div>
+            </div>
+            <div class="proof-item">
+                <div class="value">112+</div>
+                <div class="label">Raving Reviews</div>
+            </div>
+            <div class="proof-item">
+                <div class="value">A</div>
+                <div class="label">Local Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label text-center">Our Heritage</span>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <h2>From Woodland to Waterfront Oasis</h2>
+                    <p>Nestled in the heart of Hertford, Crawfish Shack / Hidden Gem began as a dream to transform a simple wooded area into a unique dining and event experience. Over the years, we've carefully cultivated this picturesque setting, ensuring every visit feels like an escape.</p>
+                    <p>Our commitment is to offer not just exceptional seafood, but an unforgettable atmosphere. We pride ourselves on the serene beach and tranquil lakeside vistas that provide a stunning backdrop for any occasion, from casual dinners to grand celebrations.</p>
+                    <div class="testimonial-card">
+                        <p>"The transformation of this space is incredible! Dining here feels like a mini-vacation. The 'Hidden Gem' truly lives up to its name."</p>
+                        <div class="author">- Sarah L., Hertford Resident</div>
+                    </div>
+                </div>
+                <div class="our-story-stats">
+                    <div class="stat-card">
+                        <div class="number">4.9</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">112</div>
+                        <div class="label">Positive Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">2010</div>
+                        <div class="label">Local Legacy Since</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label text-center">Our Offerings</span>
+            <h2>Today's Fresh Catches & Specialties</h2>
+            <div class="menu-grid">
+                <div class="card menu-card fade-in-up">
+                    <h3>Fresh Catch of the Day</h3>
+                    <p>Our daily selection of the freshest local seafood, expertly prepared with seasonal ingredients. Ask your server for today's special.</p>
+                </div>
+                <div class="card menu-card fade-in-up">
+                    <h3>Steamed Blue Crabs</h3>
+                    <p>A classic favorite! Sweet, succulent blue crabs, steamed to perfection and seasoned with our secret blend of spices. Market Price.</p>
+                </div>
+                <div class="card menu-card fade-in-up">
+                    <h3>Local Oysters on the Half Shell</h3>
+                    <p>Briny, fresh oysters sourced from nearby waters, served with cocktail sauce, mignonette, and lemon.</p>
+                </div>
+                <div class="card menu-card fade-in-up">
+                    <h3>Shrimp Boil Platter</h3>
+                    <p>Generous portions of succulent shrimp, corn on the cob, red potatoes, and savory sausage, all boiled in our signature seasoning.</p>
+                </div>
+                <div class="card menu-card fade-in-up">
+                    <h3>Signature Seafood Gumbo</h3>
+                    <p>A rich, hearty gumbo brimming with shrimp, crab, andouille sausage, and okra, served with fluffy rice.</p>
+                </div>
+                <div class="card menu-card fade-in-up">
+                    <h3>Lakeside Lobster Tail</h3>
+                    <p>Perfectly grilled or steamed lobster tail, served with drawn butter and your choice of two sides. A true indulgence.</p>
+                </div>
+            </div>
+            <p class="menu-disclaimer fade-in-up">Please note: Our menu items are based on seasonal availability and the freshest ingredients. For the most up-to-date offerings and special event menus, please call us directly.</p>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label text-center">Why Choose Us</span>
+            <h2>More Than Just a Meal, It's an Experience</h2>
+            <div class="why-choose-us-grid">
+                <div class="card why-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M12.936 4.673a.5.5 0 0 0-.013-.017l-2.486-2.486-.017-.013a.5.5 0 0 0-.61-.093L.411 7.423a.5.5 0 0 0-.013.91l4.207 4.207a.5.5 0 0 0 .91-.013L13.029 5.27a.5.5 0 0 0-.093-.61Z"/>
+                        <path d="M14.5 4a.5.5 0 0 0-.5-.5H13a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 .5.5h1.5a.5.5 0 0 0 .5-.5V4Z"/>
+                    </svg>
+                    <h3>Serene Beachfront Dining</h3>
+                    <p>Enjoy your meal with the soothing sounds of the shore and breathtaking sunset views from our private beach area.</p>
+                </div>
+                <div class="card why-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM4.5 7.5a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7ZM8 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 4Z"/>
+                    </svg>
+                    <h3>Tranquil Lakeside Vistas</h3>
+                    <p>Our unique location offers stunning lake views, creating a peaceful and picturesque backdrop for any gathering.</p>
+                </div>
+                <div class="card why-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M1.5 1.5A.5.5 0 0 0 1 2v12a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5V2a.5.5 0 0 0-.5-.5H1.5ZM2 2h12v12H2V2Z"/>
+                        <path d="M5.5 10a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H6a.5.5 0 0 1-.5-.5ZM8 10.5a.5.5 0 0 0-.5.5v2a.5.5 0 0 0 1 0v-2a.5.5 0 0 0-.5-.5Z"/>
+                    </svg>
+                    <h3>Versatile Event Spaces</h3>
+                    <p>From intimate family dinners to grand corporate events, our indoor and outdoor spaces are customizable to your needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label text-center">What Our Guests Say</span>
+            <h2>Our Customers Are Raving</h2>
+            <div class="testimonials-grid">
+                <div class="card testimonial-item fade-in-up">
+                    <p>"The setting here is absolutely magical. We hosted our anniversary dinner, and the elegant touches throughout the venue made it truly special. The staff was incredibly attentive."</p>
+                    <div class="author">- Emily R., Event Host</div>
+                </div>
+                <div class="card testimonial-item fade-in-up">
+                    <p>"You can tell this isn't just a restaurant, it's a labor of love. The tranquil lakeside vistas provided such a peaceful dining experience. We felt completely relaxed and indulged."</p>
+                    <div class="author">- David W., Regular Patron</div>
+                </div>
+                <div class="card testimonial-item fade-in-up">
+                    <p>"Hertford's best-kept secret! The 'Hidden Gem' name is spot on. The serene beach area is perfect for a stroll before dinner, and the overall ambiance is just premium."</p>
+                    <div class="author">- Jessica M., First-time Visitor</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section section-padding">
+        <div class="container fade-in-up">
+            <span class="section-label text-center">Visit Us</span>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h2>Find Your Way to Our Hidden Gem</h2>
+                    <p>Located at the beautiful 305 Swing Gate Rd in Hertford, NC, Crawfish Shack / Hidden Gem offers a unique waterfront dining and event experience that feels a world away.</p>
+                    <p>Whether you're joining us for a meal or planning a special occasion, our picturesque setting awaits. We're just a short drive for most in the Albemarle region.</p>
+                    <a href="https://maps.app.goo.gl/vjX5ePzKx9jS61dE9" target="_blank" class="text-brand">Get Directions to Crawfish Shack</a>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.822855170327!2d-76.4604543242049!3d36.19602517235284!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89bba3542289c025%3A0xb304910b8064d1f0!2s305%20Swing%20Gate%20Rd%2C%20Hertford%2C%20NC%2027944%2C%20USA!5e0!3m2!1sen!2sus!4v1701234567890!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="hours-info">
+                    <h2>Operating Hours & Reservations</h2>
+                    <p>To ensure the freshest experience and accommodate special events, our hours vary. We highly recommend calling ahead for reservations or to confirm our current operating schedule.</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td class="call-text">Call for Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:2525628233" class="btn btn-primary">CALL (252) 562-8233 TO ORDER / BOOK</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section section-padding">
+        <div class="container fade-in-up">
+            <h2>Ready to Discover Hertford's Best Kept Secret?</h2>
+            <a href="tel:2525628233" class="btn btn-primary">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Crawfish Shack</span>
+            <p class="tagline">Open dates available for your special event! Message me with any questions or to schedule a tour...</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.087 3.85.048 4.703.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.509.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 12.445 16 12.173 16 10s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.942a3.917 3.917 0 0 0-.923-1.417A3.927 3.927 0 0 0 13.24 0.42c-.509-.198-1.09-.333-1.942-.372C10.445.01 10.173 0 8 0Zm0 2.166c2.04 0 2.29.008 3.067.041.747.032 1.144.175 1.396.275.263.106.456.255.653.45.198.195.347.388.45.651.1.252.244.647.275 1.395.034.778.041 1.028.041 3.067s-.007 2.29-.041 3.067c-.032.747-.175 1.144-.275 1.396-.106.263-.255.456-.45.653-.195.198-.388.347-.651.45-.252.1-.647.244-1.395.275-.778.034-1.028.041-3.067.041s-2.29-.007-3.067-.041c-.747-.032-1.144-.175-1.396-.275-.263-.106-.456-.255-.653-.45-.198-.195-.347-.388-.45-.651-.1-.252-.244-.647-.275-1.395-.034-.778-.041-1.028-.041-3.067s.007-2.29.041-3.067c.032-.747.175-1.144.275-1.396.106-.263.255-.456.45-.653.195-.198.388-.347.651-.45.252-.1.647-.244 1.395-.275.778-.034 1.028-.041 3.067-.041ZM8 4.674a3.326 3.326 0 1 0 0 6.652A3.326 3.326 0 0 0 8 4.674Zm0 1a2.326 2.326 0 1 1 0 4.652 2.326 2.326 0 0 1 0-4.652Z"/></svg></a>
+                <a href="#" aria-label="TikTok"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16"><path d="M9 0h1.9c.123 1.296.72 2.65 2.103 3.972V11c0 1.626-1.455 3-3.267 3-1.782 0-3.35-1.403-3.35-3.149 0-1.55.942-2.793 2.5-3.03V0zm-1 7.935v2.816c0 .835.65 1.492 1.5 1.492.935 0 1.67-.852 1.67-1.92V7.935h2.247L12.44 0H8v7.935z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Crawfish Shack / Hidden Gem. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const headerOffset = document.querySelector('.sticky-header').offsetHeight; // Get header height
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optionally, unobserve once it's visible if you only want it to animate once
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the element is visible
+            rootMargin: '0px'
+        });
+
+        fadeInElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Add a check for elements already in viewport on page load (e.g., Hero section)
+        document.addEventListener('DOMContentLoaded', () => {
+            fadeInElements.forEach(element => {
+                const rect = element.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    element.classList.add('is-visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
