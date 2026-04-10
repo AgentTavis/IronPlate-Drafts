@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounded Coffee Shop & Deli - Marion, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-secondary: #1a1a1a;
+            --brand-color: #CC0000;
+            --brand-color-rgb: 204, 0, 0; /* For rgba usage */
+            --accent-color: #1a1a1a;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-secondary-light { color: var(--text-secondary); }
+
+        /* Section Components */
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            color: var(--text-heading);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #b30000; /* Darker brand color */
+            border-color: #b30000;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%; /* Ensure cards in a grid have equal height */
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .sticky-header nav ul li a {
+            color: var(--text-body);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+        }
+        .sticky-header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sticky-header .call-btn:hover {
+            background-color: #b30000; /* Darker brand color */
+            transform: scale(1.03);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--accent-color) 70%, rgba(var(--brand-color-rgb), 0.3) 100%);
+            color: var(--text-heading);
+            position: relative;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+        .hero-content {
+            max-width: 900px;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 15px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            line-height: 1;
+        }
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+        .hero .tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(var(--brand-color-rgb), 0.15);
+            border: 1px solid rgba(var(--brand-color-rgb), 0.3);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            margin-bottom: 40px;
+            gap: 8px;
+        }
+        .hero .rating-badge svg {
+            color: gold;
+            width: 16px;
+            height: 16px;
+        }
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 40px 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .social-proof-item {
+            text-align: center;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        .social-proof-item strong {
+            display: block;
+            font-size: 2.2rem;
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .story-content {
+            padding-right: 40px;
+        }
+        .story-content p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+        .testimonial-quote {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 40px;
+        }
+        .testimonial-quote p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.15rem;
+        }
+        .testimonial-quote span {
+            display: block;
+            font-weight: 600;
+            color: var(--text-brand);
+            font-size: 1rem;
+        }
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .stat-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            color: var(--text-heading);
+        }
+        .stat-card .number {
+            font-size: 2.8rem;
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-body);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .menu-item-card h3 {
+            font-size: 1.7rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .menu-item-card .price {
+            font-size: 1.4rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .menu-item-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            flex-grow: 1; /* Allow description to take space */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--bg-secondary);
+            padding: 100px 0;
+        }
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 0 8px 8px 0; /* Only right border radius */
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5em;
+            color: var(--text-body);
+        }
+        .location-info .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        .location-info .phone-number:hover {
+            color: #b30000;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), #880000);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+        .final-cta .headline {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 50px;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--text-heading); /* White button on red background */
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            padding: 18px 40px;
+            font-size: 1.1rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: #b30000;
+            border-color: rgba(255,255,255,0.9);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-secondary);
+            padding: 80px 0 40px;
+            text-align: center;
+            color: var(--text-body);
+            border-top: 1px solid var(--card-border);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* Media Queries for Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 4rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .headline { font-size: 2.2rem; }
+            .our-story-grid { gap: 40px; }
+            .sticky-header { padding: 0 20px; }
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 60px 0; }
+            .sticky-header {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 15px 20px;
+                justify-content: center;
+            }
+            .sticky-header .logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+            .sticky-header nav {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            .sticky-header nav ul {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            .sticky-header nav ul li a {
+                padding: 5px 0;
+                display: block;
+            }
+            .sticky-header .call-btn {
+                width: 100%;
+                padding: 12px 20px;
+            }
+
+            .hero { height: auto; min-height: 80vh; padding: 120px 20px 80px; }
+            .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+            .hero .location { font-size: 1rem; margin-bottom: 15px; }
+            .hero .tagline { font-size: 1.1rem; margin-bottom: 25px; }
+            .hero .rating-badge { margin-bottom: 30px; padding: 6px 15px; font-size: 0.9rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .hero .btn { width: 100%; }
+
+            .headline { font-size: 2rem; margin-bottom: 30px; }
+
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .story-content { padding-right: 0; }
+            .stat-cards { grid-template-columns: 1fr 1fr; }
+            .stat-card .number { font-size: 2.2rem; }
+            .social-proof-grid { flex-direction: column; } /* Stacking for mobile */
+
+
+            .menu-grid, .why-cards, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-card h3 { font-size: 1.5rem; }
+            .menu-item-card .price { font-size: 1.2rem; }
+
+            .final-cta .headline { font-size: 2.5rem; margin-bottom: 40px; }
+            .final-cta .btn { width: 100%; max-width: 300px; }
+
+            .footer { padding: 60px 20px 30px; }
+            .footer .logo { font-size: 2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1rem; }
+            .headline { font-size: 1.8rem; }
+            .stat-cards { grid-template-columns: 1fr; }
+            .stat-card .number { font-size: 2rem; }
+            .final-cta .headline { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Grounded</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18288038199" class="call-btn">CALL (828) 803-8199</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <h1 class="text-heading">Grounded Coffee Shop & Deli</h1>
+            <p class="location text-secondary-light">Marion, NC</p>
+            <p class="tagline">Come grab breakfast or lunch and a lovely drink to start your week off!</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.212a.75.75 0 011.424 0l4.5 9A.75.75 0 0116 13.5h-3.375L7.96 20.626a.75.75 0 01-1.3-.872l3.71-7.258H6.5a.75.75 0 01-.721-.906l4.5-9z" clip-rule="evenodd" />
+                </svg>
+                <span>4.7 stars (20 reviews)</span>
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">
+                <strong>4.7 / 5</strong>
+                <span>Overall Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>20+</strong>
+                <span>Happy Customers</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>Local</strong>
+                <span>Favorite Since Day One</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="fade-in-up">
+        <div class="container">
+            <div class="our-story-grid">
+                <div class="story-content">
+                    <span class="section-label">Our Story</span>
+                    <h2 class="headline">More Than Just a Diner: Your Daily Escape in Marion.</h2>
+                    <p>Though not originally from Marion, we quickly fell in love with this community and decided to open Grounded Coffee Shop & Deli. We envisioned a place where locals could find delicious, reasonably priced food and great coffee in a welcoming, clean environment.</p>
+                    <p>Since opening, we've dedicated ourselves to delivering on that promise. Our staff is friendly and attentive, our kitchen is spotless, and we pride ourselves on using quality ingredients like premium Boar's Head meats for our deli creations.</p>
+                    <p>Whether you're grabbing a quick breakfast, a satisfying lunch, or just a lovely drink to start your week, Grounded is here to be your new favorite spot. Come experience the difference for yourself!</p>
+                    <div class="testimonial-quote">
+                        <p>"Not your typical sandwich place! The food was awesome – great portions and tasty. You can tell they care about quality. Highly recommend!"</p>
+                        <span>— A Happy Customer, DoorDash Review</span>
+                    </div>
+                </div>
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="number">4.7</div>
+                        <div class="label">Stars Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">20+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Boar's Head</div>
+                        <div class="label">Quality Meats</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="fade-in-up">
+        <div class="container text-center">
+            <span class="section-label">Our Menu</span>
+            <h2 class="headline">Fresh Flavors, Handcrafted Daily.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Chicken Caprese Panini</h3>
+                        <p class="price">$11.98</p>
+                        <p>Grilled chicken, fresh mozzarella, ripe tomatoes, and basil pesto on toasted artisan bread. A customer favorite!</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Coffees, Teas, & Blended Beverages</h3>
+                        <p class="price">Price Varies</p>
+                        <p>Start your day or perk up your afternoon with our wide selection of expertly crafted hot and cold drinks.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Deli Sandwiches</h3>
+                        <p class="price">Price Varies</p>
+                        <p>Build your perfect sandwich featuring premium Boar's Head meats, fresh cheeses, and crisp vegetables.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Breakfast Options</h3>
+                        <p class="price">Price Varies</p>
+                        <p>Available all day! Enjoy classic breakfast sandwiches, wraps, and platters to fuel your morning, any time.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Bakery & Sweet Treats</h3>
+                        <p class="price">Price Varies</p>
+                        <p>Indulge in our daily selection of fresh-baked pastries, cookies, and delightful desserts. Perfect with a coffee!</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Daily Specials</h3>
+                        <p class="price">Price Varies</p>
+                        <p>Ask our friendly staff about today's rotating culinary creations and seasonal delights. Always something new!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us fade-in-up">
+        <div class="container text-center">
+            <span class="section-label">Why Grounded?</span>
+            <h2 class="headline">Experience the Difference in Every Bite & Sip.</h2>
+            <div class="why-cards">
+                <div class="card why-card">
+                    <h3>Boar's Head Quality</h3>
+                    <p>We believe in quality without compromise. That's why we proudly serve premium Boar's Head meats in all our deli sandwiches, ensuring superior flavor and freshness in every bite.</p>
+                </div>
+                <div class="card why-card">
+                    <h3>Sparkling Clean & New</h3>
+                    <p>Step into a bright, welcoming space designed for your comfort. Our shop is brand new, impeccably clean, and maintained with the highest standards, ensuring a pleasant visit every time.</p>
+                </div>
+                <div class="card why-card">
+                    <h3>Friendly Faces, Great Service</h3>
+                    <p>Our dedicated staff is consistently praised for being friendly, attentive, and making every customer feel at home. Enjoy prompt service and a warm smile with your meal or drink.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="fade-in-up">
+        <div class="container text-center">
+            <span class="section-label">Hear From Our Customers</span>
+            <h2 class="headline">What Marion Says About Us.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"I heard great things about Grounded, but the **Chicken Caprese Panini** blew me away! So fresh and delicious, a perfect lunch spot in Marion."</p>
+                    <span class="author">— Maria S., Local Resident</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Finally a coffee shop in Marion with amazing **coffees and blended beverages**! The staff is always so friendly and my order is perfect every time. A true gem."</p>
+                    <span class="author">— David L., Coffee Lover</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"My go-to spot for **breakfast options**! They use quality ingredients, and the portions are great. Plus, the place is always spotless. Highly recommend a visit!"</p>
+                    <span class="author">— Jessica M., Happy Customer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="fade-in-up">
+        <div class="container">
+            <span class="section-label text-center">Find Us</span>
+            <h2 class="headline text-center">Your Local Spot for Great Food & Company.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Visit Us Today</h3>
+                    <p>Grounded Coffee Shop & Deli is conveniently located inside Nebo Crossing's Main Entrance, making it easy to pop in for your daily dose of deliciousness.</p>
+                    <p><strong>Address:</strong><br>263 Barnes Rd, Marion, NC 28752, USA<br>Inside Nebo Crossing's Main Entrance</p>
+                    <a href="tel:+18288038199" class="phone-number">(828) 803-8199</a>
+                    <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>8:30 – 10:00 AM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+18288038199" class="btn btn-primary" style="margin-top: 30px;">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2 class="headline">Don't Just Grab Lunch, Experience It. Visit Us Today!</h2>
+            <a href="#menu" class="btn btn-primary">VIEW OUR MENU</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container fade-in-up">
+            <div class="logo">Grounded Coffee Shop & Deli</div>
+            <p class="tagline">Your Daily Escape in Marion.</p>
+            <ul class="social-links">
+                <li><a href="#"><!-- Placeholder for Facebook icon --><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2c-.407 0-.612.441-.612.825v1.175h2.612l-.378 2h-2.234v8h-3v-8h-2v-2h2v-2.127c0-1.896 1.054-2.873 3.016-2.873h2.984v3z"/></svg></a></li>
+                <li><a href="#"><!-- Placeholder for Instagram icon --><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.068 1.645.068 4.85 0 3.204-.01 3.584-.068 4.85-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.068-4.85.068-3.204 0-3.584-.01-4.85-.068-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.068-1.645-.068-4.85 0-3.204.01-3.584.068-4.85.148-3.225 1.664-4.771 4.919-4.919 1.266-.058 1.644-.068 4.85-.068zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#"><!-- Placeholder for Twitter/X icon --><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.593 0-6.494 2.901-6.494 6.492 0 .509.058 1.006.164 1.489-5.39-2.705-10.187-5.719-13.387-9.081-.564.973-.883 2.09-.883 3.284 0 2.261 1.159 4.249 2.919 5.414-.078-.269-.19-.52-.258-.774v.098c0 3.142 2.221 5.764 5.143 6.362-.398.109-.819.166-1.25.166-.306 0-.603-.028-.893-.085.862 2.704 3.361 4.686 6.304 4.739-2.203 1.724-4.991 2.748-8.027 2.748-.524 0-1.04-.03-1.549-.091 2.993 1.906 6.541 3.018 10.388 3.018 12.484 0 19.336-10.301 19.336-19.335 0-.295-.008-.59-.02-.882.83-.594 1.567-1.353 2.144-2.201z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Grounded Coffee Shop & Deli. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, /* Trigger when 20% of the element is visible */
+                rootMargin: "0px 0px -50px 0px" /* Start appearing 50px before entering viewport */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
