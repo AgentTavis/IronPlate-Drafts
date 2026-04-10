@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean View Restaurant - Kure Beach, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #1E5A96;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0; /* For fade-in-up */
+            transform: translateY(50px); /* For fade-in-up */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 700;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(30,90,150,0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(30,90,150,0.2);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .sticky-header .nav-links a {
+            color: var(--text-body);
+            margin-left: 30px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+        .sticky-header .call-button {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(17,17,17,0.95) 0%, rgba(30,90,150,0.3) 50%, rgba(17,17,17,0.95) 100%), var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+        .hero-title {
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(30,90,150,0.5);
+            max-width: 900px;
+        }
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+        .hero-rating {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-body);
+        }
+        .hero-rating svg {
+            fill: var(--accent-color);
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(30,90,150,0.08); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .social-proof-item strong {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            font-family: var(--font-heading);
+            margin-bottom: 5px;
+        }
+        .social-proof-item span {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+        .social-proof-item .stars {
+            display: flex;
+            gap: 3px;
+        }
+        .social-proof-item .stars svg {
+            fill: #FFD700; /* Gold for stars */
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .our-story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+        }
+        .stat-card strong {
+            display: block;
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-family: var(--font-heading);
+            margin-bottom: 10px;
+        }
+        .stat-card span {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .menu-item-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            flex-grow: 1; /* Pushes content down if description varies */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .container {
+            text-align: center;
+        }
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-color);
+        }
+        .choose-us-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+        .choose-us-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section (reusing testimonial-card styles) */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--brand-color);
+        }
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .location-info a {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+            font-weight: 400;
+        }
+        .call-to-order-btn {
+            width: auto; /* Adjusted for this button */
+            margin-top: 20px;
+        }
+        .map-embed {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            height: 350px;
+            border: 1px solid var(--card-border);
+        }
+        .map-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(30,90,150,0.7) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+        }
+        .final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-content {
+                order: 2; /* Content below stats on mobile */
+            }
+            .our-story-stats {
+                order: 1;
+                margin-bottom: 40px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                margin-top: 0;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-info h3, .hours-info h3 {
+                margin-bottom: 15px;
+            }
+            .call-to-order-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .sticky-header {
+                justify-content: center; /* Center logo when nav hidden */
+            }
+            .sticky-header .call-button {
+                display: none; /* Hide call button for very small screens or make it a menu toggle later */
+            }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                width: 80%;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .footer .social-links a {
+                font-size: 1.2rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.4rem;
+            }
+            .container {
+                padding: 0 15px;
+            }
+            section { /* Override section-padding-y for mobile */
+                padding: 60px 0;
+            }
+            .testimonial-card p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Ocean View Restaurant</a>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+19104588778" class="btn btn-primary call-button">CALL (910) 458-8778</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <p class="hero-location">Kure Beach, NC</p>
+        <h1 class="hero-title">Ocean View Restaurant</h1>
+        <p class="hero-tagline">An Open Spot at Ocean View Restaurant is a Rarity. Discover Why Kure Beach Raves.</p>
+        <div class="hero-rating">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            4.6 stars (1170 reviews)
+        </div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip is-visible">
+        <div class="container">
+            <div class="social-proof-item">
+                <div class="stars">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.25l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2zM12 15.4l3.76 2- .72-4.2 3.23-3.13-4.3-.62L12 5.6l-1.97 3.99-4.3.62 3.23 3.13-.72 4.2L12 15.4z"/></svg>
+                </div>
+                <span>4.6 Average Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>1170+</strong>
+                <span>Happy Reviews</span>
+            </div>
+            <div class="social-proof-item">
+                <strong>Since 2022</strong>
+                <span>Kure Beach's Local Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="fade-in-section">
+        <div class="container">
+            <p class="section-label">Our Heritage</p>
+            <h2 class="section-headline">Generations of Flavor, Steps from the Sand</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <p>Since February 14th, 2022, Ocean View Restaurant has quickly become a beloved fixture in Kure Beach. We may not offer an ocean view from our windows, but step outside and you're just moments from the pristine sands, ready to explore.</p>
+                    <p>What we do offer is a warm, bustling atmosphere, friendly service, and generous portions of classic diner fare with a coastal twist. From our fluffy veggie omelettes packed with fresh spinach, tomatoes, and mushrooms to our crispy chicken and waffles that leave you wanting more (and often taking some home!), every dish is crafted with care and passion.</p>
+                    <p>We pride ourselves on creating a welcoming space where locals and visitors alike can enjoy a hearty meal that feels like home. Join the community who knows that an open spot at Ocean View is a true rarity – a testament to the unforgettable experience we provide, serving up smiles and delicious food seven days a week (except Tuesday!).</p>
+                    <div class="testimonial-card">
+                        <p>"I absolutely loved the veggie omelette at Ocean View – so fresh and packed with spinach, tomatoes, and mushrooms! My husband couldn't get enough of the crispy chicken and waffles. Even though there's no ocean view from inside, being steps away from the beach after such a great meal was perfect."</p>
+                        <span>— A Happy Diner, Kure Beach</span>
+                    </div>
+                </div>
+                <div class="our-story-stats">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <strong>4.6</strong>
+                            <span>Star Rating</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>1170+</strong>
+                            <span>Reviews</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>Since 2022</strong>
+                            <span>Serving Kure Beach</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="fade-in-section">
+        <div class="container">
+            <p class="section-label">Our Delicious Offerings</p>
+            <h2 class="section-headline">Taste the Coast, One Dish at a Time</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Fried Chicken</h3>
+                    <p>Our famously crispy and juicy fried chicken, a true comfort food classic perfected.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Deviled Crab</h3>
+                    <p>A Kure Beach favorite, rich and savory deviled crab, baked to golden perfection.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Chicken Salad Sandwich</h3>
+                    <p>Freshly made chicken salad, served on your choice of bread with crisp lettuce and tomato.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Hot Strawberries</h3>
+                    <p>Warm, sweet strawberries, a delightful topping or side that adds a burst of flavor.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Traditional Breakfast</h3>
+                    <p>The perfect start to your day: eggs your way, crispy bacon or sausage, and toast.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Avocado Toast</h3>
+                    <p>Creamy avocado spread on toasted artisan bread, often topped with a sprinkle of spice.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Pork Belly</h3>
+                    <p>Tender, flavorful pork belly, slow-cooked and perfectly seared for an unforgettable taste.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Blackberry Beignets</h3>
+                    <p>Light, fluffy beignets filled with sweet blackberry, a delicious treat for any time.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Blue Crab Bisque</h3>
+                    <p>A rich and creamy bisque, infused with the delicate flavor of fresh blue crab.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="fade-in-section">
+        <div class="container">
+            <p class="section-label">Our Promise</p>
+            <h2 class="section-headline">More Than Just a Meal: An Unforgettable Kure Beach Experience</h2>
+            <div class="choose-us-grid">
+                <div class="choose-us-card">
+                    <h3>Unbeatable Flavor & Quality</h3>
+                    <p>From the perfectly crispy Fried Chicken to our fresh Veggie Omelettes, every dish is prepared with the highest quality ingredients and a passion for flavor that keeps our 4.6-star rating shining.</p>
+                </div>
+                <div class="choose-us-card">
+                    <h3>Generous Portions, Happy Guests</h3>
+                    <p>Don't be surprised if you leave with leftovers! Our Chicken and Waffles and other diner classics are served with hearty portions, ensuring you get incredible value and a truly satisfying meal.</p>
+                </div>
+                <div class="choose-us-card">
+                    <h3>Steps From the Ocean</h3>
+                    <p>While our name may be a playful nod, we are literally steps from Kure Beach's beautiful ocean. Enjoy a delightful meal, then take a short stroll to the sand and waves – the perfect coastal day out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="fade-in-section">
+        <div class="container">
+            <p class="section-label">What Our Guests Say</p>
+            <h2 class="section-headline">Hear From Our Happy Guests, Who Keep Coming Back</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"The Blackberry Beignets here are absolutely divine! Paired with a traditional breakfast, it's the perfect start to any Kure Beach morning. The service is always so welcoming and friendly. A must-visit!"</p>
+                    <span>— Local Foodie, Kure Beach</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"You HAVE to try the Fried Chicken at Ocean View – it's legendary! Crispy, juicy, and just perfect. And the Blue Crab Bisque is surprisingly rich and flavorful. It's clear why this place is always buzzing."</p>
+                    <span>— Regular Guest, Visiting from Wilmington</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Such a busy place but we were seated right away! The veggie omelette was huge and full of fresh spinach, tomatoes, and mushrooms. My husband's chicken and waffles were incredible. Stellar service, fantastic food!"</p>
+                    <span>— Travel Blogger, Exploring NC</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="fade-in-section">
+        <div class="container">
+            <p class="section-label">Plan Your Visit</p>
+            <h2 class="section-headline">Find Us & Join Us For A Meal!</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Visit Ocean View Restaurant</h3>
+                    <p>Located right in the heart of Kure Beach, we're just a stone's throw from the sand and perfect for a post-beach breakfast or a hearty lunch.</p>
+                    <p><strong>Address:</strong> 101 K Avenue, Kure Beach, NC 28449, USA</p>
+                    <p><strong>Phone:</strong> <a href="tel:+19104588778">(910) 458-8778</a></p>
+                    <div class="map-embed">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.743132640232!2d-77.90099688478494!3d34.00424688060877!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89a9f210d3e58941%3A0x6a2c384e5f79a0b9!2s101%20K%20Ave%2C%20Kure%20Beach%2C%20NC%2028449%2C%20USA!5e0!3m2!1sen!2sus!4v1678872000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Current Hours</h3>
+                    <p>We're open most days for your breakfast and lunch cravings. Closed on Tuesdays to refresh!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday:</td><td>7:00 AM – 1:30 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>Closed</td></tr>
+                            <tr><td>Wednesday:</td><td>7:00 AM – 1:30 PM</td></tr>
+                            <tr><td>Thursday:</td><td>7:00 AM – 1:30 PM</td></tr>
+                            <tr><td>Friday:</td><td>7:00 AM – 1:30 PM</td></tr>
+                            <tr><td>Saturday:</td><td>7:00 AM – 2:30 PM</td></tr>
+                            <tr><td>Sunday:</td><td>7:00 AM – 2:30 PM</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+19104588778" class="btn btn-primary call-to-order-btn">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta fade-in-section">
+        <div class="container">
+            <h2>An Open Spot is a Rarity – Don't Miss Your Chance!</h2>
+            <a href="#menu" class="btn">VIEW OUR MENU & PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Ocean View Restaurant</span>
+            <p class="tagline">An Open Spot at Ocean View Restaurant is a Rarity. Discover Why Kure Beach Raves.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2.04C6.5 2.04 2 6.53 2 12.04c0 4.97 3.61 9.12 8.35 9.83v-7.03H7.07V12.04h3.28V9.3c0-3.26 1.99-5.06 4.93-5.06 1.4 0 2.76.25 2.76.25v3.02h-1.52c-1.5 0-1.96.93-1.96 1.88v2.24h3.33l-.53 3.3h-2.8V21.87C18.39 21.16 22 17 22 12.04 22 6.53 17.5 2.04 12 2.04z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.33 6.67h-1.66c-.73 0-1.33.6-1.33 1.33v1.67c0 .73.6 1.33 1.33 1.33h1.66c.73 0 1.34-.6 1.34-1.33v-1.67c0-.73-.61-1.33-1.34-1.33zM12 4.5c.31 0 .56.25.56.56s-.25.56-.56.56-.56-.25-.56-.56.25-.56.56-.56zM8.07 15.3c-.56-.56-.56-1.46 0-2.02.56-.56 1.46-.56 2.02 0l.91.91c.21.21.56.21.77 0l.91-.91c.56-.56 1.46-.56 2.02 0 .56.56.56 1.46 0 2.02l-2.6 2.6c-.21.21-.56.21-.77 0l-2.6-2.6z"/></svg></a>
+                <a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM15 15.75c-.55 0-1-.45-1-1v-4.5c0-.55.45-1 1-1h2.5v1h-2v3.5h2v1H15zM9.5 15.75c-.55 0-1-.45-1-1v-4.5c0-.55.45-1 1-1h2.5v1h-2v3.5h2v1h-2.5zM6 15.75c-.55 0-1-.45-1-1v-4.5c0-.55.45-1 1-1h2.5v1h-2v3.5h2v1H6z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Ocean View Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = 60; // Height of the sticky header
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Fade-in-up on scroll via IntersectionObserver
+        const fadeElements = document.querySelectorAll('.fade-in-section');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        fadeElements.forEach(el => observer.observe(el));
+        
+        // Ensure social proof strip is visible immediately without scroll
+        document.querySelector('.social-proof-strip').classList.add('is-visible');
+
+    </script>
+</body>
+</html>
