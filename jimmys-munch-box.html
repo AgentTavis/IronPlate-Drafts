@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jimmy's Munch Box - All-You-Can-Eat Pizza & Sweet Tea</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-dark: #1a1a1a;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --max-width: 1200px;
+            --section-padding: 100px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            font-size: 1.05rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; } /* Hero text */
+        h2 { font-size: 2.8rem; font-weight: 700; } /* Section headlines */
+        h3 { font-size: 1.8rem; font-weight: 700; }
+        h4 { font-size: 1.4rem; font-weight: 600; }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #e62e2e; /* Slightly darker red */
+            border-color: #e62e2e;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        /* Utility classes for animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .call-btn:hover {
+            background-color: #e62e2e;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #0d0d0d 60%, rgba(204, 0, 0, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.08) 0%, transparent 70%);
+            animation: pulse-gradient 10s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+
+        @keyframes pulse-gradient {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        .hero .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Larger than default h1 */
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            letter-spacing: -2px;
+        }
+
+        .hero .location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-weight: 400;
+            display: block;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof .proof-item {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .social-proof .proof-item span {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .social-proof .proof-item small {
+            font-size: 0.9rem;
+            color: var(--text-body);
+            font-weight: 400;
+            display: block;
+            margin-top: 5px;
+        }
+
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-light-dark);
+            text-align: center;
+        }
+        
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            max-width: 900px; /* Slightly narrower for readability */
+        }
+        
+        .our-story .story-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 1.5em auto;
+        }
+
+        .our-story .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 180px;
+            max-width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .our-story .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .our-story .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Testimonial card within About section */
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 50px auto 0 auto;
+            max-width: 700px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            text-align: right;
+            display: block;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            text-align: center;
+            background-color: var(--bg-dark);
+        }
+
+        .menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border */
+            border-radius: 10px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-item-card h4 {
+            color: var(--text-heading);
+            margin-bottom: 5px;
+            font-size: 1.4rem;
+        }
+
+        .menu-item-card .price {
+            font-family: 'Bitter', serif;
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-light-dark);
+            text-align: center;
+        }
+
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card h3 {
+            color: var(--brand-color);
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .testimonials-section .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border */
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .review-card .stars {
+            color: gold;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .review-card p {
+            font-style: italic;
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .review-card .reviewer {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            display: block;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-light-dark);
+        }
+
+        .location-hours .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--text-heading);
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 10px;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 20px;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .location-info .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table tr.closed td {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #a30000 100%);
+            text-align: center;
+            padding: var(--section-padding) 0;
+        }
+        .final-cta h2 {
+            color: var(--accent-color);
+            font-size: 3.2rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .final-cta .btn-cta {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+            padding: 18px 40px;
+            font-size: 1.15rem;
+        }
+        .final-cta .btn-cta:hover {
+            transform: scale(1.03);
+            background-color: #f0f0f0;
+            border-color: #f0f0f0;
+            color: #b30000;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            padding: 60px 0 30px 0;
+            font-size: 0.9rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: var(--text-body);
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            .header .nav-links { display: none; }
+            .header .call-btn { margin-left: auto; }
+            .location-hours .content-grid { grid-template-columns: 1fr; }
+            .location-info, .hours-info { text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            .hero { padding-top: 80px; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .hero-ctas { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; margin: 0 auto; }
+            .header .logo { font-size: 1.5rem; }
+            .header .call-btn { font-size: 0.8rem; padding: 6px 12px; }
+            .section { padding: 60px 0; }
+            .social-proof .proof-grid { flex-direction: column; }
+            .our-story .stats-grid { flex-direction: column; }
+            .menu .menu-grid, .why-choose-us .cards-grid, .testimonials-section .reviews-grid { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta .btn-cta { padding: 15px 30px; font-size: 1rem; }
+            .testimonial-card, .review-card { max-width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1rem; }
+            .header .logo { font-size: 1.3rem; }
+            .header .call-btn { display: none; } /* Hide call button on very small screens */
+            .btn { padding: 12px 20px; font-size: 0.9rem; }
+            .section { padding: 40px 0; }
+            .social-proof .proof-item span { font-size: 2rem; }
+            .social-proof .proof-item { font-size: 1rem; }
+            .our-story .stat-card .number { font-size: 2.5rem; }
+            .our-story .stat-card .label { font-size: 0.9rem; }
+            .testimonial-card p { font-size: 1rem; }
+            .menu-item-card h4 { font-size: 1.2rem; }
+            .feature-card h3 { font-size: 1.4rem; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="logo">Jimmy's Munch Box</a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#location-hours">Find Us</a>
+            </nav>
+            <a href="tel:+18286801163" class="call-btn btn">CALL (828) 680-1163</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container hero-content fade-in-up">
+            <span class="location">Mars Hill, NC</span>
+            <h1>JIMMY'S MUNCH BOX</h1>
+            <p class="tagline">All-you-can-eat pizza and sweet tea every Thursday at Jimmy's Munch Box in Mars Hill!</p>
+            <div class="rating-badge">4.6 ★ (93 Reviews)</div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container proof-grid fade-in-up">
+            <div class="proof-item">
+                <span>4.6 ★</span>
+                Trusted Rating
+            </div>
+            <div class="proof-item">
+                <span>93+</span>
+                Happy Customers
+                <small>(and growing!)</small>
+            </div>
+            <div class="proof-item">
+                <span>🍕❤️</span>
+                Mars Hill Favorite
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Heritage</span>
+            <h2>More Than Just a Meal, It's Family.</h2>
+            <div class="story-content">
+                <p>Jimmy's Munch Box is Mars Hill's newest family restaurant, offering a diverse menu of homemade dishes made with the freshest ingredients sourced from local farms and suppliers whenever possible. We believe in good, honest food, prepared with care.</p>
+                <p>We're a family owned and operated business, located right here in Mars Hill at 759 Carl Eller Road. At Jimmy's, we're not about fast food; we're about fresh, made-to-order meals that bring people together. Every dish is crafted with a touch of home, inviting you to relax and savor the flavors.</p>
+            </div>
+            <div class="testimonial-card fade-in-up">
+                <p>"Jimmy's Munch Box quickly became our family's favorite. The quality is outstanding, and you can truly taste the freshness in every bite. It feels like eating at a friend's house, not a restaurant!"</p>
+                <span class="author">— The Millers, Mars Hill Locals</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="number">93+</div>
+                    <div class="label">Satisfied Reviews</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">Local</div>
+                    <div class="label">Ingredients Sourced</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">Family</div>
+                    <div class="label">Owned & Operated</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Offerings</span>
+            <h2>Taste the Homemade Difference.</h2>
+            <p>A selection of our most popular and mouth-watering items, crafted fresh daily.</p>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h4>Stromboli</h4>
+                    <p>Our classic Stromboli, packed with savory fillings and baked to golden perfection. A true crowd-pleaser from our Appetizers, Sides N Stuff collection.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h4>Pizza</h4>
+                    <p>Homemade pizza with fresh dough, rich sauce, and your favorite toppings. The heart of Jimmy's Munch Box, a star from our Pizzeria offerings.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h4>Burgers</h4>
+                    <p>Juicy, handmade burgers prepared just the way you like them. A hearty meal from our Extras And Add Ons menu that always satisfies.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h4>Beverage</h4>
+                    <p>Cool down with your choice of refreshing beverages. Don't forget our famous sweet tea!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Promise</span>
+            <h2>Why Jimmy's Munch Box is Your Best Choice.</h2>
+            <div class="cards-grid">
+                <div class="feature-card fade-in-up">
+                    <h3>Thursday Pizza Feast</h3>
+                    <p>Join us every Thursday for our legendary all-you-can-eat pizza and sweet tea. It's the perfect family night out, offering incredible value and endless deliciousness!</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>Fresh, Local Ingredients</h3>
+                    <p>We pride ourselves on using the freshest ingredients, sourced locally when possible. From our homemade pizza dough to the toppings on your burger, quality is our priority.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <h3>A True Family Experience</h3>
+                    <p>As a family-owned and operated restaurant, we treat every customer like family. Expect warm service, a friendly atmosphere, and food made with love, not haste.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container fade-in-up">
+            <span class="section-label">Hear From Our Guests</span>
+            <h2>What Our Community Says.</h2>
+            <div class="reviews-grid">
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Stromboli at Jimmy's is out of this world! Perfectly baked with generous fillings. My new go-to whenever I'm craving something hearty. Absolutely delicious!"</p>
+                    <span class="reviewer">— Sarah P.</span>
+                </div>
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"Finally, real homemade pizza in Mars Hill! Every Thursday's all-you-can-eat is a must for my family. The sweet tea is fantastic too. We love Jimmy's Munch Box!"</p>
+                    <span class="reviewer">— Mark R.</span>
+                </div>
+                <div class="review-card fade-in-up">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Burgers here are simply the best. You can tell they use fresh ingredients. It's not fast food, it's quality food, and the friendly service just makes it even better."</p>
+                    <span class="reviewer">— Jessica L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container content-grid fade-in-up">
+            <div class="location-info">
+                <span class="section-label">Visit Us</span>
+                <h3>Find Jimmy's Munch Box.</h3>
+                <p>Located in the heart of Mars Hill, we're easy to find and always ready to welcome you!</p>
+                <p><strong>Address:</strong> 759 Carl Eller Rd #2, Mars Hill, NC 28754, USA</p>
+                <a href="https://maps.google.com/?q=759+Carl+Eller+Rd+%232,+Mars+Hill,+NC+28754,+USA" target="_blank">Get Directions</a>
+                <p><strong>Phone:</strong> <a href="tel:+18286801163" class="phone-number">(828) 680-1163</a></p>
+                <div class="map-placeholder">
+                    [Map Placeholder - Click "Get Directions" for Live Map]
+                </div>
+            </div>
+            <div class="hours-info">
+                <span class="section-label">Our Schedule</span>
+                <h3>When We're Open.</h3>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday:</th>
+                        <td>11:00 AM – 7:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td>11:00 AM – 7:00 PM</td>
+                    </tr>
+                    <tr class="closed">
+                        <th>Wednesday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td>11:00 AM – 7:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td>11:00 AM – 7:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td>11:00 AM – 7:00 PM</td>
+                    </tr>
+                    <tr class="closed">
+                        <th>Sunday:</th>
+                        <td>Closed</td>
+                    </tr>
+                </table>
+                <a href="tel:+18286801163" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for Real, Homemade Flavor?</h2>
+            <p class="tagline" style="color: var(--accent-color); margin-bottom: 40px;">Don't wait! Your next favorite meal is just a call away.</p>
+            <a href="tel:+18286801163" class="btn btn-cta">ORDER YOURS NOW!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Jimmy's Munch Box</span>
+            <p class="tagline">All-you-can-eat pizza and sweet tea every Thursday at Jimmy's Munch Box in Mars Hill!</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.935.073-4.38.202-6.76 2.607-6.965 6.965-.059 1.266-.073 1.674-.073 4.935 0 3.259.014 3.668.073 4.934.202 4.379 2.607 6.76 6.965 6.965 1.267.058 1.675.073 4.935.073 3.259 0 3.668-.014 4.934-.073 4.38-.202 6.76-2.607 6.965-6.965.059-1.266.073-1.674.073-4.935 0-3.259-.014-3.668-.073-4.934-.202-4.379-2.607-6.76-6.965-6.965-1.267-.059-1.675-.073-4.935-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Jimmy's Munch Box. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll('.fade-in-up');
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% in view
+                rootMargin: "0px 0px -50px 0px" // Start animation slightly before it hits bottom
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
