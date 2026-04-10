@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Cake Sake - Custom Cakery & Diverse Cuisine in Conover, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <style>
+        /* General Resets & Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #A0522D;
+            --brand-color-rgb: 160, 82, 45; /* RGB for #A0522D */
+            --accent-color: #C41E3A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark for sticky header */
+            --max-width: 1200px;
+            --section-padding-y: 80px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        /* Utility Classes for Animations */
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #B5653E; /* Slightly lighter brand color */
+            border-color: #B5653E;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .sticky-header nav ul li {
+            margin-left: 40px;
+        }
+
+        .sticky-header nav ul li a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #B5653E; /* Slightly lighter brand color */
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(var(--brand-color-rgb), 0.1) 50%, var(--bg-main) 100%), var(--bg-main);
+            background-size: 200% 200%;
+            animation: gradientShift 10s ease infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            position: relative; /* Ensure content is above any pseudo-elements */
+        }
+
+        .hero-section h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 800;
+            margin-bottom: 0.2em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero-section .location {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: var(--text-secondary);
+            margin-bottom: 0.5em;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-section .tagline {
+            font-family: 'Lora', serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-section .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 2em;
+            gap: 8px;
+        }
+
+        .hero-section .rating-badge svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-section .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip .proof-item .value {
+            font-family: 'Lora', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .social-proof-strip .proof-item .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-body);
+        }
+
+        /* Section Label */
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .our-story-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .our-story-section .about-text {
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        
+        .our-story-section .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .our-story-section .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .our-story-section .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            width: 280px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .our-story-section .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .our-story-section .stat-card .value {
+            font-family: 'Lora', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .our-story-section .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            text-align: center;
+        }
+
+        .menu-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .why-choose-us-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-bottom: 5px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-section {
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card blockquote {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .testimonial-card blockquote::before {
+            content: "“";
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            top: -10px;
+            opacity: 0.6;
+            line-height: 0;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .testimonial-card .rating {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .testimonial-card .rating svg {
+            color: gold;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-light);
+        }
+
+        .location-hours-section h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .location-info address {
+            font-style: normal;
+            margin-bottom: 20px;
+            color: var(--text-body);
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+
+        .location-info .phone a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .location-info .phone a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-info table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-info th, .hours-info td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+        }
+
+        .hours-info th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .hours-info td {
+            color: var(--text-body);
+        }
+
+        .hours-info tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-info .btn-call-order {
+            margin-top: 30px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-main);
+            padding: 18px 40px;
+            font-size: 1.1rem;
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: var(--text-heading);
+            color: var(--accent-color);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Lora', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 20px;
+            }
+
+            .sticky-header nav {
+                margin-top: 10px;
+                width: 100%;
+            }
+
+            .sticky-header nav ul {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+
+            .sticky-header nav ul li {
+                margin-left: 0;
+            }
+
+            .sticky-header .call-button {
+                margin-top: 10px;
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-section {
+                padding-top: 120px; /* Account for collapsed header */
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .hero-section h1 {
+                font-size: clamp(3rem, 12vw, 5rem);
+            }
+
+            .hero-section .tagline {
+                font-size: clamp(1rem, 4vw, 1.4rem);
+            }
+
+            .hero-section .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .social-proof-strip .proof-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .our-story-section .stats-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .our-story-section .stat-card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .menu-grid, .why-cards-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+
+            .section-padding-y {
+                padding: 60px 0;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">For Cake Sake</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18284688838" class="call-button">CALL (828) 468-8838</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="container hero-content hidden">
+            <p class="location">Conover, NC</p>
+            <h1>For Cake Sake</h1>
+            <p class="tagline">Custom cakery that specializes in weddings, birthdays, and other special events. We “cake” life a little sweeter!</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                <span>4.6 Stars (2 Reviews)</span>
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container proof-grid">
+            <div class="proof-item hidden">
+                <span class="value">4.6</span>
+                <span class="label">Average Rating</span>
+            </div>
+            <div class="proof-item hidden">
+                <span class="value">2+</span>
+                <span class="label">Happy Reviews</span>
+            </div>
+            <div class="proof-item hidden">
+                <span class="value">Local</span>
+                <span class="label">Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <span class="section-label hidden">Our Sweet Beginning</span>
+            <h2 class="hidden">Crafting Joy, One Cake & Dish at a Time.</h2>
+            <div class="about-text hidden">
+                <p>At For Cake Sake, we believe in making life a little sweeter, whether it's through our exquisite custom cakes or our diverse culinary offerings. Located in the heart of Conover, NC, we've poured our passion into creating memorable experiences for our community.</p>
+                <p>We specialize in crafting bespoke cakes for weddings, birthdays, and all your special events, ensuring each creation is a unique reflection of your celebration. Beyond our renowned cakery, we pride ourselves on a varied menu that includes delectable steaks, fresh seafood, an array of sushi, gourmet sliders, and other delightful small plates. Come discover a place where every bite is a celebration.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card hidden">
+                    <div class="value">4.6</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card hidden">
+                    <div class="value">2</div>
+                    <div class="label">Customer Reviews</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <span class="section-label hidden">Our Culinary Delights</span>
+            <h2 class="hidden">From Savory to Sweet, A Dish for Every Craving.</h2>
+            <div class="menu-grid">
+                <div class="menu-card hidden">
+                    <h3>Grilled Steak</h3>
+                    <p>Perfectly seasoned and expertly grilled to your liking. A succulent choice for any meat lover.</p>
+                </div>
+                <div class="menu-card hidden">
+                    <h3>Fresh Seafood Platter</h3>
+                    <p>A delightful selection of the day's freshest catches, prepared with care and flavor.</p>
+                </div>
+                <div class="menu-card hidden">
+                    <h3>Sushi & Sashimi Selection</h3>
+                    <p>Artfully prepared sushi and sashimi, featuring the finest ingredients for an authentic taste.</p>
+                </div>
+                <div class="menu-card hidden">
+                    <h3>Gourmet Sliders</h3>
+                    <p>Miniature masterpieces, packed with flavor and perfect for sharing or a light meal.</p>
+                </div>
+                <div class="menu-card hidden">
+                    <h3>Assorted Small Plates</h3>
+                    <p>A diverse range of culinary creations, ideal for exploring new flavors and appetizers.</p>
+                </div>
+                <div class="menu-card hidden">
+                    <h3>Custom Celebration Cakes</h3>
+                    <p>Our signature custom-designed cakes for weddings, birthdays, and every special milestone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <span class="section-label hidden">Why For Cake Sake?</span>
+            <h2 class="hidden">Experience The Difference With Our Unique Blend of Flavors.</h2>
+            <div class="why-cards-grid">
+                <div class="why-card hidden">
+                    <h3>Artisan Custom Cakes</h3>
+                    <p>From dream weddings to joyous birthdays, our custom cakery crafts edible art that makes every event unforgettable. We bring your vision to life!</p>
+                </div>
+                <div class="why-card hidden">
+                    <h3>Diverse Culinary Menu</h3>
+                    <p>Beyond cakes, indulge in our full menu featuring everything from perfectly grilled steak and fresh seafood to exquisite sushi and gourmet sliders. There's something for everyone!</p>
+                </div>
+                <div class="why-card hidden">
+                    <h3>Local Conover Favorite</h3>
+                    <p>We're proud to be a local gem in Conover, NC, dedicated to exceptional service and high-quality ingredients, earning us 4.6 stars from our cherished customers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label hidden">What Our Guests Say</span>
+            <h2 class="hidden">Hear From Those Who've Tasted The Sweetness & Savory.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card hidden">
+                    <blockquote>"We ordered a custom birthday cake, and it was absolutely stunning and delicious! We also tried their gourmet sliders – surprisingly amazing for a cakery! Highly recommend for both savory and sweet."</blockquote>
+                    <p class="author">- Jane D.</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card hidden">
+                    <blockquote>"I came for the seafood, and it did not disappoint – the Fresh Seafood Platter was excellent! It's rare to find such quality in Conover. A pleasant surprise, will definitely be back."</blockquote>
+                    <p class="author">- Robert M.</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card hidden">
+                    <blockquote>"I've never seen such a perfect fusion! The sushi was incredibly fresh, and then we picked up an incredible custom cake for our anniversary. For Cake Sake truly offers the best of both worlds!"</blockquote>
+                    <p class="author">- Sarah P.</p>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <span class="section-label hidden">Visit Us</span>
+            <h2 class="hidden">Your Next Sweet & Savory Experience Awaits.</h2>
+            <div class="location-hours-content">
+                <div class="location-info hidden">
+                    <h3>Find Our Location</h3>
+                    <address>
+                        307 McLin Creek Rd<br>
+                        Conover, NC 28613, USA
+                    </address>
+                    <div class="phone">
+                        <a href="tel:+18284688838">(828) 468-8838</a>
+                    </div>
+                    <!-- Optional: Link to Google Maps -->
+                    <a href="https://www.google.com/maps/search/307+McLin+Creek+Rd,+Conover,+NC+28613,+USA" target="_blank" class="btn btn-secondary">Get Directions</a>
+                </div>
+                <div class="hours-info hidden">
+                    <h3>Our Hours</h3>
+                    <table>
+                        <tr><th>Monday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Tuesday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Wednesday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Friday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Saturday</th><td>10:00 AM – 2:00 PM</td></tr>
+                        <tr><th>Sunday</th><td>Closed</td></tr>
+                    </table>
+                    <a href="tel:+18284688838" class="btn btn-primary btn-call-order">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container hidden">
+            <h2>Ready to Taste the Difference? Contact Us Today!</h2>
+            <a href="tel:+18284688838" class="btn">MAKE A RESERVATION OR ORDER</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">For Cake Sake</a>
+            <p class="tagline">Custom cakery that specializes in weddings, birthdays, and other special events. We “cake” life a little sweeter!</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.512-4.192 4.442v2.558z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.16-10.148-5.144-.418.724-.659 1.591-.659 2.516 0 1.721.87 3.216 2.188 4.097-.807-.026-1.566-.247-2.229-.616-.054 1.816 1.378 3.486 3.006 3.861-.398.113-.814.168-1.23.168-.3.000-.593-.029-.878-.089.477 1.498 1.858 2.583 3.492 2.618-1.761 1.388-3.979 2.222-6.040 2.222-.398 0-.79-.023-1.175-.069 2.274 1.444 4.981 2.292 7.797 2.292 9.485 0 14.654-7.868 14.654-14.665 0-.223-.005-.447-.014-.668 1.002-.719 1.879-1.678 2.574-2.748z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 For Cake Sake. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in-up');
+                        entry.target.classList.remove('hidden'); // Remove hidden to allow full animation
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: "0px"
+            });
+
+            document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
