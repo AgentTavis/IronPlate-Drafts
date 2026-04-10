@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Granny's Kitchen - Asheville's Favorite Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #FFEB3B;
+            --accent-color: #003DA5;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 80px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #FFFF99; /* Lighter yellow for hover */
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section Labels */
+        .section-label {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-dark); /* Dark text on brand color */
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #FFFF99; /* Lighter yellow on hover */
+            border-color: #FFFF99;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 235, 59, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 235, 59, 0.3);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255, 235, 59, 0.1); /* Subtle border */
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta .btn {
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            border-color: var(--brand-color);
+        }
+
+        .header-cta .btn:hover {
+            background-color: #FFFF99;
+            border-color: #FFFF99;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: calc(100vh - var(--header-height)); /* Full viewport height minus header */
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(17, 17, 17, 0.9) 60%, rgba(0, 61, 165, 0.1) 85%, rgba(255, 235, 59, 0.05) 100%);
+        }
+
+        .hero::before { /* Subtle radial gradient for depth */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 61, 165, 0.05) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding-top: 50px; /* Adjust for visual center */
+            padding-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+        .hero .location {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block; /* Ensure it's on its own line */
+        }
+
+        .hero .tagline {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.3rem;
+            color: var(--cccccc);
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.5;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 235, 59, 0.1); /* Light brand color tint */
+            color: var(--brand-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 235, 59, 0.2);
+        }
+
+        .rating-badge svg {
+            fill: var(--brand-color);
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(255, 235, 59, 0.03); /* Very low opacity brand color */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 235, 59, 0.05);
+            border-bottom: 1px solid rgba(255, 235, 59, 0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .social-proof-item span {
+            display: block;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column */
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center; /* Center the text */
+        }
+        .story-content p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            text-align: left; /* Align testimonial text left */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .story-testimonial p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        .story-testimonial .author {
+            font-weight: 700;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        .story-stats {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+        .menu-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .menu-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-placeholder {
+            background-color: var(--card-bg);
+            border: 1px dashed var(--card-border);
+            padding: 50px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        .menu-placeholder h3 {
+            color: var(--brand-color);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .menu-placeholder p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        .menu-placeholder .btn-primary {
+            font-size: 1.1rem;
+            padding: 16px 35px;
+        }
+        
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .reason-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        .reason-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+            display: block;
+        }
+        .testimonial-card .rating {
+            display: flex;
+            color: var(--brand-color);
+            margin-top: 10px;
+        }
+        .testimonial-card .rating svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--brand-color);
+            margin-right: 2px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            text-align: center;
+        }
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .location-info a {
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+        .location-info .phone-number {
+            font-size: 1.5rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+        .location-info .btn {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            padding: 16px 35px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--accent-color) 0%, rgba(0, 61, 165, 0.8) 50%, rgba(255, 235, 59, 0.2) 100%);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+            color: var(--text-heading);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta .btn {
+            font-size: 1.2rem;
+            padding: 18px 40px;
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            border-color: var(--brand-color);
+        }
+        .final-cta .btn:hover {
+            background-color: #FFFF99;
+            border-color: #FFFF99;
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c; /* Even darker than base for footer */
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 235, 59, 0.05);
+        }
+
+        .footer .header-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links {
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+            transform: translateY(-3px);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .hero h1 {
+                font-size: 6rem;
+            }
+            .section-headline {
+                font-size: 3.5rem;
+            }
+            .our-story .container {
+                grid-template-columns: 1fr 1fr;
+            }
+            .story-content {
+                text-align: left;
+                margin: 0;
+            }
+            .story-testimonial {
+                margin-left: 0;
+                margin-right: 0;
+            }
+            .location-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sticky-header .main-nav {
+                display: none; /* Hide nav on small screens for simplicity in this single-page design */
+            }
+            .sticky-header .header-logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header .header-cta .btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            .story-stats {
+                grid-template-columns: 1fr;
+            }
+            .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta .btn {
+                font-size: 1rem;
+                padding: 14px 30px;
+            }
+            .location-info, .hours-info {
+                padding: 30px 20px;
+            }
+            .location-info .phone-number {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Intersection Observer CSS for fade-in-up */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body id="smoothScroll">
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#" class="header-logo">Granny's Kitchen</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:(828) 658-3279" class="btn btn-primary">CALL (828) 658-3279</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero fade-in-section">
+        <div class="container hero-content">
+            <p class="location">ASHEVILLE, NC</p>
+            <h1>Granny's Kitchen</h1>
+            <p class="tagline">"It was so nice. It is a little family owned restaurant which we love to go to. The owner Ronnie Turner came over to talk with us after our meal."</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.7 Stars (419 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof fade-in-section">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">4.7 <small>/ 5</small><span>Average Rating</span></div>
+            <div class="social-proof-item">419+<span>Happy Customers</span></div>
+            <div class="social-proof-item">Asheville's<span>Local Favorite</span></div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story fade-in-section">
+        <div class="container">
+            <div class="story-content">
+                <span class="section-label">Our Heritage</span>
+                <h2 class="section-headline">A Taste of Home, Crafted with Love</h2>
+                <p>Welcome to Granny's Kitchen, where every dish is made with the warmth and care of a family recipe. We're a little family-owned bar and grill nestled right here in Asheville, a place where locals and visitors alike feel right at home. We believe in good food, good company, and the kind of hospitality that makes you feel like part of our family.</p>
+                <p>Our journey began with a simple idea: to create a space where folks could enjoy hearty meals and friendly faces. Owner Ronnie Turner is often found chatting with guests, ensuring everyone leaves with a full belly and a happy heart. It's this personal touch, combined with our dedication to quality, that makes Granny's Kitchen a cherished spot in the community.</p>
+            </div>
+            <div class="story-right">
+                <div class="story-testimonial">
+                    <p>"I selected this place after seeing a video review on TikTok. Since visiting we had a lot of great food, and while we'd tried a lot in the same vein, we decided to try something different for our last night here. It was not far to get to from downtown, and it was so worth it. Truly a wonderful family-owned spot."</p>
+                    <span class="author">— Angie M., Loyal Customer</span>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card">
+                        <h3>419+</h3>
+                        <p>Total Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>4.7</h3>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Ronnie</h3>
+                        <p>Friendly Owner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu fade-in-section">
+        <div class="container">
+            <span class="section-label">Our Offerings</span>
+            <h2 class="section-headline">Hearty Meals & Daily Specials</h2>
+            <div class="menu-content">
+                <p>At Granny's Kitchen, we pride ourselves on a rotating selection of comforting bar and grill classics, alongside exciting daily specials crafted with fresh, local ingredients. While our menu is always evolving, we guarantee a delicious experience designed to satisfy every craving.</p>
+
+                <div class="menu-placeholder">
+                    <h3>Taste Granny's Best!</h3>
+                    <p>Our full, delightful menu changes seasonally to bring you the freshest ingredients and Granny's best recipes! Please call us or visit in person to discover today's specials and full offerings.</p>
+                    <a href="tel:(828) 658-3279" class="btn btn-primary">CALL FOR TODAY'S MENU</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us fade-in-section">
+        <div class="container">
+            <span class="section-label">The Granny's Difference</span>
+            <h2 class="section-headline">Why Locals Love Granny's Kitchen</h2>
+            <div class="why-choose-us-grid">
+                <div class="reason-card">
+                    <h3>Family Owned & Operated</h3>
+                    <p>Experience the genuine warmth of a truly family-run establishment. Owner Ronnie Turner makes sure every guest feels like family, bringing a personal touch that big chains just can't match.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Top-Rated Local Favorite</h3>
+                    <p>With a stellar 4.7-star rating from over 400 happy customers, Granny's Kitchen is celebrated as a beloved local gem, known for delicious food and welcoming atmosphere.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Heartfelt Hospitality</h3>
+                    <p>From the moment you walk in, you're greeted with kindness. We're dedicated to creating a memorable dining experience where friendly service is just as important as the great food.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials fade-in-section">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="section-headline">Voices From Our Table</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"This place is a true find! The atmosphere is cozy, the food is incredible, and the staff treat you like an old friend. Every visit leaves me feeling happy and satisfied. A must-try in Asheville!"</p>
+                    <span class="author">— David R.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Granny's Kitchen is our go-to for a delicious and comforting meal. The portions are generous, the flavors are fantastic, and the friendly service truly stands out. It's clear they put a lot of love into everything they do!"</p>
+                    <span class="author">— Sarah J.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"A wonderful family-owned restaurant! We loved our experience, and it was so nice when the owner, Ronnie Turner, came over to talk with us after our meal. It's that personal touch that makes a huge difference. Highly recommend!"</p>
+                    <span class="author">— Michael P.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.908-7.416 3.908 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours fade-in-section">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Your Table Awaits in Asheville</h2>
+            <div class="location-grid">
+                <div class="location-info">
+                    <h3>Find Granny's Kitchen</h3>
+                    <p>Stop by and enjoy a homemade meal!</p>
+                    <address>
+                        470 Weaverville Rd,<br>
+                        Asheville, NC 28804, USA
+                    </address>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Granny%27s+Kitchen+470+Weaverville+Rd,+Asheville,+NC+28804" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                    <a href="tel:(828) 658-3279" class="phone-number">(828) 658-3279</a>
+                    <a href="tel:(828) 658-3279" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <p>Join us for breakfast and lunch!</p>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Tuesday</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Wednesday</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Friday</th><td>6:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Saturday</th><td class="closed">Closed</td></tr>
+                        <tr><th>Sunday</th><td class="closed">Closed</td></tr>
+                    </table>
+                    <p style="margin-top: 1.5rem; color: var(--text-secondary);">Always fresh. Always friendly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta fade-in-section">
+        <div class="container">
+            <h2>Ready for a Taste of Home?</h2>
+            <a href="tel:(828) 658-3279" class="btn btn-primary">CALL NOW TO PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="header-logo">Granny's Kitchen</a>
+            <p class="tagline">"It was so nice. It is a little family owned restaurant which we love to go to."</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 4.022-4.192 4.022v2.978z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.77-1.699-4.919-4.92-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M10.97 19.337c-1.42.062-2.812-.008-4.22-.016-1.572-.008-3.048-.008-4.75-.016l-.001-.001c-.139-.012-.349-.07-.468-.158-.236-.169-.434-.407-.542-.656-.046-.109-.08-.242-.09-.37l-1.02-12.793c-.027-.336.037-.678.175-.989.138-.311.365-.583.65-.794.137-.101.3-.178.47-.234.331-.106.67-.145 1.01-.131h.036c1.688.016 3.398.016 5.094.02c1.77.004 3.525.013 5.305.013h.03c.531.008.972.06 1.444.177.377.094.73.284 1.026.541.296.257.536.576.702.936.071.155.127.324.16.502l.004.02c.036.21.057.43.057.653 0 .42-.116.827-.336 1.189-.138.229-.328.423-.559.576-.089.06-.2.106-.312.138h-.008c-1.734.195-3.328.324-4.881.429-1.05.072-2.09.12-3.13.149-.24.006-.48.01-.72.01l-2.031.002c.489 1.15.979 2.302 1.468 3.454 1.83 4.318 3.659 8.636 5.489 12.955l.001.002c.162.383.176.817.039 1.207-.137.391-.439.721-.822.923-.197.104-.41.16-.628.176-.398.028-.787-.008-1.168-.119-.509-.153-.94-.43-1.3-.772l-.023-.021-.02-.02c-1.841-1.722-3.791-3.666-5.879-5.748l-.001-.001c-.105-.104-.2-.206-.299-.307-.14-.141-.28-.282-.42-.423-.053-.054-.106-.108-.16-.164l-.001-.001c-.053-.054-.105-.108-.157-.161l-.002-.002c-.173-.169-.345-.338-.517-.506-.017-.015-.034-.03-.051-.045-.044-.04-.087-.079-.13-.119-.044-.04-.087-.08-.13-.12-.02-.018-.04-.035-.06-.052-.06-.054-.12-.108-.18-.162-.01-.008-.02-.017-.03-.026-.06-.053-.12-.107-.18-.16l-.002-.002c-.01-.008-.02-.017-.03-.026-.05-.045-.1-.089-.15-.133-.008-.007-.015-.013-.023-.02-.05-.045-.1-.09-.15-.134-.008-.007-.015-.013-.023-.02-.03-.026-.059-.052-.089-.078l-.003-.002c-1.554 1.517-2.709 2.682-3.829 3.827-.193.197-.386.393-.579.589l-.002.001c-.193.196-.386.392-.578.588-.06.06-.12.12-.18.181-.192.196-.385.392-.577.588-.06.06-.12.12-.18.18-.192.197-.385.393-.577.588l-.002.002c-.193.196-.386.392-.579.588-.12.122-.24.244-.36.366l-.001.001c-.12.122-.24.244-.36.366-.02.02-.04.04-.06.06-.02.02-.04.04-.06.06-.01.01-.02.02-.03.03-.02.02-.04.04-.06.06-.01.01-.02.02-.03.03-.02.02-.04.04-.06.06-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.02.02-.04.04-.06.06-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.03-.01.01-.02.02-.03.364 0 6.666-4.646-6.666-10.43 0z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Granny's Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the section is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeInSections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initial check for hero section visibility (as it might be visible on load)
+        // This ensures the hero section is visible immediately without scroll if it's in view.
+        if (fadeInSections.length > 0) {
+            const heroSection = document.querySelector('#hero');
+            if (heroSection) {
+                 const rect = heroSection.getBoundingClientRect();
+                 if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                     heroSection.classList.add('is-visible');
+                 }
+            }
+        }
+    </script>
+</body>
+</html>
