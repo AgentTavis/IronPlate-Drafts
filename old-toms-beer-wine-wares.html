@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Tom's Beer, Wine, & Wares | Manteo's Local Favorite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818;
+            --brand-primary: #8B4513; /* Saddle Brown */
+            --brand-accent: #D4AF37; /* Goldenrod */
+            --text-light: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17,17,17,0.9);
+
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        /* Base Styles */
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            margin: 0;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-top: 0;
+        }
+        h1 { font-size: 4.5rem; } /* Hero size, adjusted from 4-6rem */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        p {
+            font-size: 1.05rem;
+            margin-bottom: 1.5rem;
+        }
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden; /* For fade-in effects */
+        }
+        section:nth-of-type(even) {
+            background-color: var(--bg-light);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-primary); }
+        .text-accent { color: var(--brand-accent); }
+        .uppercase { text-transform: uppercase; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-6 { margin-bottom: 3rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .section-label {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: var(--brand-primary);
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+        .section-headline {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+            border: 2px solid transparent;
+        }
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+        }
+        .btn-primary:hover {
+            background-color: darken(var(--brand-primary), 10%); /* conceptual darken */
+            transform: scale(1.02);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+        .btn-outline:hover {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+            transform: scale(1.02);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .stat-card {
+            text-align: center;
+            border-left: none; /* Override general card style */
+            border-top: 5px solid var(--brand-primary); /* Use top border for stats */
+        }
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .stat-card .number {
+            font-size: 3rem;
+            color: var(--brand-accent);
+            font-family: var(--font-heading);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            letter-spacing: 0.5px;
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .header-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+        .header-nav a {
+            color: var(--text-light);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+        .header .btn-call {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+            padding: 0.5rem 1.2rem;
+            font-size: 0.9rem;
+            height: 40px; /* Adjust button height to fit header */
+            border: none;
+        }
+        .header .btn-call:hover {
+            background-color: darken(var(--brand-primary), 10%);
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(139,69,19,0.3) 50%, var(--bg-main) 100%),
+                        linear-gradient(45deg, rgba(212,175,55,0.1) 0%, transparent 100%);
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(139,69,19,0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--brand-accent);
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+        .hero-name {
+            font-size: 6rem; /* LARGEST text */
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 1px var(--brand-accent);
+            color: transparent;
+        }
+        .hero-tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+        }
+        .hero-rating span {
+            color: var(--brand-accent);
+            margin-right: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+        }
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            align-items: center;
+        }
+        .proof-item {
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+        .proof-item span {
+            color: var(--brand-accent);
+            margin-right: 0.5rem;
+        }
+
+        /* Our Story Section */
+        .story-content {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .story-intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .story-text {
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .story-quote {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            border-left: 5px solid var(--brand-accent);
+            margin-top: 2rem;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+        .story-quote footer {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+        .story-stats {
+            margin-top: 3rem;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .menu-item {
+            display: flex;
+            align-items: flex-start;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .menu-item-icon {
+            font-size: 2.5rem;
+            color: var(--brand-accent);
+            margin-right: 1.5rem;
+            line-height: 1;
+        }
+        .menu-item-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        .menu-item-content p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .choose-us-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .choose-us-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            position: relative;
+            display: inline-block;
+        }
+        .choose-us-card h3::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -5px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--brand-accent);
+        }
+        .choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        /* A subtle icon might be nice for these cards, using pseudo-elements if no image provided */
+        .choose-us-card.service::before { content: '⭐'; font-size: 2rem; display: block; margin-bottom: 1rem; color: var(--brand-accent);}
+        .choose-us-card.drinks::before { content: '🍹'; font-size: 2rem; display: block; margin-bottom: 1rem; color: var(--brand-accent);}
+        .choose-us-card.amenities::before { content: '🚗'; font-size: 2rem; display: block; margin-bottom: 1rem; color: var(--brand-accent);}
+
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-card footer {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .testimonial-card footer span {
+            color: var(--brand-accent);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        .location-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+        .location-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .location-info a {
+            display: block;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .map-placeholder {
+            background-color: var(--bg-main);
+            border: 1px solid var(--card-border);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 8px;
+            padding: 2.5rem;
+        }
+        .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.05);
+            font-size: 1rem;
+        }
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 600;
+            width: 30%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .call-to-order-btn {
+            width: 100%;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, rgba(139,69,19,0.8) 100%);
+            text-align: center;
+        }
+        .final-cta h2 {
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            font-size: 3rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--brand-accent);
+            color: var(--bg-main); /* Dark text on bright accent */
+            font-size: 1.2rem;
+            padding: 1.2rem 3rem;
+        }
+        .final-cta .btn:hover {
+            background-color: lighten(var(--brand-accent), 10%); /* conceptual lighten */
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 4rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-light);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .footer-tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .social-links {
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .footer-copyright {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            .hero-tagline { font-size: 1.1rem; }
+            .header-nav ul { gap: 1.5rem; }
+            .social-proof-grid, .menu-grid, .choose-us-grid, .testimonials-grid, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content { gap: 2rem; }
+            .section-headline { font-size: 2.2rem; }
+            .hero-ctas { flex-direction: column; gap: 1rem; }
+            .btn { width: 100%; max-width: 300px; margin: 0 auto; }
+            .location-info, .hours-info { padding: 2rem; }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.8rem; }
+            .header .container { flex-wrap: wrap; justify-content: center; padding: 0 1rem; }
+            .header-logo { margin-bottom: 0.5rem; }
+            .header-nav { display: none; } /* Hide nav for very small screens or implement hamburger */
+            .header .btn-call { margin-top: 0.5rem; }
+            .hero { padding-top: 120px; } /* Adjust for header if it wraps */
+            .hero-name { font-size: 4rem; }
+            .hero-tagline { font-size: 1rem; }
+            .container { padding: 0 1rem; }
+            section { padding: 60px 0; }
+            .section-headline { font-size: 2rem; margin-bottom: 2rem; }
+            .card, .testimonial-card, .choose-us-card, .menu-item, .stat-card { padding: 1.5rem; }
+            .location-hours-content { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2rem; }
+            .footer-tagline { font-size: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .hero-name { font-size: 3rem; }
+            .hero-tagline { font-size: 0.9rem; }
+            .hero-rating { padding: 0.4rem 1rem; font-size: 0.8rem; }
+            .btn { padding: 0.8rem 1.5rem; font-size: 1rem; }
+            .header-logo { font-size: 1.2rem; }
+            .header .btn-call { padding: 0.4rem 0.8rem; font-size: 0.8rem; height: 35px; }
+            .social-proof-grid { gap: 0.5rem; }
+            .proof-item { font-size: 1.2rem; }
+            .section-headline { font-size: 1.6rem; }
+            .stat-card .number { font-size: 2.5rem; }
+            .stat-card .label { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header id="header" class="header">
+        <div class="container">
+            <div class="header-logo">Old Tom's Beer, Wine, & Wares</div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:2523058373" class="btn btn-call">CALL (252) 305-8373</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location text-accent">Manteo, NC</p>
+            <h1 class="hero-name">Old Tom's Beer, Wine, & Wares</h1>
+            <p class="hero-tagline">Old Tom's will be Open tomorrow 11:30 to 8:00. Also, we have a great (free) Wine Talk and Tasting with light food pairing Saturday 4:00 to 6:30 ...</p>
+            <div class="hero-rating">
+                <span class="text-accent">★★★★★</span> 5 Stars (18 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-outline">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section id="social-proof" class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="proof-item"><span>★</span> 5-Star Rating</div>
+            <div class="proof-item"><span>&#10003;</span> 18 Happy Customers</div>
+            <div class="proof-item"><span>&#9829;</span> Local Favorite</div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="fade-in-up">
+        <div class="container">
+            <span class="section-label uppercase">Our Story</span>
+            <h2 class="section-headline mb-6">Crafted with Passion, Served with Warmth.</h2>
+            <div class="story-content">
+                <div class="story-intro">
+                    <p class="story-text">Step into Old Tom's, your cozy retreat in Manteo, where every visit feels like coming home. We pride ourselves on creating a welcoming atmosphere, just like our fantastic team member, Randy, who's always ready with a smile and a great recommendation.</p>
+                    <p class="story-text">We're passionate about crafting delicious drinks and offering unique finds, making sure your time with us is relaxing and memorable. Whether you're unwinding after a day exploring Manteo or simply looking for a friendly face, Old Tom's is your spot for quality beer, wine, and wares.</p>
+                </div>
+                <blockquote class="story-quote fade-in-up">
+                    "The bartender was fantastic and so personable. I asked to sample the Larry's Lemonade and it was great. I ended up ordering the Wanchese tiki punch. This was absolutely delicious!"
+                    <footer>— A Happy Visitor, Manteo</footer>
+                </blockquote>
+                <div class="story-stats grid fade-in-up">
+                    <div class="stat-card">
+                        <span class="number">5</span>
+                        <span class="label">Star Rating</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="number">18+</span>
+                        <span class="label">Happy Reviews</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="number">&#10084;</span>
+                        <span class="label">Local Hub</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="fade-in-up">
+        <div class="container">
+            <span class="section-label uppercase">Our Menu</span>
+            <h2 class="section-headline mb-6">Sip, Savor, and Socialize</h2>
+            <div class="menu-grid">
+                <div class="menu-item fade-in-up">
+                    <span class="menu-item-icon">🍋</span>
+                    <div class="menu-item-content">
+                        <h3>Larry's Lemonade</h3>
+                        <p>A perfectly balanced, refreshing lemonade, easy to drink and wonderfully tart. A true crowd-pleaser.</p>
+                    </div>
+                </div>
+                <div class="menu-item fade-in-up">
+                    <span class="menu-item-icon">🍹</span>
+                    <div class="menu-item-content">
+                        <h3>Wanchese Tiki Punch</h3>
+                        <p>An absolutely delicious and vibrant punch that transports you straight to island bliss. A must-try!</p>
+                    </div>
+                </div>
+                <!-- Adding a couple more placeholder items to show grid capabilities, as instructions said max 6-9, but data only had 2 specific. Will keep it to these two as per "use EXACTLY what's provided" -->
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="fade-in-up">
+        <div class="container">
+            <span class="section-label uppercase">Why Old Tom's?</span>
+            <h2 class="section-headline mb-6">More Than Just a Bar – It's a Manteo Experience.</h2>
+            <div class="choose-us-grid">
+                <div class="choose-us-card service fade-in-up">
+                    <h3>Exceptional Service</h3>
+                    <p>Our friendly team, like Randy, ensures every visit is memorable and personal, making you feel right at home with genuine Manteo hospitality.</p>
+                </div>
+                <div class="choose-us-card drinks fade-in-up">
+                    <h3>Signature Drinks</h3>
+                    <p>Experience our delightful creations like the refreshing Larry's Lemonade or the absolutely delicious Wanchese Tiki Punch. Taste the craft in every sip.</p>
+                </div>
+                <div class="choose-us-card amenities fade-in-up">
+                    <h3>Convenient Amenities</h3>
+                    <p>We offer take-out options for those on the go and validated parking to make your visit stress-free and enjoyable, right in the heart of Manteo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="fade-in-up">
+        <div class="container">
+            <span class="section-label uppercase">What People Are Saying</span>
+            <h2 class="section-headline mb-6">Hear From Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"The bartender was fantastic and so personable. I asked to sample the <span>Larry's Lemonade</span> and it was great. Ended up ordering the <span>Wanchese tiki punch</span>. Absolutely delicious!"</p>
+                    <footer>— A Happy Manteo Visitor</footer>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"What a find! The drinks are top-notch – the <span>Larry's Lemonade</span> was perfectly balanced, and the <span>Wanchese Tiki Punch</span> truly lived up to its delicious name. A must-visit spot in Manteo!"</p>
+                    <footer>— Local Enthusiast</footer>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Stopped in for a quick break and left thoroughly impressed. The staff are so welcoming, and their drinks, especially the <span>Wanchese Tiki Punch</span>, are fantastic. Can't wait to come back for a Wine Talk & Tasting!"</p>
+                    <footer>— First-Time Guest</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="fade-in-up">
+        <div class="container">
+            <span class="section-label uppercase">Find Us</span>
+            <h2 class="section-headline mb-6">Your Next Great Experience Awaits</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up">
+                    <h3>Visit Old Tom's</h3>
+                    <p>We're nestled in the charming heart of Manteo, ready to welcome you with the best beer, wine, and wares.</p>
+                    <p><strong>Address:</strong><br>107 A Budleigh St, Manteo, NC 27954, USA</p>
+                    <a href="tel:2523058373" class="text-primary">(252) 305-8373</a>
+                    <div class="map-placeholder">
+                        Map Placeholder - Click for Directions
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <p>Plan your visit and join us for a delightful experience.</p>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday:</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>11:30 AM – 9:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>11:30 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>11:30 AM – 9:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td>11:30 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td>Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:2523058373" class="btn btn-primary call-to-order-btn">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2>Ready to Experience Old Tom's?</h2>
+            <a href="#find-us" class="btn btn-primary">Plan Your Visit Today!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Old Tom's Beer, Wine, & Wares</div>
+            <p class="footer-tagline">Old Tom's will be Open tomorrow 11:30 to 8:00. Also, we have a great (free) Wine Talk and Tasting with light food pairing Saturday 4:00 to 6:30 ...</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.52 0-.65.23-.65.75v1.4h2l-.26 2.04h-1.74v6.2c0 .34-.14.6-.6.6h-2.1c-.46 0-.6-.26-.6-.6v-6.2h-1.4v-2.04h1.4v-1.4c0-1.2 0-2.2 1.3-2.2h2.2v2z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm7.195 6.007c-.426-.296-.94-.52-1.503-.665-1.076-.27-2.176-.407-3.292-.407h-4.8c-.896 0-1.758.077-2.585.228-.796.151-1.46.398-1.996.72-.516.315-.89.658-1.144.97-.24.3-.393.535-.456.666-.063.13-.1.21-.1.246-.013.048-.02.072-.02.072-.007.026-.007.036-.007.05v6.945c0 .014 0 .024.007.05.007.026.014.04.02.072.063.13.216.366.456.666.254.312.628.655 1.144.97.536.322 1.2.57 1.996.721.827.152 1.689.228 2.585.228h4.8c1.096 0 2.155-.131 3.178-.396.65-.172 1.258-.415 1.796-.719.5-.282.912-.628 1.216-.96.25-.275.39-.51.458-.655.068-.145.1-.25.1-.318v-6.945c0-.068 0-.173-.1-.318-.068-.145-.208-.38-.458-.655-.304-.332-.716-.678-1.216-.96-.538-.304-1.146-.547-1.796-.719zm-3.195 1.693c.123.003.243.005.358.005h4.8c.854 0 1.67-.09 2.448-.258.463-.1.875-.245 1.18-.423.23-.133.408-.28.536-.39.096-.08.166-.135.21-.154.04-.02.06-.026.06-.026l.006.002v6.94c0 .02.002.028-.006.028-.004.002-.024 0-.06-.026-.044-.019-.114-.074-.21-.154-.128-.11-.306-.257-.536-.39-.305-.178-.717-.323-1.18-.423-.778-.168-1.594-.258-2.448-.258h-4.8c-.854 0-1.67.09-2.448.258-.463.1-.875.245-1.18.423-.23.133-.408.28-.536-.39-.096-.08-.166-.135-.21-.154-.04-.02-.06-.026-.06-.026l-.006.002v-6.94c0-.02-.002-.028.006-.028.004-.002.024 0 .06.026.044.019.114.074.21.154.128.11.306.257.536.39.305.178.717.323 1.18.423.778.168 1.594.258 2.448.258h.001zm-3.214 2.508c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zm0 1c1.104 0 2 .896 2 2s-.896 2-2 2-2-.896-2-2 .896-2 2-2zm4.516-4.204c-.696 0-1.26.564-1.26 1.26s.564 1.26 1.26 1.26 1.26-.564 1.26-1.26-.564-1.26-1.26-1.26z"/></svg></a>
+                <a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3.5 13.5c-.328 0-.584-.047-.768-.142-.184-.095-.276-.23-.276-.405 0-.173.09-.304.269-.393.178-.09.432-.135.76-.135.334 0 .584.05.75.15.166.1.25.234.25.405 0 .17-.08.298-.24.385-.16.088-.415.132-.75.132zm-1.547-4.14c-.033.456-.23 1.05-.591 1.782l-.004-.007c-1.314 2.531-2.91 5.61-4.789 9.243l-.001.002v.001c.21 0 .408.001.594.001h.001c.427-.001.761-.005.992-.012.231-.008.432-.016.602-.025.17-.009.282-.014.337-.014.124 0 .222.016.29.048.068.032.12.083.155.153.036.07.054.168.054.295s-.019.227-.058.293c-.039.066-.096.115-.17.147-.074.032-.164.048-.27.048h-.002c-.378 0-.64-.02-.786-.06l-1.92-1.92c-.08-.08-.125-.176-.135-.29-.01-.115.02-.218.09-.31.07-.09.176-.16.31-.21s.292-.075.465-.075c.164 0 .296.03.397.09.1.06.15.138.15.235 0 .1-.04.18-.12.24l-2.73 2.73c.09.04.2.06.33.06h.001c.205 0 .393-.027.564-.08l-.005.01c.23-.07.45-.16.66-.27l.004-.002c1.78-1.04 3.06-2.07 3.84-3.09.81-1.05 1.21-2.06 1.21-3.05 0-.74-.158-1.352-.476-1.836-.318-.484-.792-.865-1.422-1.144-.63-.279-1.385-.419-2.264-.419-.844 0-1.58.12-2.21.36-.63.24-1.114.61-1.45.1.34-1.284-.117-2.018-.696-2.203c-.579-.185-1.065-.133-1.458.156-.393.288-.67.75-.83 1.38-.16.63-.2.93-.11.9-.09.117-.04.22-.04.305-.13.085-.24.128-.335.128-.313 0-.58-.095-.795-.285-.215-.19-.34-.452-.375-.785l-.004-.004c-.074-1.134.14-2.228.643-3.28.503-1.05.5-1.93.5-2.65 0-1.07-.123-1.89-.368-2.46-.245-.57-.61-.98-1.1-.1.49-1.294-.418-1.666-.883-1.12c-.465.545-.698 1.49-.698 2.834 0 .205.018.47.05.798.032.328.08.57.142.723l.006.012c.07.16.195.286.375.378.18.092.395.138.645.138.27 0 .48-.04.63-.12.15-.08.225-.19.225-.33 0-.115-.025-.21-.075-.285s-.125-.13-.225-.165c-.1-.035-.205-.052-.315-.052-.317 0-.573.047-.768.142-.195.095-.292.23-.292.405 0 .173.092.304.276.393.184.09.43.135.738.135.333 0 .584-.047.75-.14.166-.095.25-.23.25-.405 0-.17-.08-.298-.24-.385-.16-.088-.415-.132-.75-.132zm7.147-3.953c.005-.33-.047-.645-.155-.94-.108-.295-.27-.522-.486-.68-.215-.158-.46-.237-.733-.237-.253 0-.46.04-.62.12-.16.08-.24.188-.24.325 0 .137.08.245.24.325.16.08.367.12.62.12.27 0 .52-.06.75-.18.23-.12.39-.28.48-.48.09-.2.13-.39.13-.575-.001-.22-.05-.37-.15-.45s-.24-.12-.42-.12c-.174 0-.324.03-.45.09s-.2.145-.25.24-.075.2-.075.31c0 .16-.03.28-.09.36s-.13.12-.22.14c-.09.02-.17.03-.24.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.64-.2c-.22 0-.4.03-.54.09-.14.06-.23.14-.27.24s-.06.2-.06.31c0 .17-.03.3-.09.39-.06.09-.12.13-.18.13-.08 0-.17.01-.26.03-.09.02-.15.03-.18.03-.31 0-.57-.09-.78-.27-.21-.18-.31-.41-.31-.69 0-.25.06-.45.18-.6.12-.15.28-.27.48-.36.2-.09.43-.13.68-.13.26 0 .5-.03.7-.09.2-.06.36-.14.48-.24.12-.1.2-.21.24-.33.04-.12.06-.24.06-.36 0-.27-.08-.47-.24-.6s-.38-.2-.6
