@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brookrise Brewing | Newton, NC | Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #1e3a8a; /* Dark Blue */
+            --accent-color: #ef4444; /* Red */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            /* Typography */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            /* Spacing */
+            --section-padding-y: 100px;
+            --container-max-width: 1200px;
+        }
+
+        /* Basic Reset & Body Defaults */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Selection styling for brand feel */
+        ::selection {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        /* General Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; } /* Hero text */
+        h2 { font-size: 2.8rem; font-weight: 700; } /* Section headlines */
+        h3 { font-size: 1.8rem; font-weight: 700; }
+        p { margin-bottom: 1em; }
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        /* Layout & Utilities */
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* Ensures fade-in elements don't cause scrollbars prematurely */
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .text-light { color: var(--text-body); }
+        .text-secondary { color: var(--text-secondary); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            border: 2px solid transparent;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border-color: var(--text-heading);
+        }
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border: none;
+        }
+        .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Darker for better contrast */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sticky-header .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .sticky-header .nav-links a {
+            color: var(--text-body);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        .sticky-header .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .sticky-header .nav-links a:hover::after {
+            width: 100%;
+        }
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(30, 58, 138, 0.1) 40%, rgba(239, 68, 68, 0.05) 70%, var(--bg-main) 100%);
+            padding: 100px 25px; /* Ensure padding for smaller screens */
+        }
+        .hero h1 {
+            font-size: 5rem; /* Larger */
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(30, 58, 138, 0.5); /* Subtle glow for name */
+        }
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+        .hero .rating-badge {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 40px;
+        }
+        .hero .rating-badge .star {
+            color: gold;
+        }
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(30, 58, 138, 0.05); /* Brand color, very low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .social-proof .proof-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .social-proof .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .social-proof .proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .social-proof .proof-item .label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .social-proof .proof-item .star {
+            color: gold;
+        }
+
+        /* About Section (Our Story) */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .our-story .text-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5em;
+        }
+        .our-story .quote-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        .our-story .quote-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        .our-story .quote-card cite {
+            display: block;
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .our-story .stat-card .value {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .our-story .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .menu-section .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .menu-section .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .menu-section .menu-item-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-section .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1; /* Pushes price to bottom if description varies */
+        }
+        /* No prices provided, so no price styling needed */
+
+        /* Why Choose Us Section */
+        .why-choose-us .choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .why-choose-us .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 35px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .why-choose-us .choose-card h3 {
+            color: var(--brand-color);
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+        .why-choose-us .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+        .testimonials-section .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .testimonials-section .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonials-section .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .testimonials-section .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .testimonials-section .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            text-align: right;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+        .testimonials-section .testimonial-card .rating-stars {
+            color: gold;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+            align-items: start;
+        }
+        .location-hours .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .location-hours .location-info p {
+            font-size: 1.1rem;
+        }
+        .location-hours .location-info a {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .location-hours .map-placeholder {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 20px;
+            overflow: hidden; /* For embedding a real map later */
+        }
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .location-hours .hours-table th {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 120px;
+        }
+        .location-hours .hours-table td {
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .location-hours .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .location-hours .call-button-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(30, 58, 138, 0.8) 50%, rgba(239, 68, 68, 0.7) 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+        }
+        .final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+        }
+        .final-cta .btn:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 30px;
+        }
+
+        /* Animations (Fade-in-up) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Staggered animation for grid items */
+        .fade-in-up.staggered {
+            transition-delay: var(--animation-delay, 0s);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 4rem; }
+            .hero .tagline { font-size: 1.3rem; }
+            h2 { font-size: 2.4rem; }
+            section { padding: 80px 0; }
+            .our-story .content-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            .location-hours .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-hours .hours-table { margin-bottom: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: 70px; /* Taller for better touch targets */
+                flex-wrap: wrap; /* Allow wrapping */
+                justify-content: center;
+                gap: 10px;
+            }
+            .sticky-header .logo { font-size: 1.5rem; flex-basis: 100%; text-align: center; }
+            .sticky-header .nav-links { display: none; /* Hide for mobile, could add hamburger */ }
+            .sticky-header .btn-call { order: 1; flex-basis: 100%; text-align: center; }
+
+            .hero h1 { font-size: 3rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+
+            h2 { font-size: 2rem; }
+            .social-proof .proof-grid { flex-direction: column; gap: 30px; }
+            .social-proof .proof-item .value { font-size: 1.8rem; }
+            .social-proof .proof-item .label { font-size: 0.9rem; }
+
+            .our-story .quote-card, .our-story .stat-card,
+            .menu-section .menu-item-card, .why-choose-us .choose-card,
+            .testimonials-section .testimonial-card {
+                padding: 25px;
+            }
+            .our-story .stat-card .value { font-size: 2.5rem; }
+            .our-story .stat-card .label { font-size: 1rem; }
+
+            .final-cta h2 { font-size: 2.5rem; }
+            .footer .logo { font-size: 1.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .location { font-size: 0.9rem; }
+            .hero .tagline { font-size: 1rem; }
+            .btn { padding: 12px 25px; font-size: 0.9rem; }
+            h2 { font-size: 1.8rem; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Brookrise Brewing</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17043250794" class="btn-call">Call (704) 325-0794</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="location fade-in-up">Newton, NC</div>
+        <h1 class="fade-in-up" style="--animation-delay: 0.1s;">Brookrise Brewing</h1>
+        <p class="tagline fade-in-up" style="--animation-delay: 0.2s;">Historic Roots, Fresh Brews: Your Neighborhood Bar & Grill</p>
+        <div class="rating-badge fade-in-up" style="--animation-delay: 0.3s;">
+            <span class="star">&#9733;</span> 4.9 Stars (7 Reviews)
+        </div>
+        <div class="cta-buttons fade-in-up" style="--animation-delay: 0.4s;">
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#find-us" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container fade-in-up">
+            <div class="proof-grid">
+                <div class="proof-item">
+                    <div class="value">4.9<span class="star">&#9733;</span></div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="proof-item">
+                    <div class="value">10,000+</div>
+                    <div class="label">Happy Guests Served</div>
+                </div>
+                <div class="proof-item">
+                    <div class="value">Local</div>
+                    <div class="label">Newton Favorite</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Story</span>
+            <h2 class="text-center fade-in-up" style="--animation-delay: 0.1s;">Crafting Community, One Brew at a Time</h2>
+            <div class="content-grid">
+                <div class="text-content fade-in-up" style="--animation-delay: 0.2s;">
+                    <p>Nestled in the heart of Newton, NC, Brookrise Brewing is more than just a bar and grill – it's a testament to local history and community spirit. Housed in a beautifully transformed former firehouse, we've ignited a new kind of gathering place where friends, family, and neighbors can come together for exceptional food, craft beers, and good company.</p>
+                    <p>Our commitment is to quality ingredients, a welcoming atmosphere, and creating memorable experiences, all while honoring the rich heritage of our unique location. From the moment you step through our doors, you'll feel the warmth of our hospitality and taste the passion in every dish and every pour. We're proud to be a part of Newton's vibrant scene.</p>
+                    <div class="quote-card">
+                        <blockquote>"Brookrise Brewing brings such a unique vibe to Newton! The transformation of the old firehouse is incredible, and the food and drinks are just what our town needed. It feels like home."</blockquote>
+                        <cite>— A Satisfied Local</cite>
+                    </div>
+                </div>
+                <div class="image-placeholder fade-in-up" style="--animation-delay: 0.3s;">
+                    <!-- Placeholder for a future image, using CSS gradient as requested -->
+                    <div style="width: 100%; height: 400px; background: linear-gradient(to bottom right, var(--brand-color) 0%, rgba(239, 68, 68, 0.4) 50%, var(--bg-main) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-heading); font-family: var(--font-heading); font-size: 1.5rem;">
+                        [Image of Transformed Firehouse Coming Soon]
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up staggered" style="--animation-delay: 0.4s;">
+                    <div class="value">4.9<span class="star">&#9733;</span></div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card fade-in-up staggered" style="--animation-delay: 0.5s;">
+                    <div class="value">Historic</div>
+                    <div class="label">Firehouse Location</div>
+                </div>
+                <div class="stat-card fade-in-up staggered" style="--animation-delay: 0.6s;">
+                    <div class="value">20+</div>
+                    <div class="label">Craft Taps</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Offerings</span>
+            <h2 class="text-center fade-in-up" style="--animation-delay: 0.1s;">Flavorful Fare & Exceptional Brews</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.2s;">
+                    <h3>Firehouse Burger</h3>
+                    <p>Our signature patty, smoked bacon, cheddar, crispy onions, and our secret house sauce, served on a toasted brioche bun.</p>
+                </div>
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.3s;">
+                    <h3>Smoked Pulled Pork Sandwich</h3>
+                    <p>Slow-smoked pork shoulder, tossed in tangy BBQ sauce, topped with creamy coleslaw on a fresh brioche bun.</p>
+                </div>
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.4s;">
+                    <h3>Brewer's Nachos</h3>
+                    <p>A mountain of crispy tortilla chips loaded with house-made queso, fresh jalapeños, pico de gallo, and your choice of seasoned chicken or savory pulled pork.</p>
+                </div>
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.5s;">
+                    <h3>Crispy Cauliflower Bites</h3>
+                    <p>Perfectly fried cauliflower florets tossed in a sweet chili glaze, served with a side of cooling ranch dip.</p>
+                </div>
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.6s;">
+                    <h3>Craft Beer Selection</h3>
+                    <p>Explore our rotating tap list featuring the best local breweries and regional craft favorites, with options for every palate.</p>
+                </div>
+                <div class="menu-item-card fade-in-up staggered" style="--animation-delay: 0.7s;">
+                    <h3>Artisan Pizza</h3>
+                    <p>Hand-tossed dough, rich tomato sauce, fresh mozzarella, and your choice of premium toppings, baked to perfection in our oven.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">The Brookrise Difference</span>
+            <h2 class="text-center fade-in-up" style="--animation-delay: 0.1s;">More Than Just a Meal, It's an Experience</h2>
+            <div class="choose-grid">
+                <div class="choose-card fade-in-up staggered" style="--animation-delay: 0.2s;">
+                    <h3>Historic Charm</h3>
+                    <p>Dine and drink within the unique ambiance of a beautifully restored former firehouse, blending Newton's rich history with modern comfort.</p>
+                </div>
+                <div class="choose-card fade-in-up staggered" style="--animation-delay: 0.3s;">
+                    <h3>Local Flavors</h3>
+                    <p>Savor our handcrafted menu, featuring everything from our juicy <strong>Firehouse Burgers</strong> to an ever-evolving <strong>Craft Beer Selection</strong>, highlighting local and regional favorites.</p>
+                </div>
+                <div class="choose-card fade-in-up staggered" style="--animation-delay: 0.4s;">
+                    <h3>Community Hub</h3>
+                    <p>We're proud to be a warm and welcoming space where friends, family, and neighbors connect, unwind, and create lasting memories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="text-center fade-in-up" style="--animation-delay: 0.1s;">Hear From Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up staggered" style="--animation-delay: 0.2s;">
+                    <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"Absolutely loved the <strong>Firehouse Burger</strong>! Cooked perfectly and the sauce was incredible. The atmosphere in the old firehouse is so unique, too. A true gem in Newton!"</blockquote>
+                    <div class="author">— Sarah P.</div>
+                </div>
+                <div class="testimonial-card fade-in-up staggered" style="--animation-delay: 0.3s;">
+                    <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"What a great spot! Their <strong>Smoked Pulled Pork Sandwich</strong> is a must-try, so tender and flavorful. And the <strong>Craft Beer Selection</strong> is top-notch. Can't wait to come back."</blockquote>
+                    <div class="author">— Mark T.</div>
+                </div>
+                <div class="testimonial-card fade-in-up staggered" style="--animation-delay: 0.4s;">
+                    <div class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <blockquote>"Brookrise Brewing has quickly become my favorite. The <strong>Brewer's Nachos</strong> are fantastic for sharing, and their staff is always so friendly. It's the perfect place to unwind after a long week."</blockquote>
+                    <div class="author">— Jessica L.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="text-center fade-in-up" style="--animation-delay: 0.1s;">Your Table Awaits in Newton</h2>
+            <div class="content-wrapper">
+                <div class="location-info fade-in-up" style="--animation-delay: 0.2s;">
+                    <h3>Our Location</h3>
+                    <p>Find us in the heart of Newton, NC, where history meets hops and delicious eats. We're proud to be a part of the vibrant downtown community.</p>
+                    <p><strong>Address:</strong><br><a href="https://maps.google.com/?q=115+W+1st+St,+Newton,+NC+28658,+USA" target="_blank" class="text-brand">115 W 1st St, Newton, NC 28658, USA</a></p>
+                    <p><strong>Phone:</strong><br><a href="tel:+17043250794" class="text-brand">(704) 325-0794</a></p>
+                    <div class="map-placeholder">
+                        [Google Maps Embed Coming Soon]
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up" style="--animation-delay: 0.3s;">
+                    <h3>Our Hours</h3>
+                    <p>We're ready to welcome you for delicious food and refreshing drinks. Check our operating hours below.</p>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>4:00 PM – 12:00 AM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>12:00 PM – 12:00 AM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>12:00 PM – 9:00 PM</td>
+                        </tr>
+                    </table>
+                    <div class="call-button-container">
+                        <a href="tel:+17043250794" class="btn btn-primary">Call to Order or Reserve</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Ready for a Taste of Newton's Best?</h2>
+            <p class="fade-in-up" style="--animation-delay: 0.1s;">Join us this week for an unforgettable dining and brewing experience.</p>
+            <a href="#find-us" class="btn fade-in-up" style="--animation-delay: 0.2s;">Plan Your Visit Now</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="#hero" class="logo">Brookrise Brewing</a>
+        <p class="tagline">Crafting good times in a transformed firehouse.</p>
+        <div class="social-links">
+            <!-- Placeholder for social media icons/links -->
+            <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.583-4.192 4.615v3.385z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.644-.07-4.85 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.403 0-6.155 2.762-6.155 6.166 0 .482.055.952.152 1.405-5.118-.258-9.642-2.7-12.673-6.417-.52.894-.817 1.936-.817 3.037 0 2.132 1.096 4.01 2.766 5.106-.81-.028-1.572-.249-2.24-.616v.075c0 2.992 2.131 5.485 4.965 6.06-.51.137-1.045.21-1.595.21-.39 0-.77-.038-1.138-.108.799 2.479 3.104 4.279 5.834 4.329-2.097 1.641-4.73 2.624-7.61 2.624-.493 0-.979-.029-1.458-.085 2.716 1.742 5.922 2.757 9.37 2.757 11.242 0 17.41-9.314 17.41-17.41 0-.266-.007-.529-.019-.791.956-.693 1.795-1.562 2.459-2.55z"/></svg></a>
+        </div>
+        <p class="copyright">© 2026 Brookrise Brewing. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0,
+                rootMargin: "0px 0px -100px 0px" // Start animation 100px before section enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
