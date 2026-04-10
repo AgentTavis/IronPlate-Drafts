@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carolina Coffee House - Waynesville's Homestyle Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #003DA5;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --section-padding: 100px; /* Generous whitespace */
+            --max-width: 1200px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p + p {
+            margin-top: 1rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding) 0;
+            position: relative;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Slightly darker brand color for hover */
+            border-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+        }
+        
+        .btn-dark {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--text-heading);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+        .btn-dark:hover {
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+            color: var(--accent-color);
+        }
+
+
+        /* Section Headers */
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* Adjusted for 2.5-3rem range */
+            margin-bottom: 2rem;
+            color: var(--text-heading);
+        }
+
+        /* Utility for fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17,17,17,0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0; /* Container padding handled by header itself */
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem; /* Increased gap for better spacing */
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after,
+        .header-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            border: none;
+        }
+
+        .header-call-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05);
+        }
+        
+        /* Mobile Nav Toggle (Hidden by default) */
+        .nav-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            cursor: pointer;
+            z-index: 1001; /* Ensure it's above other elements */
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--accent-color);
+            position: relative;
+            /* Rich dark gradient using brand colors as subtle hints */
+            background: linear-gradient(135deg, rgba(0,61,165,0.1) 0%, rgba(17,17,17,1) 30%, rgba(17,17,17,1) 70%, rgba(0,61,165,0.1) 100%), var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+            overflow: hidden; /* Ensure content doesn't overflow */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3); /* Subtle overlay for text readability */
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold, within 4-6rem range */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--accent-color);
+            margin-bottom: 3rem;
+        }
+
+        .hero-rating svg {
+            fill: #FFD700; /* Gold star color */
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(0,61,165,0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand-color);
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .story-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            font-style: italic;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-quote-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            font-size: 6rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            opacity: 0.15;
+            z-index: 0;
+            line-height: 1;
+        }
+        .testimonial-quote-card p {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+        .testimonial-quote-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border */
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .number {
+            font-size: 3rem;
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter alternating section */
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border */
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px); /* Lift higher on hover */
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--brand-color);
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+        /* No prices so no .price class */
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .container {
+            text-align: center;
+        }
+
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--brand-color); /* Top border accent */
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter alternating section */
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border */
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            font-style: italic;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Push author to bottom */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.15;
+            z-index: 0;
+            line-height: 1;
+        }
+
+        .testimonial-card p {
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-style: normal;
+            display: block;
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .location-info h2, .hours-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            display: block;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--brand-color);
+        }
+        .location-info a:hover {
+             color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .hours-table tr:first-child th {
+            border-top: 1px solid var(--card-border);
+        }
+        .hours-table th {
+            font-weight: 600;
+            color: var(--text-heading);
+            width: 35%;
+        }
+
+        .hours-info .btn {
+            margin-top: 2.5rem;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, rgba(0,61,165,0.8), rgba(0,61,165,0.5)), var(--brand-color); /* Brand color gradient background */
+            text-align: center;
+            color: var(--accent-color);
+            padding: var(--section-padding) 0;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2.5rem;
+            color: var(--accent-color);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main bg */
+            padding: 4rem 0 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--brand-color);
+            transform: translateY(-3px);
+            color: var(--accent-color); /* Keep color white on hover */
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-nav ul {
+                gap: 1.5rem;
+            }
+            .hero-name {
+                font-size: 4.5rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 60px;
+            }
+
+            /* Sticky Header - Mobile Nav */
+            .header-nav {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Hidden off-screen */
+                width: 70%;
+                height: 100vh;
+                background-color: rgba(17,17,17,0.98);
+                backdrop-filter: blur(10px);
+                padding: 80px 30px 30px;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+                transition: right 0.4s ease-in-out;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+            .header-nav.open {
+                right: 0; /* Slide in */
+            }
+            .header-nav ul {
+                flex-direction: column;
+                width: 100%;
+                gap: 1.5rem;
+                align-items: flex-start;
+            }
+            .header-nav ul li {
+                width: 100%;
+            }
+            .header-nav a {
+                font-size: 1.2rem;
+                padding: 0.5rem 0;
+                display: block;
+                width: 100%;
+            }
+            .header-nav a::after {
+                height: 1px;
+                bottom: 0;
+            }
+            .header-call-btn {
+                display: none; /* Hide button in mobile nav, show in header */
+            }
+            .header .header-call-btn {
+                display: inline-flex; /* Keep it visible in the main header */
+                margin-left: 1rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            /* Hero Section */
+            .hero {
+                height: auto;
+                min-height: 80vh;
+                padding: 100px 0 60px;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hero-ctas .btn {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            /* Social Proof */
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Our Story */
+            .story-content {
+                padding: 0 10px;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .story-stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Menu Section */
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Why Choose Us */
+            .why-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Testimonials */
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Location & Hours */
+            .location-hours .container {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-info a {
+                display: inline-block; /* Center the phone number */
+            }
+            .hours-table {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 400px;
+            }
+            .hours-table th, .hours-table td {
+                padding: 0.6rem 0.8rem;
+            }
+
+            /* Final CTA */
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .final-cta .btn {
+                width: 80%;
+                max-width: 300px;
+            }
+
+            /* Footer */
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+            .footer-tagline {
+                font-size: 0.9rem;
+            }
+            .social-links {
+                gap: 1rem;
+            }
+        }
+
+        /* SVG Icons for social media (placeholders for now) */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+
+        .icon-star {
+            fill: #FFD700; /* Gold star color */
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">Carolina Coffee House</a>
+            <nav class="header-nav" id="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+18282469222" class="header-call-btn btn">CALL (828) 246-9222</a>
+            <div class="nav-toggle" id="nav-toggle">&#9776;</div> <!-- Hamburger icon -->
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container fade-in-up">
+            <p class="hero-location">Waynesville, NC</p>
+            <h1 class="hero-name">Carolina Coffee House</h1>
+            <p class="hero-tagline">Your Homestyle Retreat for Coffee, Boba, and Comfort in Waynesville, NC.</p>
+            <div class="hero-rating">
+                <svg class="icon icon-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.5 Stars (156 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">
+                <h3>4.5/5</h3>
+                <p>Average Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>156+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Local</h3>
+                <p>Waynesville's Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <div class="story-content">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-headline">More Than Just a Coffee Shop, It's Home.</h2>
+                <p>At Carolina Coffee House, we believe in the simple pleasures: a perfectly brewed cup of coffee, a delightful boba tea, and a freshly prepared snack, all served with genuine Southern hospitality. We're proud to be Waynesville's go-to homestyle spot, where every visit feels like coming home. Our dedication to quick, professional service ensures you get your favorites made with care, just the way you like them.</p>
+                <p>Since opening our doors, our mission has been to create a welcoming atmosphere where locals and visitors alike can relax, connect, and enjoy quality food and beverages. We're a small, family-focused diner committed to serving our community with a smile, one cup at a time.</p>
+                <div class="testimonial-quote-card fade-in-up">
+                    <p>"The service here is truly exceptional. Every time I visit, I feel welcomed like family, and my coffee is always perfect and fast!"</p>
+                    <span class="author">— A Happy Regular</span>
+                </div>
+            </div>
+            <div class="story-stats-grid fade-in-up">
+                <div class="stat-card">
+                    <div class="number">4.5</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">156+</div>
+                    <div class="label">Reviews</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">Daily</div>
+                    <div class="label">Fresh Prep</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center fade-in-up">
+            <span class="section-label">Our Menu</span>
+            <h2 class="section-headline">Simple Delights, Expertly Crafted.</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Coffee Blends</h3>
+                    <p>Experience the rich aroma and exquisite taste of our carefully selected coffee beans, brewed to perfection.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Delightful Boba Teas</h3>
+                    <p>Dive into our vibrant selection of sweet and refreshing boba teas, with a variety of flavors and toppings.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Freshly Baked Snacks</h3>
+                    <p>Pair your drink with a delicious, freshly prepared snack, perfect for any time of day.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Specialty Lattes & Brews</h3>
+                    <p>From classic lattes to unique seasonal brews, find your perfect customized coffee creation.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Refreshing Bubble Teas</h3>
+                    <p>Our bubble teas are a hit! Enjoy the delightful chewiness and cool flavors that make them a local favorite.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Sweet & Savory Pastries</h3>
+                    <p>Indulge in our range of pastries, from sweet muffins to savory croissants – baked fresh daily.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Why Choose Us</span>
+            <h2 class="section-headline">The Carolina Coffee House Difference.</h2>
+            <div class="why-cards-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Handcrafted Coffee Excellence</h3>
+                    <p>Experience the rich aroma and exquisite taste of our coffee, brewed with passion and precision. From classic americanos to specialty lattes, every cup is a journey of flavor.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Waynesville's Boba Destination</h3>
+                    <p>Craving something unique? Dive into our vibrant selection of Boba and Bubble Teas. Sweet, refreshing, and perfectly chewy, they're a local favorite for a reason.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Speedy Service, Homestyle Warmth</h3>
+                    <p>We pride ourselves on quick, professional service that never compromises on quality or our warm, welcoming atmosphere. Get your favorites made swiftly, so you can enjoy your day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center fade-in-up">
+            <span class="section-label">What Our Customers Say</span>
+            <h2 class="section-headline">Hear From Our Happy Guests.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Absolutely love the coffee here! It’s consistently excellent, and the friendly staff always make my morning brighter. A true gem in Waynesville for a quick, delicious start."</p>
+                    <span class="author">— Sarah P.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"The boba tea selection at Carolina Coffee House is fantastic! So many flavors to choose from, and they're always perfectly made. My go-to spot for a refreshing treat."</p>
+                    <span class="author">— Mark L.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"This place truly feels like home. Their snacks are delicious, especially with a fresh cup of coffee. Service is super fast and everyone is so kind. Highly recommend!"</p>
+                    <span class="author">— Jessica R.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container fade-in-up">
+            <div class="location-info">
+                <span class="section-label">Find Us</span>
+                <h2 class="section-headline">Visit Our Cozy Spot.</h2>
+                <p>We're conveniently located in Waynesville Plaza. Come by for a warm welcome and your favorite coffee or boba!</p>
+                <p><strong>Address:</strong></p>
+                <p>116 Waynesville Plaza suite 1</p>
+                <p>Waynesville, NC 28786, USA</p>
+                <a href="https://maps.google.com/?q=116+Waynesville+Plaza+suite+1,+Waynesville,+NC+28786,+USA" target="_blank" class="btn btn-dark" style="margin-top: 2rem;">Get Directions</a>
+            </div>
+            <div class="hours-info">
+                <span class="section-label">Our Hours</span>
+                <h2 class="section-headline">When We're Open.</h2>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>Monday</th><td>9:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Tuesday</th><td>9:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Wednesday</th><td>9:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>9:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Friday</th><td>9:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Saturday</th><td>10:00 AM – 6:00 PM</td></tr>
+                        <tr><th>Sunday</th><td>12:00 – 6:00 PM</td></tr>
+                    </tbody>
+                </table>
+                <a href="tel:+18282469222" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for Your Daily Dose of Comfort?</h2>
+            <a href="tel:+18282469222" class="btn btn-secondary">ORDER AHEAD OR STOP BY!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Carolina Coffee House</div>
+            <p class="footer-tagline">Your Homestyle Retreat for Coffee, Boba, and Comfort in Waynesville, NC.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <!-- SVG for Facebook -->
+                    <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em">
+                        <path d="M14 13.5h2.5l1-4H14V6.73c0-1.18.73-1.66 1.76-1.66H18V.42S16.51.15 15.15.15c-3.15 0-5.18 1.95-5.18 5.4v2.95H7.5v4H10V24h4v-10.5z"/>
+                    </svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <!-- SVG for Instagram -->
+                    <svg class="icon" viewBox="0 0 24 24" width="1em" height="1em">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.773 1.693 4.918 4.918.057 1.267.07 1.647.07 4.85s-.012 3.584-.07 4.85c-.145 3.225-1.666 4.773-4.918 4.918-.057.027-1.267.07-4.85.07s-3.584-.012-4.85-.07c-3.25-.145-4.773-1.693-4.918-4.918-.057-1.267-.07-1.647-.07-4.85s.012-3.584.07-4.85c.145-3.225 1.67-4.773 4.918-4.918 1.266-.057 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.359.201-6.78 2.62-6.981 6.981-.058 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.201 4.359 2.62 6.78 6.981 6.981 1.28.058 1.689.073 4.948.073s3.668-.014 4.948-.072c4.359-.201 6.78-2.62 6.981-6.981.058-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.201-4.359-2.62-6.78-6.981-6.981-1.281-.058-1.689-.073-4.948-.073zM12 5.838c-3.411 0-6.162 2.751-6.162 6.162s2.751 6.162 6.162 6.162 6.162-2.751 6.162-6.162-2.751-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="https://www.yelp.com/biz/2WOXcLTBALzUHChIGOAmjg" target="_blank" aria-label="Yelp">
+                     <!-- Using a generic star icon as Yelp logo isn't standard in SVG kits easily available for simple paste. It denotes rating/review platform. -->
+                     <svg class="icon icon-star" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1em" height="1em">
+                        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                    </svg>
+                </a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Carolina Coffee House. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scroll for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const offset = document.querySelector('.header').offsetHeight; // Account for sticky header
+                        window.scrollTo({
+                            top: targetElement.offsetTop - offset,
+                            behavior: 'smooth'
+                        });
+                    }
+                    // Close mobile nav if open
+                    const mainNav = document.getElementById('main-nav');
+                    const navToggle = document.getElementById('nav-toggle');
+                    if (mainNav.classList.contains('open')) {
+                        mainNav.classList.remove('open');
+                        navToggle.innerHTML = '&#9776;'; // Change back to hamburger
+                    }
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% in viewport */
+                rootMargin: "0px 0px -50px 0px" /* Start animating earlier as element enters */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Mobile Navigation Toggle
+            const navToggle = document.getElementById('nav-toggle');
+            const mainNav = document.getElementById('main-nav');
+
+            navToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('open');
+                if (mainNav.classList.contains('open')) {
+                    navToggle.innerHTML = '&times;'; // Change to 'X' icon
+                } else {
+                    navToggle.innerHTML = '&#9776;'; // Change back to hamburger
+                }
+            });
+        });
+    </script>
+</body>
+</html>
