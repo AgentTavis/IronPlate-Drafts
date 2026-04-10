@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Tap - Greensboro's Premier Bar & Grill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-alt: rgba(26, 26, 46, 0.7); /* Accent color used for alt bg with opacity */
+            --brand-color: #ff6b35;
+            --accent-color: #1a1a2e;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Section Headlines */
+        .section-label {
+            color: var(--brand-color);
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            color: var(--text-heading);
+        }
+
+        /* Fade-in-up effect simulation (requires JS for full functionality) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 1.0rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap; /* Keep button text on one line */
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 30%, rgba(26,26,46,0.8) 70%, rgba(17,17,17,1) 100%);
+            background-color: var(--bg-main); /* Fallback for older browsers */
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            color: var(--brand-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1.0;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin-bottom: 40px;
+            font-size: 1.0rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            gap: 8px;
+        }
+
+        .hero-rating svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(255, 107, 53, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        /* Our Story Section */
+        .our-story-section .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .our-story-content p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .our-story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .stat-card h4 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-alt); /* Slightly lighter background */
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 10px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .menu-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .menu-card .menu-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--brand-color);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section .container {
+            text-align: center;
+        }
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--brand-color); /* Top accent for distinction */
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-alt); /* Alternating background */
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Left border accent */
+            border-radius: 10px;
+            padding: 30px;
+            font-style: italic;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .testimonial-card p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .testimonial-card .author {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+            margin-top: 50px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+        .location-info .btn {
+            margin-top: 20px;
+            font-size: 1rem;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-info .phone-number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+        .hours-info .phone-number:hover {
+            color: var(--text-heading);
+        }
+        .hours-info .btn {
+            font-size: 1rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color), rgba(255, 107, 53, 0.7));
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+        .final-cta-section .btn {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border-color: var(--bg-main);
+        }
+        .final-cta-section .btn:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--accent-color); /* Darker accent for footer */
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-y: 60px;
+            }
+
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .header-call-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .social-proof-grid, .our-story-stats, .menu-grid, .why-cards-grid, .testimonials-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid > div {
+                text-align: center;
+            }
+            .hours-table {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hours-table th, .hours-table td {
+                padding: 10px 0;
+            }
+            .hours-info .phone-number {
+                font-size: 1.8rem;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 6px 14px;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="smooth-scroll">
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Terminal Tap</a>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3362528780" class="header-call-btn">CALL (336) 252-8780</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Greensboro, NC</p>
+            <h1 class="hero-name">Terminal Tap</h1>
+            <p class="hero-tagline">Greensboro's Premier Spot for Craft Beer, Community, and Unforgettable Events.</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                4.9 Stars (64 reviews)
+            </div>
+            <div class="hero-cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid">
+            <div class="proof-item fade-in-up">
+                <h3>4.9 Stars</h3>
+                <p>(64 Reviews)</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Locally Owned</h3>
+                <p>& Operated</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <h3>Greensboro's</h3>
+                <p>Community Hub</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <div class="our-story-content text-center fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-headline">More Than Just A Bar – It’s Your Neighborhood Hangout.</h2>
+                <p>Terminal Tap is a locally owned and operated establishment, built by two passionate individuals who wanted to create a vibrant space for the Greensboro community. We’re more than just a bar and grill; we’re a gathering place where great memories are made.</p>
+                <p>We pride ourselves on offering a dynamic experience with a full schedule of engaging events. From the competitive fun of music bingo and challenging trivia nights to exciting tap takeovers featuring local and regional brews, we always have something happening. You’ll also find delicious rotating food trucks and electrifying live music throughout the week, ensuring every visit is unique and enjoyable.</p>
+            </div>
+            <div class="our-story-stats">
+                <div class="stat-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h4>4.9 Stars</h4>
+                    <p>Our Community Speaks</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h4>Weekly Events</h4>
+                    <p>Always Something Happening</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h4>Community</h4>
+                    <p>Hub for All</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="section-headline fade-in-up">Craft Beers, Comfort Food & Good Times.</h2>
+            <p class="fade-in-up" style="margin-bottom: 50px;">While our food trucks rotate daily, we always guarantee a fantastic selection of beverages to complement your meal. Check out our highlights below!</p>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Rotating Craft Beers</h3>
+                    <p>Explore our constantly updated selection of local and regional craft beers. From hoppy IPAs to rich stouts, there's always a new favorite to discover on tap.</p>
+                    <span class="menu-price">Ask Your Server</span>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Featured Food Trucks</h3>
+                    <p>Our parking lot hosts the best local food trucks, offering diverse cuisines from gourmet burgers to authentic tacos. Check our social media for today's schedule!</p>
+                    <span class="menu-price">Varies Daily</span>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Signature Cocktails</h3>
+                    <p>Enjoy our crafted cocktails, perfectly mixed with premium spirits. Whether you prefer a classic or something unique, our bartenders have you covered.</p>
+                    <span class="menu-price">Seasonal Pricing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Why Terminal Tap?</span>
+            <h2 class="section-headline fade-in-up">Experience the Best of Greensboro's Local Scene.</h2>
+            <div class="why-cards-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Always an Event</h3>
+                    <p>From lively music bingo and engaging trivia to exciting tap takeovers and electrifying live music, there’s always something new and fun happening at Terminal Tap. Check our schedule and join the party!</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Greensboro's Favorite</h3>
+                    <p>With a stellar 4.9-star rating across 64 reviews, Terminal Tap is a beloved local favorite. Our community consistently praises our vibrant atmosphere, friendly staff, and fantastic selection of beers and events.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Welcoming & Accessible</h3>
+                    <p>We believe everyone should enjoy a great time. Terminal Tap is fully wheelchair accessible, with convenient accessible parking and an ADA-compliant main entrance with no steps or stairs, ensuring comfort for all our guests.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="section-headline fade-in-up">Hear From Our Community.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Love the rotating selection of craft beers! There's always something new and exciting on tap, perfectly paired with the awesome vibe. The staff are super friendly and make every visit a joy."</p>
+                    <span class="author">— Jessica L., Local Enthusiast</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p>"Terminal Tap is our favorite for trivia night. Great atmosphere, fantastic local brews, and we always have a blast. Highly recommend checking out their food trucks too – they never disappoint!"</p>
+                    <span class="author">— Mark T., Trivia Master</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"Came for the live music, stayed for the incredible beer selection and welcoming crowd. It's truly a community gem in Greensboro. Don't miss their music bingo – it's pure fun!"</p>
+                    <span class="author">— Sarah K., Music Lover</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <span class="section-label fade-in-up">Find Us</span>
+            <h2 class="section-headline fade-in-up">Your Spot in Greensboro.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Visit Us Today</h3>
+                    <p>Located conveniently in Greensboro, Terminal Tap is easy to find and always ready to welcome you.</p>
+                    <p>
+                        <strong>Address:</strong><br>
+                        2800 Lawndale Dr Suite 104,<br>
+                        Greensboro, NC 27408, USA
+                    </p>
+                    <a href="https://maps.app.goo.gl/T46s3d1k3oA81oD2A" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>2:00 – 10:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>2:00 – 10:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>2:00 – 10:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>2:00 – 10:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>12:00 – 11:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>12:00 – 11:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>12:00 – 7:00 PM</td></tr>
+                    </table>
+                    <p>
+                        <strong>Got questions? Give us a call!</strong>
+                    </p>
+                    <a href="tel:3362528780" class="phone-number">(336) 252-8780</a>
+                    <a href="tel:3362528780" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container fade-in-up">
+            <h2>Ready to Tap In? Visit Terminal Tap Today!</h2>
+            <a href="#find-us" class="btn btn-primary">SEE OUR EVENTS & BEERS</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">Terminal Tap</span>
+            <p class="footer-tagline">Greensboro's Community Hub for Craft Beer, Great Food & Fun Events.</p>
+            <ul class="social-links">
+                <!-- Placeholder SVG for Instagram -->
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.644.07 4.85 0 3.204-.012 3.584-.07 4.85-0.148 3.252-1.691 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.252-0.148-4.771-1.691-4.919-4.919-0.058-1.265-0.07-1.644-0.07-4.85 0-3.204.012-3.584.07-4.85 0.148-3.252 1.691-4.771 4.919-4.919 1.266-0.058 1.644-0.07 4.85-0.07zm0 2.163c-3.258 0-3.664.014-4.942.072-2.825.13-4.324 1.583-4.453 4.453-0.058 1.278-0.072 1.684-0.072 4.942 0 3.258.014 3.664.072 4.942 0.13 2.825 1.583 4.324 4.453 4.453 1.278.058 1.684.072 4.942.072 3.258 0 3.664-.014 4.942-.072 2.825-0.13 4.324-1.583 4.453-4.453 0.058-1.278 0.072-1.684 0.072-4.942 0-3.258-0.014-3.664-0.072-4.942-0.13-2.825-1.583-4.324-4.453-4.453-1.278-0.058-1.684-0.072-4.942-0.072zm0 4.075c-2.427 0-4.398 1.972-4.398 4.398s1.972 4.398 4.398 4.398 4.398-1.972 4.398-4.398-1.972-4.398-4.398-4.398zm0 2.163c1.242 0 2.235 1.002 2.235 2.235s-1.002 2.235-2.235 2.235-2.235-1.002-2.235-2.235 1.002-2.235 2.235-2.235zm6.406-4.521c0.548 0 0.992 0.444 0.992 0.992s-0.444 0.992-0.992 0.992-0.992-0.444-0.992-0.992 0.444-0.992 0.992-0.992z"/></svg></a></li>
+                <!-- Placeholder SVG for Facebook -->
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-3.385 18h-2.915v-6.307h-1.623v-2.022h1.623v-1.22c0-1.218.604-1.84 2.308-1.84l1.694.004v1.78h-1.021c-.482 0-.58.181-.58.591v.884h1.602l-.252 2.022h-1.35v6.307z"/></svg></a></li>
+                <!-- Placeholder SVG for Yelp (or other review platform) -->
+                <li><a href="https://www.yelp.com/biz/terminal-tap-greensboro" target="_blank" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.927 10.915c-.461 1.956-1.127 4.545-1.927 7.025-1.127-1.192-2.318-2.5-3.518-3.791-.564-.61-1.327-.85-2.091-.62-2.181.642-4.436 1.091-6.727 1.382 1.373-3.236 2.909-5.909 4.364-7.991 1.491-2.136 2.927-4.145 4.145-5.91-.709 1.109-1.509 2.227-2.364 3.336-1.282 1.636-2.582 3.255-3.864 4.882-1.264-1.745-2.482-3.391-3.6-4.936-1.173-1.618-2.227-3.082-3.082-4.391-.855 1.318-1.564 2.727-2.127 4.227-.373 1.054-.627 2.164-.782 3.327-.145 1.136-.182 2.309-.109 3.491.073 1.173.291 2.336.636 3.482.355 1.173.818 2.282 1.391 3.327.936 1.636 1.945 3.091 3.045 4.382.491.609 1.054 1.182 1.636 1.718 2.118-2.227 4.109-4.518 5.755-6.845 1.645-2.327 2.927-4.527 3.8-6.527.273-.618.491-1.255.627-1.918.064-.327.109-.654.127-.982z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Terminal Tap. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% in view */
+                rootMargin: "0px 0px -50px 0px" /* Shrink bottom viewport by 50px */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
