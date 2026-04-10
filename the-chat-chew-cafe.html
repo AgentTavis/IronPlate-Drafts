@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Chat & Chew Cafe - Archdale, NC | Coffee, Bakery & Diner Favorites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --brand-primary: #C41E3A;
+            --brand-accent: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --container-padding-x: 2rem; /* Consistent side padding */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--brand-accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-primary);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding-inline: var(--container-padding-x);
+        }
+
+        section {
+            padding-block: var(--section-padding-y);
+            position: relative;
+            overflow: hidden; /* For animations */
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-primary); }
+        .text-accent { color: var(--brand-accent); }
+        .text-secondary { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+        .font-bold { font-weight: 700; }
+        .font-light { font-weight: 300; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--brand-accent);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: darken(var(--brand-primary), 10%); /* conceptual darken */
+            filter: brightness(0.9);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-accent);
+            border: 2px solid var(--brand-accent);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-accent);
+            color: var(--bg-dark);
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            color: var(--brand-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        /* Fade-in-up Animation (Requires JS to trigger by adding/removing class, here it's default) */
+        @keyframes fadeInFromBottom {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-on-scroll {
+            animation: fadeInFromBottom 0.8s ease-out forwards;
+            opacity: 0; /* Hidden by default until animation starts */
+            animation-timeline: view(); /* This is a modern CSS feature, if not supported, rely on JS */
+            animation-range: entry 25% cover 50%;
+        }
+
+        /* HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--container-padding-x);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--brand-accent);
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.0rem;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-primary);
+            color: var(--brand-accent);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-call-btn:hover {
+            background-color: darken(var(--brand-primary), 10%); /* conceptual darken */
+            filter: brightness(0.9);
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: 
+                linear-gradient(135deg, rgba(17, 17, 17, 0.95) 0%, rgba(196, 30, 58, 0.1) 50%, rgba(17, 17, 17, 0.95) 100%), 
+                var(--bg-dark); /* Subtle gradient with brand color hint */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            isolation: isolate; /* To ensure content is above pseudo-elements */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(196, 30, 58, 0.05) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            color: var(--brand-primary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5rem; /* Massive */
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            line-height: 1;
+            text-shadow: 0 0 20px rgba(196, 30, 58, 0.3);
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--brand-accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1.0rem;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+        }
+        .hero-rating svg {
+            color: gold;
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(196, 30, 58, 0.05); /* Brand color at low opacity */
+            padding-block: 2.5rem;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        .social-proof-item svg {
+            color: var(--brand-primary);
+            width: 24px;
+            height: 24px;
+        }
+
+        /* OUR STORY */
+        .our-story {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.15rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 10px rgba(196, 30, 58, 0.3);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-dark);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 10px rgba(196, 30, 58, 0.3);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            color: var(--brand-accent);
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+        }
+
+        /* WHY CHOOSE US */
+        .why-choose-us {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 10px rgba(196, 30, 58, 0.3);
+        }
+
+        .why-card svg {
+            color: var(--brand-primary);
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-accent);
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+
+        /* TESTIMONIALS */
+        .testimonials-section {
+            background-color: var(--bg-dark);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            font-style: italic;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 10px rgba(196, 30, 58, 0.3);
+        }
+
+        .testimonial-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            position: absolute;
+            top: 1rem;
+            left: 1.2rem;
+            font-size: 4rem;
+            color: rgba(196, 30, 58, 0.3);
+            line-height: 1;
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem; /* Offset for quote */
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-accent);
+            text-align: right;
+            font-style: normal;
+        }
+
+        /* LOCATION & HOURS */
+        .location-hours {
+            background-color: var(--bg-dark);
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--brand-accent);
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .location-info a {
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+        .location-info a:hover {
+            text-decoration: underline;
+        }
+
+        .map-placeholder {
+            background-color: #222;
+            border-radius: 8px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            border: 1px dashed var(--card-border);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid var(--card-border);
+        }
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 0;
+            text-align: left;
+        }
+
+        .hours-table th {
+            font-weight: 600;
+            color: var(--brand-accent);
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table .today {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        /* FINAL CTA */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #a81c33 100%);
+            padding-block: var(--section-padding-y);
+            text-align: center;
+            color: var(--brand-accent);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.3;
+            max-width: 800px;
+            margin-inline: auto;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--brand-accent);
+            color: var(--brand-primary);
+            border-color: var(--brand-accent);
+            padding: 1.2rem 3rem;
+            font-size: 1.25rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--brand-accent); /* Keep same on hover */
+            color: var(--brand-primary);
+            filter: brightness(0.95);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding-block: 4rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            .main-nav ul {
+                gap: 1.5rem;
+            }
+            .header-call-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            .section-label {
+                font-size: 0.85rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                padding: 0.75rem var(--container-padding-x);
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .main-nav ul {
+                width: 100%;
+                justify-content: center;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+            .header-call-btn {
+                margin-top: 0.5rem;
+                order: 3; /* Push to bottom on wrap */
+            }
+
+            .hero {
+                padding-top: 120px; /* More space for wrapped header */
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                font-size: 1.1rem;
+            }
+
+            .section-label {
+                font-size: 0.75rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            .story-text p {
+                font-size: 1rem;
+            }
+            .stat-card .number {
+                font-size: 2rem;
+            }
+            .stat-card .label {
+                font-size: 1rem;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                padding: 1.5rem;
+            }
+            .hours-table {
+                font-size: 1rem;
+            }
+            .hours-table th, .hours-table td {
+                padding: 0.6rem 0;
+            }
+
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .final-cta .btn-primary {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+            }
+
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+            .footer-tagline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+            .sticky-header {
+                padding: 0.5rem 1rem;
+            }
+            .header-logo {
+                font-size: 1.4rem;
+            }
+            .main-nav ul {
+                gap: 0.75rem;
+            }
+            .main-nav a {
+                font-size: 0.9rem;
+            }
+            .header-call-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .social-proof-item {
+                font-size: 1rem;
+                min-width: unset;
+                flex: none;
+                width: 100%;
+            }
+            .social-proof-item:last-child { margin-bottom: 0; }
+            .social-proof-grid { gap: 1rem; }
+
+            .section-padding-y { padding-block: 60px; }
+            .container-padding-x { padding-inline: 1rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.3rem; }
+            .testimonial-card p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header id="header" class="sticky-header">
+        <div class="header-content">
+            <a href="#hero" class="header-logo">The Chat & Chew Cafe</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3368610141" class="btn header-call-btn">CALL (336) 861-0141</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container hero-content animate-on-scroll">
+            <p class="hero-location font-light">Archdale, NC</p>
+            <h1 class="hero-title font-bold">The Chat & Chew Cafe</h1>
+            <p class="hero-tagline">The Chat and Chew Cafe is a local coffee shop and bakery. ☕</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                4.8 stars (440 reviews)
+            </div>
+            <div class="hero-actions">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item animate-on-scroll" style="animation-delay: 0.1s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                4.8 Star Rating
+            </div>
+            <div class="social-proof-item animate-on-scroll" style="animation-delay: 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M18.685 19.02A.75.75 0 0 0 18 18.471V7.5a.75.75 0 0 0-1.5 0v10.971l-1.47-1.47a.75.75 0 1 0-1.06 1.06l2.75 2.75a.75.75 0 0 0 1.06 0l2.75-2.75a.75.75 0 1 0-1.06-1.06l-1.47 1.47ZM12 9a6 6 0 0 1 6 6v2.25a.75.75 0 0 0 1.5 0V15a7.5 7.5 0 1 0-15 0v2.25a.75.75 0 0 0 1.5 0V15A6 6 0 0 1 12 9Z" clip-rule="evenodd" />
+                </svg>
+                440+ Happy Customers
+            </div>
+            <div class="social-proof-item animate-on-scroll" style="animation-delay: 0.3s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path d="M11.64 6.262a4.5 4.5 0 1 1 5.86-1.674l.006.007.001-.001C19.986 7.513 22 10.828 22 12c0 3.031-2.614 5.5-5.833 5.5h-2.417a1.5 1.5 0 0 0-1.5 1.5s0 1.5 1.5 1.5h2.417c3.219 0 5.833 2.469 5.833 5.5v.005H17.5c-3.219 0-5.833-2.469-5.833-5.5V12c0-3.031 2.614-5.5 5.833-5.5h.001Z" />
+                    <path d="M5.64 6.262a4.5 4.5 0 1 1 5.86-1.674l.006.007.001-.001C13.986 7.513 16 10.828 16 12c0 3.031-2.614 5.5-5.833 5.5H7.75a1.5 1.5 0 0 0-1.5 1.5s0 1.5 1.5 1.5h2.417c3.219 0 5.833 2.469 5.833 5.5v.005H11.5c-3.219 0-5.833-2.469-5.833-5.5V12c0-3.031 2.614-5.5 5.833-5.5H5.64Z" />
+                </svg>
+                Archdale's Local Favorite
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container text-center">
+            <p class="section-label uppercase animate-on-scroll">Our Story</p>
+            <h2 class="animate-on-scroll">More Than Just a Cafe, It's Archdale's Living Room</h2>
+            <div class="story-content">
+                <div class="story-text animate-on-scroll" style="animation-delay: 0.2s;">
+                    <p>I love Chat and Chew Cafe! This time I tried a few of their seasonal Lotus drinks. The Scrooge was very sweet but delicious. I also loved the Mistletoe Kiss drink, and was happy that the green apple flavor was not too overpowering. I also got an Asiago bagel with their bacon and chive cream cheese. This was absolutely fantastic and I will be getting it again.</p>
+                    <p>The service is always wonderful, but the wait can be a little long if it there are a lot of people. I never mind this because the food and coffee are always worth it. It’s truly a gem in Archdale, offering a welcoming spot to relax, work, or catch up with friends. From our perfectly brewed coffee to our delectable pastries and savory bagels, every visit feels like a treat. We pride ourselves on creating a cozy atmosphere where community thrives, making every moment you spend with us a delightful escape.</p>
+                </div>
+            </div>
+            <div class="story-stats-grid">
+                <div class="stat-card animate-on-scroll" style="animation-delay: 0.4s;">
+                    <span class="number">4.8</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="stat-card animate-on-scroll" style="animation-delay: 0.5s;">
+                    <span class="number">440+</span>
+                    <span class="label">Reviews Strong</span>
+                </div>
+                <div class="stat-card animate-on-scroll" style="animation-delay: 0.6s;">
+                    <span class="number">7</span>
+                    <span class="label">Days a Week</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <p class="section-label uppercase animate-on-scroll">Our Menu</p>
+            <h2 class="animate-on-scroll">Savor Our Signature Flavors</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.1s;">
+                    <h3>Chicken Salad</h3>
+                    <p>Freshly prepared, a savory and delightful classic perfect for any time of day.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.2s;">
+                    <h3>Danish</h3>
+                    <p>Flaky, buttery pastries with a sweet filling. A perfect companion to your coffee.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.3s;">
+                    <h3>Asiago Bagel</h3>
+                    <p>Chewy bagel topped with rich Asiago cheese, delicious on its own or with cream cheese.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.4s;">
+                    <h3>Chocolate Croissant</h3>
+                    <p>A classic French pastry, filled with rich, decadent chocolate. Simply irresistible.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.5s;">
+                    <h3>Everything Bagel</h3>
+                    <p>A classic bagel with a savory blend of garlic, onion, poppy seeds, and sesame seeds.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.6s;">
+                    <h3>Lemon Croissant</h3>
+                    <p>Light and airy croissant with a zesty lemon filling, a refreshing treat.</p>
+                </div>
+                <div class="menu-item-card animate-on-scroll" style="animation-delay: 0.7s;">
+                    <h3>Nutty Professor</h3>
+                    <p>A unique and delightful creation, featuring a blend of nutty flavors and sweetness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container text-center">
+            <p class="section-label uppercase animate-on-scroll">Why Choose Us</p>
+            <h2 class="animate-on-scroll">More Than Just a Cafe – It's an Experience</h2>
+            <div class="why-grid">
+                <div class="why-card animate-on-scroll" style="animation-delay: 0.1s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M15.75 3.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM19.5 8.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM12 2.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM4.5 8.25a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM15.75 18a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0V18ZM19.5 12.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM12 21.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM4.5 12.75a.75.75 0 0 0-1.5 0v1.5a.75.75 0 0 0 1.5 0v-1.5ZM10.782 17.567a.75.75 0 0 0-1.06 0L6.25 20.038v-2.164a.75.75 0 0 0-.82-.746 5.25 5.25 0 0 1-4.905-5.228C.493 9.423 3.328 6.5 6.945 6.5c1.47 0 2.846.435 3.974 1.18.318.2.658.127.848-.194l.3-.515c.142-.24.088-.53-.133-.708A7.5 7.5 0 0 0 6.945 5C3.012 5 0 8.007 0 11.852a6.75 6.75 0 0 0 6.07 6.745.75.75 0 0 0 .88-.671v-2.032Z" />
+                        <path d="M12.977 17.567a.75.75 0 0 1 1.06 0l3.472 2.471v-2.164a.75.75 0 0 1 .82-.746 5.25 5.25 0 0 0 4.905-5.228C23.507 9.423 20.672 6.5 17.055 6.5c-1.47 0-2.846.435-3.974 1.18-.318.2-.658.127-.848-.194l-.3-.515c-.142-.24-.088-.53.133-.708A7.5 7.5 0 0 1 17.055 5c3.933 0 7.055 3.007 7.055 6.852a6.75 6.75 0 0 1-6.07 6.745.75.75 0 0 1-.88-.671v-2.032Z" />
+                    </svg>
+                    <h3>Artisan Coffee & Unique Drinks</h3>
+                    <p>From perfectly brewed classics to our popular seasonal Lotus drinks like "The Scrooge" and "Mistletoe Kiss," our beverage menu offers delightful discoveries for every palate.</p>
+                </div>
+                <div class="why-card animate-on-scroll" style="animation-delay: 0.2s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path d="M11.25 4.532a.75.75 0 0 0-1.366 0L7.02 9.453l-5.143.364A.75.75 0 0 0 1.05 10.74l3.963 3.424a.75.75 0 0 0 .214.665l-1.118 4.653a.75.75 0 0 0 1.118.98l4.42-2.676a.75.75 0 0 0 .736 0l4.42 2.676a.75.75 0 0 0 1.118-.98l-1.118-4.653a.75.75 0 0 0 .214-.665l3.962-3.424a.75.75 0 0 0-.421-1.287l-5.143-.364L12.394 4.532a.75.75 0 0 0-1.366 0Z" />
+                    </svg>
+                    <h3>Freshly Baked & Savory Bites</h3>
+                    <p>Indulge in our exquisite pastries like the Chocolate or Lemon Croissant, or enjoy a savory Asiago Bagel with our fantastic bacon and chive cream cheese – prepared fresh daily.</p>
+                </div>
+                <div class="why-card animate-on-scroll" style="animation-delay: 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" clip-rule="evenodd" />
+                    </svg>
+                    <h3>Warm Community & Friendly Service</h3>
+                    <p>With a 4.8-star rating, our guests consistently praise our wonderful service and cozy, welcoming atmosphere. We're where Archdale gathers for great food and great company.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container text-center">
+            <p class="section-label uppercase animate-on-scroll">What Our Guests Say</p>
+            <h2 class="animate-on-scroll">Real Stories, Real Delights</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.1s;">
+                    <p>Just tried the Asiago Bagel with bacon and chive cream cheese at The Chat & Chew, and it was absolutely fantastic! A perfect start to my day. The flavors are incredible, and the service, as always, was wonderfully warm.</p>
+                    <p class="author">— Sarah L.</p>
+                </div>
+                <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.2s;">
+                    <p>The seasonal Lotus drinks are a game-changer! The Scrooge was sweetly delightful, and the Mistletoe Kiss was perfectly balanced with just a hint of green apple. Chat & Chew always delivers unique and delicious options.</p>
+                    <p class="author">— Mike R.</p>
+                </div>
+                <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.3s;">
+                    <p>My go-to spot for coffee and a treat! The Chicken Salad is surprisingly good, and their Danish is a must-try. Even with a little wait sometimes, the cozy vibe and friendly faces make it worth every minute. A true local gem!</p>
+                    <p class="author">— Emily D.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container text-center">
+            <p class="section-label uppercase animate-on-scroll">Find Us</p>
+            <h2 class="animate-on-scroll">Your Daily Dose of Delight Awaits</h2>
+            <div class="location-hours-grid">
+                <div class="location-info animate-on-scroll" style="animation-delay: 0.1s;">
+                    <h3>Visit Our Cozy Cafe</h3>
+                    <p>We're conveniently located in the heart of Archdale, a welcoming spot for locals and visitors alike.</p>
+                    <p><strong>Address:</strong><br>
+                    10301 N Main St,<br>
+                    Archdale, NC 27263, USA</p>
+                    <p><strong>Phone:</strong> <a href="tel:3368610141">(336) 861-0141</a></p>
+                    <div class="map-placeholder">
+                        Map Location Placeholder
+                        <!-- In a real site, this would be an embedded Google Map or similar -->
+                    </div>
+                </div>
+                <div class="hours-info animate-on-scroll" style="animation-delay: 0.2s;">
+                    <h3>Our Opening Hours</h3>
+                    <p>Join us seven days a week for your favorite coffee, bakery treats, and delicious diner classics!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>7:00 AM – 6:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>7:00 AM – 6:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>7:00 AM – 6:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>7:00 AM – 6:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>7:00 AM – 6:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>8:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr class="today">
+                                <td>Sunday</td>
+                                <td>8:00 AM – 2:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:3368610141" class="btn btn-primary" style="margin-top: 2rem;">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container animate-on-scroll">
+            <h2>Don't Miss Out on Your Next Favorite Meal!</h2>
+            <a href="#menu" class="btn btn-primary">PLAN YOUR VISIT TODAY</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <a href="#hero" class="footer-logo">The Chat & Chew Cafe</a>
+            <p class="footer-tagline">Archdale's Favorite Local Cafe - Where Good Company Meets Great Food.</p>
+            <ul class="social-links">
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.633 7.997c-.413-.196-1.077-.375-1.928-.375-1.465 0-2.315.827-2.315 2.261V12h4.522s-.194 1.547-.394 2.238h-4.128v7.419h-3.327v-7.419h-2.926v-2.238h2.926v-1.638c0-2.91 1.775-4.521 4.371-4.521 1.253 0 2.25.093 2.544.134v2.756z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M11.984 0c6.627 0 11.984 5.358 11.984 12s-5.357 12-11.984 12c-6.627 0-11.984-5.358-11.984-12s5.357-12 11.984-12zm.001 2.246c-5.385 0-9.738 4.352-9.738 9.754 0 5.392 4.352 9.738 9.738 9.738 5.392 0 9.738-4.346 9.738-9.738 0-5.402-4.352-9.754-9.738-9.754zm-6.142 5.275c-.868 0-1.571.704-1.571 1.571s.703 1.571 1.571 1.571 1.571-.704 1.571-1.571-.703-1.571-1.571-1.571zm12.285 0c-.868 0-1.571.704-1.571 1.571s.703 1.571 1.571 1.571 1.571-.704 1.571-1.571-.703-1.571-1.571-1.571zm-6.143 10.457c-2.736 0-4.957-2.219-4.957-4.949 0-.41.332-.742.742-.742s.742.332.742.742c0 1.914 1.554 3.465 3.473 3.465s3.473-1.551 3.473-3.465c0-.41.332-.742.742-.742s.742.332.742.742c0 2.73-2.22 4.949-4.957 4.949z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm0 22c-5.514 0-10-4.486-10-10s4.486-10 10-10 10 4.486 10 10-4.486 10-10 10zm-3.125-7.75c-.538 0-.964.444-.964.996 0 .552.426.996.964.996.538 0 .964-.444.964-.996 0-.552-.426-.996-.964-.996zm6.25 0c-.538 0-.964.444-.964.996 0 .552.426.996.964.996.538 0 .964-.444.964-.996 0-.552-.426-.996-.964-.996zm-3.125-2.164c-2.008 0-3.625 1.704-3.625 3.805 0 2.099 1.617 3.804 3.625 3.804s3.625-1.705 3.625-3.804c0-2.101-1.617-3.805-3.625-3.805z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 The Chat & Chew Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!--
+        Note on 'animate-on-scroll':
+        For a truly premium effect, these animations would typically be triggered by JavaScript's IntersectionObserver API.
+        This JS would add the 'animate-on-scroll' class when an element enters the viewport.
+        For this single HTML file output, the 'animate-on-scroll' class is applied directly, meaning elements will
+        animate on page load. To achieve the intended 'fade-in-up on scroll' effect, the following JS snippet
+        (or similar) would be used:
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            observer.unobserve(entry.target); // Stop observing once animated
+                        }
+                    });
+                }, { threshold: 0.1 }); // Adjust threshold as needed
+
+                document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                    element.classList.remove('animate-on-scroll'); // Remove initial animation
+                    element.classList.add('hidden-for-observer'); // Hide it
+                    observer.observe(element);
+                });
+
+                // Update CSS:
+                // .hidden-for-observer { opacity: 0; transform: translateY(50px); }
+                // .is-visible { animation: fadeInFromBottom 0.8s ease-out forwards; }
+            });
+        </script>
+    -->
+</body>
+</html>
