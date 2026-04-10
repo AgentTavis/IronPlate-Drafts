@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sea Glass Cafe | New Bern's Favorite Breakfast & Brunch Spot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for easy theme management */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #1a5f7a; /* Primary Brand Color */
+            --accent-color: #d4a574; /* Accent Color */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            /* RGB values for brand color for rgba usage */
+            --brand-color-rgb: 26, 95, 122;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+            font-size: 1.05rem; /* Body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 2.8rem; /* Section headlines */
+            margin-bottom: 2.5rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        button, .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+            border: none;
+        }
+
+        button:hover, .button:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #154b61; /* Slightly darker brand color */
+            border-color: #154b61;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section specific background tints */
+        .section-tinted {
+            background-color: rgba(var(--brand-color-rgb), 0.03); /* Brand color at low opacity */
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .uppercase { text-transform: uppercase; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .grid { display: grid; gap: 2rem; }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+
+        /* HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* #111111 with transparency */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-heading);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #154b61; /* Darker brand color */
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,17,17,0.95) 0%, rgba(var(--brand-color-rgb),0.1) 40%, rgba(212,165,116,0.05) 60%, rgba(17,17,17,0.95) 100%),
+                        linear-gradient(rgba(17,17,17,0.7), rgba(17,17,17,0.7)),
+                        url('https://source.unsplash.com/random/1600x900/?diner,breakfast,brunch') no-repeat center center/cover; /* Unsplash placeholder for visual interest */
+            background-color: var(--primary-bg); /* Fallback */
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero::before { /* Subtle radial gradient glow from brand colors */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at center, rgba(var(--brand-color-rgb),0.15) 0%, transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(212,165,116,0.1) 0%, transparent 60%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.4rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            gap: 0.5rem;
+        }
+        .rating-badge svg {
+            color: var(--accent-color);
+        }
+
+        .hero .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            padding: 40px 0;
+            background-color: rgba(var(--brand-color-rgb), 0.05); /* Brand color at low opacity */
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 180px;
+            padding: 1rem;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+        .our-story-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .our-story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: relative;
+            margin-top: 2rem; /* To visually separate slightly from intro text */
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            text-align: right;
+            display: block;
+        }
+
+        .stats-grid {
+            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* MENU SECTION */
+        .menu-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .reason-card svg {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .reason-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+
+        .reason-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-grid {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 220px;
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-item .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            text-align: right;
+            display: block;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .location-map {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .location-map iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+            border-radius: 8px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+        }
+
+        .location-info a {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-info .btn-primary {
+            margin-top: 2.5rem;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #154b61 100%); /* Brand color gradient */
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-bg);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: #c19567; /* Slightly darker accent */
+            border-color: #c19567;
+            transform: scale(1.03);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--primary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* SVG Icons - for star rating and why choose us */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+        }
+
+        .icon-star-filled {
+            width: 1.2em; /* slightly larger for rating */
+            height: 1.2em;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; /* Hide nav links on mobile for simplicity, could implement hamburger */
+            }
+            .sticky-header {
+                justify-content: center;
+            }
+            .sticky-header .logo {
+                position: absolute;
+                left: 20px;
+            }
+            .sticky-header .call-button {
+                position: absolute;
+                right: 20px;
+            }
+
+            .hero {
+                padding-top: 80px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .button {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                margin-bottom: 2rem;
+            }
+            .social-proof-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .our-story-content {
+                gap: 2rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .stat-card {
+                margin-bottom: 1.5rem;
+            }
+            .stat-card:last-child {
+                margin-bottom: 0;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-card, .reason-card, .testimonial-item {
+                margin-bottom: 1.5rem;
+            }
+            .menu-card:last-child, .reason-card:last-child, .testimonial-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .location-info .btn-primary {
+                width: auto;
+                max-width: none;
+            }
+            .hours-info .btn-primary {
+                width: auto;
+                max-width: none;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header .call-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .tagline {
+                font-size: 0.9rem;
+            }
+            .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG Icons Definition (hidden) -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="icon-star-filled" viewBox="0 0 576 512">
+            <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-11.4 1.7-20.3 10.1-23.6 21.2s-1.6 23.9 5.1 33.5l100.1 97.5-23.7 138.4c-2 11.6 2.6 23.4 13.5 31.2s24.3 9.7 34.1 3.5L288.1 439.4l123.5 65.6c9.8 6.2 22.3 4.3 34.1-3.5s15.5-19.6 13.5-31.2L421.6 343.3l100.1-97.5c6.7-9.6 8.2-22.3 5.1-33.5s-12.2-19.5-23.6-21.2L381.2 150.3l-74.3-132.3z"/>
+        </symbol>
+        <symbol id="icon-utensils" viewBox="0 0 384 512">
+            <path d="M112 0c-17.7 0-32 14.3-32 32V256H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h48v96c0 17.7 14.3 32 32 32s32-14.3 32-32V320h32V480c0 17.7 14.3 32 32 32s32-14.3 32-32V320h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H272V32c0-17.7-14.3-32-32-32s-32 14.3-32 32V256H192V32c0-17.7-14.3-32-32-32H112z"/>
+        </symbol>
+        <symbol id="icon-mug-saucer" viewBox="0 0 640 512">
+            <path d="M96 64c0-17.7 14.3-32 32-32H448c17.7 0 32 14.3 32 32V256c0 62.1-50.4 112-112 112H128c-61.9 0-112-50.1-112-112V64zM544 192V64H512V192h32zm96 0V64c0-17.7-14.3-32-32-32H576c-17.7 0-32 14.3-32 32V256c0 62.1-50.4 112-112 112H128c-17.7 0-32 14.3-32 32s14.3 32 32 32H352c62.1 0 112 50.4 112 112v32c0 17.7 14.3 32 32 32s32-14.3 32-32V448h32c17.7 0 32-14.3 32-32s-14.3-32-32-32H576V352c35.3 0 64-28.7 64-64V192z"/>
+        </symbol>
+        <symbol id="icon-calendar" viewBox="0 0 448 512">
+            <path d="M128 0c17.7 0 32 14.3 32 32V64H288V32c0-17.7 14.3-32 32-32s32 14.3 32 32V64h48c26.5 0 48 21.5 48 48v256c0 26.5-21.5 48-48 48H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H48c-17.7 0-32-14.3-32-32s14.3-32 32-32H48c-17.7 0-32-14.3-32-32s14.3-32 32-32H48c-17.7 0-32-14.3-32-32s14.3-32 32-32H48V112c0-26.5 21.5-48 48-48h48V32c0-17.7 14.3-32 32-32zm0 96c-17.7 0-32 14.3-32 32v32h288V128c0-17.7-14.3-32-32-32H128zM32 448h384v-96H32v96z"/>
+        </symbol>
+        <!-- Generic social media icons (Font Awesome style path data) -->
+        <symbol id="icon-facebook" viewBox="0 0 512 512">
+            <path d="M504 256C504 119 395 7.8 256 7.8S8 119 8 256c0 123.7 85.3 226.3 199.3 250.3V344h-58v-48h58v-40.3c0-57.8 35-89.5 87.5-89.5 25.3 0 47.5 1.8 54.3 2.6v62h-36.9c-28.8 0-34.4 17.2-34.4 33.9V344h68.9l-11 48h-57.9v162.3C418.7 482.3 504 379.7 504 256z"/>
+        </symbol>
+        <symbol id="icon-instagram" viewBox="0 0 448 512">
+            <path d="M224.1 234.4c-25.7-14.7-52.8-21.6-80.1-21.6-29.3 0-56.3 6.9-81.9 21.6-35.8 20.6-61.9 50.4-61.9 84.7 0 26.6 9 51.7 27.2 72.8 20.6 24.3 47.9 39.7 77.4 46.1 27.2 5.8 54.9 5.8 82.1 0 29.5-6.4 56.8-21.8 77.4-46.1 18.2-21.1 27.2-46.2 27.2-72.8 0-34.3-26.1-64.1-61.9-84.7zm-6.2 165.9c-23.7 13.6-48.7 20-74.8 20-27.1 0-52.1-6.4-75.8-20-26.9-15.5-44.1-39.7-44.1-65.7 0-19.6 6.7-38 19.8-53.2 15.5-18.4 36.6-29.8 59.9-33.8 24.1-4.2 48.6-4.2 72.7 0 23.3 4 44.4 15.4 59.9 33.8 13.1 15.2 19.8 33.6 19.8 53.2 0 26-17.2 50.2-44.1 65.7zM448 0c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zM576 0H480c-26.5 0-48 21.5-48 48V480c0 26.5 21.5 48 48 48H576c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48z"/>
+        </symbol>
+        <symbol id="icon-yelp" viewBox="0 0 448 512">
+            <path d="M400 32H48C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48zm-111.4 193.3c-2.4 16.5-13.8 24.9-29.8 24.9-21.3 0-33.4-12.8-37.1-33.2l-22.1-137.9c-4.2-26.3 11-47.5 35.5-47.5 23.6 0 35.3 20.3 38 38.3l18.5 119.5c.2 1.3 0 2.6-1 3.5-1 .9-2.2 1.5-3.6 1.5h-52.9c.7 4.1 1.2 7.1 1.2 9 0 20.7-14.7 28.5-31.9 28.5-16.7 0-30.1-7.2-31.2-28.5-1.1-19.6 12.3-37.1 31.2-37.1h13.2c-1.3-4.3-2.1-8.2-2.1-12 0-20.7 14.7-28.5 31.9-28.5 16.7 0 30.1 7.2 31.2 28.5 1.1 19.6-12.3 37.1-31.2 37.1h-13.2c4.1 15.6 14.7 27.5 31.2 27.5 20.7 0 32.5-13.8 35-33.2l22.1-137.9c4.2-26.3-11-47.5-35.5-47.5-23.6 0-35.3 20.3-38 38.3l-18.5 119.5c-.2 1.3 0 2.6 1 3.5 1 .9 2.2 1.5 3.6 1.5h52.9z"/>
+        </symbol>
+    </svg>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Sea Glass Cafe</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:2526341808" class="call-button">CALL (252) 634-1808</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="location">New Bern, NC</p>
+            <h1>Sea Glass Cafe</h1>
+            <p class="tagline">The Sea Glass Cafe has been a staple in the New Bern area since 2007 for breakfast, brunch, or lunch.</p>
+            <div class="rating-badge">
+                <svg class="icon icon-star-filled" aria-hidden="true"><use xlink:href="#icon-star-filled"></use></svg>
+                <span>4.3 Stars (665 Reviews)</span>
+            </div>
+            <div class="cta-group">
+                <a href="#menu" class="button btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="button btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof section-tinted">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3>4.3/5</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>665+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>New Bern</h3>
+                <p>Local Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <p class="section-label uppercase text-primary mb-4">Our Story</p>
+            <h2 class="text-center">A Taste of Home, A New Bern Tradition.</h2>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>For over 17 years, Sea Glass Cafe has been the heart of New Bern for locals and visitors alike. Established in 2007, we pride ourselves on serving up hearty, delicious breakfast, brunch, and lunch classics made with fresh, quality ingredients.</p>
+                    <p>From our signature Benedicts to our fluffy pancakes and savory breakfast tacos, every dish is crafted with love and a commitment to flavor. We're more than just a diner; we're a place where friends and family gather, where the coffee is always hot, and the welcome is always warm. Come experience the comfort and charm that has made us a New Bern staple for nearly two decades.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Sea Glass Cafe is truly a gem! The atmosphere is cozy, the food is consistently amazing, and the staff make you feel like family. It's our go-to spot every weekend for breakfast."</p>
+                    <span class="author">— A Loyal Customer, New Bern Resident</span>
+                </div>
+            </div>
+            <div class="grid stats-grid">
+                <div class="stat-card">
+                    <h3>4.3<small>/5</small></h3>
+                    <p>Average Rating</p>
+                </div>
+                <div class="stat-card">
+                    <h3>17<small>+ Years</small></h3>
+                    <p>Serving New Bern</p>
+                </div>
+                <div class="stat-card">
+                    <h3>665<small>+</small></h3>
+                    <p>Customer Reviews</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu section-tinted">
+        <div class="container">
+            <p class="section-label uppercase text-primary mb-4 text-center">Our Delicious Offerings</p>
+            <h2 class="text-center">Menu Highlights You Can't Miss</h2>
+            <div class="grid menu-grid">
+                <div class="menu-card">
+                    <h3>Sea Glass Benedict</h3>
+                    <p>Our signature take on a classic, a local favorite. (27 Reviews)</p>
+                </div>
+                <div class="menu-card">
+                    <h3>New Bern Benedict</h3>
+                    <p>A unique twist on the classic, inspired by our town. (26 Reviews)</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Eggs Benedict</h3>
+                    <p>The timeless perfection, done right every time. (17 Reviews)</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Breakfast Tacos</h3>
+                    <p>Flavorful and filling, a perfect morning delight. (8 Reviews)</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Stuffed French Toast</h3>
+                    <p>Indulgent and deliciously sweet, a must-try. (5 Reviews)</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Lump Crab Benedict</h3>
+                    <p>A decadent and savory treat from the sea. (3 Reviews)</p>
+                </div>
+                 <div class="menu-card">
+                    <h3>Pancake Combo</h3>
+                    <p>Fluffy pancakes with your choice of savory sides. (2 Reviews)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <p class="section-label uppercase text-primary mb-4 text-center">The Sea Glass Difference</p>
+            <h2 class="text-center">Why Locals Love Our Diner</h2>
+            <div class="grid why-choose-us-grid">
+                <div class="reason-card">
+                    <svg class="icon" style="width: 3rem; height: 3rem;" aria-hidden="true"><use xlink:href="#icon-utensils"></use></svg>
+                    <h3>Signature Benedicts</h3>
+                    <p>Discover why our Sea Glass, New Bern, and Lump Crab Benedicts are local legends. Perfectly poached eggs, rich hollandaise, and unique toppings await.</p>
+                </div>
+                <div class="reason-card">
+                    <svg class="icon" style="width: 3rem; height: 3rem;" aria-hidden="true"><use xlink:href="#icon-mug-saucer"></use></svg>
+                    <h3>Fresh & Flavorful Diner Classics</h3>
+                    <p>From fluffy Pancakes to savory Breakfast Tacos and our famous Stuffed French Toast, we use quality ingredients for a taste of home every time.</p>
+                </div>
+                <div class="reason-card">
+                    <svg class="icon" style="width: 3rem; height: 3rem;" aria-hidden="true"><use xlink:href="#icon-calendar"></use></svg>
+                    <h3>New Bern's Breakfast & Brunch Hub Since 2007</h3>
+                    <p>We've been a cherished gathering spot for families and friends, serving up smiles and delicious meals for nearly two decades.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials section-tinted">
+        <div class="container">
+            <p class="section-label uppercase text-primary mb-4 text-center">What Our Customers Say</p>
+            <h2 class="text-center">Heartfelt Reviews from Our Happy Diners</h2>
+            <div class="grid testimonials-grid">
+                <div class="testimonial-item">
+                    <p>"The Sea Glass Benedict is out of this world! Every bite was a perfect symphony of flavors. This place truly lives up to its reputation as a New Bern favorite. Can't wait to come back!"</p>
+                    <span class="author">— Alex P., Regular Diner</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"You HAVE to try the New Bern Benedict – it's a game changer! The unique twist on a classic, combined with the cozy atmosphere, makes Sea Glass Cafe my new go-to for brunch."</p>
+                    <span class="author">— Sarah K., Local Foodie</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Absolutely loved the Stuffed French Toast! It was perfectly sweet and incredibly satisfying. The staff were so friendly, making our Sunday breakfast truly special."</p>
+                    <span class="author">— Mark T., Weekend Visitor</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <p class="section-label uppercase text-primary mb-4 text-center">Visit Us Soon</p>
+            <h2 class="text-center">Find Your Way to Sea Glass Cafe</h2>
+            <div class="grid location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>Come and enjoy a delicious meal at our cozy diner in the heart of New Bern.</p>
+                    <p><strong>Sea Glass Cafe</strong><br>
+                    1803 S Glenburnie Rd<br>
+                    New Bern, NC 28562, USA</p>
+                    <p><a href="tel:2526341808" class="text-primary">(252) 634-1808</a></p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=1803+S+Glenburnie+Rd,+New+Bern,+NC+28562" target="_blank" class="button btn-primary" style="margin-top: 2rem;">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <p>We're open for your favorite breakfast, brunch, and lunch!</p>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>8:00 AM – 12:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>Closed</td></tr>
+                        <tr><th>Thursday:</th><td>Closed</td></tr>
+                        <tr><th>Friday:</th><td>8:00 AM – 12:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>8:00 AM – 12:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>8:00 AM – 12:00 PM</td></tr>
+                    </table>
+                    <a href="tel:2526341808" class="button btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Google Map Embed (outside container for full width if desired, or within for consistent padding) -->
+    <div class="location-map" style="margin-bottom: 100px;">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.795855216164!2d-77.08630322363026!3d35.10543596706059!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89aefae398f62f01%3A0x3f5c95c86c123b3a!2sSea%20Glass%20Cafe!5e0!3m2!1sen!2sus!4v1701980000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready for a Taste of New Bern's Best?</h2>
+            <p class="tagline" style="color: var(--text-heading); font-weight: 300; margin-bottom: 3rem;">Join us for breakfast, brunch, or lunch and experience the Sea Glass Cafe difference yourself!</p>
+            <a href="tel:2526341808" class="button btn-primary">CALL AHEAD TO RESERVE YOUR TABLE</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Sea Glass Cafe</div>
+            <p class="tagline">Your beloved spot for breakfast, brunch, and lunch in New Bern since 2007.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg class="icon"><use xlink:href="#icon-facebook"></use></svg></a>
+                <a href="#" aria-label="Instagram"><svg class="icon"><use xlink:href="#icon-instagram"></use></svg></a>
+                <a href="https://www.yelp.com/biz/sea-glass-cafe-new-bern-2" target="_blank" aria-label="Yelp"><svg class="icon"><use xlink:href="#icon-yelp"></use></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Sea Glass Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav ul li a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section must be visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
