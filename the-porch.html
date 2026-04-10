@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Porch - Morehead City's Premier Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --primary-color: #1B4965;
+            --accent-color: #E8A537;
+            --background-main: #111111;
+            --background-alt: #161616; /* Slightly lighter for alternating sections */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding: 100px; /* Average of 80-120px */
+            --header-height: 60px;
+        }
+
+        /* Global Resets & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--background-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from reveal animations */
+        }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 8px 16px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            gap: 5px;
+            margin-top: 15px;
+        }
+        .rating-badge span {
+            color: var(--accent-color);
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            gap: 30px;
+            margin-left: auto; /* Push nav to center-right */
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header .btn-call {
+            background-color: var(--primary-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-left: 40px; /* Space from nav links */
+        }
+
+        .header .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: radial-gradient(circle at top left, var(--primary-color) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, var(--accent-color) 0%, transparent 40%),
+                        var(--background-main);
+            background-size: 100% 100%;
+        }
+
+        .hero h1 {
+            font-size: 6rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 0.2em;
+            letter-spacing: 3px;
+        }
+
+        .hero p.location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-top: -0.5em;
+            margin-bottom: 0.5em;
+            font-weight: 500;
+        }
+
+        .hero p.tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 2em;
+            max-width: 800px;
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(27, 73, 101, 0.05); /* Tinted with primary color, low opacity */
+            padding: 40px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-item {
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item .count {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+        .social-proof-item .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+        }
+        .social-proof-item .count.rating span {
+            font-size: 1.8rem;
+            color: var(--text-body);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--background-main);
+        }
+
+        .our-story .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .our-story .text-content {
+            padding-right: 20px;
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .our-story .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1em;
+            color: var(--text-body);
+        }
+
+        .our-story .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            text-align: right;
+            display: block;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+        }
+        .our-story .stat-card .number.small-text {
+            font-size: 2.2rem;
+        }
+
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--background-alt);
+        }
+
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--background-main);
+        }
+
+        .why-choose-us .choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .choose-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 15px;
+        }
+
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--background-alt);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card-large {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card-large:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .testimonial-card-large p {
+            font-style: italic;
+            margin-bottom: 1em;
+            color: var(--text-body);
+        }
+
+        .testimonial-card-large .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            text-align: right;
+            display: block;
+            margin-top: 15px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--background-main);
+        }
+
+        .location-hours .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+        }
+
+        .location-info .address {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .location-info .phone-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+            margin-top: 20px;
+        }
+
+        .location-info .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--background-alt);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            overflow: hidden; /* Ensure content is within bounds */
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            background-color: var(--card-bg);
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table tr.closed td {
+            color: #d32f2f; /* Red for closed */
+            font-weight: 600;
+        }
+
+        .hours-info .btn-call-order {
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            padding: var(--section-padding) 20px;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-heading);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--background-main);
+            color: var(--text-heading);
+            border-color: var(--background-main);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            color: var(--primary-color);
+            border-color: var(--text-heading);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            color: var(--text-body);
+        }
+
+        .footer .social-links {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .hero p.tagline {
+                font-size: 1.3rem;
+            }
+            h2 {
+                font-size: 2.3rem;
+            }
+            .section-padding {
+                padding: 80px 0;
+            }
+            .social-proof-item .count {
+                font-size: 2rem;
+            }
+            .social-proof-item .label {
+                font-size: 1rem;
+            }
+            .our-story .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story .text-content {
+                padding-right: 0;
+            }
+            .location-hours .content-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header .btn-call {
+                margin-left: auto; /* Push button to right */
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: 1px;
+            }
+            .hero p.location {
+                font-size: 1rem;
+            }
+            .hero p.tagline {
+                font-size: 1.1rem;
+            }
+            .hero .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                width: 80%;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+            .p {
+                font-size: 1rem;
+            }
+            .social-proof {
+                flex-direction: column;
+                gap: 25px;
+                padding: 30px 20px;
+            }
+            .our-story .stats-grid, .menu-section .menu-grid, .why-choose-us .choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            .our-story .stat-card .number {
+                font-size: 2.5rem;
+            }
+            .our-story .stat-card .number.small-text {
+                font-size: 1.8rem;
+            }
+            .hours-table th, .hours-table td {
+                padding: 10px;
+                font-size: 1rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer .logo {
+                font-size: 1.6rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+            .footer .social-links a {
+                font-size: 1.5rem;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">The Porch</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#location-hours">Find Us</a>
+        </nav>
+        <a href="tel:+12529998225" class="btn btn-call">CALL (252) 999-8225</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <h1 class="reveal">The Porch</h1>
+            <p class="location reveal">Morehead City, NC</p>
+            <p class="tagline reveal">Your Neighborhood Hub for Great Food & Good Times.</p>
+            <div class="rating-badge reveal">
+                <span>4.7 ★</span> (47 Reviews)
+            </div>
+            <div class="hero-ctas reveal">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof reveal">
+            <div class="social-proof-item">
+                <div class="count rating">4.7<span>/5</span></div>
+                <div class="label">Average Rating</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="count">47</div>
+                <div class="label">Happy Reviews</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="count"></div>
+                <div class="label" style="font-family: var(--font-heading); font-size: 2rem; color: var(--accent-color); font-weight: 700;">Local Favorite</div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story section-padding">
+            <div class="container">
+                <p class="section-label text-center reveal">Our Heritage</p>
+                <h2 class="text-center reveal">Crafting Community, One Meal at a Time.</h2>
+                <div class="content-wrapper">
+                    <div class="text-content reveal">
+                        <p>Nestled in the heart of Morehead City, The Porch is more than just a bar and grill – it's a community gathering spot. We pride ourselves on serving up classic comfort food with a fresh twist, crafted with quality ingredients and a whole lot of heart.</p>
+                        <p>Whether you're stopping by for a hearty breakfast, a satisfying lunch, or just to unwind with friends, you'll find a warm welcome and flavors that feel like home. Come experience why we're a local favorite!</p>
+                        <div class="testimonial-card">
+                            <p>"The Porch truly feels like home. Every dish is made with care, and the atmosphere is always buzzing with friendly faces. A genuine local treasure!"</p>
+                            <span class="author">- A Loyal Guest</span>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card reveal">
+                            <div class="number">4.7</div>
+                            <div class="label">Average Rating</div>
+                        </div>
+                        <div class="stat-card reveal">
+                            <div class="number">47</div>
+                            <div class="label">Total Reviews</div>
+                        </div>
+                        <div class="stat-card reveal">
+                            <div class="number small-text">6:30 AM</div>
+                            <div class="label">Daily Opening Time</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu-section section-padding">
+            <div class="container">
+                <p class="section-label text-center reveal">Taste Our Passion</p>
+                <h2 class="text-center reveal">Menu Highlights</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card reveal">
+                        <h3>Classic Porch Burger</h3>
+                        <p>A juicy patty, crisp lettuce, tomato, onion, and our special sauce on a toasted brioche bun.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Crispy Chicken Sandwich</h3>
+                        <p>Fried to perfection, served with pickles and spicy mayo on a soft roll.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Loaded Nachos</h3>
+                        <p>Tortilla chips piled high with seasoned beef, melted cheese, jalapeños, sour cream, and salsa.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Southern Fried Shrimp</h3>
+                        <p>A generous portion of perfectly fried shrimp with tangy cocktail sauce and fries.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Hearty Breakfast Platter</h3>
+                        <p>Eggs your way, crispy bacon, sausage, grits, and toast to start your day right.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Fresh Garden Salad</h3>
+                        <p>Mixed greens, cherry tomatoes, cucumber, red onion, and your choice of dressing.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Craft Beer Selection</h3>
+                        <p>A rotating selection of local and regional craft brews on tap.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Sweet Potato Fries</h3>
+                        <p>A delicious side, served with a honey-lime dipping sauce.</p>
+                    </div>
+                    <div class="menu-item-card reveal">
+                        <h3>Grilled Cheese & Tomato Soup</h3>
+                        <p>Classic comfort, perfectly gooey cheese on Texas toast with a warm bowl of soup.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us section-padding">
+            <div class="container">
+                <p class="section-label text-center reveal">Our Promise</p>
+                <h2 class="text-center reveal">Experience The Porch Difference.</h2>
+                <div class="choose-grid">
+                    <div class="choose-card reveal">
+                        <h3>Local Flavor, Fresh Ingredients</h3>
+                        <p>We source the best local produce and meats to craft dishes like our Classic Porch Burger, ensuring every bite is bursting with freshness and supporting our community.</p>
+                    </div>
+                    <div class="choose-card reveal">
+                        <h3>Unbeatable Breakfast & Lunch</h3>
+                        <p>From our Hearty Breakfast Platter to our satisfying Crispy Chicken Sandwich, we're serving up delicious meals from 6:30 AM to 2:00 PM, perfect for any craving.</p>
+                    </div>
+                    <div class="choose-card reveal">
+                        <h3>Warm, Welcoming Atmosphere</h3>
+                        <p>Our porch is always open for friends and family. Enjoy a relaxed meal, a refreshing Craft Beer, and genuine Southern hospitality that keeps you coming back.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials-section section-padding">
+            <div class="container">
+                <p class="section-label text-center reveal">What Our Guests Say</p>
+                <h2 class="text-center reveal">Kind Words From Our Community.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card-large reveal">
+                        <p>"Absolutely love The Porch! Their Classic Porch Burger is hands down the best in Morehead City. The staff are always friendly, and the atmosphere is so welcoming. A must-visit!"</p>
+                        <span class="author">- Sarah P.</span>
+                    </div>
+                    <div class="testimonial-card-large reveal">
+                        <p>"What a great spot for lunch! I had the Southern Fried Shrimp, and it was perfectly cooked and seasoned. The portions are generous, and the value is fantastic. Can't wait to try their breakfast next."</p>
+                        <span class="author">- Mark D.</span>
+                    </div>
+                    <div class="testimonial-card-large reveal">
+                        <p>"The Porch is my go-to for a quick and delicious start to the day. Their Hearty Breakfast Platter never disappoints, and the coffee is always fresh. It's truly a local gem with genuine charm."</p>
+                        <span class="author">- Jessica L.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="location-hours section-padding">
+            <div class="container">
+                <p class="section-label text-center reveal">Visit Us</p>
+                <h2 class="text-center reveal">Find The Porch & Our Hours.</h2>
+                <div class="content-grid">
+                    <div class="location-info reveal">
+                        <h3>Our Location</h3>
+                        <p class="address">4466 Arendell St, Morehead City, NC 28557, USA</p>
+                        <a href="tel:+12529998225" class="phone-number">(252) 999-8225</a>
+                        <div class="map-placeholder">
+                            <!-- Placeholder for Google Maps iframe or image -->
+                            <p>Map Coming Soon!</p>
+                        </div>
+                    </div>
+                    <div class="hours-info reveal">
+                        <h3>Business Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Monday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr><td>Tuesday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr><td>Wednesday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr><td>Thursday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr><td>Friday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr><td>Saturday</td><td>6:30 AM – 2:00 PM</td></tr>
+                                <tr class="closed"><td>Sunday</td><td>Closed</td></tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+12529998225" class="btn btn-primary btn-call-order">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="reveal">Ready for a Delicious Meal? Visit The Porch Today!</h2>
+                <a href="#location-hours" class="btn btn-primary reveal">GET DIRECTIONS</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Porch</div>
+            <p class="tagline">Your Neighborhood Hub for Great Food & Good Times.</p>
+            <div class="social-links">
+                <!-- Font Awesome icons would go here if imported -->
+                <a href="#" aria-label="Facebook"><span style="color:#ffffff;">F</span></a> <!-- Placeholder for social icon -->
+                <a href="#" aria-label="Instagram"><span style="color:#ffffff;">I</span></a> <!-- Placeholder for social icon -->
+                <a href="#" aria-label="Yelp"><span style="color:#ffffff;">Y</span></a> <!-- Placeholder for social icon -->
+            </div>
+            <p class="copyright">&copy; 2026 The Porch. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of item visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        });
+    </script>
+</body>
+</html>
