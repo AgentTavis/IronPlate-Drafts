@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duff's Cafe | Your Hometown Diner in Beulaville, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818;
+            --brand-color: #CC0000;
+            --brand-color-rgb: 204, 0, 0; /* For rgba usage */
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4.5rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .section-padding {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 4px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #A30000; /* Darker brand color */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            letter-spacing: -0.5px;
+            display: block;
+            margin-right: 20px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .header .nav-links li {
+            margin: 0 15px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .header .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+        .header .call-button svg {
+            margin-right: 8px;
+            fill: currentColor;
+        }
+
+        .header .call-button:hover {
+            background-color: #A30000; /* Darker brand color */
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: var(--bg-main);
+            position: relative;
+            overflow: hidden; /* Ensure gradients don't bleed */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--brand-color-rgb), 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 6rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+        }
+
+        .hero .location-text {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .hero .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        .hero .rating-badge svg {
+            fill: #FFD700; /* Gold color for stars */
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .social-proof-item p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .social-proof-item svg {
+            fill: var(--brand-color);
+            width: 28px;
+            height: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* Our Story Section */
+        .our-story {
+            background-color: var(--bg-light);
+        }
+        .our-story .story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .our-story .story-text p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .our-story .quote-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 4px;
+            margin-top: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .our-story .quote-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .our-story .quote-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .our-story .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-main);
+        }
+        .menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 4px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .menu .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .menu .menu-item-card h4 {
+            font-size: 1.35rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .menu .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        .menu .menu-cta {
+            text-align: center;
+            margin-top: 60px;
+        }
+        .menu .menu-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--bg-light);
+        }
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 4px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .why-choose-us-card svg {
+            fill: var(--brand-color);
+            width: 48px;
+            height: 48px;
+            margin-bottom: 20px;
+        }
+
+        .why-choose-us-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-choose-us-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-main);
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 4px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-light);
+        }
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        .location-info a:hover {
+            text-decoration: underline;
+        }
+        .location-info .btn {
+            margin-top: 20px;
+        }
+        .location-info .map-embed {
+            margin-top: 30px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+        .location-info .map-embed iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.05rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-color) 0%, #A30000 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn-primary {
+            border-color: var(--accent-color);
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .social-links svg {
+            fill: currentColor;
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up on scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+            .header .nav-links li { margin: 0 10px; }
+            .header .nav-links a { font-size: 0.9rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .final-cta h2 { font-size: 3rem; }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+                height: auto;
+                min-height: 60px;
+                padding: 10px 20px;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+                width: 100%;
+                text-align: center;
+            }
+            .header .nav-links {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+            .header .nav-links li { margin: 0 8px; }
+            .header .nav-links a { font-size: 0.85rem; }
+            .header .call-button {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 18px;
+            }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            body { font-size: 1rem; }
+            .hero .location-text, .hero .tagline { font-size: 1rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .hero .btn { width: 80%; max-width: 300px; margin: 0 auto; }
+
+            .social-proof-grid { grid-template-columns: 1fr; }
+            .social-proof-item { margin-bottom: 20px; }
+
+            .our-story .story-content { grid-template-columns: 1fr; }
+            .our-story .quote-card { margin-top: 30px; }
+            .our-story .stats-grid { grid-template-columns: 1fr; }
+            
+            .menu .menu-grid { grid-template-columns: 1fr; }
+            .why-choose-us-grid { grid-template-columns: 1fr; }
+            .testimonials-grid { grid-template-columns: 1fr; }
+
+            .location-hours-content { grid-template-columns: 1fr; }
+            .location-info .map-embed { height: 250px; }
+            .location-hours-content > div { margin-bottom: 40px; }
+            .location-hours-content > div:last-child { margin-bottom: 0; }
+
+            .final-cta h2 { font-size: 2rem; }
+            .footer .logo { font-size: 1.8rem; }
+            .footer .social-links a { font-size: 1.2rem; margin: 0 10px; }
+            
+            .section-padding { padding: 60px 0; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .hero .location-text { font-size: 0.9rem; }
+            .hero .tagline { font-size: 0.9rem; }
+            .hero .rating-badge { padding: 6px 12px; font-size: 0.8rem; }
+            .hero .cta-buttons { width: 100%; }
+            .hero .btn { width: 90%; }
+            .header .logo { font-size: 1.3rem; }
+            .header .nav-links { display: none; } /* Hide nav links on very small screens, keep call button */
+            .header .call-button { padding: 8px 15px; font-size: 0.85rem; }
+            .final-cta h2 { font-size: 1.8rem; }
+            .section-padding { padding: 40px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <a href="#" class="logo">Duff's Cafe</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:9102989121" class="call-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.28-.28.67-.36 1.02-.25 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            CALL (910) 298-9121
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location-text">Beulaville, NC</p>
+            <h1>Duff's Cafe</h1>
+            <p class="tagline">Your Hometown Diner for Classic Comfort & Quick Take-Out</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                4.4 Stars (296 Reviews)
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                <h3>4.4 / 5.0</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <h3>296+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <h3>Beulaville's</h3>
+                <p>Local Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story section-padding">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Heritage</p>
+            <h2 class="text-center fade-in-up">More Than Just a Diner, It's a Beulaville Tradition.</h2>
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p>Welcome to Duff's Cafe, a cherished cornerstone of Beulaville for decades. We're that cool little hole-in-the-wall you've heard about, a place where time slows down and the aroma of home-cooked goodness fills the air. The feel of our cafe is pure nostalgia, reminiscent of old-school gathering spots where churches meet and memories are made.</p>
+                    <p>At Duff's, our service is simply legendary—super quick, incredibly kind, and always delivered with a warm smile. Our team loves making good recommendations, ensuring every visit feels like coming home. We believe in genuine hospitality and serving our community with heart. While the world outside changes, Duff's Cafe remains a comforting constant, offering a friendly face and a satisfying meal, just like it always has.</p>
+                </div>
+                <div class="quote-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"Duff's Cafe is more than a restaurant; it's the heart of Beulaville. The moment you walk in, you feel like family, and the amazing service makes every visit a joy. It’s truly a special place."</p>
+                    <p class="author">— A Loyal Beulaville Customer</p>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>4.4/5</h3>
+                    <p>Average Rating</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>296+</h3>
+                    <p>Customer Reviews</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>35+</h3>
+                    <p>Years Serving Beulaville</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu section-padding">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Flavor</p>
+            <h2 class="fade-in-up">Discover What's Cooking at Duff's Cafe</h2>
+            <p class="menu-cta fade-in-up">
+                At Duff's, our menu features classic diner favorites made fresh daily. For our full, up-to-date offerings and daily specials, please call ahead or visit us in-store. Here's a taste of what our customers love:
+            </p>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h4>The Classic Steak Plate</h4>
+                    <p>A hearty portion, cooked just right. A diner staple that always satisfies.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h4>Homestyle Salisbury Steak</h4>
+                    <p>Smothered in rich gravy, served with your choice of sides. Pure comfort.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h4>Country Fried Steak</h4>
+                    <p>Crispy, tender, and incredibly flavorful—a true Southern delight.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h4>Delicious Hush Puppies</h4>
+                    <p>Our perfectly fried, golden brown hush puppies are a crowd favorite.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h4>Daily Breakfast Specials</h4>
+                    <p>Start your day the Duff's way with our early morning offerings.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h4>Lunch Plate Variety</h4>
+                    <p>From sandwiches to full plates, there's always something for everyone.</p>
+                </div>
+            </div>
+            <div class="menu-cta fade-in-up">
+                <a href="tel:9102989121" class="btn btn-primary">CALL TO HEAR TODAY'S SPECIALS</a>
+                <p class="fade-in-up" style="font-size: 0.9rem; margin-top: 15px;">Or visit us for the full menu experience!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us section-padding">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Promise</p>
+            <h2 class="fade-in-up">Why Duff's Cafe is Beulaville's Favorite Choice</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-choose-us-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm-1 16h2v-2h-2v2zm0-10h2V6h-2v2zm0 6h2v-4h-2v4z"/></svg>
+                    <h3>Unbeatable Service</h3>
+                    <p>Our team is "super quick, very kind," and dedicated to making your visit amazing. We offer great recommendations and a warm, friendly atmosphere every time.</p>
+                </div>
+                <div class="why-choose-us-card fade-in-up" style="transition-delay: 0.1s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg>
+                    <h3>Convenient Drive-Thru</h3>
+                    <p>Short on time? Call ahead to order your favorite meal and pick it up hot and fresh at our convenient drive-thru window. Easy and delicious!</p>
+                </div>
+                <div class="why-choose-us-card fade-in-up" style="transition-delay: 0.2s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 11.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5-1.5.67-1.5 1.5.67 1.5 1.5 1.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.89.15-1.74.42-2.55L12 16l7.58-6.55c.27.81.42 1.66.42 2.55 0 4.41-3.59 8-8 8z"/></svg>
+                    <h3>Authentic Diner Charm</h3>
+                    <p>Step into an "old school place" that feels like home. Duff's Cafe offers that unique, cozy "hole in the wall" vibe, perfect for gathering with loved ones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials section-padding">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Happy Customers</p>
+            <h2 class="fade-in-up">What Our Beulaville Neighbors Are Saying</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"I always stop at Duff's for their Salisbury Steak. It's truly a classic, perfectly seasoned and swimming in delicious gravy. Reminds me of my grandma's cooking!"</p>
+                    <p class="author">— Mary P. (Local Resident)</p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p class="quote">"You HAVE to try the Country Fried Steak here. It's the best I've had in North Carolina! Plus, the service is incredibly fast and friendly. A true gem."</p>
+                    <p class="author">— John T. (Visiting from Kinston)</p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p class="quote">"Duff's is my go-to for a quick, delicious meal. The Steak plate is consistently good, and those hush puppies? Outstanding! Always a pleasant experience."</p>
+                    <p class="author">— Sarah L. (Regular Customer)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours section-padding">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Visit Us</p>
+            <h2 class="text-center fade-in-up">Find Duff's Cafe & Our Operating Hours</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>114 E Main St,<br>Beulaville, NC 28518, USA</p>
+                    <a href="tel:9102989121">Call to Order: (910) 298-9121</a>
+                    <a href="tel:9103758121">Alt. Phone: (910) 375-8121</a>
+                    <a href="https://www.google.com/maps/search/Duff's+Cafe+114+E+Main+St,+Beulaville,+NC+28518,+USA" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                    <div class="map-embed">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.4795304673645!2d-77.7818987!3d34.935109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89ab1678241e57c7%3A0xcf958a74e2d3d995!2sDuff's%20Cafe!5e0!3m2!1sen!2sus!4v1701789000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Morning</th>
+                                <th>Afternoon/Evening</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>6:00 AM – 10:00 AM</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>6:00 AM – 10:00 AM</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>6:00 AM – 10:00 AM</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>6:00 AM – 10:00 AM</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>6:00 AM – 10:00 AM</td>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td colspan="2" class="closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td colspan="2" class="closed">Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:9102989121" class="btn btn-primary" style="margin-top: 30px;">
+                        CALL TO ORDER FOR DRIVE-THRU PICKUP!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta section-padding">
+        <div class="container text-center fade-in-up">
+            <h2>Ready for a Taste of Beulaville's Best?</h2>
+            <a href="tel:9102989121" class="btn btn-primary">CALL US TO ORDER NOW!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container fade-in-up">
+            <a href="#" class="logo">Duff's Cafe</a>
+            <p class="tagline">Your Hometown Diner for Classic Comfort & Quick Take-Out</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 5.016 3.655 9.183 8.438 9.873V14.89h-2.54v-2.91h2.54V9.797c0-2.522 1.547-3.905 3.784-3.905 1.071 0 1.99.08 2.253.12v2.66h-1.572c-1.24 0-1.48.59-1.48 1.458v1.924h2.956l-.427 2.91h-2.529v6.983C18.345 21.183 22 17.016 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                </a>
+                <a href="#" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2c3.313 0 3.708.013 5.011.073 1.303.06 1.839.249 2.222.404.484.195.877.42 1.258.802.382.381.607.774.802 1.258.155.383.345.919.404 2.222.06 1.303.073 1.698.073 5.011s-.013 3.708-.073 5.011c-.06 1.303-.249 1.839-.404 2.222-.195.484-.42.877-.802 1.258-.381.382-.774.607-1.258.802-.383.155-.919.345-2.222.404-1.303.06-1.698.073-5.011.073s-3.708-.013-5.011-.073c-1.303-.06-1.839-.249-2.222-.404-.484-.195-.877-.42-1.258-.802-.382-.381-.607-.774-.802-1.258-.155-.383-.345-.919-.404-2.222-.06-1.303-.073-1.698-.073-5.011s.013-3.708.073-5.011c.06-1.303.249-1.839.404-2.222.195-.484.42-.877.802-1.258.381-.382.774-.607 1.258-.802.383-.155.919-.345 2.222-.404C8.292 2.013 8.687 2 12 2zm0 3.635c-3.528 0-6.365 2.838-6.365 6.365 0 3.528 2.838 6.365 6.365 6.365 3.528 0 6.365-2.838 6.365-6.365 0-3.528-2.838-6.365-6.365-6.365zm0 10.365c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.49-10.43c0 .878-.712 1.59-1.59 1.59-.878 0-1.59-.712-1.59-1.59 0-.878.712-1.59 1.59-1.59.878 0 1.59.712 1.59 1.59z"/></svg>
+                </a>
+            </div>
+            <p class="copyright">&copy; 2026 Duff's Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer for fade-in-up effect -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0,
+                rootMargin: "0px 0px -100px 0px" // Start animating 100px before section enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("is-visible");
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            },
+            appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
