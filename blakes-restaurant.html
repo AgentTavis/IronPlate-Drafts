@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blake's Restaurant - Candor's Favorite Family Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-light: #1a1a1a;
+            --brand-color: #D4A574; /* Primary Brand Color */
+            --accent-color: #F0A000; /* Accent Color */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4.5rem; font-weight: 700; }
+        h2 { font-size: 3rem; font-weight: 700; }
+        h3 { font-size: 2rem; font-weight: 600; }
+        h4 { font-size: 1.5rem; font-weight: 600; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            transform: scale(1);
+        }
+        .btn:hover {
+            transform: scale(1.02);
+        }
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-main);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+        }
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-accent:hover {
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+            color: var(--bg-main);
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-logo {
+            color: var(--text-heading);
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+        .header-cta .btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(17,17,17,0.9) 50%, rgba(212,165,116,0.1) 80%, rgba(240,160,0,0.1) 100%);
+            padding-top: 60px; /* Offset for sticky header */
+        }
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .hero-title {
+            font-size: 5.5rem; /* Massive, bold */
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            max-width: 900px;
+        }
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+        .hero-rating {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+        }
+        .hero-rating .star {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(212, 165, 116, 0.05); /* Brand color, low opacity */
+            padding: 60px 0;
+            text-align: center;
+        }
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .social-proof-item h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-main);
+            padding: 100px 0;
+        }
+        .our-story .container {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+        .our-story-content {
+            flex: 2;
+        }
+        .our-story-headline {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+        .our-story-text {
+            columns: 2;
+            column-gap: 30px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .our-story-text p {
+            margin-bottom: 1.5em;
+        }
+        .our-story-stats {
+            flex: 1;
+            display: grid;
+            gap: 30px;
+            padding-left: 40px;
+            border-left: 2px solid var(--card-border);
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .stat-card h4 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* MENU SECTION */
+        .menu {
+            background-color: var(--bg-light);
+            padding: 100px 0;
+        }
+        .menu-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .menu-header h2 {
+            font-size: 3rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-main);
+            padding: 100px 0;
+            text-align: center;
+        }
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .choose-card h4 {
+            color: var(--brand-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .choose-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: var(--bg-light);
+            padding: 100px 0;
+        }
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        .testimonial-quote {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-quote::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.05);
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            z-index: 0;
+            line-height: 1;
+        }
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+        }
+        .testimonial-source {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-main);
+            padding: 100px 0;
+        }
+        .location-hours .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .location-info a {
+            font-weight: 600;
+        }
+        .location-info .phone-number {
+            font-size: 1.4rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--bg-main);
+            margin-bottom: 40px;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border-color: var(--bg-main);
+            font-size: 1.2rem;
+            padding: 18px 40px;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: rgba(17,17,17,0.9);
+            color: var(--accent-color);
+            border-color: rgba(17,17,17,0.9);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+        .footer-logo {
+            color: var(--text-heading);
+            font-family: 'Bitter', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer-social ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .footer-social a {
+            color: var(--text-body);
+            font-size: 1.5rem; /* Placeholder icon size */
+            transition: color 0.3s ease;
+        }
+        .footer-social a:hover {
+            color: var(--brand-color);
+        }
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Utility classes for potential JS animations (IntersectionObserver) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            .hero-title { font-size: 4.5rem; }
+            .social-proof-grid { grid-template-columns: 1fr; gap: 30px; }
+            .our-story .container { flex-direction: column; }
+            .our-story-stats { padding-left: 0; border-left: none; margin-top: 60px; }
+            .location-hours .container { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 0 20px; }
+            .header-nav { display: none; } /* Hamburger menu for mobile, not implemented fully in pure HTML/CSS */
+            .header-logo { font-size: 1.5rem; }
+            .header-cta .btn { padding: 6px 15px; font-size: 0.8rem; }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+            section { padding: 60px 0; }
+
+            .hero-title { font-size: 3.5rem; }
+            .hero-tagline { font-size: 1.2rem; }
+            .hero-ctas { flex-direction: column; gap: 15px; }
+            .btn { padding: 14px 28px; }
+
+            .our-story-headline { font-size: 2.2rem; }
+            .our-story-text { columns: 1; }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 2.8rem; }
+            .hero-tagline { font-size: 1rem; }
+            .hero-rating { padding: 6px 15px; font-size: 0.9rem; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="header-logo">Blake's Restaurant</div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:9109747503" class="btn btn-primary">CALL (910) 974-7503</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container fade-in-up">
+            <p class="hero-location">Candor, NC</p>
+            <h1 class="hero-title">Blake's Restaurant</h1>
+            <p class="hero-tagline">Family Style Dining – Your Home for Hearty Meals & Warm Memories.</p>
+            <div class="hero-rating">
+                <span class="star">&#9733;</span> 4.3 stars (797 reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <h3>4.3 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>797+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>Local Favorite</h3>
+                <p>Candor's Community Choice</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="our-story-content fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2 class="our-story-headline">Generations of Flavor, Family, and Fun.</h2>
+                <div class="our-story-text">
+                    <p>At Blake's Restaurant, we believe great food brings people together. Nestled in the heart of Candor, NC, we've been serving up classic diner fare with a warm, family-style touch for years. From the moment you step through our doors, you’re not just a customer, you’re part of our extended family.</p>
+                    <p>We pride ourselves on delicious, home-cooked meals prepared with care, reminiscent of Sunday dinners at Grandma's house. Our ambiance is designed for comfort and connection, a place where conversations flow as freely as our coffee.</p>
+                    <p>Whether you're starting your day with a hearty breakfast or winding down with a comforting dinner, Blake's is the spot where quality ingredients and genuine hospitality create an unforgettable dining experience. Come make some memories with us!</p>
+                </div>
+            </div>
+            <div class="our-story-stats fade-in-up">
+                <div class="stat-card">
+                    <h4>4.3 / 5</h4>
+                    <p>Customer Rating</p>
+                </div>
+                <div class="stat-card">
+                    <h4>797+</h4>
+                    <p>Positive Reviews</p>
+                </div>
+                <div class="stat-card">
+                    <h4>Family Style</h4>
+                    <p>Dining Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="menu-header fade-in-up">
+                <span class="section-label">Our Menu</span>
+                <h2>Savor the Flavors of Home.</h2>
+                <p>Explore our most popular dishes – classic comfort food made with passion.</p>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Ham & Cheese Omelet</h3>
+                        <p>A classic diner breakfast, fluffy eggs filled with savory ham and melted cheese.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Fried Chicken</h3>
+                        <p>Crispy, juicy, and seasoned to perfection – our famous Southern fried chicken.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Country Fried Steak</h3>
+                        <p>Tender steak, breaded and fried golden, smothered in rich gravy. A true comfort food.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <div class="fade-in-up">
+                <span class="section-label">Why Blake's?</span>
+                <h2>More Than Just a Meal, It's an Experience.</h2>
+                <p>Discover what makes Blake's Restaurant Candor's go-to spot for dining.</p>
+            </div>
+            <div class="why-choose-us-grid">
+                <div class="choose-card fade-in-up">
+                    <h4>Hearty Breakfasts</h4>
+                    <p>Start your day right with our delicious options like the Ham & Cheese Omelet. Fuel up for whatever Candor throws your way!</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h4>Classic Southern Comfort</h4>
+                    <p>From our crispy Fried Chicken to the savory Country Fried Steak, we serve up authentic Southern flavors that taste like home.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h4>Family-Friendly Atmosphere</h4>
+                    <p>Blake's is "Good for kids" and "Good for groups." Enjoy a casual, moderate noise setting perfect for everyone.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="testimonials-header fade-in-up">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Hear From Our Valued Customers.</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p class="testimonial-quote">"I absolutely love starting my day with Blake's Ham & Cheese Omelet. It's perfectly cooked every time, and just what I need!"</p>
+                    <p class="testimonial-author">— Brenda K.</p>
+                    <p class="testimonial-source">Local Diner</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="testimonial-quote">"Their Fried Chicken is truly a taste of home. Crispy, juicy, and exactly what comfort food should be. A must-try!"</p>
+                    <p class="testimonial-author">— Mark P.</p>
+                    <p class="testimonial-source">Happy Customer</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="testimonial-quote">"You can't go wrong with the Country Fried Steak at Blake's. It's my go-to, and the portions are always generous and satisfying!"</p>
+                    <p class="testimonial-author">— Sarah L.</p>
+                    <p class="testimonial-source">Regular Guest</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <div class="location-info fade-in-up">
+                <span class="section-label">Find Us</span>
+                <h3>Visit Blake's Restaurant Today.</h3>
+                <p>We're conveniently located in Candor, ready to welcome you for a delightful meal.</p>
+                <p><strong>Address:</strong><br>165 Hillview St Exd,<br>Candor, NC 27229, USA</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Blake's+Restaurant+165+Hillview+St+Exd,+Candor,+NC+27229" target="_blank" class="btn btn-secondary" style="margin-top: 20px;">Get Directions</a>
+                <p class="phone-number">
+                    Call Us: <a href="tel:9109747503">(910) 974-7503</a>
+                </p>
+                <a href="tel:9109747503" class="btn btn-accent">CALL TO ORDER</a>
+            </div>
+            <div class="hours-info fade-in-up">
+                <span class="section-label">Hours</span>
+                <h3>When We're Open.</h3>
+                <p>Join us for breakfast, lunch, or dinner throughout the week.</p>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monday:</td>
+                            <td>7:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday:</td>
+                            <td>7:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday:</td>
+                            <td>7:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday:</td>
+                            <td>7:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Friday:</td>
+                            <td>7:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday:</td>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday:</td>
+                            <td>7:00 AM – 2:00 PM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Experience Candor's Favorite Diner Today!</h2>
+            <a href="#find-us" class="btn btn-primary">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Blake's Restaurant</div>
+            <p class="footer-tagline">Blake Restaurant, Candor, NC. · . Family Style ... .</p>
+            <div class="footer-social">
+                <ul>
+                    <li><a href="#"><!-- Generic social icon placeholder, e.g., Font Awesome icon for Facebook -->F</a></li>
+                    <li><a href="#"><!-- Instagram -->I</a></li>
+                    <li><a href="#"><!-- Twitter -->X</a></li>
+                </ul>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Blake's Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Basic IntersectionObserver for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
