@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paul & Jack | Artisan & Craft Desserts in Wake Forest, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@303;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System - Colors & Typography */
+        :root {
+            --bg-main: #111111;
+            --brand-color: #8B6F47; /* Primary Brand Color */
+            --brand-color-rgb: 139, 111, 71; /* For RGBA use */
+            --accent-color: #D4AF37; /* Accent Color */
+            --accent-color-rgb: 212, 175, 55; /* For RGBA use */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 6rem; } /* Hero name: 4-6rem */
+        h2 { font-size: 2.8rem; } /* Section headlines: 2.5-3rem */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; } /* Body: 1.05-1.15rem */
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0; /* Generous whitespace */
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 1px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 1px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--header-bg); /* Semi-transparent dark */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            padding-left: 20px;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sticky-header nav ul li {
+            margin: 0 15px;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-body);
+            font-size: 1rem;
+            font-weight: 400;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-button {
+            margin-right: 20px;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .logo {
+                font-size: 1.4rem;
+                padding-left: 15px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide navigation on small screens, could add hamburger menu */
+            }
+            .sticky-header .call-button {
+                padding: 6px 14px;
+                font-size: 0.85rem;
+                margin-right: 15px;
+            }
+            .sticky-header {
+                justify-content: space-between; /* Ensure logo and button still spaced */
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(var(--brand-color-rgb), 0.08) 30%, rgba(var(--accent-color-rgb), 0.08) 70%, var(--bg-main) 100%);
+            padding-top: 60px; /* Offset for sticky header */
+            position: relative;
+            overflow: hidden; /* Ensure no overflow from gradient */
+        }
+
+        .hero-section h1 {
+            font-size: 6rem; /* Massive, bold */
+            margin-bottom: 0.1em;
+            letter-spacing: -2px;
+            text-shadow: 0 0 20px rgba(var(--brand-color-rgb), 0.3);
+        }
+        .hero-section .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .hero-section .tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 25px;
+        }
+        .hero-section .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .hero-section .rating-badge .star-icon {
+            color: var(--accent-color);
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        .hero-section .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-section .location {
+                font-size: 1rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.2rem;
+            }
+            .hero-section .rating-badge {
+                font-size: 0.9rem;
+                padding: 6px 15px;
+            }
+            .hero-section .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-section .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 40px 0;
+        }
+        .social-proof-strip .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .social-proof-strip .proof-item h3 {
+            color: var(--text-heading);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+        .social-proof-strip .proof-item p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Our Story Section */
+        .our-story-section .story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .our-story-section .story-text h2 {
+            margin-bottom: 25px;
+        }
+        .our-story-section .story-text p {
+            margin-bottom: 1.5em;
+        }
+        .our-story-section .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .our-story-section .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1em;
+        }
+        .our-story-section .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+        .our-story-section .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .our-story-section .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px 20px;
+        }
+        .our-story-section .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .our-story-section .stat-card .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        @media (max-width: 992px) {
+            .our-story-section .story-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .our-story-section .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: rgba(var(--brand-color-rgb), 0.03); /* Slightly lighter for alternating sections */
+        }
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .menu-section .menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-section .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .menu-section .menu-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+        .menu-section .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            flex-grow: 1; /* Allows description to push price down if present */
+        }
+        .menu-section .menu-card .price {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .why-choose-us-section .choose-us-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-us-section .choose-us-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .why-choose-us-section .choose-us-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+        .why-choose-us-section .choose-us-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .why-choose-us-section .choose-us-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: rgba(var(--brand-color-rgb), 0.03); /* Alternating background */
+        }
+        .testimonials-section .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .testimonials-section .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .testimonials-section .testimonial-card .quote-text {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .testimonials-section .testimonial-card .author-info {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+            margin-top: auto; /* Pushes author to bottom */
+        }
+        .testimonials-section .testimonial-card .star-rating {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+        .location-hours-section .location-info h3,
+        .location-hours-section .hours-info h3 {
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+        .location-hours-section .address,
+        .location-hours-section .phone {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .location-hours-section .phone a {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+        .location-hours-section .phone a:hover {
+            color: var(--accent-color);
+        }
+        .location-hours-section .other-locations {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-top: 20px;
+        }
+
+        .location-hours-section .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .location-hours-section .hours-table th,
+        .location-hours-section .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.05rem;
+        }
+        .location-hours-section .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .location-hours-section .hours-table td {
+            color: var(--text-body);
+        }
+        .location-hours-section .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .location-hours-section .call-order-btn {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .location-hours-section .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(90deg, var(--brand-color), var(--accent-color));
+            padding: 80px 0;
+            text-align: center;
+        }
+        .final-cta-section h2 {
+            color: var(--text-heading);
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .final-cta-section .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border: 1px solid var(--text-heading);
+            padding: 15px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .final-cta-section .btn:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--accent-color);
+            border-color: rgba(255,255,255,0.9);
+            transform: scale(1.03);
+        }
+
+        @media (max-width: 768px) {
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0 30px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .footer .tagline-footer {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .social-links img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            fill: currentColor; /* Ensure SVG picks up current text color */
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="logo">Paul & Jack</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+19198550870" class="btn btn-primary call-button">CALL (919) 855-0870</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero-section">
+            <p class="location fade-in-up">Wake Forest, NC</p>
+            <h1 class="fade-in-up" style="transition-delay: 0.1s;">Paul & Jack</h1>
+            <p class="tagline fade-in-up" style="transition-delay: 0.2s;">Artisan & Craft Desserts, Freshly Baked Daily</p>
+            <div class="rating-badge fade-in-up" style="transition-delay: 0.3s;">
+                <span class="star-icon">★</span> 4.9 Stars (1177 Reviews)
+            </div>
+            <div class="hero-ctas fade-in-up" style="transition-delay: 0.4s;">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="proof-grid fade-in-up">
+                    <div class="proof-item">
+                        <h3>4.9 Stars</h3>
+                        <p>Customer Rating</p>
+                    </div>
+                    <div class="proof-item">
+                        <h3>1177+</h3>
+                        <p>Total Reviews</p>
+                    </div>
+                    <div class="proof-item">
+                        <h3>Local Favorite</h3>
+                        <p>Awarded by Community</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Heritage</p>
+                <div class="story-content">
+                    <div class="story-text fade-in-up">
+                        <h2>More Than Just Desserts: A Passion for European Delights</h2>
+                        <p>At Paul & Jack, we bring the exquisite tastes of European patisseries and vibrant New York City bakeries right here to Wake Forest, NC. Our mission is to craft wonderful selections of pastries and sweets that transport you with every bite.</p>
+                        <p>Imagine the flaky layers of a perfect napoleon, the rich creaminess of a Basque cheesecake, or the comforting warmth of an authentic egg custard, reminiscent of a recent trip to Portugal. We believe in tradition, quality ingredients, and the simple joy a truly artisan dessert can bring.</p>
+                        <p>Since opening our doors, we've dedicated ourselves to baking fresh, exceptional treats daily, becoming a beloved part of the community across our locations. We invite you to experience the passion and craftsmanship in every confection.</p>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                        <p>"Walking into Paul & Jack is like stepping into a charming European bakery. The aroma, the display... it's all so authentic and inviting. Truly a gem for anyone seeking a delightful escape!"</p>
+                        <p class="author">— A Loyal Customer, Wake Forest</p>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <div class="number">4.9</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="number">1177+</div>
+                        <div class="label">Positive Reviews</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="number">3</div>
+                        <div class="label">Convenient Locations</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Our Creations</p>
+                <h2 class="fade-in-up">Indulge in Our Artisan Desserts & Cafe Delights</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Napoleon</h3>
+                        <p>A classic European pastry with layers of flaky puff pastry and rich, creamy filling.</p>
+                        <p class="price">Typically $10</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                        <h3>Basque Cheesecake</h3>
+                        <p>A beautifully rustic cheesecake with a caramelized top and incredibly creamy interior.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                        <h3>Bomboloni</h3>
+                        <p>Italian-style filled doughnuts, light and airy, dusted with sugar.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                        <h3>Ricotta Pie</h3>
+                        <p>A delightfully rich and creamy Italian-style dessert pie, perfect for any occasion.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                        <h3>Chocolate Ganache</h3>
+                        <p>Decadent chocolate dessert, smooth and intensely rich for the ultimate chocolate lover.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                        <h3>Cannoli</h3>
+                        <p>Crisp pastry shells filled with a sweet, creamy ricotta cheese filling.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.6s;">
+                        <h3>Boston Cream</h3>
+                        <p>Classic cake with a creamy custard filling and a smooth chocolate glaze.</p>
+                    </div>
+                    <div class="menu-card fade-in-up" style="transition-delay: 0.7s;">
+                        <h3>Chocolate Croissant</h3>
+                        <p>Buttery, flaky croissant filled with rich, melted chocolate.</p>
+                    </div>
+                </div>
+                <p class="fade-in-up" style="margin-top: 40px; font-size: 0.95rem; color: var(--text-secondary);">Most items range from $6.95 and up.</p>
+                <a href="https://www.yelp.com/biz/_5bpLygwyWAJAXILP2PTRQ" target="_blank" class="btn btn-secondary fade-in-up" style="margin-top: 25px;">VIEW FULL MENU ON YELP</a>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us-section">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Our Promise</p>
+                <h2 class="fade-in-up">Why Wake Forest Chooses Paul & Jack</h2>
+                <div class="choose-us-grid">
+                    <div class="choose-us-card fade-in-up">
+                        <div class="icon">★</div>
+                        <h3>Authentic European & NYC Flavors</h3>
+                        <p>We pride ourselves on crafting pastries and sweets inspired by classic European shops and iconic NYC bakeries, bringing a world of flavor to your doorstep.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="icon">✨</div>
+                        <h3>Baked Fresh Daily, With Love</h3>
+                        <p>Every single item, from our flaky Napoleons to our creamy Basque Cheesecakes, is baked fresh each morning using the finest ingredients, ensuring unmatched quality.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="icon">❤️</div>
+                        <h3>Highly Rated & Community Loved</h3>
+                        <p>With a stellar 4.9-star rating from over 1177 reviews, we're not just a bakery; we're a cherished local favorite, celebrated for our consistent quality and warm service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">What Our Guests Say</p>
+                <h2 class="fade-in-up">Kind Words From Our Community</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <div class="star-rating">★★★★★</div>
+                        <p class="quote-text">"Had the Napoleon, and it was truly outstanding – flavorful and perfectly portioned, just like my recent trip to Portugal. Paul & Jack captured that authentic European essence!"</p>
+                        <p class="author-info">— Michael S., Wake Forest</p>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                        <div class="star-rating">★★★★★</div>
+                        <p class="quote-text">"The Basque Cheesecake is a revelation! So creamy and rich, you can tell it's made with true artistry. Every bite is pure bliss. Paul & Jack never disappoints!"</p>
+                        <p class="author-info">— Emily R., Raleigh</p>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                        <div class="star-rating">★★★★★</div>
+                        <p class="quote-text">"I can't get enough of their Bomboloni and a freshly brewed coffee. It's the perfect treat to brighten any morning. A true Wake Forest gem with fantastic service!"</p>
+                        <p class="author-info">— David L., Cary</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours-section">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Visit Us</p>
+                <h2 class="fade-in-up">Find Paul & Jack in Wake Forest</h2>
+                <div class="content-wrapper">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Wake Forest Home</h3>
+                        <p class="address">
+                            2010 S Main St #404<br>
+                            Wake Forest, NC 27587, USA
+                        </p>
+                        <p class="phone">
+                            Phone: <a href="tel:+19198550870">(919) 855-0870</a>
+                        </p>
+                        <p class="other-locations">
+                            Also visit our locations in Cary (1881 Lake Pine Drive) and Raleigh (911 N West St Suite 107)!
+                        </p>
+                        <a href="https://www.google.com/maps/search/Paul+and+Jack+2010+S+Main+St+%23404,+Wake+Forest,+NC+27587,+USA" target="_blank" class="btn btn-secondary call-order-btn">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                        <h3>Our Daily Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>7:00 AM – 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>7:00 AM – 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>7:00 AM – 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>7:00 AM – 6:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>7:00 AM – 8:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>7:00 AM – 8:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>7:00 AM – 8:00 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+19198550870" class="btn btn-primary call-order-btn">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Don't Just Crave It, Taste It!</h2>
+                <a href="#find-us" class="btn">Find Your Nearest Location & Indulge</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo">Paul & Jack</a>
+            <p class="tagline-footer">Artisan & Craft Desserts, Freshly Baked Daily in Wake Forest, Cary, and Raleigh.</p>
+            <div class="social-links">
+                <!-- Using generic social icons as specific URLs not provided -->
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.15A9.84 9.84 0 0 0 2.15 5.12V8.13h3.84v-3.03A6.1 6.1 0 0 1 10.37 1.13c2.95 0 3.74.77 3.74 2.48v2.86H18.84V10.02h-4.73v13.66h-4.73V14.02h-3.9v-3.78h3.9V2.15Z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3.44a8.56 8.56 0 0 0 -8.56 8.56S7.2 20 12 20.01c4.65-.01 8.56-8.45 8.56-8.56S9.2 3.44 12 3.44Zm0 1.17a7.39 7.39 0 0 0 -5.21 2.256A7.4 7.4 0 0 0 4.534 12a7.39 7.39 0 0 0 2.256 5.22A7.4 7.4 0 0 0 12 19.476a7.39 7.39 0 0 0 5.214-2.256A7.4 7.4 0 0 0 19.476 12a7.39 7.39 0 0 0 -2.256-5.214A7.4 7.4 0 0 0 12 4.61Zm0 3.15a4.24 4.24 0 1 1  0 8.48A4.24 4.24 0 0 1 0 8.48Zm0 1.17a3.07 3.07 0 1 0 0 6.14A3.07 3.07 0 0 0 0 6.14Zm6.64-2.74a1.05 1.05 0 1 1  0-2.181A1.09 1.09 0 0 1 0 2.181Z"/></svg></a>
+                <a href="https://www.yelp.com/biz/_5bpLygwyWAJAXILP2PTRQ" target="_blank" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2 16h6l1-10.27h6l3 11.25l-11.27 1.97l-.73-.47l-.73 1.98l8.23 1.43L9.55 6.44l-2.51-.6l-5.02 6.35l-5 6.25V16h2Zm6.96-5.57l.45-4.53l-.9.1l-.45 3.37l.9 1.27Z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Paul & Jack. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // IntersectionObserver for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
