@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unwind Bar + Cafe - High Point, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #000000;
+            --accent-color: #000000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--text-heading);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--text-body);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .header nav a:hover {
+            color: var(--text-heading);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background-color: #333333; /* Slightly lighter black on hover */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .header .btn-call {
+            padding: 10px 20px; /* Slightly smaller for header */
+            font-size: 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, var(--brand-color) 70%, var(--bg-main) 100%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-content .location {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+        
+        .hero-content .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+        }
+
+        .rating-badge svg {
+            margin-right: 8px;
+            color: #FFD700; /* Gold star */
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: var(--bg-alt);
+            padding: 50px 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background-image: linear-gradient(rgba(0,0,0,0.05), rgba(0,0,0,0.05)); /* Tint with brand color at low opacity */
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        
+        /* Section Header for black labels */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #f0f0f0; /* Light background for black text */
+            color: var(--brand-color); /* Black text */
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-top: 15px;
+        }
+
+        /* Our Story Section */
+        .our-story {
+            background-color: var(--bg-main); /* Alternating background */
+            padding-top: 120px;
+        }
+
+        .story-grid {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .story-content, .story-stats {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .stat-value {
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-alt); /* Alternating background */
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--bg-main); /* Alternating background */
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color); /* Using brand color for icon */
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-alt); /* Alternating background */
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-item .author {
+            font-weight: 600;
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-main); /* Alternating background */
+        }
+
+        .location-grid {
+            display: flex;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .location-info, .hours-info {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .location-info .address {
+            margin-bottom: 25px;
+        }
+
+        .location-info .phone-number-container {
+            background-color: #f8f8f8; /* Light background for black phone number text */
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            display: inline-block;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .location-info .phone-number-container a {
+            color: var(--brand-color); /* Black text for phone number link */
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-info .btn {
+            margin-top: 30px;
+            width: 100%;
+        }
+        
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--bg-main) 100%);
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            line-height: 1.1;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--brand-color); /* Using brand color for dark footer */
+            padding: 80px 0 40px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--text-heading);
+        }
+
+        .footer .copyright {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+
+            .header nav {
+                display: none; /* Hide nav links on mobile */
+            }
+
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .btn-call {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            
+            .section-header {
+                margin-bottom: 40px;
+            }
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .story-grid, .location-grid {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                min-width: unset;
+            }
+            .social-proof-item h3 {
+                font-size: 1.8rem;
+            }
+
+            .footer .logo {
+                font-size: 2rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">Unwind Bar + Cafe</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+13368840661" class="btn btn-primary btn-call">CALL (336) 884-0661</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location">High Point, NC</p>
+            <h1>Unwind Bar + Cafe</h1>
+            <p class="tagline">Connection to upstream proxy timed out</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.911-7.416 3.911 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.7 stars (85 reviews)
+            </div>
+            <div class="hero-actions">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                <h3>4.7 Stars</h3>
+                <p>Rated by 85 Happy Customers</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>Local Favorite</h3>
+                <p>A Beloved High Point Gathering Spot</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>Community Hub</h3>
+                <p>Connecting Friends, Family & Neighbors</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Story</span>
+                <h2>More Than Just a Diner</h2>
+            </div>
+            <div class="story-grid">
+                <div class="story-content fade-in-up">
+                    <p>Unwind Bar + Cafe is a beloved local spot in High Point, NC. More than just a diner, we're a vibrant community hub where friends gather, stories unfold, and every visit feels like coming home. We pride ourselves on crafting memorable experiences, from our rich coffee to our lively late-night atmosphere, always served with a smile.</p>
+                    <p>We believe in creating a space where everyone feels welcome, whether you're starting your day with a comforting coffee, enjoying a leisurely afternoon with friends, or unwinding with a craft cocktail after hours.</p>
+                    <div class="testimonial-card">
+                        <p>"Unwind is our go-to spot in High Point! The atmosphere is always buzzing, and it’s the perfect place to catch up with friends. Truly a beloved local gem."</p>
+                        <p class="author">- A Happy Regular</p>
+                    </div>
+                </div>
+                <div class="story-stats fade-in-up">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <p class="stat-value">85+</p>
+                            <p>Glowing Reviews</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-value">High Point</p>
+                            <p>A True Local Favorite</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="stat-value">Warm</p>
+                            <p>Welcoming Atmosphere</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Offerings</span>
+                <h2>Discover Your Next Craving</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Classic Diner Breakfast</h3>
+                    <p>Start your day right with our comforting morning favorites.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Savory Sandwiches & Wraps</h3>
+                    <p>Perfect for lunch or a light dinner, crafted with fresh ingredients.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Coffee Blends</h3>
+                    <p>Expertly brewed coffees and specialty espresso drinks.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Handcrafted Cocktails</h3>
+                    <p>Enjoy our unique and classic drinks in a lively setting.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Artisanal Desserts</h3>
+                    <p>Sweet endings to your meal, baked fresh daily.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Late Night Bites</h3>
+                    <p>Delicious snacks and small plates available until closing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Why Unwind?</span>
+                <h2>Your Ideal Spot in High Point</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card fade-in-up">
+                    <div class="icon">&#9749;</div> <!-- Coffee cup unicode -->
+                    <h3>Expertly Crafted Beverages</h3>
+                    <p>From rich coffee to unique cocktails, every drink is made with care and passion.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <div class="icon">&#127869;</div> <!-- Plate with Cutlery unicode -->
+                    <h3>Perfect for Late Nights</h3>
+                    <p>Open until 1 AM on weekends, we're the ideal destination for evening socializing.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <div class="icon">&#128100;</div> <!-- Bust in Silhouette unicode -->
+                    <h3>A True Community Hub</h3>
+                    <p>Join a vibrant atmosphere where locals gather, connect, and make lasting memories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Voices of Our Unwind Family</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <p>"Unwind is our go-to spot in High Point! The atmosphere is always buzzing, and it’s the perfect place to catch up with friends. Truly a beloved local gem."</p>
+                    <p class="author">- A Happy Regular</p>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <p>"I absolutely love the late-night vibe at Unwind. It’s rare to find a place with such great energy and delicious drinks open so late. A must-visit!"</p>
+                    <p class="author">- Night Owl Niki</p>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <p>"The coffee at Unwind is simply the best in town. Paired with their cozy seating, it makes for an ideal spot to relax or get some work done. Highly recommend!"</p>
+                    <p class="author">- Coffee Connoisseur</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Visit Us</span>
+                <h2>Find Your Way to Unwind</h2>
+            </div>
+            <div class="location-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p class="address">144 N Main St<br>High Point, NC 27260, USA</p>
+                    <p>Conveniently located in the heart of High Point, Unwind Bar + Cafe is easily accessible with ample parking nearby.</p>
+                    <div class="phone-number-container">
+                        <a href="tel:+13368840661">(336) 884-0661</a>
+                    </div>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Unwind+Bar+%2B+Cafe,+144+N+Main+St,+High+Point,+NC+27260" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>7:00 PM – 1:00 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>7:00 PM – 1:00 AM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+13368840661" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Unwind? Your Perfect Evening Awaits.</h2>
+            <a href="#location-hours" class="btn btn-secondary">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Unwind Bar + Cafe</div>
+            <p class="tagline">Connection to upstream proxy timed out</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">Facebook</a>
+                <a href="#" aria-label="Instagram">Instagram</a>
+                <a href="#" aria-label="Twitter">Twitter</a>
+            </div>
+            <p class="copyright">&copy; 2026 Unwind Bar + Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Optional: Unobserve after animation to save resources if elements don't need to re-animate
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            threshold: 0.1, // Trigger when 10% of the item is visible
+            rootMargin: '0px 0px -50px 0px' // Start animation slightly before it hits bottom of viewport
+        });
+
+        document.querySelectorAll('.fade-in-up').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
