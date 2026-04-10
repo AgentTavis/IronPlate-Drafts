@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Sisters Bakery | Black Mountain's Finest Pastries & Breads</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #181818;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from fade-in effect */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-color); }
+        .text-light { color: var(--text-heading); }
+        .text-muted { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+        .bold { font-weight: 700; }
+        .flex { display: flex; }
+        .grid { display: grid; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(204, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Section padding */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-light);
+        }
+
+        /* Fade-in-up effect (for JS) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+        .logo span {
+            color: var(--brand-color);
+        }
+
+        .nav-links a {
+            color: var(--text-heading);
+            font-weight: 500;
+            margin-left: 2.5rem;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border: none;
+        }
+        .header-call-btn:hover {
+            transform: scale(1.05);
+            background-color: color-mix(in srgb, var(--brand-color) 80%, black);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.1) 0%, rgba(17, 17, 17, 0.9) 70%, rgba(17, 17, 17, 1) 100%);
+            background-color: var(--bg-dark); /* Fallback */
+            padding-top: 60px; /* Account for sticky header */
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Subtle dark overlay to ensure text readability */
+            background: linear-gradient(to top, rgba(17, 17, 17, 0.6) 0%, rgba(17, 17, 17, 0.2) 50%, rgba(17, 17, 17, 0.6) 100%);
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            line-height: 1;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .rating-badge svg {
+            color: gold;
+            margin-right: 0.5rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: color-mix(in srgb, var(--brand-color) 3%, var(--bg-dark));
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .proof-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .proof-item {
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            padding: 1rem;
+            color: var(--text-heading);
+        }
+        .proof-item .value {
+            font-family: 'Bitter', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+        .proof-item .label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section Layouts */
+        .section-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+        }
+
+        .section-headline {
+            font-size: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .our-story-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .our-story-quote {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .our-story-quote::before {
+            content: '“';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+            line-height: 1;
+        }
+        .our-story-quote p {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .our-story-quote .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            text-align: right;
+            margin-top: 1rem;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .stat-card .value {
+            font-family: 'Bitter', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .menu-card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+        }
+        .menu-card-description {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .menu-card-details {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .why-card-icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+        }
+        .why-card-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+        .why-card-text {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .testimonial-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+        .testimonial-card .rating {
+            color: gold;
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+        .location-info a {
+            font-size: 1.15rem;
+            color: var(--brand-color);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 1rem 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours-cta {
+            margin-top: 3rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, color-mix(in srgb, var(--brand-color) 80%, black) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta .section-headline {
+            color: var(--text-heading);
+            margin-bottom: 3rem;
+            max-width: 900px;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            border-color: var(--text-heading);
+            color: var(--brand-color);
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 80px 0 40px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 1rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 2rem;
+            width: 100%;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            .section-headline {
+                font-size: 2.5rem;
+            }
+            .nav-links a {
+                margin-left: 1.5rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .our-story-quote {
+                margin-top: 2rem;
+            }
+            .proof-item {
+                flex-basis: 45%;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .sticky-header .container {
+                justify-content: center;
+            }
+            .header-call-btn {
+                position: absolute; /* Keep call button accessible */
+                right: 20px;
+            }
+
+            .hero {
+                height: auto;
+                min-height: 80vh;
+                padding: 120px 0 60px;
+            }
+            .hero-title {
+                font-size: 3.2rem;
+            }
+            .hero-tagline {
+                font-size: 1.15rem;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .section-padding-y {
+                padding: 60px 0;
+            }
+            .social-proof-strip {
+                padding: 30px 0;
+            }
+            .proof-item {
+                flex-basis: 100%;
+                padding: 0.5rem;
+            }
+            .proof-item .value {
+                font-size: 2.5rem;
+            }
+            .proof-item .label {
+                font-size: 0.9rem;
+            }
+            .story-stats-grid, .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-content {
+                padding: 0 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            .header-call-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+            .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">Four Sisters<span> Bakery</span></div>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:(828) 989-5163" class="btn header-call-btn">CALL (828) 989-5163</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location uppercase text-secondary">Black Mountain, NC</p>
+                <h1 class="hero-title">Four Sisters Bakery</h1>
+                <p class="hero-tagline">Bakery in Black Mountain, NC. Fresh and made from scratch pastries and breads.</p>
+                <div class="rating-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    4.6 Stars (243 Reviews)
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof-strip">
+            <div class="container proof-items fade-in-up">
+                <div class="proof-item">
+                    <div class="value">4.6<span style="font-size: 0.5em;">★</span></div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="proof-item">
+                    <div class="value">243+</div>
+                    <div class="label">Happy Reviews</div>
+                </div>
+                <div class="proof-item">
+                    <div class="value">Local</div>
+                    <div class="label">Favorite</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-story">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <p class="section-label">Our Story</p>
+                    <h2 class="section-headline">Baked with Love, Crafted for Community</h2>
+                </div>
+                <div class="our-story-grid">
+                    <div class="our-story-content">
+                        <p>At Four Sisters Bakery, we believe in the simple joy of freshly baked goods. Nestled in the heart of Black Mountain, NC, our bakery is a testament to tradition, quality ingredients, and the warmth of family.</p>
+                        <p>Every morning, before the sun greets the mountains, our ovens are fired up, filling the air with the irresistible aroma of sweet pastries and crusty breads. We take pride in crafting each item from scratch, using time-honored recipes and a generous dash of passion.</p>
+                        <p>It's more than just a bakery; it's a place where neighbors connect, where smiles are shared over a perfect cinnamon roll, and where every bite feels like coming home. Come experience the difference that genuine care and dedication make.</p>
+                    </div>
+                    <div class="our-story-quote">
+                        <p>"Walking into Four Sisters is like a warm hug. Their pastries are simply divine – the almond croissant is a daily temptation!"</p>
+                        <span class="author">— A Loyal Customer</span>
+                    </div>
+                </div>
+                <div class="story-stats-grid fade-in-up">
+                    <div class="stat-card">
+                        <div class="value">4.6<span style="font-size: 0.5em;">★</span></div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">243+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value">5</div>
+                        <div class="label">Popular Desserts</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <p class="section-label">Our Delights</p>
+                    <h2 class="section-headline">Popular Desserts That Bring Joy</h2>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <div>
+                            <h3 class="menu-card-title">Cinnamon Roll</h3>
+                            <p class="menu-card-description">Our legendary, gooey cinnamon rolls, baked to perfection with a generous swirl of frosting.</p>
+                        </div>
+                        <div class="menu-card-details">
+                            6 Reviews | A Customer Favorite
+                        </div>
+                    </div>
+                    <div class="menu-card">
+                        <div>
+                            <h3 class="menu-card-title">Pies</h3>
+                            <p class="menu-card-description">Classic, fruit-filled pies with flaky, buttery crusts, changing seasonally for fresh flavors.</p>
+                        </div>
+                        <div class="menu-card-details">
+                            4 Reviews | Perfect for Sharing
+                        </div>
+                    </div>
+                    <div class="menu-card">
+                        <div>
+                            <h3 class="menu-card-title">Pastries</h3>
+                            <p class="menu-card-description">A rotating selection of delicate pastries, from fruit tarts to danishes, always made fresh.</p>
+                        </div>
+                        <div class="menu-card-details">
+                            5 Reviews | Daily Delights
+                        </div>
+                    </div>
+                    <div class="menu-card">
+                        <div>
+                            <h3 class="menu-card-title">Brownies</h3>
+                            <p class="menu-card-description">Rich, fudgy, and intensely chocolatey brownies. A classic treat done just right.</p>
+                        </div>
+                        <div class="menu-card-details">
+                            3 Reviews | Decadent & Delicious
+                        </div>
+                    </div>
+                    <div class="menu-card">
+                        <div>
+                            <h3 class="menu-card-title">Almond Croissant</h3>
+                            <p class="menu-card-description">Flaky croissant filled with sweet almond paste and topped with toasted almonds.</p>
+                        </div>
+                        <div class="menu-card-details">
+                            2 Reviews | Buttery & Irresistible
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <p class="section-label">Our Promise</p>
+                    <h2 class="section-headline">Why Four Sisters Bakery is Your Daily Ritual</h2>
+                </div>
+                <div class="why-choose-grid">
+                    <div class="why-card">
+                        <div class="why-card-icon">&#127850;</div> <!-- Bread emoji, generic for bakery -->
+                        <h3 class="why-card-title">Baked Fresh Daily</h3>
+                        <p class="why-card-text">From our famous Cinnamon Rolls to our seasonal Pies, every item is baked from scratch each morning, ensuring unparalleled freshness and flavor.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-card-icon">&#x2705;</div> <!-- Checkmark emoji -->
+                        <h3 class="why-card-title">Delightful Gluten-Free Options</h3>
+                        <p class="why-card-text">We believe everyone deserves a treat! Enjoy a selection of delicious gluten-free pastries without compromising on taste or quality.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="why-card-icon">&#128663;</div> <!-- Car emoji for parking -->
+                        <h3 class="why-card-title">Convenient Take-Out & Parking</h3>
+                        <p class="why-card-text">Grab your favorites to go with ease. We offer convenient take-out service and dedicated private lot parking for a hassle-free visit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <p class="section-label">What Our Customers Say</p>
+                    <h2 class="section-headline">Stories From Our Happy Community</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p>"The cinnamon rolls are out of this world! Fluffy, sweet, and perfectly spiced. I grab one almost every Tuesday on my way to work."</p>
+                        <div class="author">Sarah M.</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"I adore the almond croissants here. They're so flaky and the almond filling is just right—not too sweet. A true gem in Black Mountain!"</p>
+                        <div class="author">David L.</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Four Sisters Bakery makes the best pies in the area! I recently tried their apple pie, and it tasted exactly like my grandma's. A must-visit!"</p>
+                        <div class="author">Emily R.</div>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us">
+            <div class="container fade-in-up">
+                <div class="section-header">
+                    <p class="section-label">Visit Us</p>
+                    <h2 class="section-headline">Find Your Way to Fresh Baked Happiness</h2>
+                </div>
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>Four Sisters Bakery</p>
+                        <p>136 N Dougherty St, Black Mountain, NC 28711, USA</p>
+                        <a href="https://www.google.com/maps/search/Four+Sisters+Bakery+136+N+Dougherty+St,+Black+Mountain,+NC+28711,+USA" target="_blank">Get Directions on Google Maps</a>
+                        <p>Phone: <a href="tel:(828) 989-5163" class="text-primary">(828) 989-5163</a></p>
+                        <p>Plenty of private lot and validated parking available!</p>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr>
+                                <th>Monday</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td>8:00 AM – 1:00 PM</td>
+                            </tr>
+                        </table>
+                        <div class="location-hours-cta">
+                            <a href="tel:(828) 989-5163" class="btn btn-primary">CALL TO ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2 class="section-headline">Don't Just Hear About It, Taste the Magic for Yourself!</h2>
+                <a href="#menu" class="btn btn-primary">VIEW OUR DELICIOUS MENU NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="logo">Four Sisters<span> Bakery</span></div>
+            <p class="footer-tagline">Bakery in Black Mountain, NC. Fresh and made from scratch pastries and breads.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.935 6.75-7.951z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.088 3.85.048 4.703.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.509.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.297-.048c.852-.04 1.433-.174 1.942-.372a3.927 3.927 0 0 0 1.417-.923c.445-.444.719-.89.923-1.416.198-.509.333-1.09.372-1.942.04-1.18.04-1.217.04-3.298 0-2.172-.01-2.444-.048-3.297-.04-.852-.174-1.433-.372-1.942a3.917 3.917 0 0 0-.923-1.417A3.927 3.927 0 0 0 13.24 0.42c-.509-.198-1.09-.333-1.942-.372C10.444.01 10.172 0 8 0zm0 2.16c2.16 0 2.414.01 3.25.047.78.035 1.204.166 1.486.275.373.145.64.318.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.037.836.047 1.09.047 3.25s-.01 2.414-.047 3.25c-.035.78-.166 1.204-.275 1.486a2.59 2.59 0 0 1-.599.92.589.589 0 0 1-.92.598c-.281.11-.705.24-1.485.275-.836.037-1.09.047-3.25.047s-2.414-.01-3.25-.047c-.78-.035-1.204-.166-1.485-.275a2.59 2.59 0 0 1-.92-.599 2.59 2.59 0 0 1-.598-.92c-.11-.281-.24-.705-.275-1.485-.037-.836-.047-1.09-.047-3.25s.01-2.414.047-3.25c.035-.78.166-1.204.275-1.486.145-.373.318-.64.599-.92.28-.28.546-.453.92-.598.281-.11.705-.24 1.485-.275C5.587 2.16 5.84 2.16 8 2.16zm0 3.868c-2.175 0-3.37 2.181-3.37 3.37S5.825 11.536 8 11.536s3.37-2.181 3.37-3.37-1.195-3.37-3.37-3.37zm0 1.291c1.264 0 2.279 1.015 2.279 2.279S9.264 10.239 8 10.239s-2.279-1.015-2.279-2.279S6.736 6.749 8 6.749z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Four Sisters Bakery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in-up');
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% visible
+                rootMargin: "0px 0px -50px 0px" // Start animating slightly before it's fully in viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
