@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smith's Soul Food Bistro | Gastonia's Championship Flavors</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a;
+            --brand-color: #228B22; /* Forest Green */
+            --accent-color: #F4D03F; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.2);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2e9f2e; /* Slightly lighter brand color */
+            border-color: #2e9f2e;
+            transform: scale(1.02);
+            box-shadow: var(--shadow-light);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            white-space: nowrap;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            margin-right: 20px;
+        }
+
+        .sticky-header nav ul li {
+            margin-left: 30px;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #2e9f2e;
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-main) 0%, #171c17 50%, var(--bg-main) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            transform: translateY(-30px); /* Adjust for visual center */
+        }
+
+        .hero-content h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .hero-content .location {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-content .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .hero-content .rating-badge .star-icon {
+            color: var(--accent-color);
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .hero-content .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(34, 139, 34, 0.05); /* Brand color, low opacity */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-strip .proof-item {
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-item strong {
+            display: block;
+            font-size: 2.2rem;
+            font-family: 'Lora', serif;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-strip .proof-item span {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 600;
+        }
+
+        /* Section Styling */
+        .section-alt {
+            background-color: var(--bg-alt);
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-heading);
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        .our-story-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 2rem;
+            font-family: 'Lora', serif;
+            color: var(--brand-color);
+            margin-bottom: 8px;
+        }
+
+        .stat-card span {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .menu-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex-grow: 1;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .choice-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .choice-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .choice-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+            font-size: 1rem;
+        }
+
+        .testimonial-card .rating {
+            color: var(--accent-color);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        
+        .testimonial-card .rating .star-icon {
+            margin-right: 3px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .location-info .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .location-info .map-placeholder::before {
+            content: 'Map Placeholder';
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            font-size: 1.05rem;
+        }
+        
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #2e9f2e 100%);
+            padding: 120px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-main);
+        }
+
+        .final-cta .btn:hover {
+            background-color: #ffd700; /* Lighter accent */
+            border-color: #ffd700;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Lora', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .footer .social-link {
+            font-size: 1.8rem;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-link:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-content, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-text, .location-info, .hours-info {
+                text-align: center;
+            }
+            .our-story-stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-card {
+                width: 80%; /* Adjust width for better look on smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .sticky-header .logo {
+                font-size: 1.2rem;
+            }
+            .sticky-header .call-button {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content .tagline {
+                font-size: 1rem;
+            }
+            .hero-content .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+            .social-proof-strip .proof-item strong {
+                font-size: 1.8rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+                margin-bottom: 40px;
+            }
+            .stat-card {
+                width: 100%;
+            }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                gap: 40px;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content .location {
+                font-size: 1rem;
+            }
+            .hero-content .rating-badge {
+                font-size: 0.9rem;
+            }
+            .sticky-header {
+                height: 50px;
+            }
+            .sticky-header .logo {
+                font-size: 1rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Smith's Soul Food Bistro</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17049156777" class="call-button">CALL (704) 915-6777</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="container hero-content">
+            <span class="location">Gastonia, NC</span>
+            <h1>Smith's Soul Food Bistro</h1>
+            <p class="tagline">State Championship...we bringing back the SHIP TO THE GASHOUSE! Thank you to Food Lion, Sun Drop Smiths Soulfood Bistro for feeding our TEAM!</p>
+            <div class="rating-badge">
+                <span class="star-icon">&#9733;</span> 4.4 Stars (535 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container proof-grid">
+            <div class="proof-item">
+                <strong>4.4 / 5</strong>
+                <span>Overall Rating</span>
+            </div>
+            <div class="proof-item">
+                <strong>535+</strong>
+                <span>Happy Reviews</span>
+            </div>
+            <div class="proof-item">
+                <strong>Local</strong>
+                <span>Favorite Since Day 1</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container">
+            <span class="section-label">OUR STORY</span>
+            <h2 class="section-headline">Serving Gastonia's Heart & Soul, One Plate at a Time.</h2>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>At Smith's Soul Food Bistro, we're more than just a restaurant; we're a cornerstone of the Gastonia community. Inspired by the spirit of championship and local pride—just like bringing the 'SHIP TO THE GASHOUSE'—we pour our heart into every dish.</p>
+                    <p>From savory breakfast and brunch to classic soul food and the freshest seafood, we promise a taste of home and hospitality that keeps you coming back. We're proud to fuel our community, including our local teams, with delicious, handcrafted meals made with love and tradition.</p>
+                    <div class="our-story-stats">
+                        <div class="stat-card">
+                            <strong>4.4 Stars</strong>
+                            <span>Average Rating</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>535 Reviews</strong>
+                            <span>Happy Customers</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>5 Days a Week</strong>
+                            <span>Open & Ready</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"This was my first time visiting this location. The girl taking my order was friendly and attentive. My order came out quickly (it was to-go). The cook got my order wrong, so I went back into the store and told someone. Not only did they quickly fix my order, but they also apologized profusely and gave me a free dessert. The fried chicken was fantastic, and the service made me a loyal customer!"</p>
+                    <span class="author">— Kristen D.</span>
+                    <div class="rating">
+                        <span class="star-icon">&#9733;</span>
+                        <span class="star-icon">&#9733;</span>
+                        <span class="star-icon">&#9733;</span>
+                        <span class="star-icon">&#9733;</span>
+                        <span class="star-icon">&#9733;</span> (5/5)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding section-alt">
+        <div class="container">
+            <span class="section-label">OUR MENU</span>
+            <h2 class="section-headline">A Taste of Home, Crafted with Passion</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h4>Fried Chicken</h4>
+                    <p>Our crispy, juicy fried chicken, seasoned to perfection with a secret family recipe. A true soul food classic.</p>
+                </div>
+                <div class="menu-card">
+                    <h4>Fried Ribs</h4>
+                    <p>Tender, fall-off-the-bone ribs, perfectly fried and bursting with savory flavor. A unique and beloved favorite.</p>
+                </div>
+                <div class="menu-card">
+                    <h4>Chicken Quesadillas</h4>
+                    <p>Flavorful seasoned chicken melted with cheese in a grilled tortilla. A delightful twist on a classic.</p>
+                </div>
+                <div class="menu-card">
+                    <h4>Fish Sandwich</h4>
+                    <p>Fresh, flaky fish, perfectly fried and served on a bun with all the fixings. A Gastonia seafood delight.</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="tel:+17049156777" class="btn btn-primary">VIEW FULL MENU (CALL TO ORDER)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding">
+        <div class="container">
+            <span class="section-label">WHY CHOOSE US</span>
+            <h2 class="section-headline">The Smith's Difference: Unforgettable Flavors, Unmatched Service.</h2>
+            <div class="why-choose-us-grid">
+                <div class="choice-card">
+                    <span class="icon">&#127860;</span> <!-- Plate icon -->
+                    <h3>Award-Winning Flavors</h3>
+                    <p>From our tender Fried Ribs to our perfectly seasoned Fried Chicken, every dish is a culinary victory, mirroring the 'SHIP TO THE GASHOUSE' spirit.</p>
+                </div>
+                <div class="choice-card">
+                    <span class="icon">&#128100;</span> <!-- People icon -->
+                    <h3>Community Heartbeat</h3>
+                    <p>Experience the friendly, attentive service Kristen D. raved about. We treat every guest like family, ensuring your visit is quick, enjoyable, and satisfying.</p>
+                </div>
+                <div class="choice-card">
+                    <span class="icon">&#127827;</span> <!-- Fork & Knife icon -->
+                    <h3>Fresh Seafood & Soulful Classics</h3>
+                    <p>Whether you crave a savory Fish Sandwich or a hearty breakfast, we offer diverse options for dine-in or convenient take-out, 5 days a week.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section-padding section-alt">
+        <div class="container">
+            <span class="section-label">WHAT OUR GUESTS SAY</span>
+            <h2 class="section-headline">Hear From Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"This was my first time visiting this location. The girl taking my order was friendly and attentive... The fried chicken was fantastic, and the service made me a loyal customer!"</p>
+                    <span class="author">— Kristen D.</span>
+                    <div class="rating">
+                        <span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The Fried Ribs here are absolutely phenomenal! Fall-off-the-bone tender and seasoned to perfection. A must-try every time I'm in Gastonia, worth every single bite."</p>
+                    <span class="author">— A. Johnson</span>
+                    <div class="rating">
+                        <span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"I'm always torn between the delicious Fish Sandwich and the Chicken Quesadillas – both are fantastic! Great portions and always fresh. Best soul food in NC, hands down!"</p>
+                    <span class="author">— M. Davis</span>
+                    <div class="rating">
+                        <span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span><span class="star-icon">&#9733;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding">
+        <div class="container">
+            <span class="section-label">FIND US</span>
+            <h2 class="section-headline">Your Table Awaits in Gastonia</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Visit Us Today!</h3>
+                    <p><strong>Smith's Soul Food Bistro</strong></p>
+                    <p>209 S Chestnut St, Gastonia, NC 28054, USA</p>
+                    <p>Ready to experience the best soul food and seafood in Gastonia? We're located conveniently for all your cravings.</p>
+                    <div class="map-placeholder"></div>
+                    <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>11:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 7:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>11:00 AM – 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>11:00 AM – 6:00 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+17049156777" class="btn btn-secondary">CALL TO ORDER: (704) 915-6777</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Don't Miss Out! Experience Gastonia's Best Soul Food Today.</h2>
+            <a href="tel:+17049156777" class="btn btn-primary">ORDER NOW & TASTE THE DIFFERENCE</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Smith's Soul Food Bistro</div>
+            <p class="tagline">State Championship...we bringing back the SHIP TO THE GASHOUSE!</p>
+            <div class="social-links">
+                <a href="#" class="social-link">&#x1F4F1;</a> <!-- Phone icon placeholder for social -->
+                <a href="#" class="social-link">&#x1F4AC;</a> <!-- Chat bubble icon placeholder for social -->
+                <a href="#" class="social-link">&#x1F4F7;</a> <!-- Camera icon placeholder for social -->
+            </div>
+            <p class="copyright">&copy; 2026 Smith's Soul Food Bistro. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
