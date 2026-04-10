@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atomic Clock Brewing Company - Durham, NC | Chef-Driven Brewpub & Craft Beers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --max-width: 1200px;
+            --section-padding: 80px 0;
+            --gap-spacing: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Utility Classes */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #E60000; /* Slightly lighter red */
+            border-color: #E60000;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            font-family: 'Bebas Neue', sans-serif;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%; /* Ensure container fills header height */
+        }
+
+        .header-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--accent-color);
+            font-size: 1.0rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .header-cta:hover {
+            background-color: #E60000;
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Offset for sticky header */
+            background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(204, 0, 0, 0.1) 50%, rgba(17, 17, 17, 1) 100%);
+        }
+
+        .hero::before { /* Subtle radial glow from brand color */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-location {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .hero-title {
+            font-size: 5rem; /* Massive, bold */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+            line-height: 0.9;
+        }
+
+        .hero-tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .hero-rating svg {
+            fill: #FFD700; /* Gold star color */
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: var(--gap-spacing);
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(204, 0, 0, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--gap-spacing);
+        }
+
+        .proof-item {
+            color: var(--text-heading);
+        }
+
+        .proof-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: var(--brand-color);
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .proof-item .stars svg {
+            fill: #FFD700;
+            width: 24px;
+            height: 24px;
+            margin: 0 2px;
+            vertical-align: middle;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .our-story-content p {
+            color: var(--text-body);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .story-testimonial::before {
+            content: '“';
+            font-family: serif;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.08);
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            z-index: 0;
+        }
+
+        .story-testimonial p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .story-testimonial span {
+            display: block;
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--gap-spacing);
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+        }
+
+        .stat-card h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            color: var(--accent-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-spacing);
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid var(--brand-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 0 2px rgba(204, 0, 0, 0.3); /* subtle shadow + brand color glow */
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-spacing);
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            border-top: 5px solid var(--brand-color); /* Brand color top border accent */
+            text-align: center;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap-spacing);
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 5px solid var(--brand-color);
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 5rem;
+            color: rgba(255,255,255,0.06);
+            position: absolute;
+            top: -15px;
+            left: 15px;
+            z-index: 0;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card .author {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 10px;
+        }
+
+        .location-info a.phone-number {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .location-info a.phone-number:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(204, 0, 0, 0.7) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border-color: var(--accent-color);
+        }
+
+        .final-cta .btn:hover {
+            background-color: #F0F0F0; /* Slightly lighter accent */
+            border-color: #F0F0F0;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-icons {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-icons a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 3.8rem;
+            }
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .header-cta {
+                display: none; /* Hide nav and call button on small screens for simplicity */
+            }
+            .header .container {
+                justify-content: center;
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-grid {
+                text-align: center;
+            }
+            .story-testimonial {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 500px;
+            }
+            .story-stats-grid, .menu-grid, .why-cards-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                text-align: center;
+            }
+            .hours-table {
+                font-size: 1rem;
+            }
+            .hours-table th, .hours-table td {
+                padding: 10px 0;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-location {
+                font-size: 0.9rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header-logo">Atomic Clock Brewing</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+19192371253" class="header-cta">CALL (919) 237-1253</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-content fade-in-up">
+            <p class="hero-location">Durham, NC</p>
+            <h1 class="hero-title">Atomic Clock Brewing Company</h1>
+            <p class="hero-tagline">Beer was very good and the food is outstanding. Most breweries have food trucks, this one has its own chef!</p>
+            <div class="hero-rating">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                <span>4.7 Stars (127 Reviews)</span>
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#find-us" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof section-padding">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="proof-item">
+                <h3 class="stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg>
+                </h3>
+                <p>4.7 / 5.0 Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>127+</h3>
+                <p>Happy Guests & Reviews</p>
+            </div>
+            <div class="proof-item">
+                <h3>Durham's</h3>
+                <p>Local Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story section-padding">
+        <div class="container fade-in-up">
+            <p class="section-label text-center">Our Story</p>
+            <h2 class="text-center" style="margin-bottom: 50px;">Crafting Exceptional Brews & Culinary Delights</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <p>At Atomic Clock Brewing Company, we're passionate about more than just great beer. We're dedicated to a unique experience where exceptional craft brews meet chef-driven cuisine. Unlike many breweries that rely on food trucks, we take pride in having our own talented chef in-house, creating outstanding dishes that perfectly complement our diverse tap list.</p>
+                    <p>Our service model is designed for a relaxed, taproom atmosphere. You'll find our friendly bartenders ready to guide you through our beer selection, and a dedicated food runner ensures your meal arrives promptly, without any buzzers or loud speakers. This allows us to maintain a clean, comfortable environment where the focus is on quality and enjoyment.</p>
+                    <p>It's what we've found works best for our business, allowing us to serve both our beer enthusiasts and food lovers with the attention they deserve. Come discover the Atomic Clock difference – where every visit is a journey for your taste buds.</p>
+                    <div class="story-testimonial">
+                        <p>"The dedication to both their craft beer and their food is truly commendable. It’s rare to find such quality under one roof."</p>
+                        <span>— A Happy Local</span>
+                    </div>
+                </div>
+                <div class="story-stats-grid">
+                    <div class="stat-card">
+                        <h3>4.7</h3>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>127+</h3>
+                        <p>Guest Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Dedicated</h3>
+                        <p>In-House Chef</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu section-padding">
+        <div class="container fade-in-up text-center">
+            <p class="section-label">Our Menu</p>
+            <h2>Taste the Innovation in Every Dish</h2>
+            <p style="margin-top: 20px; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--text-secondary);">While our menu is ever-evolving with seasonal delights, here's a glimpse into the culinary creativity our in-house chef brings to the table, pairing perfectly with our craft brews.</p>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Craft Brews On Tap</h3>
+                    <p>A rotating selection of unique and classic beers, brewed with passion right here in Durham.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Gourmet Burgers</h3>
+                    <p>Chef-crafted burgers with premium ingredients and signature toppings, a true pub favorite.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Artisan Flatbreads</h3>
+                    <p>Crispy, flavorful flatbreads with fresh, seasonal ingredients – perfect for sharing.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Appetizers</h3>
+                    <p>Starters designed to delight, from crispy wings to inventive small plates.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Seasonal Specials</h3>
+                    <p>Ask about our rotating specials, highlighting fresh, local ingredients and culinary innovation.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Non-Alcoholic Options</h3>
+                    <p>Refreshing craft sodas, teas, and more for all ages to enjoy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us section-padding">
+        <div class="container fade-in-up text-center">
+            <p class="section-label">Why Choose Us?</p>
+            <h2>The Atomic Clock Brewing Difference</h2>
+            <p style="margin-top: 20px; max-width: 700px; margin-left: auto; margin-right: auto; color: var(--text-secondary);">We're more than just a brewery; we're a culinary destination. Here’s what sets us apart in the vibrant Durham scene.</p>
+            <div class="why-cards-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Chef-Driven Cuisine</h3>
+                    <p>Unlike most breweries, we boast our own dedicated chef crafting outstanding dishes like our gourmet burgers and artisan flatbreads, ensuring a dining experience that's truly next-level.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Award-Winning Brews</h3>
+                    <p>Our extensive selection of craft beers, consistently rated 4.7 stars by 127 happy guests, pairs perfectly with any meal, offering something for every palate.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Relaxed & Dog-Friendly</h3>
+                    <p>Enjoy our laid-back taproom vibe with prompt food delivery from our friendly runners. Plus, bring your furry friends along – we're proudly dog-friendly!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials section-padding">
+        <div class="container fade-in-up text-center">
+            <p class="section-label">What Our Guests Say</p>
+            <h2>Stories From Our Satisfied Visitors</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"The craft beers here are simply amazing, and their gourmet burgers? Out of this world! A real gem in Durham, I keep coming back."</p>
+                    <span class="author">— Jessica R.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Finally, a brewery with food that actually stands out! The artisan flatbreads are a must-try, and the service is always efficient and friendly. Love this spot!"</p>
+                    <span class="author">— Mark T.</span>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Came for the brews, stayed for the incredible food. Seriously impressed by the chef-quality crispy wings and the relaxed atmosphere. Highly recommend Atomic Clock!"</p>
+                    <span class="author">— Sarah L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours section-padding">
+        <div class="container fade-in-up text-center">
+            <p class="section-label">Visit Us</p>
+            <h2>Your Destination for Great Beer & Food</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p><strong>Atomic Clock Brewing Company</strong></p>
+                    <p>501 Washington St # A,<br>Durham, NC 27701, USA</p>
+                    <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="margin-top: 20px;">Get Directions</a>
+                    <p style="margin-top: 30px;">Have questions or want to learn more?</p>
+                    <a href="tel:+19192371253" class="phone-number">(919) 237-1253</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Hours of Operation</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>3:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>3:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>3:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>12:00 – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>12:00 – 11:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>12:00 – 11:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>12:00 – 9:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+19192371253" class="btn btn-primary" style="margin-top: 30px;">Call To Order</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Experience Atomic Clock Brewing?</h2>
+            <a href="#find-us" class="btn">View Menu & Plan Your Visit</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">Atomic Clock Brewing</a>
+            <p class="footer-tagline">Beer was very good and the food is outstanding. Most breweries have food trucks, this one has its own chef!</p>
+            <ul class="social-icons">
+                <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3c-3.86 0-5 3.06-5 6v1.5H6v4h3.5V22h4V13.5z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A2 2 0 0 0 4 6.2v8.4A2 2 0 0 0 6.2 18h8.4a2 2 0 0 0 2-2V6.2a2 2 0 0 0-2-2H7.6zm9.6 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg viewBox="0 0 24 24" width="1em" height="1em" fill="currentColor"><path d="M10.82 2.21C9.64 2.16 8.87 2.92 8.76 4.1l-.73 8.35c-.09 1.15.52 1.95 1.54 2.01l4.7.25c.98.05 1.77-.73 1.86-1.87l.73-8.35c.09-1.15-.52-1.95-1.54-2.01l-4.7-.25zm-2.14 16.35C7.4 19.68 8.16 20 9.07 20h5.66c.86 0 1.63-.3 2.18-.89l.8-1.5c.34-.63.1-1.35-.53-1.69l-3.32-1.78c-.63-.34-1.35-.1-1.69.53l-.8 1.5c-.56.89-1.32 1.25-2.18 1.25H9.07c-.67 0-1.34-.14-1.76-.79l-.8-1.5c-.34-.63-1.06-.87-1.69-.53l-3.32 1.78c-.63.34-.87 1.06-.53 1.69l.8 1.5c.87 1.62 2.48 2.22 4.09 2.22H9.07c1.37 0 2.58-.57 3.48-1.74l.8-1.5c.34-.63.1-1.35-.53-1.69l-3.32-1.78c-.63-.34-1.35-.1-1.69.53l-.8 1.5c-.44.82-.9 1.21-1.35 1.21h-.19z"/></svg></a></li>
+            </ul>
+            <p>&copy; 2026 Atomic Clock Brewing Company. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, /* Trigger when 20% of the item is visible */
+                rootMargin: "0px 0px -50px 0px" /* Adjust bottom margin to trigger slightly sooner */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
