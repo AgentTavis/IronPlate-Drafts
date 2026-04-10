@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Tea Room On Main | Williamston's Premier Afternoon Tea Experience</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles & Reset */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-dark: #1a1a1a;
+            --brand-color: #8B4513;
+            --accent-color: #D4AF37;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(var(--brand-color), 0.1) 30%, var(--bg-dark) 50%, rgba(var(--accent-color), 0.1) 70%, var(--bg-dark) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(var(--brand-color), 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at top left, rgba(var(--accent-color), 0.05) 0%, transparent 50%);
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-title {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            line-height: 1;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            color: var(--text-heading);
+            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+        }
+
+        .rating-badge .star-icon {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb), 0.03); /* Using RGB for opacity */
+            padding: 3rem 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        .social-proof-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .our-story-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .our-story-content p:last-of-type {
+            margin-bottom: 0;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 2rem;
+        }
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            line-height: 1;
+            opacity: 0.3;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+        }
+        .testimonial-card cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+        .stat-card .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.8rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(var(--brand-color-rgb), 0.2);
+        }
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 0.8rem;
+        }
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--bg-light-dark);
+        }
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background-color: var(--brand-color);
+            border-radius: 0 0 5px 5px;
+        }
+        .why-card h3 {
+            font-size: 1.6rem;
+            margin-top: 1rem;
+            color: var(--text-heading);
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-top: 1rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+        .testimonial-review-card p {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .testimonial-review-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .testimonial-review-card .stars {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+        .location-info h3, .hours-info h3 {
+            margin-bottom: 1.5rem;
+        }
+        .location-info p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+        }
+        .location-info .phone a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+        .location-info .phone a:hover {
+            color: var(--accent-color);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .call-to-order-btn {
+            margin-top: 2.5rem;
+            display: inline-block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), rgba(var(--brand-color-rgb), 0.8) 50%, var(--accent-color));
+            text-align: center;
+            padding: 8rem 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn-secondary {
+            border-color: var(--text-heading);
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            padding: 1.2rem 2.5rem;
+        }
+        .final-cta .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.15);
+            border-color: var(--text-heading);
+            color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+        .footer .logo {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .social-icons {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .social-icons a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+        }
+        .social-icons a:hover {
+            color: var(--brand-color);
+        }
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Utility classes for icon fonts */
+        .icon-star:before { content: '★'; }
+        .icon-facebook:before { content: '\f09a'; font-family: 'Font Awesome 5 Brands'; }
+        .icon-instagram:before { content: '\f16d'; font-family: 'Font Awesome 5 Brands'; }
+        .icon-twitter:before { content: '\f099'; font-family: 'Font Awesome 5 Brands'; }
+        /* Fallback for icons if FontAwesome isn't loaded */
+        .icon-star, .social-icons a {
+            font-family: Arial, sans-serif; /* A simple fallback, though FontAwesome is preferred */
+        }
+        /* Add a Font Awesome CDN link in a real project */
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 80px 0;
+                --header-height: 70px; /* Taller for mobile call button */
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            body {
+                font-size: 1rem;
+            }
+
+            .sticky-header .container {
+                padding: 0 1.5rem;
+            }
+            .nav-links {
+                display: none; /* Hide nav links on smaller screens, could implement a hamburger menu */
+            }
+            .header-call-btn {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding-top: var(--header-height);
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .our-story-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .rating-badge {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+            .social-proof-item h3 {
+                font-size: 2rem;
+            }
+            .stat-card .number {
+                font-size: 2.5rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Specific variable for Brand Color RGB values if needed for rgba() */
+        body { --brand-color-rgb: 139, 69, 19; }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#" class="logo">The Tea Room On Main</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+12528024020" class="header-call-btn">CALL (252) 802-4020</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero is-visible">
+        <div class="hero-content">
+            <p class="hero-location">Williamston, NC</p>
+            <h1 class="hero-title">The Tea Room On Main</h1>
+            <p class="hero-tagline">We're serving a new Afternoon Tea menu every month! Cranberry, orange, honey, vanilla, apple, and warm baking spices—balanced with creamy decadent treats for an unforgettable experience.</p>
+            <div class="rating-badge">
+                <span class="icon-star">★</span> 4.9 Stars (61 Reviews)
+            </div>
+            <div class="hero-cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof is-visible">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3>4.9/5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>61+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Local Favorite</h3>
+                <p>Since 2018</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <span class="section-label">Our Story</span>
+                    <h2>A Passion For Perfect Afternoon Tea</h2>
+                    <p>Nestled in the heart of Williamston, The Tea Room On Main was born from a desire to bring a touch of elegance and warmth to our community. We believe in the magic of a perfectly brewed cup of tea and the joy of shared moments over delectable treats.</p>
+                    <p>Our journey began with a simple idea: to create a cozy haven where friends and family could gather, unwind, and savor the finest seasonal flavors. Every month, our culinary team crafts a brand-new Afternoon Tea menu, ensuring there's always something fresh and exciting to discover.</p>
+                    <p>From the delicate balance of cranberry and orange to the comforting embrace of honey and vanilla, we meticulously select ingredients and blend them with warm baking spices to create a harmonious and unforgettable experience. It's more than just tea; it's a cherished tradition we invite you to be a part of.</p>
+                </div>
+                <div>
+                    <div class="testimonial-card">
+                        <p>"The Tea Room On Main is a true gem! Each monthly menu is a delightful surprise. Their Cranberry Orange Petit Fours are divine, and the atmosphere is simply charming."</p>
+                        <cite>&mdash; Eleanor V., Regular Guest</cite>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="number">4.9</div>
+                            <div class="label">Average Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">61+</div>
+                            <div class="label">Customer Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">12+</div>
+                            <div class="label">Unique Menus Yearly</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <span class="section-label">Our Monthly Creations</span>
+            <h2>Experience The Art of Afternoon Tea</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 3rem; color: var(--text-secondary);">Indulge in our exquisite Afternoon Tea selections, thoughtfully crafted with seasonal ingredients and a harmonious blend of flavors. A new menu awaits you every month!</p>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Honey-Vanilla Scones</h3>
+                    <p>Delicate, freshly baked scones infused with local honey and Madagascar vanilla bean, served with clotted cream and preserves.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Cranberry Orange Petit Fours</h3>
+                    <p>Elegant bite-sized pastries featuring the vibrant zest of orange and the tart sweetness of cranberry, a true seasonal delight.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Spiced Apple Tartlets</h3>
+                    <p>Flaky pastry filled with tender apple chunks, slow-cooked with warm baking spices for a comforting, aromatic treat.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Orange Blossom Madeleines</h3>
+                    <p>Classic shell-shaped French cakes, light and buttery, kissed with the fragrant essence of orange blossom.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Creamy Earl Grey Panna Cotta</h3>
+                    <p>Silky smooth Italian dessert, delicately infused with premium Earl Grey tea and balanced with a hint of sweetness.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Signature Tea Selection</h3>
+                    <p>A curated assortment of premium loose-leaf black, green, and herbal teas, perfectly complementing our monthly menu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label">Our Promise</span>
+            <h2>Why The Tea Room On Main Is Williamston's Favorite</h2>
+            <div class="why-choose-grid">
+                <div class="why-card">
+                    <h3>Fresh, Monthly Menus</h3>
+                    <p>Experience a new culinary journey with us every month! Our "Afternoon Tea menu" is meticulously designed to highlight seasonal flavors like cranberry, orange, honey, and apple, ensuring a unique experience with every visit.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Artisan Crafted Treats</h3>
+                    <p>From our Honey-Vanilla Scones to the Spiced Apple Tartlets, every item is handcrafted with passion and precision. We combine classic techniques with innovative flavors for truly memorable bites.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Warm, Inviting Atmosphere</h3>
+                    <p>Step into a cozy retreat designed for relaxation and conversation. Our tea room offers a serene escape from the everyday, making it the perfect spot for special occasions or a quiet afternoon indulgence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Voices From Our Delightful Tea Room</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Absolutely charming! The Honey-Vanilla Scones were simply melt-in-your-mouth delicious, and the staff were incredibly attentive. A truly delightful afternoon!"</p>
+                    <cite>Sarah J. — Local Food Enthusiast</cite>
+                </div>
+                <div class="testimonial-review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"I was so impressed by the Cranberry Orange Petit Fours on this month's menu. Such a creative and tasty combination! The ambiance is perfect for a relaxing getaway."</p>
+                    <cite>David M. — Visitor from Raleigh</cite>
+                </div>
+                <div class="testimonial-review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Every time I visit, I'm amazed by the new menu. Last time, the Spiced Apple Tartlets were the highlight. It's a wonderful place to celebrate or just enjoy a peaceful moment."</p>
+                    <cite>Jessica L. — Loyal Customer</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2>Find Us & Plan Your Visit</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>The Tea Room On Main</p>
+                    <p>150 W Main St</p>
+                    <p>Williamston, NC 27892, USA</p>
+                    <p class="phone">Call Us: <a href="tel:+12528024020">(252) 802-4020</a></p>
+                    <p style="margin-top: 1.5rem;">We recommend reservations for Afternoon Tea, especially on weekends, to ensure the best experience.</p>
+                </div>
+                <div class="hours-info">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>8:00 AM – 3:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>8:00 AM – 3:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>8:00 AM – 3:30 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>8:00 AM – 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>8:00 AM – 3:30 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+12528024020" class="btn btn-primary call-to-order-btn">CALL TO MAKE A RESERVATION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Indulge in Williamston's Finest Afternoon Tea Experience?</h2>
+            <a href="#find-us" class="btn btn-secondary">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo">The Tea Room On Main</a>
+            <p class="tagline">We're serving a new Afternoon Tea menu every month! Cranberry, orange, honey, vanilla, apple, and warm baking spices—balanced with creamy decadent treats for an unforgettable experience.</p>
+            <ul class="social-icons">
+                <li><a href="#" aria-label="Facebook"><span class="icon-facebook"></span></a></li>
+                <li><a href="#" aria-label="Instagram"><span class="icon-instagram"></span></a></li>
+                <li><a href="#" aria-label="Twitter"><span class="icon-twitter"></span></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 The Tea Room On Main. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section:not(.hero)'); // Exclude hero section
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once it's visible
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+    <!-- Optional: Font Awesome for social icons, if needed for actual display -->
+    <!-- <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script> -->
+</body>
+</html>
