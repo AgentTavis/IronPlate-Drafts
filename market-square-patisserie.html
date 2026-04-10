@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Square Patisserie - Franklin, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+        * DESIGN SYSTEM
+        *
+        * COLORS:
+        * - Main Background: #111111
+        * - Brand/Accent: #000000 (Black)
+        * - Headings: #ffffff
+        * - Body Text: #cccccc
+        * - Secondary Text: #888888
+        * - Card Background: rgba(255,255,255,0.03)
+        * - Card Border: rgba(255,255,255,0.08)
+        *
+        * TYPOGRAPHY:
+        * - Headings: Oswald (rugged/bold for Bar and Grill)
+        * - Body: Source Sans 3 (clean, readable)
+        * - Hero Name: 4-6rem, bold
+        * - Section Headlines: 2.5-3rem
+        * - Body: 1.05-1.15rem, line-height 1.7
+        *
+        * LAYOUT:
+        * - Max-width: 1200px centered
+        * - Mobile-responsive (<768px single column)
+        * - Generous whitespace (80-120px section padding)
+        */
+
+        :root {
+            --bg-main: #111111;
+            --bg-lighter: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #000000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.1rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.8rem; /* Section headlines */
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color); /* Black hover for white links */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 8rem 0; /* Generous section padding */
+            position: relative;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(30px); /* For fade-in-up effect */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.5rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            justify-content: space-between;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.05em;
+            white-space: nowrap;
+        }
+        .header-logo a {
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+        }
+        .header-logo a:hover {
+            color: var(--brand-color);
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .main-nav a {
+            color: var(--text-heading);
+            font-weight: 400;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.5rem;
+            border-radius: 5px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .header .call-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+        }
+
+        /* Mobile Nav Toggle */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-heading);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            background: radial-gradient(circle at top left, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(0, 0, 0, 0.2) 0%, transparent 50%),
+                        linear-gradient(135deg, #111111 0%, #0a0a0a 100%); /* Rich dark gradient using brand color as subtle hints */
+            background-color: var(--bg-main); /* Fallback */
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--brand-color);
+            opacity: 0.05; /* Very subtle black overlay */
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            z-index: 10;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            color: var(--text-heading);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero p.tagline {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            gap: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero .rating-badge .star {
+            color: gold;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(0, 0, 0, 0.05); /* Brand color at low opacity */
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--brand-color); /* Emphasize with brand color */
+            -webkit-text-stroke: 1px var(--text-heading); /* Outline effect for contrast */
+            text-stroke: 1px var(--text-heading);
+            color: transparent; /* Makes the fill transparent for outline */
+            display: block; /* Ensure it takes full width for outline */
+        }
+        .social-proof-item span {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .our-story-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+        }
+        .testimonial-card p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .testimonial-card .author span {
+            font-weight: 300;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-left: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .stat-item .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            -webkit-text-stroke: 1px var(--text-heading); /* Outline effect for contrast */
+            text-stroke: 1px var(--text-heading);
+            color: transparent; /* Makes the fill transparent for outline */
+            display: block;
+        }
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 300;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        /* No prices provided, so hiding price elements */
+        .menu-item-card .price { display: none; }
+
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .why-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section (different from story testimonial) */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .review-card .stars {
+            color: gold;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        .review-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .review-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+        .review-card .author span {
+            font-weight: 300;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Location & Hours */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .location-info .address {
+            color: var(--text-body);
+        }
+
+        .location-info .phone-link {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--brand-color); /* Clickable phone number in brand color */
+            display: inline-block;
+            margin-top: 1rem;
+            transition: color 0.3s ease;
+        }
+        .location-info .phone-link:hover {
+            color: var(--text-heading);
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+        }
+        .hours-table td {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours-cta {
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%); /* Brand color gradient */
+            background-color: var(--brand-color); /* Fallback */
+            text-align: center;
+            padding: 6rem 0;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 3rem;
+            line-height: 1.1;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--text-heading); /* Invert for contrast */
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            padding: 1.2rem 3rem;
+            font-size: 1.2rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+        }
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            margin-bottom: 2rem;
+        }
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Utility classes for icons (simple placeholder, usually from FontAwesome) */
+        .icon-star:before { content: '★'; }
+        .icon-users:before { content: '👥'; }
+        .icon-heart:before { content: '❤️'; }
+        .icon-award:before { content: '🏆'; }
+        .icon-cookie:before { content: '🍪'; }
+        .icon-coffee:before { content: '☕'; }
+        .icon-map:before { content: '📍'; }
+        .icon-clock:before { content: '⏰'; }
+        .icon-phone:before { content: '📞'; }
+        .icon-facebook:before { content: 'f'; font-family: sans-serif; } /* Placeholder for social icons */
+        .icon-instagram:before { content: 'ig'; font-family: sans-serif; }
+        .icon-twitter:before { content: 'tw'; font-family: sans-serif; }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .hero p.tagline {
+                font-size: 1.3rem;
+            }
+            .main-nav ul {
+                gap: 1.5rem;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 1rem;
+            }
+            .main-nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--bg-main);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.4s ease-in-out;
+            }
+            .main-nav.active {
+                transform: translateX(0);
+            }
+            .main-nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+            .main-nav a {
+                font-size: 1.8rem;
+                padding: 1rem 0;
+                display: block;
+            }
+            .header .call-btn {
+                display: none; /* Hide call button in header on mobile when nav is open */
+            }
+            .menu-toggle {
+                display: flex;
+            }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 80px 1rem;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero p.tagline {
+                font-size: 1.1rem;
+            }
+            .hero-cta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 5rem 0;
+            }
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .social-proof-grid,
+            .our-story-grid,
+            .stats-grid,
+            .why-choose-grid,
+            .testimonials-grid,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .our-story-grid {
+                gap: 3rem;
+            }
+
+            .social-proof-item h3, .stat-item .number {
+                font-size: 2rem;
+            }
+
+            .testimonial-card {
+                margin-top: 2rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero p.tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .social-proof-item h3, .stat-item .number {
+                font-size: 1.8rem;
+            }
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+            .header-logo {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="header-logo">
+            <a href="#hero">Market Square Patisserie</a>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <!-- No phone number provided, using placeholder for direct response -->
+        <a href="tel:123-456-7890" class="btn call-btn">CALL US</a> 
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content is-visible">
+            <p class="location">Franklin, NC</p>
+            <h1>Market Square Patisserie</h1>
+            <p class="tagline">Welcome to Market Square Patisserie</p>
+            <div class="rating-badge">
+                <span class="icon-star"></span> 4.8 stars (38 reviews)
+            </div>
+            <div class="hero-cta">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3 class="number">4.8<span style="font-size:1.5rem; -webkit-text-stroke:none; color: gold;">/5</span></h3>
+                <span>Customer Rating</span>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="number">38+</h3>
+                <span>Happy Reviews</span>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="number"><span class="icon-award" style="-webkit-text-stroke:none; color: var(--brand-color);"></span></h3>
+                <span>Local Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label">Our Journey</span>
+            <h2>The Heart of Franklin's Culinary Scene</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <p>Market Square Patisserie is more than just a place to eat; it's a beloved local spot in Franklin, NC, where community, comfort, and culinary craftsmanship come together. We've dedicated ourselves to creating a warm, inviting atmosphere where every guest feels like family.</p>
+                    <p>From the aroma of freshly baked goods to the sizzling sounds from our grill, we pour our passion into every detail. Our commitment to quality ingredients and exceptional service has made us a cherished gathering place for friends and neighbors alike. Come experience the taste of tradition and innovation, crafted with love, right here in Market Square.</p>
+                </div>
+                <div>
+                    <div class="testimonial-card">
+                        <p>"Walking into Market Square Patisserie feels like coming home. The ambiance is perfect, and their pastries are truly a work of art. A must-visit in Franklin!"</p>
+                        <div class="author">Sarah J.<span> - Regular Customer</span></div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="number">4.8</span>
+                            <span class="label">Star Rating</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="number">38</span>
+                            <span class="label">Happy Reviews</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="number">6+</span>
+                            <span class="label">Years of Joy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu" style="background-color: var(--bg-lighter);">
+        <div class="container">
+            <span class="section-label">Taste Our Craft</span>
+            <h2>Handcrafted Delights, Savory & Sweet</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: var(--text-secondary);">
+                While our full menu awaits your visit, here’s a glimpse into the exquisite flavors and expertly crafted dishes we’re proud to serve daily.
+                We specialize in combining classic patisserie artistry with a modern bar and grill flair.
+            </p>
+            <div class="menu-grid">
+                <!-- Invented Menu Items for Bar And Grill + Patisserie -->
+                <div class="menu-item-card">
+                    <h3>Artisan Croque Monsieur</h3>
+                    <p>Toasted sourdough, smoked ham, gruyere, béchamel sauce, lightly grilled.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Market Salad with Grilled Chicken</h3>
+                    <p>Seasonal greens, fresh vegetables, house vinaigrette, perfectly grilled chicken breast.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Signature Quiche of the Day</h3>
+                    <p>Flaky crust filled with savory custard, fresh ingredients changing daily.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Classic Butter Croissant</h3>
+                    <p>Light, flaky, and golden-brown, a true French patisserie staple.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Seasonal Fruit Tart</h3>
+                    <p>Sweet pastry crust, vanilla cream, topped with a medley of fresh seasonal fruits.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Decadent Chocolate Eclair</h3>
+                    <p>Choux pastry filled with rich chocolate cream, glazed with dark ganache.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Espresso & Specialty Coffee</h3>
+                    <p>Carefully selected beans, expertly prepared for your perfect cup.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Assorted Macarons</h3>
+                    <p>A colorful selection of delicate French meringue cookies with various fillings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label">Our Promise</span>
+            <h2>Why Franklin Chooses Market Square</h2>
+            <div class="why-choose-grid">
+                <div class="why-card">
+                    <span class="icon icon-cookie"></span>
+                    <h3>Baked Fresh Daily</h3>
+                    <p>From our classic croissants to our seasonal fruit tarts, everything is baked from scratch each morning, ensuring unparalleled freshness and flavor.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon icon-award"></span>
+                    <h3>A Local Favorite</h3>
+                    <p>With a 4.8-star rating from 38 happy reviews, we're proud to be a beloved part of the Franklin community, recognized for our quality and welcoming atmosphere.</p>
+                </div>
+                <div class="why-card">
+                    <span class="icon icon-coffee"></span>
+                    <h3>Expertly Crafted Beverages</h3>
+                    <p>Complement your meal with our specialty espresso drinks or a selection from our thoughtfully curated craft beer and wine menu (Bar & Grill aspect).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials" style="background-color: var(--bg-lighter);">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Voices of Our Community</h2>
+            <div class="testimonials-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"The Artisan Croque Monsieur here is absolutely divine! Perfectly grilled, rich, and satisfying. Paired with their coffee, it's the ideal lunch."</p>
+                    <div class="author">Michael T.<span> - Local Foodie</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"I can't get enough of their Seasonal Fruit Tart. It's always fresh, vibrant, and a true delight. This place truly deserves its 4.8-star rating!"</p>
+                    <div class="author">Emily R.<span> - Sweet Tooth Enthusiast</span></div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Market Square Patisserie is a gem. The ambiance is wonderful, and their Signature Quiche of the Day is consistently excellent. A perfect spot for any meal."</p>
+                    <div class="author">David K.<span> - Regular Patron</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2>Where to Find Us & When We're Open</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3><span class="icon-map"></span> Our Location</h3>
+                    <p class="address">867 Highlands Rd unit i<br>Franklin, NC 28734, USA</p>
+                    <div style="margin-top: 2rem; border-radius: 8px; overflow: hidden; height: 300px; width: 100%; border: 1px solid var(--card-border);">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.8093666578056!2d-83.37682662366185!3d35.15082125585501!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885910398642273d%3A0xe54d60c41031c3c9!2sMarket%20Square%20Patisserie!5e0!3m2!1sen!2sus!4v1704067200000!5m2!1sen!2sus"
+                            width="100%"
+                            height="100%"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3><span class="icon-clock"></span> Our Hours</h3>
+                    <table class="hours-table">
+                        <tr><th>Monday</th><td>Closed</td></tr>
+                        <tr><th>Tuesday</th><td>Closed</td></tr>
+                        <tr><th>Wednesday</th><td>9:00 AM – 4:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>9:00 AM – 4:00 PM</td></tr>
+                        <tr><th>Friday</th><td>9:00 AM – 4:00 PM</td></tr>
+                        <tr><th>Saturday</th><td>9:00 AM – 5:00 PM</td></tr>
+                        <tr><th>Sunday</th><td>Closed</td></tr>
+                    </table>
+                    <p style="margin-top: 2rem; font-size: 1.15rem;">
+                        Got questions or need to place a custom order?
+                    </p>
+                    <!-- No phone number provided, using placeholder for direct response -->
+                    <a href="tel:123-456-7890" class="phone-link"><span class="icon-phone"></span> CALL TO ORDER</a>
+                    <div class="location-hours-cta">
+                        <a href="#menu" class="btn btn-primary">VIEW OUR FULL MENU</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container is-visible">
+            <h2>Experience the Flavor of Franklin Today!</h2>
+            <!-- No phone number provided, using placeholder for direct response -->
+            <a href="tel:123-456-7890" class="btn btn-primary">CALL TO RESERVE OR ORDER</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Market Square Patisserie</div>
+            <p class="footer-tagline">Welcome to Market Square Patisserie</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><span class="icon-facebook"></span></a>
+                <a href="#" aria-label="Instagram"><span class="icon-instagram"></span></a>
+                <a href="#" aria-label="Twitter"><span class="icon-twitter"></span></a>
+            </div>
+            <p class="copyright">&copy; 2026 Market Square Patisserie. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for smooth scroll and fade-in-up -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    if (document.body.classList.contains('mobile-nav-active')) {
+                        document.body.classList.remove('mobile-nav-active');
+                        document.querySelector('.main-nav').classList.remove('active');
+                        document.querySelector('.menu-toggle').classList.remove('active');
+                    }
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Mobile Navigation Toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-nav');
+
+            menuToggle.addEventListener('click', () => {
+                mainNav.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+                document.body.classList.toggle('mobile-nav-active'); // To prevent scroll on body
+            });
+        });
+    </script>
+
+</body>
+</html>
