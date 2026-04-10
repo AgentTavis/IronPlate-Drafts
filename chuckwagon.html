@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuckwagon Diner - Rocky Mount's Favorite Comfort Food</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #8B4513; /* Primary Brand Color (Brown) */
+            --accent-color: #CC0000; /* Accent Color (Red) */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.95); /* Semi-transparent dark for header */
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        /* Base Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Body font size */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 2.5rem; } /* Adjusted for general use, hero is specific */
+        h2 { font-size: 2.8rem; margin-bottom: 1.2em; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .btn-dark {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        .btn-dark:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%; /* Ensure container fills parent for justify-content */
+            max-width: var(--max-width); /* Restrict max-width for content */
+            padding: 0; /* Remove internal padding as parent handles it */
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta .btn {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            background-color: var(--brand-color);
+            border-color: var(--brand-color);
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, var(--bg-main) 0%, rgba(139, 69, 19, 0.1) 30%, var(--bg-main) 70%, rgba(204, 0, 0, 0.1) 100%);
+        }
+
+        .hero-content {
+            z-index: 10;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .hero-rating span {
+            color: gold;
+            margin-right: 8px;
+            font-size: 1.3rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-heading);
+        }
+
+        .proof-item strong {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+
+        .proof-item span {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 500;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-light); /* Alternating background */
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .story-text p {
+            margin-bottom: 1.5em;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-card span {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .story-testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+            position: relative;
+        }
+
+        .story-testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--brand-color);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .story-testimonial-card p {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            padding-left: 40px; /* Make space for the quote mark */
+        }
+
+        .story-testimonial-card span {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+
+        .menu-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-color: var(--brand-color);
+        }
+
+        .menu-card h3 {
+            margin-bottom: 10px;
+            color: var(--text-heading);
+            font-size: 1.6rem;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-section .btn {
+            margin-top: 60px;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .choose-us-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border-color: var(--brand-color);
+        }
+
+        .choose-us-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .choose-us-card p {
+            font-size: 1.05rem;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-light);
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 1.1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-body);
+        }
+
+        .hours-table td:first-child {
+            font-weight: 500;
+            color: var(--text-heading);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .location-hours-section .btn {
+            margin-top: 40px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(90deg, var(--brand-color), var(--accent-color));
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            font-weight: 700;
+            padding: 16px 40px;
+            font-size: 1.15rem;
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            border-color: var(--bg-main);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem; /* Placeholder for social icons */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 900px) {
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .main-nav {
+                display: none; /* Hide nav links on small screens */
+            }
+            .sticky-header .container {
+                justify-content: center; /* Center logo and call button */
+            }
+            .header-cta {
+                position: absolute; /* Position call button differently */
+                right: 20px;
+            }
+            .sticky-header .header-logo {
+                flex-grow: 1; /* Allow logo to take space */
+                text-align: center; /* Center the logo */
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 2.2rem; }
+            .section-padding { padding: 60px 0; }
+            .sticky-header .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta .btn {
+                font-size: 0.8rem;
+                padding: 6px 15px;
+            }
+            .grid-3, .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .proof-item {
+                flex: none;
+                width: 100%;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .story-testimonial-card::before {
+                font-size: 3rem;
+                top: 5px;
+                left: 10px;
+            }
+            .story-testimonial-card p {
+                padding-left: 20px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 6px 15px;
+            }
+            .hero-rating span {
+                font-size: 1.1rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#hero" class="header-logo">Chuckwagon</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+12523168767" class="btn btn-primary">CALL (252) 316-8767</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Rocky Mount, NC</p>
+                <h1 class="hero-name">Chuckwagon</h1>
+                <p class="hero-tagline">Your Daily Dose of Diner Deliciousness.</p>
+                <div class="hero-rating">
+                    <span>&#9733;</span> 4.5 Stars (213 Reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="proof-item fade-in-up">
+                    <strong>4.5</strong>
+                    <span>Star Rating</span>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <strong>213+</strong>
+                    <span>Happy Reviews</span>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <strong>Local</strong>
+                    <span>Favorite Diner</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Legacy</p>
+                <h2 class="text-center fade-in-up">The Heart of Rocky Mount's Comfort Food Scene</h2>
+                <div class="story-content">
+                    <div class="story-text fade-in-up">
+                        <p>Welcome to Chuckwagon, where every meal is a journey back to classic diner comfort. We pride ourselves on creating dishes that warm the soul and bring a smile to your face. From the moment you step through our double doors, you'll feel the inviting atmosphere that makes us a true local favorite.</p>
+                        <p>There's ample parking right out front, making your visit easy and stress-free. While you wait for your food – because all items are made to order here, and it's always worth the wait – you can relax in one of our cozy spots, perhaps even our cool old school rocking chair. We believe in fresh ingredients and time-honored recipes, ensuring every bite is packed with killer flavor.</p>
+                        <p>For breakfast, you absolutely have to try our famous Wagon Train Sandwich: double bacon, a perfectly fried egg, and our secret pimento spread, all nestled in a fresh Kaiser roll. It’s a flavor combo you won't soon forget. And don't even think about leaving without a side order of our crispy, golden hash browns – they're legendary!</p>
+                    </div>
+                    <div class="story-stats fade-in-up">
+                        <div class="stat-card">
+                            <strong>4.5</strong>
+                            <span>Star Rating</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>213</strong>
+                            <span>Positive Reviews</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>Made Fresh</strong>
+                            <span>Daily to Order</span>
+                        </div>
+                    </div>
+                    <div class="story-testimonial-card fade-in-up">
+                        <p>"The Wagon Train Sandwich is a game-changer! That pimento spread with bacon and egg? Absolute perfection. I drive extra just for it. And the hash browns? Crispy heaven!"</p>
+                        <span>— Sarah P., Loyal Customer</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Dishes</p>
+                <h2 class="text-center fade-in-up">Flavor That Keeps You Coming Back</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Wagon Train Sandwich</h3>
+                        <p>Double bacon, fried egg, and pimento spread on a toasted Kaiser roll. A killer flavor combo!</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Crispy Hash Browns</h3>
+                        <p>Golden, perfectly seasoned, and crispy to perfection. The ultimate side for any meal.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Classic Diner Breakfast</h3>
+                        <p>Two eggs any style, your choice of bacon or sausage, and toast. Simple, satisfying perfection.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Country Fried Steak Platter</h3>
+                        <p>Tender country-fried steak smothered in gravy, served with your choice of two sides.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Chuckwagon Cheeseburger</h3>
+                        <p>Juicy beef patty with melted cheese, fresh toppings, and our special sauce on a toasted bun.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Homemade Chili</h3>
+                        <p>Hearty and flavorful, packed with slow-cooked goodness. A true comfort food classic.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Fluffy Pancakes & Syrup</h3>
+                        <p>Stack of golden, fluffy pancakes served with rich maple syrup and butter.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Grits & Gravy</h3>
+                        <p>Creamy, southern-style grits topped with a savory gravy. A taste of tradition.</p>
+                    </div>
+                </div>
+                <a href="https://www.yelp.com/menu/chuckwagon-rocky-mount-2" target="_blank" class="btn btn-dark fade-in-up">VIEW FULL MENU</a>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us-section section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">Our Promise</p>
+                <h2 class="text-center fade-in-up">More Than Just a Meal, It's an Experience</h2>
+                <div class="choose-us-grid">
+                    <div class="choose-us-card fade-in-up">
+                        <h3>Made-to-Order Freshness</h3>
+                        <p>Every dish, from our famous Wagon Train Sandwich to our crispy hash browns, is prepared fresh just for you. Quality takes a moment, but it's always worth the wait for that perfect flavor.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up">
+                        <h3>Local Diner Charm</h3>
+                        <p>Experience the warmth of a true Rocky Mount diner. Pull up a seat, relax in our cool old school rocking chair, and enjoy comfort food that feels like home. It’s the perfect escape.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up">
+                        <h3>A Community Favorite</h3>
+                        <p>With 4.5 stars from over 200 glowing reviews, we're a beloved local staple. Join the Chuckwagon family and discover why we're Rocky Mount's trusted spot for delicious, satisfying eats.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials" class="testimonials-section section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">What Our Guests Say</p>
+                <h2 class="text-center fade-in-up">Hear It From Our Happy Customers</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The Wagon Train Sandwich is an absolute masterpiece! That pimento spread with the bacon and egg is a flavor explosion. I dream about those hash browns too – perfectly crispy every time!"</p>
+                        <span>— Mark T. (5 Stars on Yelp)</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Chuckwagon is my go-to for breakfast. Their Classic Diner Breakfast always hits the spot, and you can tell everything is made to order with care. Worth the short wait!"</p>
+                        <span>— Emily R. (Another 5 Stars)</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Fantastic service and even better food. My kids love the fluffy pancakes, and I can never resist their hearty Homemade Chili. Truly a local treasure in Rocky Mount."</p>
+                        <span>— Jessica L. (Regular Customer)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="location-hours" class="location-hours-section section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">Plan Your Visit</p>
+                <h2 class="text-center fade-in-up">Find Us & Check Our Hours</h2>
+                <div class="location-hours-content">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>Chuckwagon Diner</p>
+                        <p>601 Airport Rd, Rocky Mount, NC 27804, USA</p>
+                        <p>Ample parking available!</p>
+                        <a href="https://maps.app.goo.gl/ChuckwagonRockyMountNC" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Opening Hours</h3>
+                        <table class="hours-table">
+                            <tr><td>Monday:</td><td>7:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>7:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Wednesday:</td><td>7:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>7:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>7:00 AM – 2:00 PM</td></tr>
+                            <tr><td>Saturday:</td><td>8:30 AM – 2:00 PM</td></tr>
+                            <tr><td>Sunday:</td><td>Closed</td></tr>
+                        </table>
+                        <a href="tel:+12523168767" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Ready for Authentic Diner Goodness?</h2>
+                <a href="#menu" class="btn">SEE OUR MENU & VISIT TODAY</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Chuckwagon</a>
+            <p class="footer-tagline">Your Daily Dose of Diner Deliciousness.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.667 4.916 4.916.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.148 3.251-1.666 4.772-4.916 4.916-1.267.058-1.647.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.252-.149-4.771-1.667-4.916-4.916-.058-1.265-.07-1.645-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.251 1.667-4.772 4.916-4.916 1.267-.058 1.647-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="Twitter/X"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.403 0-6.165 2.76-6.165 6.163 0 .484.055.954.161 1.404-5.121-.256-9.661-2.723-12.704-6.471-.527.906-.834 1.956-.834 3.129 0 2.145 1.092 4.048 2.75 5.153-.269-.009-.522-.082-.772-.213v.079c0 2.984 2.124 5.467 4.921 6.034-.482.13-.99.196-1.503.196-.368 0-.726-.036-1.073-.109.777 2.443 3.033 4.223 5.696 4.272-2.094 1.64-4.664 2.624-7.493 2.624-.483 0-.954-.029-1.416-.083 2.713 1.761 5.93 2.793 9.395 2.793 11.298 0 17.47-9.395 17.47-17.47 0-.266-.006-.529-.018-.791.772-.559 1.449-1.253 1.989-2.036z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Chuckwagon. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in-up on scroll effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once it's visible
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
