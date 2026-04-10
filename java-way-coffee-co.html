@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Way Coffee Co - Murfreesboro's Favorite Brew & Bite Spot</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-secondary: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #D4A574;
+            --brand-color-rgb: 212, 165, 116; /* RGB components for rgba() usage */
+            --accent-color: #8B6F47;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            /* Typography */
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --font-size-body: 1.1rem; /* 1.05-1.15rem */
+            --line-height-body: 1.7;
+
+            /* Layout */
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* 80-120px */
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: var(--line-height-body);
+            overflow-x: hidden;
+            font-size: var(--font-size-body);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.8rem; } /* Section headlines: 2.5-3rem */
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95rem;
+            border: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--bg-main);
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* Section Label */
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            width: 100%;
+            margin: 0 auto;
+            padding: 0; /* Override container padding */
+        }
+
+        .header .logo {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header nav ul li {
+            margin-left: 2.5rem;
+        }
+
+        .header nav ul li a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .header nav ul li a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .phone-button {
+            margin-left: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: var(--header-height); /* Account for sticky header */
+            background: linear-gradient(135deg,
+                rgba(17, 17, 17, 0.95) 0%,
+                rgba(17, 17, 17, 0.85) 30%,
+                rgba(17, 17, 17, 0.7) 60%,
+                rgba(17, 17, 17, 0.95) 100%),
+                linear-gradient(rgba(var(--brand-color-rgb), 0.1), rgba(var(--accent-color-rgb), 0.05)),
+                var(--bg-main); /* Rich dark gradient with subtle brand colors */
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Add accent color rgb to root for proper gradient */
+        :root {
+            --accent-color-rgb: 139, 111, 71;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(var(--brand-color-rgb), 0.05) 0%, rgba(17,17,17,0) 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* 4-6rem */
+            font-weight: 900;
+            margin-bottom: 1rem;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(var(--brand-color-rgb), 0.15);
+            color: var(--brand-color);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        .rating-badge svg {
+            fill: var(--brand-color);
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb), 0.05); /* Tinted with brand color at low opacity */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .proof-item h3 {
+            color: var(--brand-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .proof-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .our-story .container {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .our-story-content {
+            flex: 2;
+        }
+
+        .our-story-headline {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .our-story-text p {
+            font-size: var(--font-size-body);
+            color: var(--text-body);
+            margin-bottom: 1.2rem;
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 6px;
+            position: relative;
+            border: 1px solid var(--card-border);
+        }
+
+        .story-testimonial p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            line-height: 1.6;
+        }
+
+        .story-testimonial span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        .our-story-stats {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+        
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-secondary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 1.5rem 2rem;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .section-label,
+        .why-choose-us h2 {
+            text-align: center;
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .choice-card {
+            background-color: var(--card-bg);
+            border-radius: 6px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .choice-card svg {
+            fill: var(--brand-color);
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+        }
+
+        .choice-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+
+        .choice-card p {
+            font-size: var(--font-size-body);
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-main);
+        }
+
+        .testimonials .section-label,
+        .testimonials h2 {
+            text-align: center;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+            display: block;
+            margin-top: auto; /* Pushes author to bottom */
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-secondary);
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: var(--font-size-body);
+            color: var(--text-body);
+            margin-bottom: 0.8rem;
+        }
+
+        .location-info a {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+        .location-info .btn {
+            margin-top: 2rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        
+        .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), var(--accent-color));
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .final-cta h2 {
+            color: var(--bg-main);
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.1;
+        }
+
+        .final-cta .btn {
+            background-color: var(--bg-main);
+            color: var(--brand-color);
+            border-color: var(--bg-main);
+            padding: 1.2rem 3rem;
+            font-size: 1.1rem;
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--text-heading);
+            color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main); /* Dark background */
+            padding: var(--section-padding-y) 0 3rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        
+        .footer .copyright {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            .our-story .container {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            .our-story-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-y: 60px;
+            }
+            .header {
+                height: auto;
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .header nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+            .header nav ul li {
+                margin: 0 10px 10px 10px;
+            }
+            .header .phone-button {
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+            }
+            .header .btn-call {
+                width: 100%;
+            }
+
+            .hero {
+                padding-top: calc(var(--header-height) * 2 + 20px); /* Adjust for wrapped header + some margin */
+            }
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .our-story-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-grid, .why-choose-us-grid, .testimonial-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-grid {
+                gap: 3rem;
+            }
+            
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2rem; }
+            .hero-location { font-size: 1rem; }
+            .hero-tagline { font-size: 1rem; }
+            .rating-badge { font-size: 0.85rem; padding: 0.3rem 0.8rem; }
+            .footer .logo { font-size: 1.5rem; }
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="logo">Java Way Coffee Co</a>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="phone-button">
+                <a href="tel:+12523967014" class="btn-call">CALL (252) 396-7014</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in-up">
+                <p class="hero-location">Murfreesboro, NC</p>
+                <h1 class="hero-name">Java Way Coffee Co</h1>
+                <p class="hero-tagline">Your Daily Dose of Delight in Murfreesboro, NC.</p>
+                <div class="rating-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.931-7.417 3.931 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    5 Stars (3 Reviews)
+                </div>
+                <div class="hero-actions">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="container social-proof-grid">
+                <div class="proof-item fade-in-up">
+                    <h3>5-Star Rated</h3>
+                    <p>By Our Valued Community</p>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <h3>Serving Murfreesboro Daily</h3>
+                    <p>Countless Smiles & Warm Memories</p>
+                </div>
+                <div class="proof-item fade-in-up">
+                    <h3>Local Favorite</h3>
+                    <p>Heart of the Community</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <div class="our-story-content">
+                    <span class="section-label fade-in-up">Our Story</span>
+                    <h2 class="our-story-headline fade-in-up">More Than Just Coffee, It's Community.</h2>
+                    <div class="our-story-text fade-in-up">
+                        <p>Welcome to Java Way Coffee Co, your friendly neighborhood diner in the heart of Murfreesboro, NC. We believe in crafting more than just delicious beverages and bites; we're passionate about creating a warm, welcoming space where connections are brewed and memories are made.</p>
+                        <p>We're proud to exclusively feature <span style="color:var(--brand-color); font-weight:600;">Counter Culture Coffee Beans</span>, an amazing NC roastery known for their ethically sourced and incredibly flavorful beans. Every cup is a testament to our commitment to quality, expertly prepared by our incredibly friendly and knowledgeable staff.</p>
+                        <p>From the moment you walk in, you're family. Our baristas thrive on getting to know you, often greeting repeat customers by name and knowing exactly what they'd like before they even say it. We strive to make your coffee exactly how you want it, ensuring every visit is a perfect one. It's truly a wonderful small town coffee shop, and we think you'll find it just as fabulous as we do.</p>
+                    </div>
+                    <div class="story-testimonial fade-in-up">
+                        <p>"This is a wonderful small town coffee shop that uses Counter Culture Coffee Beans. My iced coffee was fabulous, and I felt this coffee shop is just as fabulous!"</p>
+                        <span>- A Happy Murfreesboro Local</span>
+                    </div>
+                </div>
+                <div class="our-story-stats">
+                    <div class="stat-card fade-in-up">
+                        <h3>5 Stars</h3>
+                        <p>Customer Rated Excellence</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3>Counter Culture</h3>
+                        <p>Proud Coffee Partner</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3>Local Heart</h3>
+                        <p>Deeply Rooted in Murfreesboro</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu">
+            <div class="container">
+                <span class="section-label text-center fade-in-up" style="text-align: center;">Our Delights</span>
+                <h2 class="text-center fade-in-up" style="text-align: center; margin-bottom: 3rem;">Taste the Java Way Difference</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Espresso Shots</h3>
+                        <p>Perfectly pulled, rich & bold.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Classic Americano</h3>
+                        <p>Smooth, strong, and satisfying.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Creamy Lattes</h3>
+                        <p>Your favorite flavor, perfectly crafted.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Rich Cappuccinos</h3>
+                        <p>Bold coffee, velvety foam.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Smooth Cold Brew</h3>
+                        <p>Our signature slow-steeped favorite.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Fabulous Iced Coffee</h3>
+                        <p>Refreshing, custom-made just for you.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Signature Mocha</h3>
+                        <p>Chocolatey goodness with a coffee kick.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Refreshing Smoothies</h3>
+                        <p>Fresh fruit blends, a healthy treat.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-up">
+                        <h3>Daily Baked Pastries</h3>
+                        <p>Fresh selection, perfect with your coffee.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <span class="section-label fade-in-up">Why Java Way?</span>
+                <h2 class="fade-in-up">Experience Coffee & Care That Stands Out</h2>
+                <div class="why-choose-us-grid">
+                    <div class="choice-card fade-in-up">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm-1.996 14.5l-3.232-3.232 1.414-1.414 1.818 1.818 3.484-3.484 1.414 1.414L10.004 16.5z"/></svg>
+                        <h3>Expert Baristas & Personalized Service</h3>
+                        <p>Our staff are incredibly friendly and knowledgeable, striving to make your coffee exactly how you want it. We love greeting repeat customers by name!</p>
+                    </div>
+                    <div class="choice-card fade-in-up">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <h3>Premium Counter Culture Coffee</h3>
+                        <p>We proudly serve beans from Counter Culture Coffee, an amazing NC roastery, ensuring every cup is a high-quality, delicious experience.</p>
+                    </div>
+                    <div class="choice-card fade-in-up">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C7.03 2 3 6.03 3 11s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zM7 10h2v2H7v-2zm4 0h2v2h-2v-2zm4 0h2v2h-2v-2zM12 20c-3.866 0-7-3.134-7-7s3.134-7 7-7 7 3.134 7 7-3.134 7-7 7z"/></svg>
+                        <h3>A Warm, Inviting Community Hub</h3>
+                        <p>More than just a coffee shop, we're a well-decorated, comfortable spot where Murfreesboro locals gather, connect, and feel right at home.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <span class="section-label fade-in-up" style="text-align: center;">Hear From Our Customers</span>
+                <h2 class="fade-in-up" style="text-align: center; margin-bottom: 3rem;">What Our Community Says</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"This is a wonderful small town coffee shop that uses Counter Culture Coffee Beans. My iced coffee was fabulous, and I felt this coffee shop is just as fabulous!"</p>
+                        <span class="testimonial-author">- A Happy Murfreesboro Local</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The baristas here are truly amazing! They remembered my name and my usual latte order on my second visit. It's truly a gem in Murfreesboro."</p>
+                        <span class="testimonial-author">- Sarah P.</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Finally, a coffee shop that gets it! Their pastries are always fresh, and the cold brew is perfectly balanced. A fantastic spot for my morning ritual."</p>
+                        <span class="testimonial-author">- Michael T.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <span class="section-label fade-in-up" style="text-align: center;">Visit Us</span>
+                <h2 class="fade-in-up" style="text-align: center; margin-bottom: 3rem;">Find Your Way to Java Way</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info fade-in-up">
+                        <h3>Our Location</h3>
+                        <p>We're conveniently located in the heart of Murfreesboro.</p>
+                        <p><strong>Java Way Coffee Co</strong><br>
+                        200 S Wynn St<br>
+                        Murfreesboro, NC 27855, USA</p>
+                        <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-secondary">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tbody>
+                                <tr>
+                                    <th>Monday</th>
+                                    <td>7:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Tuesday</th>
+                                    <td>7:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Wednesday</th>
+                                    <td>7:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Thursday</th>
+                                    <td>7:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Friday</th>
+                                    <td>7:00 AM – 4:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Saturday</th>
+                                    <td>8:00 AM – 12:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <th>Sunday</th>
+                                    <td class="closed">Closed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+12523967014" class="btn btn-primary">CALL TO ORDER (252) 396-7014</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Ready for Your Perfect Coffee Moment?</h2>
+                <a href="#hero" class="btn">VISIT US TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Java Way Coffee Co</a>
+            <p>Your Daily Dose of Delight in Murfreesboro, NC.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.588-1.333h2.412v-3h-3.412c-4.113 0-5.588 1.5-5.588 4.722v2.278z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98C.214 8.333.202 8.741.202 12c0 3.259.012 3.668.07 4.947.2 4.358 2.618 6.78 6.98 6.98 1.279.058 1.687.07 4.947.07 3.259 0 3.668-.012 4.948-.07 4.354-.2 6.782-2.618 6.979-6.98.059-1.279.071-1.688.071-4.947 0-3.259-.012-3.667-.07-4.947-.199-4.358-2.617-6.78-6.979-6.98-1.28-.059-1.687-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Java Way Coffee Co. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0,
+            rootMargin: "0px 0px -100px 0px" // Start animating when 100px from viewport bottom
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const headerOffset = 60; // Height of your fixed header
+                    // Adjust if header wraps on mobile
+                    let currentHeaderHeight = document.querySelector('.header').offsetHeight;
+                    if (currentHeaderHeight > 60) { // If header has wrapped (e.g. > 60px)
+                        currentHeaderHeight += 20; // Add extra padding
+                    }
+
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - currentHeaderHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
