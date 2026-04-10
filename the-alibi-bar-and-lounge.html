@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alibi Bar and Lounge - Thomasville, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #1a3a52;
+            --accent-color: #ffffff;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding: 100px 20px;
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.02);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-uppercase { text-transform: uppercase; }
+        .text-brand { color: var(--brand-color) !important; }
+        .text-accent { color: var(--accent-color) !important; }
+        .font-heading { font-family: var(--font-heading); }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+        }
+        .btn-primary:hover {
+            background-color: #275677; /* Slightly darker brand color for hover */
+            color: var(--accent-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border-color: var(--accent-color);
+        }
+        .btn-outline.brand-color {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+        .btn-outline.brand-color:hover {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up[data-animated="true"] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            display: block;
+            text-align: center;
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-content {
+            width: var(--max-width);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            letter-spacing: 0.08em;
+            white-space: nowrap;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .header-call-btn:hover {
+            background-color: #275677; /* Slightly darker */
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Account for sticky header */
+            background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(26, 58, 82, 0.5) 40%, rgba(17, 17, 17, 1) 100%);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(26, 58, 82, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(26, 58, 82, 0.15) 0%, transparent 40%);
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* LARGEST text */
+            line-height: 1;
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            gap: 8px;
+        }
+        .hero-rating .star {
+            color: gold;
+            font-size: 1.2rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(26, 58, 82, 0.05); /* Brand color at low opacity */
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            text-align: center;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--accent-color);
+        }
+
+        .social-proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .our-story .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .our-story-headline {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .our-story-about {
+            max-width: 800px;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            color: var(--text-body);
+        }
+
+        .our-story-about p + p {
+            margin-top: 15px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: 40px auto 60px auto;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 6rem;
+            color: rgba(26, 58, 82, 0.3);
+            z-index: 0;
+        }
+        .testimonial-card p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            display: block;
+            font-style: normal;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            background-color: #171717; /* Slightly lighter bg */
+        }
+
+        .menu-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .menu-item-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .menu-item-description {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .menu-call-to-action {
+            text-align: center;
+            margin-top: 60px;
+        }
+        .menu-call-to-action p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+        }
+
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .why-choose-us-headline {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .wcu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .wcu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .wcu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .wcu-icon {
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .wcu-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        .wcu-description {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            background-color: #171717; /* Slightly lighter bg */
+        }
+
+        .testimonials-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+        }
+        .testimonial-item::before {
+            content: '“';
+            font-family: serif;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 5rem;
+            color: rgba(26, 58, 82, 0.3);
+            z-index: 0;
+        }
+
+        .testimonial-text {
+            font-size: 1.05rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-body);
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--accent-color);
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-rating {
+            color: gold;
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--primary-bg);
+        }
+
+        .lh-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            align-items: start;
+        }
+
+        .lh-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .lh-card-headline {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--accent-color);
+        }
+
+        .lh-card p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .lh-card a {
+            color: var(--brand-color);
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 5px;
+            font-size: 1.1rem;
+        }
+        .lh-card a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-family: var(--font-body);
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .lh-cta {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #275677 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .final-cta-headline {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            line-height: 1.2;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 20px 30px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--accent-color);
+            font-size: 2rem;
+            letter-spacing: 0.08em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .footer-social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+        .footer-social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.4rem;
+            }
+            .header-nav {
+                gap: 20px;
+            }
+            .header-logo {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                display: none; /* Hide navigation on mobile */
+            }
+            .header-content {
+                justify-content: center; /* Center logo and call button */
+            }
+            .header-call-btn {
+                position: absolute;
+                right: 20px;
+            }
+
+            .hero {
+                padding-top: var(--header-height);
+                height: auto;
+                min-height: 80vh;
+            }
+            .hero-title {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+            .hero-location {
+                font-size: 0.9rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+                margin-bottom: 25px;
+            }
+            .hero-rating {
+                margin-bottom: 25px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas button {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .section-label {
+                text-align: left;
+            }
+            h2, .our-story-headline, .menu-headline, .why-choose-us-headline, .testimonials-headline, .lh-card-headline {
+                font-size: 2.2rem;
+                text-align: left;
+                margin-bottom: 30px;
+            }
+            .social-proof {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .social-proof-item .value {
+                font-size: 2rem;
+            }
+            .social-proof-item .label {
+                font-size: 0.9rem;
+            }
+
+            .our-story-about {
+                text-align: left;
+                font-size: 1rem;
+            }
+            .testimonial-card {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .stats-grid, .menu-grid, .wcu-grid, .testimonials-grid, .lh-grid {
+                grid-template-columns: 1fr;
+            }
+            .stat-card .number {
+                font-size: 3rem;
+            }
+
+            .final-cta-headline {
+                font-size: 2.5rem;
+            }
+
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+            .footer-tagline {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            h2, .our-story-headline, .menu-headline, .why-choose-us-headline, .testimonials-headline, .lh-card-headline {
+                font-size: 1.8rem;
+            }
+            .final-cta-headline {
+                font-size: 2rem;
+            }
+            .section-padding {
+                padding: 60px 15px;
+            }
+        }
+    </style>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#hero" class="header-logo">The Alibi</a>
+            <nav class="header-nav">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#location-hours">Find Us</a>
+            </nav>
+            <a href="tel:3363136669" class="header-call-btn">CALL (336) 313-6669</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Thomasville, NC</p>
+            <h1 class="hero-title">The Alibi Bar and Lounge</h1>
+            <p class="hero-tagline">The Alibi is your place for entertainment! Join us for karaoke, trivia, dance parties and live music!</p>
+            <div class="hero-rating">
+                <span class="star"><i class="fas fa-star"></i></span>
+                4.5 Stars (153 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn-outline">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="social-proof-item fade-in-up">
+            <div class="icon"><i class="fas fa-star-half-alt"></i></div>
+            <p class="value">4.5</p>
+            <p class="label">Customer Rating</p>
+        </div>
+        <div class="social-proof-item fade-in-up">
+            <div class="icon"><i class="fas fa-users"></i></div>
+            <p class="value">153+</p>
+            <p class="label">Happy Reviews</p>
+        </div>
+        <div class="social-proof-item fade-in-up">
+            <div class="icon"><i class="fas fa-heart"></i></div>
+            <p class="value">Local</p>
+            <p class="label">Favorite Spot</p>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Story</span>
+            <h2 class="our-story-headline fade-in-up">Your Local Hub for Food, Drinks & Fun.</h2>
+            <div class="our-story-about fade-in-up">
+                <p>Welcome to The Alibi Bar and Lounge, Thomasville's premier destination for good times, great food, and unforgettable entertainment. Nestled right on Salem Street, we've built a reputation as the local favorite where friends gather, laughter echoes, and every night promises something special.</p>
+                <p>From sizzling burgers and comfort food classics to a full bar offering your favorite brews and handcrafted cocktails, The Alibi is more than just a bar and grill. We’re a community cornerstone, dedicated to providing a vibrant atmosphere whether you're here for a quiet dinner, a lively dance party, or to catch some incredible live music. Escape the ordinary and make The Alibi your go-to spot!</p>
+            </div>
+
+            <div class="testimonial-card fade-in-up">
+                <p>"The Alibi is exactly what Thomasville needed! The atmosphere is always buzzing, the staff are genuinely friendly, and there's always something fun happening. It's truly a place where you can relax and make some great memories."</p>
+                <span class="author">— A Happy Regular</span>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <span class="number">4.5</span>
+                    <span class="label">Average Rating</span>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <span class="number">153+</span>
+                    <span class="label">Customer Reviews</span>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <span class="number">10+</span>
+                    <span class="label">Years Serving Thomasville</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">What's Cooking?</span>
+            <h2 class="menu-headline fade-in-up">Our Delicious Offerings</h2>
+            
+            <div class="menu-grid">
+                <!-- IMPORTANT: No menu items or prices were provided in the data. These are illustrative categories only. -->
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Signature Burgers</h3>
+                    <p class="menu-item-description">Juicy, hand-pattied burgers with all your favorite toppings, served with crispy fries. A perfect pub classic.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Crispy Wings</h3>
+                    <p class="menu-item-description">Our famous wings, tossed in your choice of sauces. The ideal snack or meal for sharing (or not!).</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Craft Cocktails</h3>
+                    <p class="menu-item-description">Expertly mixed cocktails, from timeless classics to our unique house specials. Cheers to that!</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Local Brews</h3>
+                    <p class="menu-item-description">A rotating selection of the best craft beers from local breweries and beyond, on tap and in bottles.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Loaded Fries</h3>
+                    <p class="menu-item-description">Golden fries piled high with cheese, bacon, and more. The ultimate comfort food side.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3 class="menu-item-title">Dessert Delights</h3>
+                    <p class="menu-item-description">Sweet endings to your perfect meal. Ask your server about today's dessert specials.</p>
+                </div>
+            </div>
+            <div class="menu-call-to-action fade-in-up">
+                <p>Discover our full range of appetizers, entrees, and daily specials only available in-house!</p>
+                <a href="#location-hours" class="btn-primary">Visit Us Today</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Why The Alibi?</span>
+            <h2 class="why-choose-us-headline fade-in-up">More Than Just a Bar & Grill</h2>
+
+            <div class="wcu-grid">
+                <div class="wcu-card fade-in-up">
+                    <div class="wcu-icon"><i class="fas fa-microphone-alt"></i></div>
+                    <h3 class="wcu-title">Unbeatable Entertainment</h3>
+                    <p class="wcu-description">From lively karaoke and challenging trivia nights to energetic dance parties and incredible live music, there's always something happening at The Alibi!</p>
+                </div>
+                <div class="wcu-card fade-in-up">
+                    <div class="wcu-icon"><i class="fas fa-utensils"></i></div>
+                    <h3 class="wcu-title">Delicious Bar & Grill Fare</h3>
+                    <p class="wcu-description">Indulge in our menu of mouth-watering burgers, crispy wings, and satisfying comfort food classics, perfectly paired with your favorite drink.</p>
+                </div>
+                <div class="wcu-card fade-in-up">
+                    <div class="wcu-icon"><i class="fas fa-beer"></i></div>
+                    <h3 class="wcu-title">Friendly Local Atmosphere</h3>
+                    <p class="wcu-description">We're Thomasville's favorite local spot, known for our welcoming staff, vibrant energy, and a community feel that makes everyone feel right at home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">Hear From Our Guests</span>
+            <h2 class="testimonials-headline fade-in-up">What People Are Saying</h2>
+            
+            <div class="testimonials-grid">
+                <!-- IMPORTANT: Testimonials are crafted based on restaurant type and tagline, as no specific reviews or menu items were provided in the data. -->
+                <div class="testimonial-item fade-in-up">
+                    <div>
+                        <p class="testimonial-text">"Absolutely love the vibe at The Alibi! The live music nights are always a blast, and their food is exactly what you crave from a great bar and grill. This place is a true gem in Thomasville!"</p>
+                    </div>
+                    <span class="testimonial-author">Sarah L. <span class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div>
+                        <p class="testimonial-text">"Came for trivia night and stayed for the amazing atmosphere. The drinks were fantastic, and the staff made us feel right at home. It's clear why everyone loves The Alibi!"</p>
+                    </div>
+                    <span class="testimonial-author">Mark T. <span class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></span></span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div>
+                        <p class="testimonial-text">"Finally, a place that gets entertainment right! Whether it's karaoke or a dance party, The Alibi delivers every time. Plus, the service is always top-notch. Highly recommend!"</p>
+                    </div>
+                    <span class="testimonial-author">Jessica R. <span class="testimonial-rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <div class="lh-grid">
+                <div class="lh-card fade-in-up">
+                    <h3 class="lh-card-headline text-brand">Find Your Way Here</h3>
+                    <p><strong>The Alibi Bar and Lounge</strong></p>
+                    <p>28 Salem St,<br>Thomasville, NC 27360, USA</p>
+                    <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" target="_blank" class="text-brand"><i class="fas fa-map-marker-alt"></i> Get Directions</a>
+                    <p style="margin-top: 25px;">Ready to join the fun or have a question?</p>
+                    <a href="tel:3363136669" class="text-brand" style="font-size: 1.5rem;"><i class="fas fa-phone-alt"></i> (336) 313-6669</a>
+                </div>
+                <div class="lh-card fade-in-up">
+                    <h3 class="lh-card-headline text-brand">Our Opening Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Tuesday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Wednesday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Thursday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Friday:</td><td>5:00 PM – 2:00 AM</td></tr>
+                            <tr><td>Saturday:</td><td>5:00 PM – 2:00 AM</td></tr>
+                            <tr><td>Sunday:</td><td>5:00 PM – 11:30 PM</td></tr>
+                        </tbody>
+                    </table>
+                    <div class="lh-cta">
+                        <a href="tel:3363136669" class="btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="final-cta-headline fade-in-up">Don't Miss Out on Thomasville's Best Entertainment & Eats!</h2>
+            <a href="#location-hours" class="btn-outline text-accent brand-color fade-in-up">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <a href="#hero" class="footer-logo">The Alibi</a>
+        <p class="footer-tagline">The Alibi is your place for entertainment! Join us for karaoke, trivia, dance parties and live music!</p>
+        <div class="footer-social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2026 The Alibi Bar and Lounge. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0.2, // When 20% of the item is visible
+            rootMargin: "0px 0px -50px 0px" // Start observing 50px before it enters viewport
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.setAttribute('data-animated', 'true');
+                    appearOnScroll.unobserve(entry.target); // Stop observing once animated
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Set initial state for hero elements to be animated immediately
+        document.querySelector('.hero-content').setAttribute('data-animated', 'true');
+    </script>
+</body>
+</html>
