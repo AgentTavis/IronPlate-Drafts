@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alley Bar - Selma's Best Value Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #7CB342;
+            --accent-color: #CC0000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+
+        .section-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 5px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(124, 179, 66, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            box-shadow: 0 8px 15px rgba(124, 179, 66, 0.3);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Fade-in-up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.9); /* semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header .nav-links ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .header .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .call-button {
+            padding: 10px 20px;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .call-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(17, 17, 17, 0.9) 30%, rgba(124, 179, 66, 0.1) 70%, rgba(204, 0, 0, 0.1) 100%);
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 10px;
+            line-height: 1;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            color: var(--text-body);
+            font-weight: 300;
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            margin-bottom: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            gap: 8px;
+        }
+
+        .hero .rating-badge svg {
+            fill: #FFD700; /* Gold star color */
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(124, 179, 66, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip .proof-item .value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            line-height: 1;
+            color: var(--brand-color);
+        }
+
+        .social-proof-strip .proof-item .label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-body);
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story .story-text p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .our-story .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .our-story .stat-card .value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card .label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Testimonial Quote Card within Our Story */
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color accent */
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        .story-testimonial blockquote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+
+        .story-testimonial .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color left border */
+            border-radius: 8px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card .description {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .menu-card .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            font-weight: bold;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .why-choose-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-choose-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--brand-color);
+        }
+
+        .why-choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color accent */
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            display: block;
+        }
+        .testimonial-card .stars {
+            color: #FFD700; /* Gold for stars */
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--text-body);
+        }
+
+        .location-info .phone-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-top: 20px;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .location-info .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-color) 0%, rgba(124, 179, 66, 0.8) 50%, var(--accent-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .final-cta .btn-final {
+            background-color: var(--bg-dark); /* Dark button on colorful background */
+            color: var(--brand-color);
+            border: 2px solid var(--bg-dark);
+            padding: 18px 35px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+
+        .final-cta .btn-final:hover {
+            background-color: var(--text-heading);
+            color: var(--accent-color);
+            border-color: var(--text-heading);
+            transform: scale(1.05);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header .nav-links {
+                display: none; /* Hide nav links on smaller screens for simplicity */
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .hours-table {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 70px; /* slightly taller for better mobile tap target */
+                padding: 0 20px;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .call-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            .hero {
+                padding-top: 70px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+                margin-bottom: 30px;
+            }
+            .social-proof-strip .proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-strip .proof-item {
+                min-width: unset;
+                width: 100%;
+            }
+            .our-story .story-grid, .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .final-cta .btn-final {
+                padding: 15px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">The Alley Bar</div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:5709825856" class="call-button btn">CALL (570) 982-5856</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <h1 class="fade-in-up">The Alley Bar</h1>
+            <p class="location fade-in-up" style="animation-delay: 0.1s;">Selma, NC</p>
+            <p class="tagline fade-in-up" style="animation-delay: 0.2s;">The Alley: $4 Guinness, $3 Domestics, $5 Wine. Comfy, locally driven, and veteran-friendly.</p>
+            <div class="rating-badge fade-in-up" style="animation-delay: 0.3s;">
+                <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z"/></svg>
+                <span>4.6 stars (63 reviews)</span>
+            </div>
+            <div class="cta-buttons fade-in-up" style="animation-delay: 0.4s;">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container proof-grid">
+                <div class="proof-item fade-in-up">
+                    <div class="value">4.6</div>
+                    <div class="label">Average Rating</div>
+                </div>
+                <div class="proof-item fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="value">63+</div>
+                    <div class="label">Happy Reviews</div>
+                </div>
+                <div class="proof-item fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="value text-brand">❤️</div>
+                    <div class="label">Local Favorite</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <p class="section-label text-center fade-in-up">Our Journey</p>
+                <h2 class="section-headline text-center fade-in-up" style="animation-delay: 0.1s;">The Heart of Selma's Community</h2>
+                <div class="story-content">
+                    <div class="story-text fade-in-up" style="animation-delay: 0.2s;">
+                        <p>Since welcoming new management in the 2020 holiday season, The Alley Bar has been Selma's go-to spot for incredible value and a friendly atmosphere. We're a comfy, small-town bar, deeply rooted in our community, and proudly veteran-friendly.</p>
+                        <p>While we keep our indoor space smoke-free for everyone's comfort, we offer a charming outdoor patio – perfect for a relaxing drink or conversation with friends. Keep an eye out for our occasional free food offerings, making your visit even more delightful!</p>
+                        <p>Come discover why we're a beloved local establishment, serving up amazing deals like $4 Guinness, $3 Domestics, and $5 Wine. We can't wait to welcome you.</p>
+                    </div>
+                    <div class="story-testimonial fade-in-up" style="animation-delay: 0.3s;">
+                        <blockquote>"This place is exactly what Selma needed! Friendly staff, great patio, and you absolutely cannot beat the prices on Guinness and domestics. Always a good time here."</blockquote>
+                        <span class="author">— A Loyal Local, Selma</span>
+                    </div>
+                </div>
+                <div class="story-grid">
+                    <div class="stat-card fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="value">4.6</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="animation-delay: 0.5s;">
+                        <div class="value">63</div>
+                        <div class="label">Positive Reviews</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="animation-delay: 0.6s;">
+                        <div class="value">2020</div>
+                        <div class="label">New Management Since</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu">
+            <div class="container">
+                <p class="section-label text-center fade-in-up">Our Offerings</p>
+                <h2 class="section-headline text-center fade-in-up" style="animation-delay: 0.1s;">Sip & Savor Our Local Delights</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up" style="animation-delay: 0.2s;">
+                        <h3>Guinness</h3>
+                        <p class="description">Experience the rich, creamy perfection of a classic Guinness, poured just right.</p>
+                        <span class="price">$4</span>
+                    </div>
+                    <div class="menu-card fade-in-up" style="animation-delay: 0.3s;">
+                        <h3>Domestic Beer</h3>
+                        <p class="description">Enjoy your favorite American classics – crisp, cold, and incredibly affordable.</p>
+                        <span class="price">$3</span>
+                    </div>
+                    <div class="menu-card fade-in-up" style="animation-delay: 0.4s;">
+                        <h3>Wine Selection</h3>
+                        <p class="description">A delightful glass of house wine, perfect for unwinding after a long day.</p>
+                        <span class="price">$5</span>
+                    </div>
+                </div>
+                <p class="text-center fade-in-up" style="margin-top: 40px; font-size: 1.1rem; color: var(--text-secondary); animation-delay: 0.5s;">We focus on quality drinks and unbeatable prices. Ask your bartender about our full selection!</p>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <p class="section-label text-center fade-in-up">The Alley Difference</p>
+                <h2 class="section-headline text-center fade-in-up" style="animation-delay: 0.1s;">More Than Just a Bar – It's Home.</h2>
+                <div class="why-choose-grid">
+                    <div class="why-choose-card fade-in-up" style="animation-delay: 0.2s;">
+                        <h3>Unbeatable Prices</h3>
+                        <p>Enjoy $4 Guinness, $3 Domestics, and $5 Wine every day. We believe great drinks shouldn't break the bank.</p>
+                    </div>
+                    <div class="why-choose-card fade-in-up" style="animation-delay: 0.3s;">
+                        <h3>Local & Veteran Friendly</h3>
+                        <p>A true Selma establishment, we pride ourselves on being a welcoming, locally driven spot that honors our veterans.</p>
+                    </div>
+                    <div class="why-choose-card fade-in-up" style="animation-delay: 0.4s;">
+                        <h3>Cozy Outdoor Patio</h3>
+                        <p>Step outside to our nice little patio, perfect for fresh air, conversation, and a smoke-friendly environment.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <p class="section-label text-center fade-in-up">Hear From Our Guests</p>
+                <h2 class="section-headline text-center fade-in-up" style="animation-delay: 0.1s;">Real Stories, Real Good Times.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="stars">★★★★★</div>
+                        <p class="quote">"I love The Alley Bar! The prices are fantastic – where else can you get Guinness for $4 and domestics for $3? It's got that perfect comfy small-town bar vibe. Highly recommend!"</p>
+                        <span class="author">— Jessica M.</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="animation-delay: 0.3s;">
+                        <div class="stars">★★★★★</div>
+                        <p class="quote">"New management has really turned this place around. The outdoor patio is a game-changer, and it's awesome that they occasionally have free food. A great spot to chill."</p>
+                        <span class="author">— Mark T.</span>
+                    </div>
+                    <div class="testimonial-card fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="stars">★★★★★</div>
+                        <p class="quote">"As a veteran, I truly appreciate the friendly, welcoming atmosphere here. The wine is great for only $5, and it's just a genuine, no-frills local bar. My new favorite."</p>
+                        <span class="author">— David L.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <p class="section-label text-center fade-in-up">Visit Us</p>
+                <h2 class="section-headline text-center fade-in-up" style="animation-delay: 0.1s;">Your New Favorite Local Spot.</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info fade-in-up" style="animation-delay: 0.2s;">
+                        <h3>Find The Alley Bar</h3>
+                        <p>We're conveniently located in the heart of Selma, NC.</p>
+                        <p><strong>Address:</strong> 113 S Raiford St, Selma, NC 27576, USA</p>
+                        <a href="tel:5709825856" class="phone-number">(570) 982-5856</a>
+                        <p>Ready to join us? We look forward to seeing you!</p>
+                        <div class="map-placeholder">Map coming soon!</div>
+                    </div>
+                    <div class="hours-info fade-in-up" style="animation-delay: 0.3s;">
+                        <h3>Our Opening Hours</h3>
+                        <table class="hours-table">
+                            <tr>
+                                <th>Monday:</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>1:00 PM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>1:00 PM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>1:00 PM – 1:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td>1:00 PM – 12:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td>Closed</td>
+                            </tr>
+                        </table>
+                        <a href="tel:5709825856" class="btn btn-primary" style="margin-top: 30px;">CALL WITH QUESTIONS</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container">
+                <h2 class="fade-in-up">Don't Miss Out on Selma's Best Value!</h2>
+                <a href="#find-us" class="btn btn-final fade-in-up" style="animation-delay: 0.1s;">VISIT US TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Alley Bar</div>
+            <p class="tagline">The Alley: Your local, veteran-friendly bar, serving up great drinks and good times in Selma, NC.</p>
+            <div class="social-links">
+                <!-- Placeholder social icons -->
+                <a href="#" aria-label="Facebook"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v3.49h-2l-.396 3.98h2.396v8.01z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M7.91 2.01c-2.43 0-4.44 2.01-4.44 4.44v11.1c0 2.43 2.01 4.44 4.44 4.44h8.88c2.43 0 4.44-2.01 4.44-4.44V6.45c0-2.43-2.01-4.44-4.44-4.44H7.91zm0 2h8.88c1.35 0 2.44 1.09 2.44 2.44v11.1c0 1.35-1.09 2.44-2.44 2.44H7.91c-1.35 0-2.44-1.09-2.44-2.44V6.45c0-1.35 1.09-2.44 2.44-2.44zM12.35 8.9c-2.03 0-3.69 1.66-3.69 3.69s1.66 3.69 3.69 3.69 3.69-1.66 3.69-3.69-1.66-3.69-3.69-3.69zm0 2c.93 0 1.69.76 1.69 1.69s-.76 1.69-1.69 1.69-1.69-.76-1.69-1.69.76-1.69 1.69-1.69zM18 5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Alley Bar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
