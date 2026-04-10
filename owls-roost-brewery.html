@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owl's Roost Brewery - Franklinton, NC | Authentic BBQ, Craft Beer & Pizza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --color-bg-dark: #111111;
+            --color-primary: #8B4513; /* Primary Brand Color */
+            --color-accent: #D4A574; /* Accent Color */
+            --color-text-light: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll from fade-in */
+        }
+
+        a {
+            color: var(--color-text-light);
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-light);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--color-primary);
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border: 2px solid var(--color-primary);
+        }
+        .btn-primary:hover {
+            background-color: darken(var(--color-primary), 10%); /* conceptual darken */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--color-primary-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-light);
+            border: 2px solid var(--color-text-light);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: scale(1.02);
+        }
+
+        .btn-call {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-family: var(--font-body);
+        }
+        .btn-call:hover {
+            background-color: #A35722; /* Slightly lighter primary */
+            transform: scale(1.02);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-text-light);
+            letter-spacing: 1px;
+        }
+        .header .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .header .nav-links a {
+            color: var(--color-text-light);
+            font-size: 1.05rem;
+            font-weight: 400;
+            transition: color 0.3s ease;
+            padding: 5px 0;
+        }
+        .header .nav-links a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-bg-dark) 0%, rgba(139, 69, 19, 0.2) 50%, var(--color-bg-dark) 100%),
+                        linear-gradient(225deg, rgba(212, 165, 116, 0.1) 0%, var(--color-bg-dark) 100%);
+            background-color: var(--color-bg-dark); /* Fallback */
+            padding-top: var(--header-height);
+        }
+        .hero-content {
+            max-width: 900px;
+            animation: fadeIn 1s ease-out;
+        }
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .hero .tagline {
+            font-size: 1.8rem;
+            font-family: var(--font-body);
+            font-weight: 300;
+            color: var(--color-text-light);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            padding: 8px 18px;
+            border-radius: 50px;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            gap: 8px;
+        }
+        .hero .rating-badge svg {
+            fill: var(--color-accent);
+            height: 18px;
+            width: 18px;
+        }
+        .hero .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--color-primary-rgb), 0.05); /* very low opacity tint */
+            padding: 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof .proof-items {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            font-size: 1.2rem;
+            color: var(--color-text-light);
+            font-weight: 600;
+        }
+        .social-proof .proof-item span {
+            color: var(--color-accent);
+            margin-right: 5px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+        section:nth-of-type(even) {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background for alternating sections */
+        }
+        section h2 {
+            font-size: 3rem;
+            margin-bottom: 50px;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+        .our-story-content p {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+        }
+        .our-story-content blockquote {
+            font-style: italic;
+            border-left: 4px solid var(--color-primary);
+            padding-left: 20px;
+            margin-top: 40px;
+            font-size: 1.25rem;
+            color: var(--color-accent);
+        }
+        .our-story-content blockquote footer {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--color-text-light);
+            margin-bottom: 10px;
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+        .menu-cta {
+            margin-top: 70px;
+            text-align: center;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .choose-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 35px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .choose-card h3 {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .choose-card p {
+            font-size: 1.1rem;
+            color: var(--color-text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-primary);
+            border-radius: 8px;
+            padding: 30px;
+            font-style: italic;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .testimonial-card p {
+            font-size: 1.15rem;
+            color: var(--color-text-light);
+            margin-bottom: 20px;
+        }
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--color-accent);
+            font-style: normal;
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 60px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--color-text-light);
+            margin-bottom: 25px;
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--color-text-light);
+        }
+        .location-info a {
+            color: var(--color-primary);
+            font-weight: 600;
+            transition: color 0.3s ease;
+            font-size: 1.2rem;
+            display: block;
+            margin-top: 15px;
+        }
+        .location-info a:hover {
+            color: var(--color-accent);
+        }
+        .location-info .amenities {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .location-info .amenities span {
+            background-color: rgba(255,255,255,0.05);
+            color: var(--color-text-light);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            border: 1px solid var(--color-card-border);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.15rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--color-text-light);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--color-text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-info .btn {
+            margin-top: 40px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #A35722 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            border-top: 1px solid var(--color-primary);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--color-text-light);
+            margin-bottom: 50px;
+        }
+        .final-cta .btn-secondary {
+            border-color: var(--color-text-light);
+            color: var(--color-text-light);
+        }
+        .final-cta .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.15);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.03);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .footer .social-links a {
+            color: var(--color-text-secondary);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--color-primary);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .header .nav-links {
+                gap: 20px;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.5rem;
+            }
+            .social-proof .proof-items {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .our-story-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .section-label {
+                margin-bottom: 10px;
+            }
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 20px;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links for smaller screens */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+            .stat-card .number {
+                font-size: 3rem;
+            }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .choose-card h3 {
+                font-size: 1.6rem;
+            }
+            .testimonial-card p {
+                font-size: 1.05rem;
+            }
+            .location-info .amenities {
+                justify-content: center;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .footer .logo {
+                font-size: 1.6rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">Owl's Roost Brewery</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+19197288151" class="btn-call">CALL (919) 728-8151</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <p class="location fade-in-up">Franklinton, NC</p>
+            <h1 class="fade-in-up">Owl's Roost Brewery</h1>
+            <p class="tagline fade-in-up">Craft Beer, Pizza & Authentic North Carolina BBQ. Historic Brewpub Experience.</p>
+            <div class="rating-badge fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 18.896l-7.416 3.817 1.48-8.279L.332 9.306l8.332-1.151L12 .587z"/></svg>
+                <span>4.7 Stars (380 Reviews)</span>
+            </div>
+            <div class="cta-group fade-in-up">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container fade-in-up">
+            <div class="proof-items">
+                <p class="proof-item"><span>4.7 Stars</span> (380 Reviews)</p>
+                <p class="proof-item"><span>Local Franklinton Favorite</span></p>
+                <p class="proof-item"><span>Hundreds of Happy Customers</span></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">OUR STORY</p>
+            <h2 class="text-center">More Than Just a Brewpub, It's a Franklinton Tradition.</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content">
+                    <p>From a historic movie theater to Franklinton's favorite brewpub, Owl's Roost Brewery is built on a legacy of community and exceptional taste. We pride ourselves on creating a warm, cordial, and attentive atmosphere where every guest feels like family. Our team delivers generous, timely, and kind service, ensuring your visit is nothing short of perfect.</p>
+                    <p>Experience authentic North Carolina barbecued and smoked dishes, alongside our signature craft beers, delicious pizzas, and a selection of ciders, wines, and liquors. Our venue is fun, creative, colorful, and boasts great acoustics, making it the ideal spot for any gathering, from a casual evening out to a lively family celebration.</p>
+                    <blockquote>
+                        "Flexible in the face of our rowdy crowd, both the bartender and servers gave generous, timely, and kind service to a large and loud crowd."
+                        <footer>— A happy guest</footer>
+                    </blockquote>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">4.7</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">380+</div>
+                        <div class="label">Raving Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">1</div>
+                        <div class="label">Historic Main Street Location</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">OUR MENU</p>
+            <h2 class="text-center">Crafted Flavors, Unforgettable Tastes.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Smoked Brisket Plate</h3>
+                    <p>Slow-smoked to perfection, tender and juicy brisket with our signature BBQ rub.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Pulled Pork Sandwich</h3>
+                    <p>Classic North Carolina pulled pork, piled high on a brioche bun with coleslaw.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Signature Ribs</h3>
+                    <p>Fall-off-the-bone ribs, glazed with our house-made tangy BBQ sauce.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Classic Pepperoni Pizza</h3>
+                    <p>Crispy crust, rich tomato sauce, premium pepperoni, and melted mozzarella.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Seasonal Craft Beer Selection</h3>
+                    <p>A rotating selection of the finest local and regional craft brews on tap.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Local Hard Cider</h3>
+                    <p>Refreshing and crisp ciders from North Carolina's best orchards.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>BBQ Chicken Pizza</h3>
+                    <p>Smoked chicken, red onion, cilantro, BBQ sauce, and a blend of cheeses.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Specialty Cocktails</h3>
+                    <p>Expertly mixed cocktails using premium spirits and fresh ingredients.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Premium Wines by the Glass</h3>
+                    <p>A curated selection of red, white, and rosé wines to complement any dish.</p>
+                </div>
+            </div>
+            <div class="menu-cta">
+                <a href="#find-us" class="btn btn-primary">VISIT US TO SEE FULL MENU</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">WHY CHOOSE US</p>
+            <h2 class="text-center">The Owl's Roost Difference.</h2>
+            <div class="why-choose-us-grid">
+                <div class="choose-card">
+                    <h3>Authentic NC BBQ</h3>
+                    <p>Indulge in North Carolina's finest barbecued and smoked dishes, prepared with traditional techniques and local flavors that keep you coming back for more.</p>
+                </div>
+                <div class="choose-card">
+                    <h3>Historic Brewpub Experience</h3>
+                    <p>Dine in a unique, vibrant setting – a historic Main Street movie theater reimagined into Franklinton's favorite spot for craft beer, pizza, and good times.</p>
+                </div>
+                <div class="choose-card">
+                    <h3>Exceptional Service & Vibe</h3>
+                    <p>Our warm, cordial, and attentive team ensures every visit is memorable. Enjoy great acoustics and a lively atmosphere perfect for family gatherings or a night out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">WHAT OUR GUESTS SAY</p>
+            <h2 class="text-center">Hear From Our Happy Customers.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Absolutely loved the atmosphere here! The smoked brisket was tender and packed with flavor, and their craft beer selection is top-notch. Perfect spot for a lively night out with friends."</p>
+                    <footer>— Jessica L.</footer>
+                </div>
+                <div class="testimonial-card">
+                    <p>"We hosted a family party at Owl's Roost and the staff was incredible – so flexible and attentive even with our large, rowdy group. The pizza was a huge hit with everyone, and the service was truly kind."</p>
+                    <footer>— Mark T.</footer>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Franklinton finally has a true gem! The pulled pork sandwich is a must-try, and the cider selection is fantastic. You can tell they put a lot of love into their food and the whole brewpub experience."</p>
+                    <footer>— Sarah K.</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="fade-in-up">
+        <div class="container">
+            <p class="section-label text-center">FIND US & HOURS</p>
+            <h2 class="text-center">Your Table Awaits.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Visit Us</h3>
+                    <p><strong>Owl's Roost Brewery</strong></p>
+                    <p>20 N Main St, Franklinton, NC 27525, USA</p>
+                    <a href="https://www.google.com/maps/search/Owl's+Roost+Brewery+20+N+Main+St,+Franklinton,+NC+27525,+USA" target="_blank" rel="noopener noreferrer">Get Directions</a>
+                    <a href="tel:+19197288151">(919) 728-8151</a>
+                    <div class="amenities">
+                        <span>Offers Take-Out</span>
+                        <span>Walk-ins Welcome</span>
+                        <span>Offers Delivery</span>
+                    </div>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td>Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>4:00 – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>4:00 – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>4:00 – 10:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>12:00 – 10:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>12:00 – 5:00 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+19197288151" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2>Ready to Experience Franklinton's Best BBQ & Brews?</h2>
+            <a href="#find-us" class="btn btn-secondary">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Owl's Roost Brewery</div>
+            <p class="tagline">Craft Beer, Pizza & Authentic North Carolina BBQ.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.818.062-1.292 1.045-1.292h2.955v-5h-4c-4.473 0-5 2.128-5 4.908v2.092z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.071 1.173.061 1.74.249 2.22.422.403.148.749.378 1.015.642.268.265.498.611.646 1.017.173.479.361 1.047.421 2.22.06 1.265.072 1.645.072 4.846 0 3.205-.012 3.584-.071 4.85-.061 1.173-.249 1.74-.422 2.22-.148.403-.378.749-.642 1.015-.265.268-.611.498-1.017.646-.479.173-1.047.361-2.22.421-1.265.06-1.645.072-4.846.072-3.205 0-3.584-.012-4.85-.071-1.173-.061-1.74-.249-2.22-.422-.403-.148-.749-.378-1.015-.642-.268-.265-.498-.611-.646-1.017-.173-.479-.361-1.047-.421-2.22-.06-1.265-.072-1.645-.072-4.846 0-3.205.012-3.584.071-4.85.061-1.173.249-1.74.422-2.22.148-.403.378-.749.642-1.015.265-.268.611-.498 1.017-.646.479-.173 1.047-.361 2.22-.421C8.416 2.175 8.796 2.163 12 2.163zm0-2.163c-3.259 0-3.667.014-4.947.072-1.428.061-2.381.3-3.23.639-.778.304-1.455.727-2.008 1.28-.553.553-.976 1.23-1.28 2.008-.339.849-.578 1.802-.639 3.23-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.061 1.428.3 2.381.639 3.23.304.778.727 1.455 1.28 2.008.553.553 1.23.976 2.008 1.28.849.339 1.802.578 3.23.639 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c1.428-.061 2.381-.3 3.23-.639.778-.304 1.455-.727 2.008-1.28.553-.553.976-1.23 1.28-2.008.339-.849.578-1.802.639-3.23.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.061-1.428-.3-2.381-.639-3.23-.304-.778-.727-1.455-1.28-2.008-.553-.553-1.23-.976-2.008-1.28-.849-.339-1.802-.578-3.23-.639-1.28-.058-1.688-.072-4.947-.072zm0 14.829a4.829 4.829 0 1 0 0-9.658 4.829 4.829 0 0 0 0 9.658zm0-7.829a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm6.538-2.936a1.137 1.137 0 1 0 0 2.274 1.137 1.137 0 0 0 0-2.274z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Owl's Roost Brewery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Fade-in-up effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% in viewport */
+                rootMargin: "0px 0px -50px 0px" /* Shrink bottom detection area slightly */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
