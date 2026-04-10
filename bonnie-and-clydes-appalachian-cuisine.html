@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonnie & Clyde's Appalachian Cuisine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #2C3E50;
+            --accent-color: #D4AF37;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4.5rem; }
+        h2 { font-size: 3rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.15rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #ffda6a; /* Lighter accent */
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* #111111 with opacity */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1.05rem;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            font-weight: 600;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #3C5268; /* Slightly lighter brand color */
+            border-color: #3C5268;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-accent:hover {
+            transform: scale(1.02);
+            background-color: #ffda6a; /* Lighter accent */
+            border-color: #ffda6a;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            background: 
+                linear-gradient(rgba(17, 17, 17, 0.9), rgba(17, 17, 17, 0.95)), /* Dark overlay */
+                radial-gradient(circle at top left, rgba(44, 62, 80, 0.2) 0%, transparent 40%), /* Subtle brand color hint */
+                radial-gradient(circle at bottom right, rgba(212, 175, 55, 0.15) 0%, transparent 40%), /* Subtle accent color hint */
+                var(--primary-bg); /* Base background */
+        }
+
+        .hero-section h1 {
+            font-size: 6rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            letter-spacing: 0.05em;
+        }
+
+        .hero-section .location {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero-section .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .hero-section .rating-badge .star {
+            color: var(--accent-color);
+        }
+
+        .hero-section .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(44, 62, 80, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-strip .proof-grid {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+        }
+
+        .social-proof-strip .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-proof-strip .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+
+        .social-proof-strip .proof-item p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        /* Section Heading Pattern */
+        .section-label {
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+            display: block;
+        }
+
+        .section-headline {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-text {
+            flex: 2;
+        }
+
+        .our-story-text p {
+            margin-bottom: 20px;
+        }
+
+        .our-story-sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            color: var(--text-body);
+        }
+
+        .quote-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .quote-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            font-family: 'Oswald', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 6px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            letter-spacing: 0.02em;
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+            letter-spacing: 0.02em;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+        
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 6px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card .stars {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .location-info address {
+            font-style: normal;
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+        
+        .location-info .map-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .location-info .map-link svg {
+            fill: var(--accent-color);
+            width: 20px;
+            height: 20px;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.6rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 30px;
+        }
+        
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            font-family: 'Oswald', sans-serif;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #3C5268 100%); /* Brand color gradient */
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-heading);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c; /* Slightly darker than primary-bg */
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer .copyright {
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Utility classes */
+        .text-center { text-align: center; }
+        .mb-20 { margin-bottom: 20px; }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .hero-section h1 {
+                font-size: 4.5rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .our-story-content, .location-hours-content {
+                flex-direction: column;
+                gap: 60px;
+            }
+            .our-story-sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-direction: column;
+                height: auto;
+                padding: 15px 20px;
+                gap: 15px;
+            }
+            .sticky-header nav ul {
+                gap: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header .call-btn {
+                width: 100%;
+            }
+
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-section .location {
+                font-size: 1rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.2rem;
+                padding: 0 10px;
+            }
+            .hero-section .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                width: 80%;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip .proof-grid {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+
+            .section-label {
+                margin-bottom: 10px;
+            }
+            .section-headline {
+                margin-bottom: 40px;
+            }
+            section {
+                padding: 60px 0;
+            }
+
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-info .phone-number {
+                font-size: 1.4rem;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header {
+                padding: 10px 15px;
+            }
+            .sticky-header nav ul {
+                font-size: 0.9rem;
+            }
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-section .tagline {
+                font-size: 1rem;
+            }
+            .hero-section .hero-ctas {
+                width: 90%;
+            }
+            .proof-item h3 {
+                font-size: 1.8rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .footer .tagline {
+                font-size: 0.9rem;
+            }
+            .footer .social-links a {
+                font-size: 1.2rem;
+                margin: 0 10px;
+            }
+            .footer .copyright {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">Bonnie & Clyde's</div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:8286498267" class="btn btn-primary call-btn">CALL (828) 649-8267</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <p class="location">Marshall, NC</p>
+        <h1>Bonnie & Clyde's Appalachian Cuisine</h1>
+        <p class="tagline">Appalachian Cuisine with a hint of culinary arts.</p>
+        <div class="rating-badge">
+            <span class="star">&#9733;</span> 4.6 Stars (436 reviews)
+        </div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip is-visible">
+        <div class="container proof-grid">
+            <div class="proof-item">
+                <h3>4.6 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>436</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="proof-item">
+                <h3>Local Favorite</h3>
+                <p>Marshall, NC</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="container">
+        <span class="section-label">Our Heritage</span>
+        <h2 class="section-headline">A Taste of Home, Rooted in the Appalachians.</h2>
+        <div class="our-story-content">
+            <div class="our-story-text">
+                <p>At Bonnie & Clyde's, we believe in serving more than just a meal; we offer an experience that embodies the heart and soul of Appalachian tradition. Nestled in the scenic beauty of Marshall, NC, our Bar & Grill takes pride in crafting dishes that blend authentic regional flavors with a touch of culinary artistry.</p>
+                <p>Our journey began with a simple passion: to bring the rich, comforting tastes of the mountains to your table. We source ingredients locally whenever possible, ensuring every bite tells a story of the land and its people. From hearty breakfast classics to satisfying lunch specials, each dish is prepared with care, reflecting a culinary heritage passed down through generations.</p>
+                <p>Join us for a relaxed atmosphere, friendly faces, and food that warms the soul. Whether you're a long-time local or just passing through, Bonnie & Clyde's is your destination for genuine Appalachian hospitality and unforgettable flavors.</p>
+            </div>
+            <div class="our-story-sidebar">
+                <div class="quote-card">
+                    <p>"Every visit to Bonnie & Clyde's feels like coming home. The food is consistently delicious, and the atmosphere is wonderfully welcoming. A true Marshall gem!"</p>
+                    <p class="author">— A Loyal Local</p>
+                </div>
+                <div class="stat-cards">
+                    <div class="stat-card">
+                        <div class="number">4.6</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">436+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">Yes!</div>
+                        <div class="label">Offers Take-Out</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="container">
+        <span class="section-label">Our Creations</span>
+        <h2 class="section-headline">Indulge in Appalachian Comfort & Culinary Delights.</h2>
+        <div class="menu-grid">
+            <div class="menu-card">
+                <h4>Ham and Cheese Omelette</h4>
+                <p>A classic breakfast favorite, fluffy eggs filled with savory ham and melted cheddar cheese, served with your choice of side.</p>
+            </div>
+            <div class="menu-card">
+                <h4>Seasonal Salad</h4>
+                <p>Fresh, crisp greens sourced from local farms, topped with seasonal vegetables and our house-made vinaigrette. A light and refreshing choice.</p>
+            </div>
+            <div class="menu-card">
+                <h4>Mountain Seafood Platter</h4>
+                <p>A delightful selection of locally inspired seafood, expertly prepared and seasoned to bring out the natural flavors. Ask your server for today's catch!</p>
+            </div>
+            <div class="menu-card">
+                <h4>Classic Appalachian Burger</h4>
+                <p>Juicy, grilled beef patty, fresh lettuce, tomato, onion, and pickles, served on a toasted bun with a side of crispy fries. A hearty classic.</p>
+            </div>
+            <div class="menu-card">
+                <h4>Smoked Pulled Pork Sandwich</h4>
+                <p>Slow-smoked pork, hand-pulled and piled high on a brioche bun with our signature BBQ sauce and coleslaw.</p>
+            </div>
+            <div class="menu-card">
+                <h4>Buttermilk Fried Chicken</h4>
+                <p>Crispy, golden-brown fried chicken, marinated in buttermilk and seasoned with our secret blend of spices. A true Southern comfort.</p>
+            </div>
+            <div class="menu-card">
+                <h4>Biscuits & Gravy</h4>
+                <p>Fluffy homemade biscuits smothered in rich, creamy sausage gravy. The perfect start to any Appalachian morning.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="container">
+        <span class="section-label">Our Promise</span>
+        <h2 class="section-headline">Experience the Difference at Bonnie & Clyde's.</h2>
+        <div class="why-choose-grid">
+            <div class="why-card">
+                <span class="icon">&#127860;</span> <!-- Cooking Pot Icon -->
+                <h3>Authentic Appalachian Flavors</h3>
+                <p>We blend time-honored recipes with a touch of modern culinary art, offering unique dishes like our Mountain Seafood Platter and classic Ham and Cheese Omelette that truly represent the region.</p>
+            </div>
+            <div class="why-card">
+                <span class="icon">&#127807;</span> <!-- Leaf Icon -->
+                <h3>Fresh, Local & Crafted with Care</h3>
+                <p>With a stellar 4.6-star rating from 436 reviews, our commitment to quality shines through. We prioritize fresh ingredients and meticulous preparation, making us a true Marshall local favorite.</p>
+            </div>
+            <div class="why-card">
+                <span class="icon">&#128100;</span> <!-- Person Icon -->
+                <h3>Community & Convenience</h3>
+                <p>Beyond delicious food, we offer a welcoming atmosphere where everyone feels like family. Plus, with our convenient take-out option, you can enjoy Bonnie & Clyde's wherever you are!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="container">
+        <span class="section-label">What Our Guests Say</span>
+        <h2 class="section-headline">Real Stories from Our Satisfied Customers.</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p>"Absolutely loved the Ham and Cheese Omelette! Perfectly cooked and so flavorful. It’s exactly what you need for a hearty breakfast before exploring Marshall."</p>
+                <p class="author">— Sarah J., Asheville</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p>"The Seasonal Salad was incredibly fresh and vibrant. A wonderful, light option that didn't compromise on taste. A great choice for a refreshing lunch!"</p>
+                <p class="author">— Michael T., Charlotte</p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p>"The Mountain Seafood Platter was a revelation! Expertly prepared and truly highlights the Appalachian culinary artistry. I'll be back for more!"</p>
+                <p class="author">— Emily R., Local Resident</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="container">
+        <span class="section-label">Visit Us</span>
+        <h2 class="section-headline">Find Your Way to Appalachian Flavor.</h2>
+        <div class="location-hours-content">
+            <div class="location-info">
+                <h3>Our Location</h3>
+                <address>
+                    5145 US-25 #70<br>
+                    Marshall, NC 28753<br>
+                    USA
+                </address>
+                <a href="https://www.google.com/maps/search/?api=1&query=5145+US-25+%2370,+Marshall,+NC+28753" target="_blank" rel="noopener noreferrer" class="map-link">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                    Get Directions
+                </a>
+                <h3>Questions or Orders?</h3>
+                <a href="tel:8286498267" class="phone-number">(828) 649-8267</a>
+                <a href="tel:8286498267" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+            <div class="hours-info">
+                <h3>Our Hours</h3>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday</th>
+                        <td>6:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday</th>
+                        <td>6:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday</th>
+                        <td>6:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday</th>
+                        <td>6:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Friday</th>
+                        <td>6:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday</th>
+                        <td class="closed">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday</th>
+                        <td class="closed">Closed</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2>Ready for a Taste of True Appalachian Flavor?</h2>
+            <a href="#menu" class="btn btn-accent">VIEW OUR MENU &nbsp;&#8594;</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Bonnie & Clyde's</div>
+            <p class="tagline">Appalachian Cuisine with a hint of culinary arts.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3v9h4v-9z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2zm-.2 2A2.88 2.88 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.8 20h8.4a2.88 2.88 0 0 0 2.8-2.8V7.6C19.999 5.61 18.39 4 16.2 4H7.6zm9.65 0c.71 0 1.25.54 1.25 1.25S18 6.5 17.3 6.5s-1.25-.54-1.25-1.25.54-1.25 1.25-1.25zM12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg></a>
+                <a href="#" aria-label="Yelp"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.879 13.91l-.99-4.832c-.086-.424-.51-.722-.962-.722h-.428l1.458-7.143 4.296 2.05-.99 4.833c-.086.424-.51.722-.962.722h-.428l1.458 7.143L10.121 15.91z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Bonnie & Clyde's. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
