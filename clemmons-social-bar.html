@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clemmons Social Bar - Upscale Dining & Cocktails in Clemmons, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Design System: Colors, Typography, Layout, Visual Effects */
+
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #1B8A8A;
+            --accent-color: #CC0000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+
+            /* Typography */
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        /* Base Styles & Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        a {
+            color: var(--text-body);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.7rem; /* Section headlines */
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding {
+            padding: 80px 0 120px 0; /* Generous whitespace */
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            display: block; /* Ensure it takes full width above headline */
+        }
+
+        .section-headline {
+            margin-bottom: 3.5rem; /* More space below headlines */
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            border-radius: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-color);
+        }
+
+        .btn-secondary-outlined {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary-outlined:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        /* Fade-in-up animation (for JS IntersectionObserver) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.33, 1, 0.68, 1), transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .center-cta {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sticky-header .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-left: 0; /* Reset default margin */
+        }
+
+        .sticky-header .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .sticky-header .main-nav a {
+            color: var(--text-body);
+            font-weight: 400;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .sticky-header .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            border: none;
+        }
+        .sticky-header .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(27, 138, 138, 0.1) 30%, var(--bg-main) 70%, rgba(204, 0, 0, 0.05) 100%),
+                        linear-gradient(225deg, rgba(27, 138, 138, 0.05) 0%, var(--bg-main) 100%);
+            background-color: var(--bg-main); /* Fallback for older browsers */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(27, 138, 138, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(204, 0, 0, 0.05) 0%, transparent 60%);
+            opacity: 0.7;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .restaurant-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+            text-shadow: 0 0 15px rgba(27, 138, 138, 0.3); /* Subtle glow */
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.1rem; /* Smaller, lighter weight */
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-block;
+            background-color: rgba(27, 138, 138, 0.2);
+            color: var(--brand-color);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(27, 138, 138, 0.4);
+        }
+
+        .hero-ctas .btn {
+            margin: 0 1rem;
+            min-width: 180px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(27, 138, 138, 0.05); /* Tinted with brand color */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 1rem;
+        }
+
+        .proof-item h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .proof-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-alt); /* Slightly lighter for alternating */
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.8fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-text p {
+            margin-bottom: 1rem;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .our-story-section .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: left;
+            font-style: italic;
+            color: var(--text-body);
+        }
+
+        .our-story-section .testimonial-card p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .our-story-section .testimonial-card cite {
+            display: block;
+            text-align: right;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+
+        .menu-note {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-alt); /* Alternating background */
+        }
+
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .choose-us-card h3 {
+            font-size: 1.9rem;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .choose-us-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            text-align: center;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonials-section .testimonial-card { /* Specific styling for testimonials section cards */
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Left border accent */
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonials-section .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonials-section .testimonial-card p {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        .testimonials-section .testimonial-card cite {
+            display: block;
+            text-align: right;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: normal;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-alt);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .location-info h3,
+        .hours-info h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .address {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info .btn {
+            margin-bottom: 2rem;
+        }
+
+        .phone-cta {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .phone-number {
+            color: var(--brand-color);
+            font-weight: 700;
+        }
+
+        .phone-number:hover {
+            text-decoration: underline;
+        }
+
+        .call-to-order-btn {
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table td {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-table td:first-child {
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--text-body);
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, rgba(27, 138, 138, 0.8) 50%, rgba(204, 0, 0, 0.2) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta-section .final-cta-headline {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .final-cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-heading);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--accent-color); /* Use accent color for urgency */
+            border: 2px solid var(--accent-color);
+            color: var(--text-heading);
+            padding: 1.2rem 2.8rem;
+            font-size: 1rem;
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 4rem 0 2rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .footer-top {
+            margin-bottom: 2rem;
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer .footer-tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .social-links {
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            body {
+                font-size: 1rem;
+            }
+
+            h1 {
+                font-size: 3.5rem !important; /* Force smaller for mobile hero */
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .sticky-header .main-nav {
+                display: none; /* Hide nav on small screens */
+            }
+
+            .sticky-header .header-content {
+                justify-content: space-between; /* Keep logo and call button separate */
+                padding: 0 1.5rem;
+            }
+
+            .sticky-header .logo {
+                margin: 0;
+            }
+
+            .sticky-header .btn-call {
+                position: static; /* Reset absolute positioning */
+                right: auto;
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+            
+            .hero-section {
+                height: auto;
+                min-height: 80vh;
+                padding: 100px 0; /* Adjust padding for mobile hero */
+            }
+
+            .hero-location {
+                font-size: 1rem;
+            }
+
+            .hero-tagline {
+                font-size: 0.95rem;
+                max-width: 90%;
+            }
+
+            .rating-badge {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .hero-ctas {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-ctas .btn {
+                margin: 0;
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .social-proof-strip .proof-item {
+                min-width: unset;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .choose-us-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .location-info {
+                text-align: center;
+            }
+            .location-info .btn, .call-to-order-btn {
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+
+            .hours-info h3 {
+                text-align: center;
+            }
+
+            .final-cta-section .final-cta-headline {
+                font-size: 2.2rem;
+            }
+            .final-cta-section p {
+                font-size: 1rem;
+            }
+
+            .footer .footer-tagline {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="header-content container">
+            <div class="logo">CSB</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+13368936000" class="btn btn-call">CALL (336) 893-6000</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content container">
+                <p class="hero-location">Clemmons, NC</p>
+                <h1 class="restaurant-name">Clemmons Social Bar</h1>
+                <p class="hero-tagline">CLEMMONS SOCIAL BAR HAPPY HOUR EVERY FRIDAY ALL DAY $5 STELLA & BLUE MOON &#x0e2b;5 (2) JELLO SHOTS & $5 GREEN TEA TEA 6000 MEADOWBROOK MALL CT.</p>
+                <div class="rating-badge">4.4 &#9733; (20 Reviews)</div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary-outlined">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="proof-item">
+                    <h3>4.4 Stars</h3>
+                    <p>Based on 20 Reviews</p>
+                </div>
+                <div class="proof-item">
+                    <h3>Tasteful Moments</h3>
+                    <p>Crafting Unforgettable Experiences</p>
+                </div>
+                <div class="proof-item">
+                    <h3>Local Favorite</h3>
+                    <p>Voted Best of Clemmons</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-story" class="our-story-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">Our Story</p>
+                <h2 class="section-headline">Crafting Memories, One Evening at a Time.</h2>
+                <div class="story-grid">
+                    <div class="story-text">
+                        <p>Welcome to CSB! Nestled in the heart of Clemmons, we’ve created more than just a bar; it's a social sanctuary. Our vision was to blend sophistication with genuine comfort, offering a retreat where every visit feels like a special occasion. From our carefully curated cocktail list to our fantastic liquor selection, every detail is designed to elevate your experience.</p>
+                        <p>We believe in the power of good company, great music, and exceptional taste. Join us for an upscale, relaxed atmosphere, where live music and weekly events add a vibrant rhythm to your evenings. Clemmons Social Bar is where connections are made, laughter is shared, and unforgettable memories are forged.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"CSB truly delivers on its promise of an upscale, relaxed atmosphere. The cocktails are superb, and the live music creates the perfect vibe for a Friday night out. A gem in Clemmons!"</p>
+                        <cite>&mdash; A Happy Regular</cite>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>4.4 Stars</h3>
+                        <p>From 20 Valued Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Premium Spirits</h3>
+                        <p>Fantastic Liquor Selection</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Live Entertainment</h3>
+                        <p>Weekly Music & Events</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="menu-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">Our Offerings</p>
+                <h2 class="section-headline">Savor the Experience.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card">
+                        <h3>Artisanal Cocktails</h3>
+                        <p>Expertly crafted drinks, from timeless classics to innovative house specials. Each sip is a masterpiece.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Curated Entrées</h3>
+                        <p>A rotating selection of fine dining dishes, prepared with the freshest seasonal ingredients for an exquisite culinary journey.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Fantastic Liquor Selection</h3>
+                        <p>Explore an extensive collection of premium spirits, whiskies, and fine brandies sourced from around the world.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Seasonal Appetizers</h3>
+                        <p>Delightful starters designed to awaken your palate and perfectly complement your evening's enjoyment.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Fine Wine List</h3>
+                        <p>A thoughtful selection of reds, whites, and sparkling wines, handpicked to enhance every occasion.</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Dessert Creations</h3>
+                        <p>Indulge in our exquisite sweet treats, the perfect and unforgettable conclusion to your fine dining experience.</p>
+                    </div>
+                </div>
+                 <p class="menu-note">No prices provided; our menu is seasonal and curated daily. Please inquire with our staff for specials and pricing.</p>
+                 <div class="center-cta">
+                    <a href="tel:+13368936000" class="btn btn-primary">CALL FOR RESERVATIONS</a>
+                 </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us" class="why-choose-us-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">Why CSB?</p>
+                <h2 class="section-headline">More Than Just a Bar, It's an Experience.</h2>
+                <div class="choose-us-grid">
+                    <div class="choose-us-card">
+                        <h3>Upscale, Relaxed Atmosphere</h3>
+                        <p>Step into a space where sophistication meets comfort. Our ambient setting is perfect for intimate conversations or lively social gatherings, making every visit a special occasion.</p>
+                    </div>
+                    <div class="choose-us-card">
+                        <h3>Tasty Cocktails & Premium Spirits</h3>
+                        <p>From our expertly mixed signature cocktails to an unparalleled selection of fine liquors, we cater to the most discerning palates. Discover your new favorite drink.</p>
+                    </div>
+                    <div class="choose-us-card">
+                        <h3>Live Music & Weekly Events</h3>
+                        <p>Experience the vibrant energy of Clemmons Social Bar with regular live performances and exclusive events that make every visit unique and memorable.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">What Our Guests Say</p>
+                <h2 class="section-headline">Rave Reviews from Our Patrons.</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>"The cocktails at Clemmons Social Bar are simply out of this world! Every drink is a work of art, and the fantastic liquor selection is truly impressive. It's our go-to spot for a sophisticated evening."</p>
+                        <cite>&mdash; Jessica L.</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"An absolutely wonderful experience. The upscale atmosphere is inviting, and their fantastic liquor selection ensures there's always something new and exciting to try. Highly recommend CSB for an elevated night out!"</p>
+                        <cite>&mdash; Mark T.</cite>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"We love coming to CSB for the vibrant live music and the incredible variety of tasty cocktails. It's the perfect place to unwind and enjoy a truly sophisticated and engaging evening."</p>
+                        <cite>&mdash; Sarah P.</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us" class="location-hours-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">Visit Us</p>
+                <h2 class="section-headline">Your Table Awaits.</h2>
+                <div class="location-grid">
+                    <div class="location-info">
+                        <h3>Find Clemmons Social Bar</h3>
+                        <p class="address">6000 Meadowbrook Mall Ct #2,<br> Clemmons, NC 27012, USA</p>
+                        <a href="https://www.google.com/maps/search/6000+Meadowbrook+Mall+Ct+%232,+Clemmons,+NC+27012,+USA" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                        <p class="phone-cta">Questions? Call us at <a href="tel:+13368936000" class="phone-number">(336) 893-6000</a></p>
+                        <a href="tel:+13368936000" class="btn btn-secondary-outlined call-to-order-btn">CALL TO RESERVE</a>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr><td>Monday:</td><td>Closed</td></tr>
+                            <tr><td>Tuesday:</td><td>Closed</td></tr>
+                            <tr><td>Wednesday:</td><td>6:00 – 11:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>5:00 – 10:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Saturday:</td><td>5:00 PM – 12:00 AM</td></tr>
+                            <tr><td>Sunday:</td><td>12:00 – 8:00 PM</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta-section fade-in-up">
+            <div class="container">
+                <h2 class="final-cta-headline">Secure Your Spot for an Unforgettable Evening.</h2>
+                <p>Limited availability for our premium experiences. Don't miss out on Clemmons' favorite upscale social spot.</p>
+                <a href="tel:+13368936000" class="btn btn-primary">BOOK YOUR EXPERIENCE NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="logo">CSB</div>
+                <p class="footer-tagline">CLEMMONS SOCIAL BAR HAPPY HOUR EVERY FRIDAY ALL DAY $5 STELLA & BLUE MOON &#x0e2b;5 (2) JELLO SHOTS & $5 GREEN TEA TEA 6000 MEADOWBROOK MALL CT.</p>
+            </div>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Clemmons Social Bar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // IntersectionObserver for fade-in-up animation
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" // Start animation 50px before element enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("is-visible");
+                        appearOnScroll.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            },
+            appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
