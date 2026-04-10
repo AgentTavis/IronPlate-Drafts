@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duplin Vineyard Bistro | Local North Carolina Flavors & Fine Wines</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-main: #111111;
+            --bg-light: #1a1a1a;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-color); }
+        .bg-secondary { background-color: var(--bg-light); }
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #a30000; /* Darker shade of brand color */
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+        .btn-phone {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        .btn-phone:hover {
+            background-color: #a30000;
+            transform: scale(1.02);
+        }
+        .section-label {
+            color: var(--brand-color);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        /* Intersection Observer Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0;
+        }
+        .header-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            line-height: 1;
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .main-nav a {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+        .header-phone-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .header-phone-btn:hover {
+            background-color: #a30000;
+            transform: scale(1.02);
+        }
+        .header-phone-btn svg {
+            fill: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.1) 0%, rgba(17, 17, 17, 1) 70%);
+            background-color: var(--bg-main);
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+        }
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .hero h1 span {
+            font-size: 0.6em; /* For "The Bistro at" */
+            font-weight: 300;
+            display: block;
+            margin-bottom: 10px;
+            text-transform: none;
+            font-family: 'Source Sans 3', sans-serif;
+            letter-spacing: normal;
+            color: var(--accent-color);
+        }
+        .hero .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .hero .tagline {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            gap: 8px;
+        }
+        .rating-badge svg {
+            fill: #FFD700; /* Gold star */
+            width: 18px;
+            height: 18px;
+        }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(204, 0, 0, 0.05);
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .proof-item {
+            text-align: center;
+            color: var(--accent-color);
+        }
+        .proof-item strong {
+            display: block;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .proof-item span {
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 300;
+            font-size: 1.1rem;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .story-content p:not(:last-child) {
+            margin-bottom: 20px;
+        }
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 5px;
+            margin-top: 40px;
+        }
+        .story-testimonial blockquote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+        .story-testimonial cite {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            font-size: 0.95rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .stat-card .number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 5px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 rgba(0,0,0,0); /* Initial shadow for smooth transition */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1;
+        }
+        .menu-card .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            color: var(--brand-color);
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            padding: 30px;
+            text-align: center;
+        }
+        .choose-card svg {
+            fill: var(--brand-color);
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        .choose-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 5px;
+            padding: 30px;
+        }
+        .testimonial-card blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+        .testimonial-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+        .location-info h3, .hours-info h3 {
+            margin-bottom: 25px;
+        }
+        .map-placeholder {
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            border-radius: 5px;
+            margin-bottom: 25px;
+        }
+        .address-info {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        .contact-phone {
+            display: block;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 30px;
+            letter-spacing: 0.05em;
+        }
+        .contact-phone:hover {
+            text-decoration: underline;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), rgba(204, 0, 0, 0.7));
+            text-align: center;
+            padding: 80px 0;
+            margin-top: 50px;
+            color: var(--accent-color);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .final-cta .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            letter-spacing: 0.08em;
+            margin-bottom: 15px;
+        }
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .social-links a {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        .social-links a:hover {
+            background-color: var(--brand-color);
+        }
+        .social-links svg {
+            fill: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .story-content {
+                order: 2;
+            }
+            .story-stats {
+                order: 1;
+                margin-bottom: 50px;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero h1 span {
+                font-size: 0.8em;
+            }
+            .hero .tagline {
+                font-size: 1.15rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .main-nav {
+                display: none;
+            }
+            .sticky-header .container {
+                justify-content: center;
+            }
+            .header-phone-btn {
+                position: absolute;
+                right: 20px;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-actions .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+            section { padding: 60px 0; }
+            .hero { padding-top: var(--header-height); }
+            .hero h1 { font-size: 3.2rem; margin-bottom: 5px; }
+            .hero h1 span { font-size: 0.7em; }
+            .hero .location { font-size: 1rem; margin-bottom: 15px; }
+            .hero .tagline { font-size: 1.05rem; margin-bottom: 25px; }
+            .rating-badge { margin-bottom: 30px; }
+            .sticky-header { padding: 0 15px; }
+            .header-logo { font-size: 1.5rem; }
+            .header-phone-btn { padding: 8px 15px; font-size: 0.9rem; right: 15px; }
+            .header-phone-btn svg { width: 16px; height: 16px; }
+            .our-story-grid { gap: 50px; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta .btn { padding: 12px 30px; font-size: 1.1rem; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero h1 span { font-size: 0.6em; }
+            .rating-badge { font-size: 0.9rem; padding: 6px 12px; }
+            .hero-actions .btn { width: 100%; }
+            .proof-item strong { font-size: 2rem; }
+            .proof-item span { font-size: 0.9rem; }
+            .menu-card, .testimonial-card, .choose-card { padding: 20px; }
+            .stat-card .number { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#" class="header-logo">Duplin Vineyard Bistro</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+19102893888" class="header-phone-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79a15.89 15.89 0 0 0 6.59 6.59l2.21-2.21a1 1 0 0 1 1.1-.22c1.47.49 3.09.77 4.77.77a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1c-9.39 0-17-7.61-17-17a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.68.28 3.3.77 4.77a1 1 0 0 1-.22 1.1z"/></svg>
+                CALL (910) 289-3888
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="container fade-in-up hero-content">
+            <p class="location">Rose Hill, NC</p>
+            <h1>
+                <span>The Bistro at</span>
+                Duplin Vineyard
+            </h1>
+            <p class="tagline">Lunch at The Bistro Restaurant means local North Carolina flavors mingled with Duplin's finest wines.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                4.9 Stars (2027 Reviews)
+            </div>
+            <div class="hero-actions">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#find-us" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-item fade-in-up">
+                <strong>4.9/5</strong>
+                <span>Overall Rating</span>
+            </div>
+            <div class="proof-item fade-in-up">
+                <strong>2000+</strong>
+                <span>Happy Customers</span>
+            </div>
+            <div class="proof-item fade-in-up">
+                <strong>Local Favorite</strong>
+                <span>North Carolina Gem</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="bg-secondary">
+        <div class="container">
+            <div class="our-story-grid">
+                <div class="story-content fade-in-up">
+                    <span class="section-label">Our Story</span>
+                    <h2>A Taste of Duplin, A Heart of Carolina</h2>
+                    <p>Nestled within the charm of Duplin Winery, The Bistro is more than just a restaurant; it's a culinary experience celebrating the rich bounty of North Carolina. We believe in fresh, local ingredients, expertly prepared to create dishes that perfectly complement Duplin's renowned wines.</p>
+                    <p>Step through our welcoming gift shop and discover a warm, inviting atmosphere where every meal is an occasion. Our dedicated team is passionate about providing not just great food, but exceptional service, making every visit memorable.</p>
+                    <div class="story-testimonial">
+                        <blockquote>"Go through the gift shop to the bistro where you'll find great food and great service in a warm atmosphere."</blockquote>
+                        <cite>— Yelp Review Highlight</cite>
+                    </div>
+                </div>
+                <div class="story-stats fade-in-up">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="number">4.9</div>
+                            <div class="label">Stars out of 5</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">2027</div>
+                            <div class="label">Customer Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">Local</div>
+                            <div class="label">NC Flavors Served</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="fade-in-up">Local Flavors, Expertly Crafted</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Duplin Signature Burger</h3>
+                    <p>A juicy patty crafted with local North Carolina beef, topped with your choice of artisanal cheeses and fresh fixings. A true Bistro classic.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Classic NC BBQ Sandwich</h3>
+                    <p>Slow-cooked North Carolina barbecue, pulled and seasoned to perfection, served on a toasted bun with our signature slaw. A taste of tradition.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Chef's Seasonal Soup</h3>
+                    <p>Our kitchen's daily creation, featuring the freshest seasonal ingredients from local farms. Ask your server for today's delightful offering.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Grilled Bistro Steak</h3>
+                    <p>Tender cuts of quality steak, grilled to your preference and served with seasonal vegetables and your choice of a classic side.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Vineyard Salad with Grilled Chicken</h3>
+                    <p>Crisp mixed greens, fresh vegetables, and succulent grilled chicken, dressed with a light, house-made vinaigrette. Perfect for a lighter lunch.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Homemade Mac & Cheese</h3>
+                    <p>Creamy, rich, and utterly comforting. Our homemade macaroni and cheese is a beloved side or a hearty meal in itself.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="bg-secondary">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">Why Duplin Bistro?</span>
+            <h2 class="fade-in-up">Experience The Difference</h2>
+            <div class="why-choose-us-grid">
+                <div class="choose-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2h1v-.93zm6.73-2.58C16.94 15.19 16 13.95 16 12c0-3.87-3.13-7-7-7-.87 0-1.7.16-2.47.45C7.14 6.78 8 9.58 8 12c0 3.87 3.13 7 7 7 .87 0 1.7-.16 2.47-.45z"/></svg>
+                    <h3>Authentic NC Flavors</h3>
+                    <p>Our menu is a tribute to the best of North Carolina, featuring local ingredients and traditional recipes reimagined with a gourmet touch.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>
+                    <h3>Exceptional Service</h3>
+                    <p>From a warm welcome at the gift shop to attentive table service, our team is dedicated to making your dining experience truly outstanding.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 14h-3v4h3v-4zm-7 0H9v4h3v-4zm7-9c-.55 0-1-.45-1-1s-.45-1-1-1H7c-.55 0-1 .45-1 1s-.45 1-1 1H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2h-3zM5 7h14v2H5V7zm15 11H4V10h16v8z"/></svg>
+                    <h3>Perfect Wine Pairings</h3>
+                    <p>Enhance your meal with expertly recommended Duplin wines, chosen to perfectly complement and elevate every dish on our menu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container text-center">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="fade-in-up">Raving Reviews</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>"The Duplin Signature Burger was out of this world! Every bite was packed with flavor, and the atmosphere made it even better. A perfect lunch spot."</blockquote>
+                    <cite>— Sarah L., Local Foodie</cite>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>"After a wonderful wine tasting, the Grilled Bistro Steak was the ideal meal. Cooked to perfection and served with such care. Highly recommend!"</blockquote>
+                    <cite>— Mark T., Visitor from Raleigh</cite>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>"You HAVE to try the NC BBQ Sandwich here. It's truly a taste of North Carolina. Plus, the staff are always so friendly and welcoming. Five stars!"</blockquote>
+                    <cite>— Emily R., Regular Guest</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="bg-secondary">
+        <div class="container">
+            <span class="section-label fade-in-up">Visit Us</span>
+            <h2 class="fade-in-up">Find Our Bistro</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <div class="map-placeholder">
+                        [Map Placeholder - Click for Directions]
+                    </div>
+                    <p class="address-info">
+                        505 N Sycamore St,<br>
+                        Rose Hill, NC 28458, USA
+                    </p>
+                    <a href="tel:+19102893888" class="contact-phone">
+                        (910) 289-3888
+                    </a>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=505+N+Sycamore+St,+Rose+Hill,+NC+28458" target="_blank" class="btn btn-primary">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday</th>
+                            <td>10:00 AM – 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td>10:00 AM – 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td>10:00 AM – 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>10:00 AM – 5:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>10:00 AM – 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>10:00 AM – 6:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td>Closed</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+19102893888" class="btn btn-primary btn-phone">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79a15.89 15.89 0 0 0 6.59 6.59l2.21-2.21a1 1 0 0 1 1.1-.22c1.47.49 3.09.77 4.77.77a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1c-9.39 0-17-7.61-17-17a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.68.28 3.3.77 4.77a1 1 0 0 1-.22 1.1z"/></svg>
+                        CALL TO ORDER
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Savor Local North Carolina Flavors?</h2>
+            <a href="#menu" class="btn">View Our Full Menu</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">Duplin Vineyard Bistro</a>
+            <p class="footer-tagline">Lunch at The Bistro Restaurant means local North Carolina flavors mingled with Duplin's finest wines.</p>
+            <ul class="social-links">
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.23 6 14 6c1.65 0 2.92.12 3.25.35V9h-1.3c-1.54 0-1.84.73-1.84 1.8v1.7H17l-.63 3H14v6.18c4.56-.93 8-4.96 8-9.82z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.3 4.21 17.2 4 16 4c-4.18 0-7.58 3.4-7.58 7.58 0 .59.06 1.16.17 1.71-6.3-.32-11.92-3.33-15.66-7.89-.65 1.11-.2 2.53.47 3.37.74.22 1.48-.03 2.11-.69-.02 0-.02.02-.02.04-.04 2.14 1.39 3.96 3.27 4.37-.2.05-.4.08-.6.08-.15 0-.29-.02-.43-.04.52 1.62 2.06 2.8 3.89 2.83-1.6 1.25-3.6 2-5.78 2-.37 0-.74-.02-1.1-.06C4.08 19.98 6.02 20.5 8.07 20.5c9.69 0 15.01-8.06 15.01-15.01 0-.19-.01-.37-.01-.56.82-.59 1.52-1.35 2.09-2.2H22.46z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8.68 2 8 2.68 8 6v4H6v2h2v12h4V12h3c.12-.22.19-.38.25-.5l1.63-3.08L16 8h-4V6c0-1.04.54-1.25 1-1.25h3V2h-3z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Duplin Vineyard Bistro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2 // Adjust as needed, when 20% of the item is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
