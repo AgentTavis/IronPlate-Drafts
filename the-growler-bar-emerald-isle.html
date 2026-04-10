@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Growler Bar Emerald Isle | Craft Beer, Wine & Friends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Reset & Variables */
+        :root {
+            /* Colors */
+            --bg-main: #111111;
+            --bg-light: #181818;
+            --brand-color: #1e3a8a; /* Deep Blue */
+            --accent-color: #f4d03f; /* Gold/Yellow */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+
+            /* Typography */
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --font-size-body: 1.1rem;
+            --line-height-body: 1.7;
+
+            /* Spacing */
+            --section-padding-y: 100px;
+            --container-max-width: 1200px;
+            --spacing-m: 20px;
+            --spacing-l: 40px;
+            --spacing-xl: 80px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: var(--font-size-body);
+            line-height: var(--line-height-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-m);
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .section-padding {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Headings */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-m);
+        }
+
+        h1 { font-size: 4.5rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        /* Links */
+        a {
+            color: var(--text-heading);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-accent:hover {
+            background-color: transparent;
+            color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+
+        /* Section Label */
+        .section-label {
+            display: block;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-m);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: var(--spacing-m);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Specific Component Styles */
+
+        /* Sticky Header */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-m);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-m);
+        }
+
+        .sticky-header nav a {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .btn-call {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-m);
+            background: radial-gradient(circle at top left, rgba(30, 58, 138, 0.1), transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(244, 208, 63, 0.08), transparent 50%),
+                        var(--bg-main);
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 800px;
+            margin-bottom: var(--spacing-l);
+        }
+        .hero .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-l);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .hero .rating-badge svg {
+            color: var(--accent-color);
+            width: 1em;
+            height: 1em;
+        }
+        .hero .cta-buttons {
+            display: flex;
+            gap: var(--spacing-m);
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(30, 58, 138, 0.05);
+            padding: var(--spacing-m) 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .social-proof-strip .item {
+            text-align: center;
+            padding: 1rem var(--spacing-m);
+        }
+        .social-proof-strip .item strong {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            line-height: 1;
+        }
+        .social-proof-strip .item span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Our Story Section */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: var(--spacing-l);
+            align-items: flex-start;
+        }
+        .our-story .about-text p {
+            margin-bottom: var(--spacing-m);
+            font-weight: 300;
+        }
+        .our-story .testimonial-card {
+            border-left: 4px solid var(--brand-color);
+            padding-left: var(--spacing-m);
+            margin-top: var(--spacing-l);
+            font-style: italic;
+            color: var(--text-heading);
+        }
+        .our-story .testimonial-card footer {
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        .our-story .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-m);
+        }
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: var(--spacing-m);
+            text-align: center;
+        }
+        .our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--accent-color);
+            line-height: 1;
+        }
+        .our-story .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Menu Section */
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-l);
+            margin-top: var(--spacing-l);
+        }
+        .menu-section .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 8px;
+            padding: var(--spacing-m);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-section .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .menu-section .menu-item-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+        .menu-section .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-m);
+        }
+        .menu-section .menu-item-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        .menu-section .cta-menu {
+            margin-top: var(--spacing-xl);
+            text-align: center;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-l);
+            margin-top: var(--spacing-l);
+        }
+        .why-choose-us .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: var(--spacing-l);
+            text-align: center;
+        }
+        .why-choose-us .feature-card h3 {
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-m);
+            font-size: 1.8rem;
+        }
+        .why-choose-us .feature-card p {
+            color: var(--text-body);
+            font-weight: 300;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-l);
+            margin-top: var(--spacing-l);
+        }
+        .testimonials-section .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 8px;
+            padding: var(--spacing-l);
+        }
+        .testimonials-section .testimonial-card blockquote {
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: var(--spacing-m);
+            font-size: 1.1rem;
+        }
+        .testimonials-section .testimonial-card cite {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-style: normal;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-l);
+            margin-top: var(--spacing-l);
+        }
+        .location-hours .location-info,
+        .location-hours .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: var(--spacing-l);
+        }
+        .location-hours h3 {
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-m);
+            font-size: 2rem;
+        }
+        .location-hours address {
+            font-style: normal;
+            margin-bottom: var(--spacing-m);
+            line-height: 1.6;
+        }
+        .location-hours .phone-number {
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-bottom: var(--spacing-m);
+        }
+        .location-hours .phone-number:hover {
+            color: var(--accent-color);
+        }
+        .location-hours table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-m);
+        }
+        .location-hours table th,
+        .location-hours table td {
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed var(--card-border);
+            text-align: left;
+            color: var(--text-body);
+        }
+        .location-hours table th {
+            font-weight: 600;
+            color: var(--text-heading);
+            width: 30%;
+        }
+        .location-hours table tr:last-child th,
+        .location-hours table tr:last-child td {
+            border-bottom: none;
+        }
+        .location-hours .call-button-wrapper {
+            text-align: center;
+            margin-top: var(--spacing-l);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), rgba(30, 58, 138, 0.7)), radial-gradient(circle at top right, rgba(244, 208, 63, 0.2), transparent 70%);
+            padding: var(--section-padding-y) var(--spacing-m);
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: var(--spacing-l);
+        }
+        .final-cta .btn {
+            font-size: 1.2rem;
+            padding: 1.2rem 2.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: var(--spacing-xl) var(--spacing-m);
+            border-top: 1px solid var(--card-border);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--spacing-m);
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-l);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: var(--spacing-l);
+            font-size: 0.85rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+            .section-padding { padding-top: 80px; padding-bottom: 80px; }
+            .our-story .content-grid,
+            .location-hours .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .our-story .stats-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .our-story .stat-card {
+                flex: 1 1 45%; /* Two cards per row on wider mobile */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-wrap: wrap;
+                height: auto;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .sticky-header .logo { width: 100%; text-align: center; margin-bottom: 10px; }
+            .sticky-header nav { order: 2; width: 100%; margin-top: 10px;}
+            .sticky-header nav ul { justify-content: center; flex-wrap: wrap; gap: 10px;}
+            .sticky-header .btn-call { order: 1; margin-left: auto; margin-right: auto;} /* Centering */
+
+            .hero h1 { font-size: 3rem; }
+            .hero .tagline { font-size: 1.1rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 1rem; width: 80%; }
+            .hero .cta-buttons .btn { width: 100%; }
+
+            h2 { font-size: 2rem; }
+            .section-padding { padding-top: 60px; padding-bottom: 60px; }
+
+            .social-proof-strip { flex-direction: column; }
+            .social-proof-strip .item { padding: 0.8rem var(--spacing-m); border-bottom: 1px dashed var(--card-border); width: 100%; }
+            .social-proof-strip .item:last-child { border-bottom: none; }
+
+            .our-story .content-grid { gap: var(--spacing-m); }
+            .our-story .stats-grid { flex-direction: column; gap: var(--spacing-m); }
+            .our-story .stat-card { flex: none; width: 100%; }
+
+            .menu-section .menu-grid,
+            .why-choose-us .cards-grid,
+            .testimonials-section .testimonial-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-m);
+            }
+
+            .final-cta h2 { font-size: 2.5rem; }
+            .footer .tagline { font-size: 0.85rem; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo { font-size: 1.2rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1rem; }
+            .sticky-header .btn-call { font-size: 0.8rem; padding: 0.5rem 1rem;}
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">The Growler Bar Emerald Isle</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+12524248391" class="btn btn-primary btn-call">CALL (252) 424-8391</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <p class="location fade-in-up">Emerald Isle, NC</p>
+        <h1 class="fade-in-up" style="transition-delay: 0.2s;">The Growler Bar Emerald Isle</h1>
+        <p class="tagline fade-in-up" style="transition-delay: 0.4s;">Craft Beer & Wine. Friends, Family, & Prosecco on Tap. 16 Rotating Taps. Open Daily @ 11am.</p>
+        <div class="rating-badge fade-in-up" style="transition-delay: 0.6s;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+            </svg>
+            4.7 stars (319 reviews)
+        </div>
+        <div class="cta-buttons fade-in-up" style="transition-delay: 0.8s;">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="item fade-in-up">
+            <strong>4.7</strong>
+            <span>Overall Rating</span>
+        </div>
+        <div class="item fade-in-up" style="transition-delay: 0.1s;">
+            <strong>319+</strong>
+            <span>Happy Reviews</span>
+        </div>
+        <div class="item fade-in-up" style="transition-delay: 0.2s;">
+            <strong>Local</strong>
+            <span>Favorite Spot</span>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding container text-center">
+        <p class="section-label fade-in-up">Our Journey</p>
+        <h2 class="fade-in-up" style="margin-bottom: var(--spacing-xl);">More Than Just a Bar, It's Family.</h2>
+        <div class="content-grid">
+            <div class="about-text text-left fade-in-up">
+                <p>Welcome to The Growler Bar Emerald Isle, where good times, great drinks, and genuine connections come together. Since opening our doors, we've strived to create a space that feels like a second home for locals and visitors alike. We believe in the simple joy of sharing a perfect pint with friends, discovering a new favorite wine, or raising a glass of sparkling prosecco.</p>
+                <p>We're proud to offer a rotating selection from our <strong>16 taps of craft beer and wine</strong>, ensuring there's always something fresh and exciting to explore. Our atmosphere is intentionally relaxed and welcoming, a place where conversations flow as freely as the beverages. You might even catch a glimpse of our beloved resident dog, RC, enjoying the lively ambiance – a testament to our truly friendly and laid-back vibe.</p>
+                <div class="testimonial-card fade-in-up" style="margin-top: var(--spacing-l);">
+                    <blockquote>"The Growler Bar is truly a gem on Emerald Isle! The atmosphere is amazing, the staff feels like family, and there's always a fantastic new beer on tap to try. Plus, their resident dog, RC, is the sweetest greeter!"</blockquote>
+                    <footer>— Sarah J., Regular Guest</footer>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up" style="transition-delay: 0.3s;">
+                    <span class="number">4.7</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.4s;">
+                    <span class="number">319+</span>
+                    <span class="label">Happy Reviews</span>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                    <span class="number">16</span>
+                    <span class="label">Rotating Taps</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding container text-center" style="background-color: var(--bg-light);">
+        <p class="section-label fade-in-up">Our Selection</p>
+        <h2 class="fade-in-up">Discover Your Perfect Pour.</h2>
+        <p class="fade-in-up" style="color: var(--text-secondary); max-width: 800px; margin: 0 auto var(--spacing-xl);">With 16 Rotating Taps of Craft Beer & Wine, and Prosecco on Tap, there's always something new to savor.</p>
+
+        <div class="menu-grid">
+            <div class="menu-item-card fade-in-up">
+                <h3>16 Rotating Taps</h3>
+                <p>Explore an ever-changing selection of craft beers, ciders, and wines, carefully curated for every palate. Ask our team for recommendations!</p>
+                <!-- No price as none provided -->
+            </div>
+            <div class="menu-item-card fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Prosecco On Tap</h3>
+                <p>Celebrate any occasion with our refreshing Prosecco on tap – the perfect bubbly for friends and family gatherings.</p>
+                <!-- No price as none provided -->
+            </div>
+            <div class="menu-item-card fade-in-up" style="transition-delay: 0.2s;">
+                <h3>Seasonal Selections</h3>
+                <p>Taste the season with our special limited-time offerings. From crisp summer ales to cozy winter stouts.</p>
+                <!-- No price as none provided -->
+            </div>
+            <div class="menu-item-card fade-in-up" style="transition-delay: 0.3s;">
+                <h3>Non-Alcoholic Options</h3>
+                <p>Enjoy our selection of premium non-alcoholic beers, craft sodas, and other refreshing beverages for all to enjoy.</p>
+                <!-- No price as none provided -->
+            </div>
+        </div>
+
+        <div class="cta-menu fade-in-up">
+            <a href="#" class="btn btn-accent">VIEW FULL MENU (Coming Soon)</a>
+            <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary);">Our full, up-to-date menu is available in-store.</p>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding container text-center">
+        <p class="section-label fade-in-up">Our Promise</p>
+        <h2 class="fade-in-up" style="margin-bottom: var(--spacing-xl);">Experience the Emerald Isle Difference.</h2>
+        <div class="cards-grid">
+            <div class="feature-card fade-in-up">
+                <h3>Unrivaled Selection</h3>
+                <p>With <strong>16 rotating taps</strong> of craft beer and wine, you'll always find something new and exciting. We pride ourselves on variety and quality, ensuring every visit is a discovery.</p>
+            </div>
+            <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Friends, Family, & Fun</h3>
+                <p>Our tagline says it all. We are dedicated to providing a warm, inviting atmosphere where everyone feels at home. Enjoy casual evenings and lively celebrations with us, perhaps even with <strong>Prosecco on Tap</strong>!</p>
+            </div>
+            <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
+                <h3>A Local Favorite</h3>
+                <p>Rated <strong>4.7 stars across 319 reviews</strong>, we're a beloved community hub. Our commitment to exceptional service and a friendly vibe makes us the top choice for a relaxing time on Emerald Isle.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section section-padding container text-center" style="background-color: var(--bg-light);">
+        <p class="section-label fade-in-up">What People Are Saying</p>
+        <h2 class="fade-in-up" style="margin-bottom: var(--spacing-xl);">Hear From Our Happy Guests.</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card fade-in-up">
+                <blockquote>"Absolutely love this place! The atmosphere is always vibrant, and the selection of craft beers from their <strong>16 rotating taps</strong> is unbeatable. Plus, RC the dog adds so much charm. A must-visit in Emerald Isle!"</blockquote>
+                <cite>— Mark D., Craft Beer Enthusiast</cite>
+            </div>
+            <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                <blockquote>"The Growler Bar is my go-to for a relaxing evening. The staff is incredibly friendly, and their <strong>Prosecco on Tap</strong> is simply divine. It's truly a place where you feel like family, not just a customer."</blockquote>
+                <cite>— Emily R., Local Resident</cite>
+            </div>
+            <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                <blockquote>"Came for the great reviews, stayed for the amazing wine selection and incredibly welcoming vibe. The fact that the dog, RC, has free reign just adds to the unique, homey feel. Five stars!"</blockquote>
+                <cite>— Jessica T., Visitor</cite>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding container text-center">
+        <p class="section-label fade-in-up">Visit Us</p>
+        <h2 class="fade-in-up" style="margin-bottom: var(--spacing-xl);">Your Next Favorite Spot Awaits.</h2>
+        <div class="content-wrapper">
+            <div class="location-info fade-in-up">
+                <h3>Find Us Here</h3>
+                <address>
+                    200 Mallard Dr<br>
+                    Emerald Isle, NC 28594<br>
+                    USA
+                </address>
+                <a href="https://www.google.com/maps/dir/?api=1&destination=The+Growler+Bar+Emerald+Isle" target="_blank" class="btn btn-secondary" style="margin-bottom: var(--spacing-m);">GET DIRECTIONS</a>
+                <p>Have questions? Give us a call!</p>
+                <a href="tel:+12524248391" class="phone-number">(252) 424-8391</a>
+            </div>
+            <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Our Daily Hours</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><th>Monday</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Tuesday</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Wednesday</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Thursday</th><td>11:00 AM – 8:00 PM</td></tr>
+                        <tr><th>Friday</th><td>11:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Saturday</th><td>11:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Sunday</th><td>11:00 AM – 8:00 PM</td></tr>
+                    </tbody>
+                </table>
+                <div class="call-button-wrapper">
+                    <a href="tel:+12524248391" class="btn btn-primary">CALL US</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container text-center">
+            <h2 class="fade-in-up">Ready for Your Next Great Experience?</h2>
+            <p class="fade-in-up" style="color: var(--text-heading); max-width: 700px; margin: 0 auto var(--spacing-l); font-size: 1.2rem;">Join us today for craft beer, fine wine, and a welcoming atmosphere that feels like home.</p>
+            <a href="#find-us" class="btn btn-accent fade-in-up">PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">The Growler Bar Emerald Isle</a>
+            <p class="tagline">Craft Beer & Wine. Friends, Family, & Prosecco on Tap. 16 Rotating Taps. Open Daily @ 11am.</p>
+            <div class="social-links">
+                <a href="#" class="sr-only">Facebook</a>
+                <a href="#" class="sr-only">Instagram</a>
+                <a href="#" class="sr-only">Twitter</a>
+                <!-- Using placeholder icons for social links; in a real build these would be SVG/FontAwesome -->
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.588-1.333h2.412v-3h-3.419c-3.151 0-4.581 1.769-4.581 4.5V8z"/></svg></a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07.165-4.078.295-6.19.334 2.115 1.622 4.664 2.569 7.376 2.569 8.841 0 13.693-7.24 13.693-13.526 0-.207 0-.42-.015-.633.94-.679 1.748-1.527 2.394-2.486z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Growler Bar Emerald Isle. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth Scroll for Nav Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade-in-up on scroll via IntersectionObserver
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% visible */
+                rootMargin: "0px 0px -50px 0px" /* Helps trigger before element is fully in view */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
