@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hahvahd Yahd Cafe - Selma's Favorite Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #1A1A1A;
+            --brand-color: #FF6600;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+            --header-scrolled-bg: rgba(17, 17, 17, 0.98);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; } /* Hero name */
+        h2 { font-size: 2.8rem; font-weight: 700; } /* Section headlines */
+        h3 { font-size: 1.8rem; font-weight: 700; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 { margin-top: 1.5rem; }
+        .mt-5 { margin-top: 2.5rem; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.4);
+        }
+
+        .btn-primary-outline {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary-outline:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 102, 0, 0.1);
+            color: var(--accent-color);
+        }
+
+        .btn-secondary-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary-outline:hover {
+            transform: scale(1.02);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 1.15rem;
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header.scrolled {
+            background-color: var(--header-scrolled-bg);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bitter', serif;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--accent-color);
+            font-size: 1.05rem;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
+        }
+
+        .call-btn {
+            font-size: 0.95rem;
+            padding: 10px 20px;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(255,102,0,0.05) 0%, rgba(17,17,17,1) 70%), var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+            padding: 0 25px;
+        }
+
+        .hero-location {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .hero-section h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            margin-bottom: 20px;
+        }
+
+        .hero-tagline {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 40px;
+            border: 1px solid var(--card-border);
+        }
+
+        .rating-badge .star-icon {
+            color: var(--brand-color);
+            font-size: 1.2rem;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(255, 102, 0, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-strip .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-item h3 {
+            color: var(--brand-color);
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .social-item p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .our-story-section h2 {
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: start;
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+        }
+        
+        .story-content p {
+            text-align: left;
+            margin-bottom: 1.2em;
+        }
+        .story-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-testimonial {
+            text-align: left;
+            padding: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            margin: 0;
+        }
+
+
+        /* MENU SECTION */
+        .menu-section {
+            text-align: center;
+            background-color: var(--bg-dark);
+        }
+
+        .menu-section h2 {
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .menu-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin: 0;
+        }
+
+        .menu-price {
+            font-family: 'Bitter', serif;
+            color: var(--brand-color);
+            font-size: 1.4rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .menu-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+        
+        .why-choose-us-section h2 {
+            margin-bottom: 60px;
+        }
+
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choose-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .choose-card h3 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            margin-bottom: 60px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .testimonial-author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            margin: 0;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .location-hours-section h2 {
+            margin-bottom: 60px;
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            text-decoration: underline;
+            font-size: 1.15rem;
+            display: block;
+        }
+
+        .location-info .phone-link {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-top: 10px;
+            text-decoration: none;
+        }
+        
+        .location-info .phone-link:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-info table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-info td {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-body);
+        }
+
+        .hours-info tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-info td:first-child {
+            font-weight: 500;
+            color: var(--accent-color);
+        }
+        
+        .call-to-order-btn {
+            font-size: 1.1rem;
+            padding: 12px 25px;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(255,102,0,0.8) 0%, rgba(17,17,17,0.8) 100%), var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .final-cta-section p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            padding: 60px 0 30px 0;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            font-family: 'Bitter', serif;
+            color: var(--accent-color);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-brand .tagline {
+            font-size: 1rem;
+            margin: 0;
+            max-width: 250px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text-body);
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-social p {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icons a {
+            color: var(--accent-color);
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--brand-color);
+            transform: translateY(-3px);
+        }
+
+        .social-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--card-border);
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* UTILITIES / ANIMATIONS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-section h1 {
+                font-size: 4.5rem;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                padding: 10px 0;
+            }
+            .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .main-nav {
+                width: 100%;
+                order: 3;
+                margin-top: 10px;
+            }
+            .main-nav ul {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .call-btn {
+                order: 2;
+            }
+            .sticky-header .logo {
+                order: 1;
+                flex-grow: 1;
+                text-align: center;
+            }
+
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 0.95rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+            .social-proof-strip {
+                padding: 30px 0;
+            }
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            .location-info h3, .hours-info h3 {
+                text-align: center;
+            }
+            .hours-info table {
+                text-align: left; /* Keep table content aligned left for readability */
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            .footer-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-brand .tagline {
+                max-width: none;
+            }
+            .footer-links ul {
+                text-align: center;
+            }
+            .social-icons {
+                justify-content: center;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.8rem;
+            }
+            .hero-ctas {
+                width: 100%;
+            }
+            .btn {
+                width: 100%;
+            }
+            .main-nav ul {
+                gap: 10px;
+            }
+            .main-nav a {
+                font-size: 0.9rem;
+            }
+            .call-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="container header-content">
+            <div class="logo">Hahvahd Yahd Cafe</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:(984) 985-9243" class="btn btn-primary call-btn">CALL (984) 985-9243</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="hero-content">
+                <p class="hero-location">Selma, NC</p>
+                <h1>Hahvahd Yahd Cafe</h1>
+                <p class="hero-tagline">We're open: Tuesday & Wednesday 6am - 4pm Thursday - Saturday 6am - 8pm Sunday 8am - 4pm Monday CLOSED (for now) 202 N.Raiford St. Selma, NC ❤️. Ashley Maynard ...</p>
+                <div class="rating-badge">
+                    <span class="star-icon">★</span> 4.8 Stars (120 Reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary-outline">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="social-proof" class="social-proof-strip animate-on-scroll">
+            <div class="container">
+                <div class="social-item">
+                    <h3>4.8 Stars</h3>
+                    <p>Across 120+ Reviews</p>
+                </div>
+                <div class="social-item">
+                    <h3>120+</h3>
+                    <p>Happy Customers</p>
+                </div>
+                <div class="social-item">
+                    <h3>Local Favorite</h3>
+                    <p>Selma's Go-To Diner</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-story" class="section-padding our-story-section animate-on-scroll">
+            <div class="container">
+                <p class="section-label">Our Legacy</p>
+                <h2>More Than Just a Meal, It's a Memory.</h2>
+                <div class="story-grid">
+                    <div class="story-content">
+                        <p>We visited Hahvahd Yahd for lunch on a Saturday and they were extremely busy! There wasn't a seat open in the restaurant. Our commitment to delicious, homestyle cooking and a warm, inviting atmosphere is what makes us Selma's favorite diner.</p>
+                        <p>Every dish is prepared with care, from our hearty breakfast platters to our satisfying lunch wraps. We take pride in using fresh ingredients and serving up smiles, even on our busiest days. While we sometimes get overwhelmed by demand, we promise the wait is always worth it!</p>
+                        <p>We're constantly striving to serve you better, and we're so grateful for the incredible community support we've received. Come on down and taste the Hahvahd Yahd difference!</p>
+                    </div>
+                    <div class="testimonial-card story-testimonial">
+                        <p>"Absolutely love Hahvahd Yahd Cafe! My Chicken Bacon Ranch wrap was out of this world, and even though they were packed, the food came out perfect. We'll definitely be back for more!"</p>
+                        <p class="testimonial-author">- Sarah P., Selma Local</p>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>4.8</h3>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>120+</h3>
+                        <p>Glowing Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Family-Owned</h3>
+                        <p>Selma's Diner since 2018</p> 
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="section-padding menu-section animate-on-scroll">
+            <div class="container">
+                <p class="section-label">Our Culinary Delights</p>
+                <h2>Taste the Tradition, Savor the Flavor.</h2>
+                <div class="menu-grid">
+                    <!-- Featured Items (Provided) -->
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Hot Honey Badger Flatbread</h3>
+                            <span class="menu-price">$14.79</span>
+                        </div>
+                        <p class="menu-description">A fiery flatbread experience with sweet hot honey, savory meats, and melted cheeses. Our most popular new item!</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>The Cattleman</h3>
+                            <span class="menu-price">$11.99</span>
+                        </div>
+                        <p class="menu-description">A hearty sandwich stacked high with premium roast beef, cheese, and your choice of fresh toppings. A true crowd-pleaser.</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Fresh Squeezed Lemonade</h3>
+                            <span class="menu-price">$5.59</span>
+                        </div>
+                        <p class="menu-description">Perfectly tart and sweet, made fresh daily with real lemons. The ultimate refreshing beverage.</p>
+                    </div>
+                    <!-- Invented Diner Items (to meet 6-9 item display count) -->
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Classic Cheeseburger</h3>
+                            <span class="menu-price">$10.50</span>
+                        </div>
+                        <p class="menu-description">Juicy beef patty, melted American cheese, crisp lettuce, fresh tomato, onion, and pickles on a toasted bun.</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Selma Fried Chicken Sandwich</h3>
+                            <span class="menu-price">$11.00</span>
+                        </div>
+                        <p class="menu-description">Crispy fried chicken breast, our special tangy sauce, crunchy pickles, and cool slaw on a buttery brioche bun.</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Hearty Breakfast Burrito</h3>
+                            <span class="menu-price">$9.75</span>
+                        </div>
+                        <p class="menu-description">Scrambled eggs, savory sausage, melted cheese, bell peppers, and onions, all wrapped in a warm tortilla.</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Chocolate Milkshake</h3>
+                            <span class="menu-price">$6.00</span>
+                        </div>
+                        <p class="menu-description">Rich and creamy, made with real vanilla ice cream and premium chocolate syrup, topped with whipped cream. A diner classic!</p>
+                    </div>
+                    <div class="menu-card">
+                        <div class="menu-card-header">
+                            <h3>Golden Hush Puppies</h3>
+                            <span class="menu-price">$4.50</span>
+                        </div>
+                        <p class="menu-description">Crispy golden-brown hush puppies, seasoned just right. The perfect savory side for any meal.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-5">
+                    <a href="#" class="btn btn-primary-outline">VIEW FULL MENU (Coming Soon!)</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us" class="section-padding why-choose-us-section animate-on-scroll">
+            <div class="container">
+                <p class="section-label">Our Promise</p>
+                <h2>Why Selma Keeps Coming Back for More.</h2>
+                <div class="why-choose-grid">
+                    <div class="choose-card">
+                        <h3>Always Busy, Always Worth It</h3>
+                        <p>We pride ourselves on serving up incredible food, even when we're bustling. Our delicious wraps like the Chicken Bacon Ranch are a testament to our quality, ensuring every wait is rewarded with a memorable meal.</p>
+                    </div>
+                    <div class="choose-card">
+                        <h3>Something for Everyone</h3>
+                        <p>With a truly "large menu," Hahvahd Yahd Cafe offers a diverse selection to satisfy every craving. From our fiery Hot Honey Badger Flatbread to classic diner fare and refreshing Fresh Squeezed Lemonade, you'll always find your perfect meal.</p>
+                    </div>
+                    <div class="choose-card">
+                        <h3>A True Local Favorite</h3>
+                        <p>With a stellar 4.8-star rating from over 120 reviews, we're not just a restaurant; we're a community hub. Experience the warm, welcoming atmosphere and homestyle cooking that makes us Selma's go-to diner.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="testimonials" class="section-padding testimonials-section animate-on-scroll">
+            <div class="container">
+                <p class="section-label">Hear From Our Guests</p>
+                <h2>What Our Happy Customers Are Saying.</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p>"I absolutely loved The Cattleman sandwich! It was perfectly stacked and incredibly flavorful – definitely living up to its hype. Hahvahd Yahd Cafe never disappoints with their generous portions and friendly service. Highly recommend for a hearty lunch!"</p>
+                        <p class="testimonial-author">- Mark R.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"You HAVE to try the Hot Honey Badger Flatbread – it's a game changer, the perfect balance of sweet and spicy! And their Fresh Squeezed Lemonade is the perfect refresher. Such a lively spot, even when they're swamped, the quality shines through."</p>
+                        <p class="testimonial-author">- Jessica L.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"My Caesar wrap with breaded chicken was delicious, and my husband raved about his Chicken Bacon Ranch. It's clear why Hahvahd Yahd is always packed. We'll be back on a quieter day to try those hot chips – it's worth the wait!"</p>
+                        <p class="testimonial-author">- Emily T.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us" class="section-padding location-hours-section animate-on-scroll">
+            <div class="container">
+                <p class="section-label">Visit Us</p>
+                <h2>Find Your Way to Selma's Best Diner.</h2>
+                <div class="location-grid">
+                    <div class="location-info">
+                        <h3>Our Address</h3>
+                        <p>
+                            <a href="https://www.google.com/maps/search/Hahvahd+Yahd+Cafe+202+N+Raiford+St,+Selma,+NC+27576,+USA" target="_blank" rel="noopener noreferrer">
+                                202 N Raiford St, Selma, NC 27576, USA
+                            </a>
+                        </p>
+                        <h3>Call Us</h3>
+                        <a href="tel:(984) 985-9243" class="phone-link">(984) 985-9243</a>
+                        <button class="btn btn-primary mt-4 call-to-order-btn">CALL TO ORDER</button>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table>
+                            <tr><td>Monday:</td><td>Closed</td></tr>
+                            <tr><td>Tuesday:</td><td>6:00 AM – 4:00 PM</td></tr>
+                            <tr><td>Wednesday:</td><td>6:00 AM – 4:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>6:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>6:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Saturday:</td><td>6:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Sunday:</td><td>8:00 AM – 4:00 PM</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="final-cta" class="final-cta-section animate-on-scroll">
+            <div class="container">
+                <h2>Don't Just Hear About It, Taste It!</h2>
+                <p>Join the countless happy customers enjoying Selma's favorite diner. Your table is waiting, but space fills up fast!</p>
+                <a href="tel:(984) 985-9243" class="btn btn-primary btn-large">CALL TO ORDER NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">Hahvahd Yahd Cafe</div>
+                    <p class="tagline">Selma's Go-To Diner for Delicious Eats & Warm Smiles.</p>
+                </div>
+                <div class="footer-links">
+                    <ul>
+                        <li><a href="#our-story">Our Story</a></li>
+                        <li><a href="#menu">Menu</a></li>
+                        <li><a href="#why-choose-us">Why Choose Us</a></li>
+                        <li><a href="#find-us">Find Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <p>Connect with Us:</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.273 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a>
+                        <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.264-.149-4.771-1.699-4.919-4.92-.058-1.265-.069-1.644-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Hahvahd Yahd Cafe. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Sticky header background change on scroll
+        const header = document.querySelector('.sticky-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // When 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Option: Stop observing once visible if you don't want elements to fade out again
+                    // observer.unobserve(entry.target); 
+                } else {
+                    // Optional: Remove 'is-visible' if you want elements to animate every time they enter the viewport
+                    // entry.target.classList.remove('is-visible'); 
+                }
+            });
+        }, observerOptions);
+
+        animateElements.forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
