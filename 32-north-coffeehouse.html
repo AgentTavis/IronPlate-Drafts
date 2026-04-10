@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>32 North Coffeehouse - Sunbury, NC | Breakfast, Lunch, Coffee & More</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B4513; /* Primary Brand Color (SaddleBrown) */
+            --accent-color: #D4A574; /* Accent Color (SandyBrown variant) */
+            --text-light: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .grid {
+            display: grid;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-left {
+            text-align: left;
+        }
+        .uppercase {
+            text-transform: uppercase;
+        }
+        .brand-text {
+            color: var(--brand-color);
+        }
+        .accent-text {
+            color: var(--accent-color);
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+        .font-semibold {
+            font-weight: 500;
+        }
+        .font-light {
+            font-weight: 300;
+        }
+        .section-label {
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--brand-color);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: #7a3a0e; /* Slightly darker brand color */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-dark);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Fade-in-up animation (pure CSS for illustration, JS for actual IntersectionObserver) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0; /* Remove container padding for header */
+        }
+
+        .header-logo {
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .main-nav a:hover,
+        .main-nav a.active {
+            color: var(--accent-color);
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-cta .btn {
+            font-size: 0.95rem;
+            padding: 10px 20px;
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-cta .btn:hover {
+            background-color: #7a3a0e; /* Slightly darker brand color */
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(139, 69, 19, 0.15) 50%, var(--bg-dark) 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 15s ease infinite;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            padding-top: 50px; /* Further adjust content down */
+            max-width: 900px;
+        }
+
+        .hero-location {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            color: var(--text-light);
+        }
+        .hero-name span {
+            color: var(--accent-color);
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(212, 165, 116, 0.2); /* Accent color, low opacity */
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(212, 165, 116, 0.3);
+        }
+        .hero-rating svg {
+            margin-right: 8px;
+            color: gold; /* Star color */
+            font-size: 1.2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 30px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-strip .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin: 0;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-section .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--accent-color);
+            text-align: right;
+            display: block;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 80px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+        .menu-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+        }
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .why-card:hover .icon {
+            transform: scale(1.1);
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background */
+        }
+        .testimonials-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .testimonial-item p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .testimonial-item .author {
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+        .testimonial-item .stars {
+            color: gold;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-dark);
+        }
+        .location-hours-section .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 80px;
+            align-items: start;
+        }
+        .location-map {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            height: 400px;
+            width: 100%;
+            background-color: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+        }
+        .location-info h2, .hours-info h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1em;
+        }
+        .address-link {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+        .address-link:hover {
+            color: var(--text-light);
+        }
+        .contact-cta {
+            margin-top: 30px;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 700;
+            width: 120px;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .closed {
+            color: var(--text-secondary);
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 50%, rgba(139, 69, 19, 0.6) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-light);
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.3), inset 0 -5px 20px rgba(0,0,0,0.3);
+        }
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            color: var(--text-light);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta-section .btn {
+            background-color: var(--text-light);
+            color: var(--brand-color);
+            border: 2px solid var(--text-light);
+            font-size: 1.2rem;
+            padding: 18px 36px;
+        }
+        .final-cta-section .btn:hover {
+            background-color: transparent;
+            color: var(--text-light);
+            transform: scale(1.02);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-logo {
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .copyright {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-nav ul {
+                gap: 25px;
+            }
+            .hero-name {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.4rem;
+            }
+            .proof-item h3 {
+                font-size: 2rem;
+            }
+            .story-content h2,
+            .menu-section h2,
+            .why-choose-us-section h2,
+            .testimonials-section h2,
+            .location-info h2,
+            .hours-info h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta-section h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                padding: 15px 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px 25px;
+            }
+            .header-cta {
+                width: 100%;
+                text-align: center;
+            }
+            .header-cta .btn {
+                width: 80%;
+                max-width: 250px;
+            }
+
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .social-proof-strip .container {
+                grid-template-columns: 1fr;
+            }
+
+            .our-story-section .container,
+            .location-hours-section .container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .story-content h2,
+            .menu-section h2,
+            .why-choose-us-section h2,
+            .testimonials-section h2,
+            .location-info h2,
+            .hours-info h2 {
+                font-size: 2.2rem;
+                text-align: center;
+            }
+            .location-info p {
+                text-align: center;
+            }
+            .address-link {
+                text-align: center;
+            }
+            .contact-cta {
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid,
+            .why-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-card, .why-card, .testimonial-item {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+            .location-map {
+                height: 300px;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta-section .btn {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-rating {
+                font-size: 0.9rem;
+                padding: 6px 14px;
+            }
+            .hero-rating svg {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .section-label {
+                font-size: 0.9rem;
+            }
+            .story-content h2,
+            .menu-section h2,
+            .why-choose-us-section h2,
+            .testimonials-section h2,
+            .location-info h2,
+            .hours-info h2 {
+                font-size: 2rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+            .footer-logo {
+                font-size: 1.6rem;
+            }
+            .social-links {
+                gap: 15px;
+            }
+            .social-links a {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Generic Star SVG */
+        .star-icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            fill: currentColor;
+            margin-right: 0.25em;
+        }
+        .star-icon path {
+            d: path("M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z");
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#hero" class="header-logo">32 North Coffeehouse</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="#find-us" class="btn btn-primary">CALL US</a> <!-- Phone number not provided, using placeholder -->
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="container hero-content fade-in-up">
+            <p class="hero-location font-semibold">Sunbury, North Carolina</p>
+            <h1 class="hero-name">32 North <span>Coffeehouse</span></h1>
+            <p class="hero-tagline font-light">Breakfast or lunch? Or some of each.... We have something for everyone and any taste!</p>
+            <div class="hero-rating">
+                <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                4.9 Stars (64 Reviews)
+            </div>
+            <div class="hero-cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="proof-item fade-in-up">
+                <h3 class="font-bold">4.9/5</h3>
+                <p>Average Rating</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3 class="font-bold">64+</h3>
+                <p>Glowing Reviews</p>
+            </div>
+            <div class="proof-item fade-in-up">
+                <h3 class="font-bold">Local</h3>
+                <p>Favorite Diner</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <div class="story-content fade-in-up text-center">
+                <p class="section-label uppercase">Our Roots</p>
+                <h2>A Taste of Home, Crafted with Love in Sunbury</h2>
+                <p>Welcome to 32 North Coffeehouse, where every visit feels like coming home. We are a proud family-owned Coffeehouse & Eatery, dedicated to serving the Sunbury community with delicious breakfast and lunch options.</p>
+                <p>From the first sip of our freshly brewed coffee to the last bite of a delightful pastry, we pour our heart into every item. We believe in simple, quality ingredients and warm, friendly service. Join us Thursday through Saturday, from 6:30 AM to 2:00 PM, for a meal that will brighten your day.</p>
+                
+                <div class="testimonial-card fade-in-up">
+                    <p>"This place is a true gem! The family atmosphere is wonderful, and their sandwiches are always fresh and delicious. A perfect spot for a relaxed breakfast or lunch in Sunbury."</p>
+                    <span class="author">— A Happy Regular</span>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <h3 class="font-bold">6:30 AM</h3>
+                        <p>Serving Fresh <br> & Hot Daily</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3 class="font-bold">64</h3>
+                        <p>Positive Reviews <br> & Counting</p>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <h3 class="font-bold">Family</h3>
+                        <p>Owned & Operated <br> Since Day One</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Offerings</p>
+            <h2>Explore Our Delicious Menu</h2>
+            <p class="font-light" style="max-width: 600px; margin: 0 auto 60px auto; font-size: 1.15rem;">From invigorating coffee to hearty sandwiches and tempting desserts, we've got something for every craving. No prices available online, please visit us for current menu pricing!</p>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Freshly Brewed Coffee</h3>
+                    <p>Start your day right with our selection of rich and aromatic coffees. Perfectly brewed to perfection.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Artisanal Teas</h3>
+                    <p>Discover our range of soothing and invigorating teas, from classic black to herbal infusions.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Signature Sandwiches</h3>
+                    <p>Crafted with fresh ingredients, our sandwiches are perfect for a satisfying breakfast or lunch.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Baked Pastries</h3>
+                    <p>Indulge in our delightful selection of freshly baked pastries, perfect with your coffee or tea.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Sweet Desserts</h3>
+                    <p>End your meal on a sweet note with our tempting array of homemade desserts.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Breakfast Bites</h3>
+                    <p>Quick and delicious options to kickstart your morning, served fresh until 2 PM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Promise</p>
+            <h2>Why Locals Love 32 North Coffeehouse</h2>
+            <div class="why-grid">
+                <div class="why-card fade-in-up">
+                    <div class="icon">☕</div>
+                    <h3>Quality Coffee & Tea</h3>
+                    <p>Experience the finest brews. Our coffee is sourced for exceptional flavor, and our teas are carefully selected for a perfect cup every time.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <div class="icon">🥪</div>
+                    <h3>Fresh, Homemade Meals</h3>
+                    <p>From our signature sandwiches to delightful pastries, everything is prepared fresh daily with a focus on taste and quality ingredients.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <div class="icon">👨‍👩‍👧‍👦</div>
+                    <h3>Warm Family Atmosphere</h3>
+                    <p>As a family-owned eatery, we pride ourselves on creating a welcoming and friendly environment where everyone feels like part of the family.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <p class="section-label uppercase">Kind Words</p>
+            <h2>What Our Community Says</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars">
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p>"I absolutely love their coffee! It's the perfect start to my day. And the breakfast pastries are always so fresh and delicious. A must-visit in Sunbury!"</p>
+                    <span class="author">— Sarah K.</span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars">
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p>"The best sandwiches in Sunbury, hands down! Always fresh, and the staff is incredibly friendly. It's my go-to for lunch breaks now."</p>
+                    <span class="author">— David M.</span>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <div class="stars">
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                        <svg class="star-icon" viewBox="0 0 24 24"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p>"The desserts here are incredible! I stop by every Saturday for a pastry and a tea. Always a friendly face and a cozy spot to enjoy my morning."</p>
+                    <span class="author">— Emily R.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <div class="location-info fade-in-up">
+                <p class="section-label uppercase">Visit Us</p>
+                <h2>Your Spot in Sunbury</h2>
+                <p>Nestled in the heart of Sunbury, 32 North Coffeehouse is easy to find. We're located at:</p>
+                <a href="https://maps.app.goo.gl/YourGoogleMapsLink" target="_blank" class="address-link font-bold">25 NC-32, Sunbury, NC 27979, USA</a>
+                <p>We offer take-out, accept reservations, and even provide delivery for your convenience. Come on in or let us bring the deliciousness to you!</p>
+                <div class="contact-cta">
+                    <a href="#" class="btn btn-primary">CALL US</a> <!-- Phone number not provided, using # -->
+                </div>
+                <div class="location-map">
+                    <!-- Placeholder for embedded map -->
+                    <p style="text-align: center;">[Google Map will be embedded here]</p>
+                </div>
+            </div>
+            <div class="hours-info fade-in-up">
+                <p class="section-label uppercase">Our Availability</p>
+                <h2>When We're Open</h2>
+                <p>We're here to serve you delicious breakfast and lunch fare:</p>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monday</td>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>6:30 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>6:30 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>6:30 AM – 2:00 PM</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td class="closed">Closed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container fade-in-up">
+            <h2>Ready to experience the best of Sunbury's local flavors?</h2>
+            <a href="#hero" class="btn">VISIT US TODAY</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-logo">32 North Coffeehouse</p>
+            <p class="footer-tagline">Your family-owned coffeehouse & eatery, serving Sunbury with warmth and delicious meals.</p>
+            <ul class="social-links">
+                <!-- Placeholder for social media icons/links -->
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.771 1.691 4.919 4.919c.058 1.265.069 1.645.069 4.849c0 3.204-.012 3.584-.069 4.85c-.148 3.228-1.667 4.772-4.919 4.919c-1.266.058-1.644.07-4.85.07c-3.204 0-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919c-.058-1.265-.069-1.645-.069-4.849c0-3.204.012-3.584.069-4.85c.148-3.227 1.667-4.772 4.919-4.919c1.266-.058 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072c-4.358.2-6.78 2.618-6.98 6.98c-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.947c.2 4.358 2.618 6.78 6.98 6.98c1.28.058 1.689.073 4.948.073s3.668-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98c.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98c-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162s6.162-2.759 6.162-6.162s-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4s4 1.79 4 4s-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44s1.44-.645 1.44-1.44s-.645-1.44-1.44-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22.25 12.147c0-5.467-4.433-9.9-9.9-9.9c-5.466 0-9.9 4.433-9.9 9.9c0 4.908 3.582 9.006 8.243 9.771v-6.974h-2.278v-2.797h2.278v-2.106c0-2.254 1.378-3.486 3.38-3.486c.961 0 1.968.172 1.968.172v2.16h-1.082c-1.063 0-1.396.66-1.396 1.33v1.608h2.417l-.387 2.797h-2.03v6.974c4.661-.765 8.243-4.863 8.243-9.771z"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22.04 7.646c-.092.36-.26.702-.497.98a1.698 1.698 0 01-.632.483l-.707.39a1.698 1.698 0 01-.632.484l-.707.39c-1.282.705-2.61.944-3.955.772l-.37-.044c-1.345-.172-2.673-.411-3.955-.772l-.707-.39a1.698 1.698 0 01-.632-.483l-.707-.39a1.698 1.698 0 01-.632-.484l-.497-.98c-.092-.36-.145-.73-.145-1.106c0-1.554.55-2.906 1.652-4.057c1.103-1.15 2.505-1.789 4.093-1.789h.2c1.588 0 2.99.64 4.093 1.789c1.102 1.151 1.652 2.503 1.652 4.057c0 .376-.053.746-.145 1.106zm-.34 4.197l-1.464 2.536l-1.465 2.536l-.37.64c-1.282.705-2.61.944-3.955.772l-.37-.044c-1.345-.172-2.673-.411-3.955-.772l-.37-.64l-1.464-2.536l-1.465-2.536l-.34-2.19c.092.36.26.702.497.98a1.698 1.698 0 01.632.483l.707.39a1.698 1.698 0 01.632.484l.707.39c1.282.705 2.61.944 3.955.772l.37-.044c1.345-.172 2.673-.411 3.955-.772l.707-.39a1.698 1.698 0 01.632-.483l.707-.39a1.698 1.698 0 01.632-.484l.497-.98l-.34 2.19zm-.06-.52c.002.046.002.091 0 .137c-.015.6-.08.97-.2.97c-.12 0-.185-.37-.2-.97c0-.046-.002-.091 0-.137c.015-.6.08-.97.2-.97c.12 0 .185.37.2.97zm.002-.27c.002.046.002.091 0 .137c-.015.6-.08.97-.2.97c-.12 0-.185-.37-.2-.97c0-.046-.002-.091 0-.137c.015-.6.08-.97.2-.97c.12 0 .185.37.2.97zm-1.802 7.042c-.092.36-.26.702-.497.98a1.698 1.698 0 01-.632.483l-.707.39a1.698 1.698 0 01-.632.484l-.707.39c-1.282.705-2.61.944-3.955.772l-.37-.044c-1.345-.172-2.673-.411-3.955-.772l-.707-.39a1.698 1.698 0 01-.632-.483l-.707-.39a1.698 1.698 0 01-.632-.484l-.497-.98c-.092-.36-.145-.73-.145-1.106c0-1.554.55-2.906 1.652-4.057c1.103-1.15 2.505-1.789 4.093-1.789h.2c1.588 0 2.99.64 4.093 1.789c1.102 1.151 1.652 2.503 1.652 4.057c0 .376-.053.746-.145 1.106zm-1.662-10.749c-.002-.046-.002-.091 0-.137c.015-.6.08-.97.2-.97c.12 0 .185.37.2.97c0 .046.002.091 0 .137c-.015.6-.08.97-.2.97c-.12 0-.185-.37-.2-.97z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 32 North Coffeehouse. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        const faders = document.querySelectorAll('.fade-in-up');
+
+        const appearOptions = {
+            threshold: 0.2, // When 20% of the item is visible
+            rootMargin: "0px 0px -50px 0px" // Start appearing a bit earlier
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Add active class to nav links on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.main-nav a');
+
+        // Helper function to convert CSS variable to pixel value
+        function var_to_px(variableName) {
+            return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(variableName));
+        }
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            // Get header height for accurate section calculations
+            const headerHeight = var_to_px('--header-height');
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - headerHeight - 1; /* Adjust for sticky header height + a small buffer */
+                // The bottom of the section is section.offsetTop + section.offsetHeight
+                const sectionBottom = section.offsetTop + section.offsetHeight;
+
+                if (scrollY >= sectionTop && scrollY < sectionBottom) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
