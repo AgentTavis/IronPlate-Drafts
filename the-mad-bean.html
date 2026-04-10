@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Mad Bean | Hot & Fresh Diner in Madison, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Diner/Pizza: classic, approachable fonts (Bitter + Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --color-bg-main: #111111;
+            --color-brand: #FF3333;
+            --color-accent: #00FF00;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-section-padding: 80px;
+            --spacing-container-max-width: 1200px;
+
+            /* RGB values for gradients */
+            --color-brand-rgb: 255, 51, 51;
+            --color-accent-rgb: 0, 255, 0;
+            --color-bg-main-rgb: 17, 17, 17;
+            --color-card-border-rgb: 255, 255, 255;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: var(--color-brand);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Adjusted in hero for massive text */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        .container {
+            max-width: var(--spacing-container-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--spacing-section-padding) 0;
+            position: relative;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--color-brand) !important; }
+        .text-accent { color: var(--color-accent) !important; }
+        .uppercase { text-transform: uppercase; }
+        .font-bold { font-weight: 700; }
+        .font-light { font-weight: 300; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-text-heading);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--color-brand);
+            color: var(--color-brand);
+        }
+        
+        .btn-call {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .btn-call:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* semi-transparent dark background */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--spacing-container-max-width);
+            padding: 0; /* Container padding handled by header itself */
+        }
+
+        .header .logo {
+            height: 40px; /* Adjust logo height to fit 60px header */
+            filter: brightness(1.2); /* Make it stand out on dark bg */
+        }
+        
+        .header .logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header nav a {
+            color: var(--color-text-body);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--color-brand);
+            transition: width 0.3s ease;
+        }
+
+        .header nav a:hover {
+            color: var(--color-brand);
+        }
+
+        .header nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 60px; /* Offset for sticky header */
+            background-color: var(--color-bg-main); /* Fallback */
+            background-image: radial-gradient(circle at center, rgba(var(--color-brand-rgb), 0.1) 0%, rgba(var(--color-accent-rgb), 0.05) 50%, var(--color-bg-main) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--color-brand-rgb), 0.1) 0%, rgba(var(--color-accent-rgb), 0.05) 50%, rgba(var(--color-bg-main-rgb), 1) 100%);
+            mix-blend-mode: overlay; /* Blends the gradient with the background color */
+            opacity: 0.6;
+            z-index: -1;
+        }
+
+        .hero .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 6rem; /* Massive */
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
+        }
+
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--color-text-body);
+            font-weight: 300;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            line-height: 1.5;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 50px;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            color: var(--color-text-heading);
+            margin-bottom: 40px;
+            gap: 8px;
+        }
+
+        .hero .rating-badge .star {
+            color: gold; /* Or a specific yellow */
+            font-size: 1.1em;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--color-brand-rgb), 0.05); /* Tinted with brand color at low opacity */
+            padding: 30px 0;
+            border-top: 1px solid rgba(var(--color-brand-rgb), 0.1);
+            border-bottom: 1px solid rgba(var(--color-brand-rgb), 0.1);
+        }
+
+        .social-proof .proof-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
+        }
+
+        .social-proof .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--color-brand);
+            margin-bottom: 5px;
+        }
+
+        .social-proof .proof-item p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
+        /* Section Label */
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        /* Our Story Section */
+        .our-story .story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .our-story .text-block p {
+            font-size: 1.15rem;
+            color: var(--color-text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .our-story .testimonial-card blockquote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--color-text-heading);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .our-story .testimonial-card cite {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            text-align: right;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--color-brand);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: rgba(var(--color-bg-main-rgb), 0.9); /* Slightly lighter/different dark tone */
+            position: relative;
+            z-index: 1;
+        }
+        .menu-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(var(--color-bg-main-rgb), 1) 0%, rgba(var(--color-brand-rgb), 0.03) 50%, rgba(var(--color-bg-main-rgb), 1) 100%);
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            justify-content: center; /* Center items if less than full grid */
+        }
+
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+            margin-bottom: 0;
+        }
+        
+        .menu-section .full-menu-cta {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(var(--color-brand-rgb), 0.05); /* Subtle brand tint on hover */
+        }
+
+        .why-card .icon {
+            font-size: 3rem;
+            color: var(--color-brand);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            color: var(--color-text-heading);
+            margin-bottom: 10px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-item {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-item blockquote {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--color-text-body);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-item .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--color-text-heading);
+            font-weight: 500;
+        }
+
+        .testimonial-item .reviewer-info .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-brand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .testimonial-item .reviewer-info .name {
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 0.8em;
+        }
+
+        .location-info .address {
+            color: var(--color-text-heading);
+            font-weight: 500;
+        }
+
+        .location-info .phone a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-brand);
+            display: inline-block;
+            margin-top: 15px;
+            transition: transform 0.3s ease;
+        }
+        .location-info .phone a:hover {
+            transform: scale(1.03);
+            text-decoration: none;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(var(--color-card-border-rgb), 0.5); /* Use RGB for rgba */
+            font-size: 1.1rem;
+            color: var(--color-text-body);
+        }
+
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 700;
+            width: 120px;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--color-brand);
+            font-weight: 500;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--color-brand) 0%, rgba(var(--color-brand-rgb), 0.8) 50%, rgba(var(--color-brand-rgb), 0.6) 100%);
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--color-text-heading);
+            margin-bottom: 40px;
+            text-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main bg */
+            padding: 60px 0;
+            text-align: center;
+            color: var(--color-text-secondary);
+        }
+
+        .footer .logo {
+            height: 50px;
+            margin: 0 auto 20px auto;
+            filter: brightness(1.2);
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--color-text-secondary);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--color-brand);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .our-story .story-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .social-proof .proof-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --spacing-section-padding: 60px;
+            }
+            .header {
+                flex-direction: column;
+                height: auto;
+                padding: 10px 20px;
+            }
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header .logo {
+                height: 35px;
+            }
+            .header .btn-call {
+                order: -1; /* Move button to top for visibility on small screens */
+                width: 100%;
+                text-align: center;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            .header nav {
+                width: 100%;
+            }
+            .header nav a {
+                font-size: 0.85rem;
+            }
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 100px 0; /* More top padding to account for expanded header */
+            }
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Intersection Observer Fade-in-up */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://scontent-ord5-3.xx.fbcdn.net/v/t15.5256-10/623066171_1226893199411752_557022291306305729_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a27664&_nc_ohc=GHTQ3HBYKyoQ7kNvwEWJsD4&_nc_oc=Adody8sZkuBheXpT10j3rAdz2WkYYJziyIwnnBaAbMMBewFgi-Z2PUHMPFrWP9WmM&_nc_zt=23&_nc_ht=scontent-ord5-3.xx&_nc_gid=9D6eL2cvxOj5tcjCUfD-eQ&_nc_ss=7a389&oh=00_Af2bLGazZNRXKRUrqcINh66CSFjUTOITrk_DjWQhHcM3Fg&oe=69DF2693" alt="The Mad Bean Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+13369494222" class="btn btn-call">CALL (336) 949-4222</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="container hero-content fade-in-up">
+                <p class="location font-bold">Madison, NC</p>
+                <h1>The Mad Bean</h1>
+                <p class="tagline">Open today and the rest of the week! Hot and Fresh Y'all be safe out there! - at The Mad Bean - Madison. Tori Joyce and 23 others.</p>
+                <div class="rating-badge">
+                    <span class="star">&#9733;</span> 4.7 stars (492 reviews)
+                </div>
+                <div class="cta-buttons">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof fade-in-up">
+            <div class="container">
+                <div class="proof-grid">
+                    <div class="proof-item">
+                        <h3 class="text-brand">4.7 <span class="text-accent">&#9733;</span></h3>
+                        <p>Star Rating</p>
+                    </div>
+                    <div class="proof-item">
+                        <h3 class="text-brand">492+</h3>
+                        <p>Happy Customers</p>
+                    </div>
+                    <div class="proof-item">
+                        <h3 class="text-brand">Local</h3>
+                        <p>Favorite Diner</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container">
+                <span class="section-label fade-in-up">Our Story</span>
+                <h2 class="text-center font-bold fade-in-up">Your Go-To Spot for Good Vibes & Great Eats in Madison</h2>
+                <div class="story-content fade-in-up">
+                    <div class="text-block">
+                        <p>Nestled in the heart of Madison, The Mad Bean offers a welcoming retreat for locals and visitors alike. We pride ourselves on creating a friendly, inviting atmosphere where everyone feels at home.</p>
+                        <p>Our dedicated staff ensures every visit is a delight, providing plenty of comfortable seating whether you're looking for a quiet corner to work for a few hours or catching up with friends over a meal. The walls of our diner are a vibrant canvas, filled with captivating local art and unique homemade crafts, adding to our cozy, community-focused ambiance.</p>
+                        <p>Bathed in natural light from our large glass storefront, you'll find a wide variety of great coffee and other delightful items on our menu, crafted to bring you hot and fresh goodness every time. We're more than just a diner; we're a place to connect, relax, and savor the simple pleasures of good food and great company.</p>
+                    </div>
+                    <div class="side-content">
+                        <div class="testimonial-card">
+                            <blockquote>"Just recently moved out to Stokesdale trying new places around our area. Seen this coffee shop looked like a great place I could work for a few hours. The staff was very friendly. They had plenty of seating available with. The walls were filled with art and lil homemade stuff you can purchase. Large glass store front with ample light coming in. Coffee was great the Cary many varieties on there menu. I will definitely be back to try more item on there menu and update this review!"</blockquote>
+                            <cite>- A Recent Visitor (Stokesdale)</cite>
+                        </div>
+                    </div>
+                </div>
+                <div class="stats-grid fade-in-up">
+                    <div class="stat-card">
+                        <div class="number">7</div>
+                        <div class="label">Days Open (Mon-Sat)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">6</div>
+                        <div class="label">Hours Daily Freshness</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">5</div>
+                        <div class="label">Star Service (Rated)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <span class="section-label fade-in-up">Our Menu</span>
+                <h2 class="text-center font-bold fade-in-up">Hot & Fresh Delights, Crafted with Care</h2>
+
+                <div class="menu-grid fade-in-up">
+                    <div class="menu-card">
+                        <div>
+                            <h3>Coffee & Tea</h3>
+                            <p>A wide selection of freshly brewed coffees, specialty espresso drinks, and a variety of soothing teas to kickstart your day or provide an afternoon pick-me-up. Many varieties on our menu!</p>
+                        </div>
+                    </div>
+                    <div class="menu-card">
+                        <div>
+                            <h3>Sandwiches</h3>
+                            <p>Deliciously prepared sandwiches, perfect for a quick lunch or a satisfying bite. Made fresh to order with quality ingredients, our selection offers something for every taste.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="full-menu-cta fade-in-up">
+                    <p class="font-bold" style="margin-bottom: 20px;">Discover more delicious options! Our full menu is available in-store.</p>
+                    <a href="#find-us" class="btn btn-primary">VISIT US TODAY</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container">
+                <span class="section-label fade-in-up">Why The Mad Bean?</span>
+                <h2 class="text-center font-bold fade-in-up">More Than Just a Diner, It's an Experience</h2>
+                <div class="why-choose-us-grid fade-in-up">
+                    <div class="why-card">
+                        <div class="icon">&#128104;&#8205;&#127859;</div> <!-- Chef / Waiter icon -->
+                        <h3>Friendly, Welcoming Staff</h3>
+                        <p>Our team is dedicated to making you feel at home. Experience warm smiles and attentive service with every visit.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="icon">&#127976;</div> <!-- Cafe / Storefront icon -->
+                        <h3>Bright & Artistic Atmosphere</h3>
+                        <p>Enjoy our spacious, light-filled interior, adorned with local art and homemade crafts, creating a unique and inspiring ambiance.</p>
+                    </div>
+                    <div class="why-card">
+                        <div class="icon">&#9749;</div> <!-- Coffee cup icon -->
+                        <h3>Great Coffee, Diverse Menu</h3>
+                        <p>From rich espresso to comforting teas, and delightful sandwiches, our menu offers high-quality, hot & fresh choices to satisfy any craving.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container">
+                <span class="section-label fade-in-up">Hear From Our Community</span>
+                <h2 class="text-center font-bold fade-in-up">What Our Amazing Customers Say</h2>
+                <div class="testimonials-grid fade-in-up">
+                    <div class="testimonial-item">
+                        <blockquote>"The Mad Bean is my new favorite spot! Their coffee is absolutely fantastic, and the friendly staff always brightens my day. A must-visit in Madison for quality coffee and a great atmosphere."</blockquote>
+                        <div class="reviewer-info">
+                            <div class="avatar">A</div>
+                            <div class="name">Anna M.</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <blockquote>"I stopped by for lunch and grabbed one of their sandwiches – it was incredibly fresh and delicious. Coupled with a warm cup of coffee, it made for a perfect meal. Highly recommend!"</blockquote>
+                        <div class="reviewer-info">
+                            <div class="avatar">J</div>
+                            <div class="name">John P.</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item">
+                        <blockquote>"What a gem in Madison! I love the variety of teas they offer, and the vibe is so chill, perfect for working or just relaxing. Plus, you can pick up some unique art. I always leave with a smile."</blockquote>
+                        <div class="reviewer-info">
+                            <div class="avatar">S</div>
+                            <div class="name">Sarah L.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container">
+                <span class="section-label fade-in-up">Visit Us</span>
+                <h2 class="text-center font-bold fade-in-up">Your Table Awaits in Madison</h2>
+                <div class="location-hours-grid fade-in-up">
+                    <div class="location-info">
+                        <h3>Find Us Here</h3>
+                        <p class="address">
+                            The Mad Bean<br>
+                            103 E Murphy St,<br>
+                            Madison, NC 27025, USA
+                        </p>
+                        <p class="phone">
+                            <a href="tel:+13369494222">(336) 949-4222</a>
+                        </p>
+                        <p style="margin-top: 20px;">We're always ready to welcome you with a friendly face and a fresh brew!</p>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Daily Hours</h3>
+                        <table class="hours-table">
+                            <tr>
+                                <th>Monday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>7:00 AM – 6:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </table>
+                        <div style="margin-top: 30px;">
+                            <a href="tel:+13369494222" class="btn btn-primary">CALL TO ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Don't Just Take Our Word For It. Experience The Mad Bean Yourself!</h2>
+                <a href="#find-us" class="btn btn-secondary">PLAN YOUR VISIT NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://scontent-ord5-3.xx.fbcdn.net/v/t15.5256-10/623066171_1226893199411752_557022291306305729_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=a27664&_nc_ohc=GHTQ3HBYKyoQ7kNvwEWJsD4&_nc_oc=Adody8sZkuBheXpT10j3rAdz2WkYYJziyIwnnBaAbMMBewFgi-Z2PUHMPFrWP9WmM&_nc_zt=23&_nc_ht=scontent-ord5-3.xx&_nc_gid=9D6eL2cvxOj5tcjCUfD-eQ&_nc_ss=7a389&oh=00_Af2bLGazZNRXKRUrqcINh66CSFjUTOITrk_DjWQhHcM3Fg&oe=69DF2693" alt="The Mad Bean Logo">
+            </div>
+            <p class="tagline">Hot and Fresh Y'all be safe out there! Your Local Madison Diner.</p>
+            <div class="social-links">
+                <!-- Placeholder social icons, as none were provided. Using generic SVGs. -->
+                <a href="#" aria-label="Facebook"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0xMiAxLjJDNi4xMjUgMS4yIDEuMiA2LjEyNSAxLjIgMTJjMCA1LjM4NyAzLjExNCA5Ljk0OCA3LjYxNiAxMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSA0Ni45NiA2LjU0SDExLjlMNTUuNTcgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNC05Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTA.MUM4.ODggNy44NCAxMC4yNTUgNi41IDEz.OTYgNi41NEgxMS45TDY3.MDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTAuMUM4Ljg4IDcuODQgMTAuMjU1IDYuNSAxMy45NiA2LjU0SDExLjlMNjcuMDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTA.MUM4.ODggNy44NCAxMC4yNTUgNi41IDEz.OTYgNi41NEgxMS45TDY3.MDkgNi41MDguOTYgMTJjMC01LjM4NyAzLjExNCA5Ljk0OCA3LjYxNi0xMS40MTh2LThoLTIuNTI4VjEySDguODhWMTA.MUM4.ODggNy44NCAxMC.yNTUgNi41IDEz.OTYgNi41NEgxMS45TDY3.MDkgNi.0MjUgMTI.xMiAxNy.4IDIyLjggMjMuOTY3VjEyaDMuMTQzdi4wNTVoMi40MDVWMTAuMUgzLjk0NloiLz48L3N2Zz4=" alt="Facebook" style="filter: invert(1); display: inline-block; vertical-align: middle; width: 1.5em; height: 1.5em;"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy5wMy5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodGg9IjFlbSIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik03LjkgMi4xQTcuMyA3LjMgMCAwIDEgMTIgNGExLjcgMS43IDAgMCAwIDAgMy40YTMuMyAzLjMgMCAwIDAgLjYtLjFhMTQuNyAxNC43IDAgMCAwLTguMyA3LjhBMTQuNyAxNC43IDAgMCAwIDMuMyAxOC41QTcuMyA3LjMgMCAwIDAgMTIgMjJhMS43IDEuNyAwIDAgMCAwLTMuNGEzLjMgMy4zIDAgMCAwLS42LjFBMTQuNyAxNC43IDAgMCAwIDE4LjMgNS41QTcuMyA3LjMgMCAwIDAgMTIgMi4xYTEuNyAxLjcgMCAwIDAgMCAzLjRhMy4zIDMyLjkyIDAgMCAwLS42LjFBMTQuNyAxNC43IDAgMCAwIDUuNyAxNi41QTE0LjcgMTQuNyAwIDAgMCAyMC43IDUuNUE3LjMgNy4zIDAgMCAwIDEyIDIuMWMwIDAgMCAwIDAgMEw0LjEgOC4xQTcuNyA3LjcgMCAwIDEgMTUuODYuMjFhMS43IDEuNyAwIDAgMCAuMzEtLjQzQTcuMyA3LjMgMCAwIDEgMTIgMi4xWk00IDcuNGExLjUgMS41IDAgMSAxIDIuMyAwYTEuNSAxLjUgMCAwIDEtMi4zIDBaIi8+PC9zdmc+" alt="Instagram" style="filter: invert(1); display: inline-block; vertical-align: middle; width: 1.5em; height: 1.5em;"></a>
+                <!-- Add more social links as needed -->
+            </div>
+            <p class="copyright">&copy; 2026 The Mad Bean. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% in view
+                rootMargin: "0px 0px -50px 0px" // Start animating a bit before it's fully in view
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
