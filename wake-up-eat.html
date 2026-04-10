@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wake Up & Eat - Harrisburg, NC Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --color-primary: #FF6B35;
+            --color-accent: #FFC857;
+            --color-bg-dark: #111111;
+            --color-text-light: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --spacing-xs: 10px;
+            --spacing-sm: 20px;
+            --spacing-md: 40px;
+            --spacing-lg: 80px;
+            --spacing-xl: 120px;
+            --container-width: 1200px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+            overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-accent);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-light);
+            line-height: 1.2;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h2 {
+            font-size: 2.8rem; /* Section headlines */
+            margin-bottom: var(--spacing-md);
+        }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        section {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+        section:nth-of-type(even) {
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter background for alternating sections */
+        }
+
+        /* Utility classes for animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #e55c2f; /* Slightly darker orange */
+            border-color: #e55c2f;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+        }
+
+        /* STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px); /* Safari support */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .sticky-header nav a {
+            color: var(--color-text-light);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--color-primary);
+        }
+        
+        .sticky-header .call-button {
+            background-color: var(--color-primary);
+            color: var(--color-text-light);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #e55c2f;
+            transform: scale(1.05);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, rgba(255, 107, 53, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 200, 87, 0.08) 0%, transparent 40%),
+                        var(--color-bg-dark);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(17,17,17,0.7) 0%, rgba(17,17,17,0.3) 50%, rgba(17,17,17,0.7) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 700;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--color-text-body);
+            margin-bottom: var(--spacing-md);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-md);
+            gap: 5px;
+            font-weight: 500;
+        }
+        .hero .rating-badge svg {
+            color: var(--color-accent);
+            width: 16px;
+            height: 16px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            margin-top: var(--spacing-md);
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(255, 107, 53, 0.03); /* Tinted with brand color at low opacity */
+            padding: var(--spacing-md) 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-light);
+        }
+
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .social-proof-item .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-body);
+            font-weight: 500;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+            text-align: center;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: flex-start;
+        }
+
+        .our-story-content {
+            text-align: left;
+        }
+
+        .our-story-content h2 {
+            text-align: left;
+        }
+
+        .our-story-quote {
+            background-color: var(--color-card-bg);
+            border-left: 5px solid var(--color-primary);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            margin-top: var(--spacing-lg);
+        }
+
+        .our-story-quote p {
+            font-style: italic;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xs);
+            font-size: 1.1rem;
+        }
+
+        .our-story-quote cite {
+            display: block;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .our-story-stats {
+            display: flex;
+            flex-direction: column; /* Stacking on top of each other */
+            gap: var(--spacing-md);
+            padding-top: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--color-primary);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .stat-card .value {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* MENU SECTION */
+        .menu .section-label, .menu h2 {
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-primary);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--color-text-body);
+        }
+        
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us .section-label, .why-choose-us h2 {
+            text-align: center;
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .choice-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-top: 5px solid var(--color-accent); /* Subtle top accent */
+        }
+        .choice-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .choice-card h3 {
+            font-size: 1.8rem;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .choice-card p {
+            color: var(--color-text-body);
+            font-size: 1rem;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials .section-label, .testimonials h2 {
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-primary);
+            border-radius: 8px;
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--color-text-light);
+            margin-bottom: 0;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            margin-top: var(--spacing-xs);
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .location-info h2, .hours-info h2 {
+            text-align: left;
+        }
+        
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .location-info .address {
+            color: var(--color-text-light);
+            font-weight: 500;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: block;
+            margin-top: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-sm);
+        }
+
+        .hours-table td {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.05rem;
+        }
+
+        .hours-table td:first-child {
+            color: var(--color-text-light);
+            font-weight: 500;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--color-text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--color-primary), #e55c2f); /* Brand color gradient */
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+        }
+
+        .final-cta h2 {
+            color: var(--color-text-light);
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .btn {
+            background-color: var(--color-bg-dark); /* Dark button on bright background */
+            color: var(--color-primary);
+            border: 2px solid var(--color-bg-dark);
+        }
+        .final-cta .btn:hover {
+            background-color: #333; /* Slightly lighter dark */
+            border-color: #333;
+            color: var(--color-accent);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--color-bg-dark);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: var(--spacing-lg) 0 var(--spacing-md) 0;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-xs);
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer .social-links a {
+            color: var(--color-text-light);
+            margin: 0 var(--spacing-xs);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--color-primary);
+        }
+
+        .footer .copyright {
+            margin-top: var(--spacing-md);
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+        
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-stats {
+                padding-top: var(--spacing-md);
+            }
+            .our-story-content h2 {
+                text-align: center;
+            }
+            .stat-card:first-child {
+                margin-top: var(--spacing-md); /* Add space if content above is long */
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-info h2, .hours-info h2 {
+                text-align: center;
+            }
+            .hours-table {
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .location-info .phone-number {
+                display: inline-block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+            .sticky-header nav ul {
+                gap: var(--spacing-sm);
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: var(--spacing-xs);
+            }
+            .sticky-header .call-button {
+                margin-top: var(--spacing-xs);
+                width: calc(100% - 20px);
+                max-width: 250px;
+                padding: 0.5rem 1rem;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            .hero .cta-group .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .section-label {
+                font-size: 0.8rem;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .our-story-quote {
+                margin-top: var(--spacing-md);
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta .btn {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            section {
+                padding: var(--spacing-lg) 0;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .cta-group .btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Wake Up & Eat</a>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+17044560980" class="call-button">Call (704) 456-0980</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container hero-content fade-in-up" style="--delay: 0.1s;">
+            <p class="location">Harrisburg, NC</p>
+            <h1>Wake Up & Eat</h1>
+            <p class="tagline">Craving lunch at 7am or breakfast at 2pm? No worries, we got you covered. We serve both breakfast and lunch all day from 7am-3pm.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.697 2.873c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                <span>4.3 Stars (611 Reviews)</span>
+            </div>
+            <div class="cta-group fade-in-up" style="--delay: 0.3s;">
+                <a href="#menu" class="btn btn-primary">View Our Menu</a>
+                <a href="#location-hours" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up" style="--delay: 0s;">
+                <p class="value">4.3</p>
+                <p class="label">Average Rating</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--delay: 0.1s;">
+                <p class="value">600+</p>
+                <p class="label">Happy Customers</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--delay: 0.2s;">
+                <p class="value">Local</p>
+                <p class="label">Harrisburg Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container our-story-grid">
+            <div class="our-story-content fade-in-up" style="--delay: 0s;">
+                <span class="section-label">Our Story</span>
+                <h2>Taste the Comfort of Home-Cooked Meals</h2>
+                <p>At Wake Up & Eat, we believe that great food doesn't need to be complicated. It just needs to be delicious, fresh, and served with a smile. Nestled in the heart of Harrisburg, NC, we've built a reputation for serving hearty breakfast and lunch classics that taste just like grandma used to make.</p>
+                <p>We're proud to be a local diner where everyone feels welcome. Whether it's a bustling Sunday morning or a relaxed weekday lunch, our commitment to quality ingredients, friendly service, and unbeatable value shines through. We're the perfect spot for families, friends, and solo diners looking for that comforting, familiar flavor.</p>
+                <div class="our-story-quote fade-in-up" style="--delay: 0.2s;">
+                    <p>"I ordered to-go breakfast from this place on a rainy Sunday and I was pleased with how good the food was. Everything was wrapped and still warm by the time I made it home and it was all under $40. Overall, the food tastes like a home-cooked breakfast – not a lot of razzle dazzle to it, but the affordability and good service makes this place a true local gem."</p>
+                    <cite>– Satisfied Customer</cite>
+                </div>
+            </div>
+            <div class="our-story-stats">
+                <div class="stat-card fade-in-up" style="--delay: 0.1s;">
+                    <p class="value">611+</p>
+                    <p class="label">Positive Reviews</p>
+                </div>
+                <div class="stat-card fade-in-up" style="--delay: 0.2s;">
+                    <p class="value">All Day</p>
+                    <p class="label">Breakfast & Lunch</p>
+                </div>
+                <div class="stat-card fade-in-up" style="--delay: 0.3s;">
+                    <p class="value">7</p>
+                    <p class="label">Days a Week</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Menu</span>
+            <h2 class="fade-in-up">Classic Diner Favorites, Prepared Fresh Daily</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up" style="--delay: 0s;">
+                    <h3>French Toast</h3>
+                    <p>Golden-brown slices, fluffy inside, with a hint of cinnamon. Served with syrup.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.1s;">
+                    <h3>Turkey Bacon</h3>
+                    <p>Crispy, lean, and full of flavor – the perfect complement to any breakfast.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.2s;">
+                    <h3>Breakfast Sandwiches</h3>
+                    <p>Your choice of egg, cheese, and meat on a fresh roll or toast. Customize to your craving!</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.3s;">
+                    <h3>Corn Beef Hash</h3>
+                    <p>Hearty, savory, and perfectly seasoned corn beef hash – a diner classic you'll love.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.4s;">
+                    <h3>Classic Pancakes</h3>
+                    <p>Stack of fluffy pancakes, light and airy, served with warm maple syrup.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.5s;">
+                    <h3>Three-Egg Omelets</h3>
+                    <p>Made to order with your favorite fillings – fresh veggies, cheese, and meats.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.6s;">
+                    <h3>Crispy Home Fries</h3>
+                    <p>Perfectly seasoned and cooked to a golden crisp – the ultimate breakfast side.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.7s;">
+                    <h3>Grits & Sausage</h3>
+                    <p>Creamy grits paired with savory sausage, a comforting Southern favorite.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.8s;">
+                    <h3>Fresh Fruit Bowl</h3>
+                    <p>A delightful mix of seasonal fresh fruits, light and refreshing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Why Wake Up & Eat?</span>
+            <h2 class="fade-in-up">More Than Just a Meal, It's an Experience</h2>
+            <div class="why-choose-us-grid">
+                <div class="choice-card fade-in-up" style="--delay: 0s;">
+                    <h3>Home-Cooked Goodness, Every Time</h3>
+                    <p>From our fluffy French Toast to hearty Breakfast Sandwiches, every dish tastes like it came straight from Grandma's kitchen. We believe in classic comfort, not complicated cuisine.</p>
+                </div>
+                <div class="choice-card fade-in-up" style="--delay: 0.1s;">
+                    <h3>Your Schedule, Our Kitchen</h3>
+                    <p>Craving lunch at 7am or breakfast at 2pm? No worries, we got you covered. We serve both breakfast and lunch all day from 7am-3pm, so you can eat what you want, when you want.</p>
+                </div>
+                <div class="choice-card fade-in-up" style="--delay: 0.2s;">
+                    <h3>A Welcoming Spot for Everyone</h3>
+                    <p>Whether you're bringing the kids, catching up with friends, or even dining with your furry best friend on our outdoor patio, Wake Up & Eat is a casual, friendly place where everyone feels at home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Customers Say</span>
+            <h2 class="fade-in-up">Hear It From Our Happy Diners</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up" style="--delay: 0s;">
+                    <p>"The French Toast here is absolutely divine! Perfectly golden, not too sweet, and exactly what I needed on a Sunday morning. This place truly lives up to its name – wake up and eat, you won't regret it!"</p>
+                    <span class="author">– Emily R.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.1s;">
+                    <p>"I'm usually picky about my breakfast sandwiches, but Wake Up & Eat nailed it. Fresh, warm, and hit the spot. Plus, the service was fantastic, even for a busy takeout order. A Harrisburg gem!"</p>
+                    <span class="author">– David K.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.2s;">
+                    <p>"Tried the Corn Beef and it was fantastic – savory, tender, and so flavorful. It feels like a genuine, unpretentious diner with truly delicious, affordable food. Definitely my new go-to."</p>
+                    <span class="author">– Sarah L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours">
+        <div class="container location-hours-grid">
+            <div class="location-info fade-in-up" style="--delay: 0s;">
+                <span class="section-label">Find Us</span>
+                <h2>Visit Our Harrisburg Diner</h2>
+                <p class="address">4433 School House Commons,<br>Harrisburg, NC 28075, USA</p>
+                <p>Easy to find with ample parking. Come on in and make yourself at home!</p>
+                <a href="tel:+17044560980" class="phone-number">(704) 456-0980</a>
+                <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn btn-secondary">Get Directions</a>
+            </div>
+            <div class="hours-info fade-in-up" style="--delay: 0.1s;">
+                <span class="section-label">Our Hours</span>
+                <h2>Open 7 Days a Week, All Day!</h2>
+                <table class="hours-table">
+                    <tr><td>Monday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Tuesday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Wednesday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Thursday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Friday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Saturday</td><td>7:00 AM – 3:00 PM</td></tr>
+                    <tr><td>Sunday</td><td>7:00 AM – 3:00 PM</td></tr>
+                </table>
+                <a href="tel:+17044560980" class="btn btn-primary" style="margin-top: var(--spacing-md);">Call to Order</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for a Home-Cooked Meal?</h2>
+            <p style="color: var(--color-text-light); margin-bottom: var(--spacing-lg); font-size: 1.2rem;">Don't wait! Your next delicious breakfast or lunch is just a call away.</p>
+            <a href="tel:+17044560980" class="btn btn-primary">Call (704) 456-0980 to Order Now!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Wake Up & Eat</a>
+            <p class="tagline">Craving lunch at 7am or breakfast at 2pm? No worries, we got you covered.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">Fb</a> <!-- Replace with actual social links and icons -->
+                <a href="#" aria-label="Instagram">Ig</a>
+                <a href="#" aria-label="Yelp">Yp</a>
+            </div>
+            <p class="copyright">&copy; 2026 Wake Up & Eat. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener("DOMContentLoaded", () => {
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" // Start animating when 50px from bottom of viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("is-visible");
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
