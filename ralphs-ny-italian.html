@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ralph's NY Italian - Authentic Pizza & Pasta in Edenton, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Colors */
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0; /* Generous whitespace */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-brand {
+            color: var(--brand-color);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .button--primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .button--primary:hover {
+            background-color: #A30000; /* Slightly darker red */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(204, 0, 0, 0.4);
+        }
+
+        .button--secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .button--secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.02);
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header__logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-color);
+            font-size: 1.6rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .header__nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header__nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .header__nav a:hover,
+        .header__nav a.active {
+            color: var(--brand-color);
+        }
+
+        .header__cta .button {
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(204, 0, 0, 0.15) 30%, rgba(204, 0, 0, 0.15) 70%, var(--bg-main) 100%);
+            z-index: 1;
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            color: var(--accent-color);
+            max-width: 900px;
+        }
+
+        .hero__location {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero__name {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .hero__tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero__rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+        }
+
+        .hero__rating span {
+            margin-right: 8px;
+            color: gold; /* Star color */
+        }
+
+        .hero__ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(204, 0, 0, 0.05); /* Tinted with brand color */
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof__item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .social-proof__item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* SECTION LABEL */
+        .section-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-alt);
+        }
+
+        .our-story__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story__content h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+
+        .our-story__content p {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+        }
+
+        .our-story__testimonial {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .our-story__testimonial p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+        }
+
+        .our-story__testimonial span {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .our-story__stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            font-family: 'DM Sans', sans-serif; /* Use sans-serif for numbers */
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* MENU SECTION */
+        .menu {
+            text-align: center;
+            padding-bottom: 60px; /* Less padding at bottom if followed by CTA */
+        }
+
+        .menu h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-alt);
+            text-align: center;
+        }
+
+        .why-choose-us h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .why-choose-us__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .why-card h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card p {
+            font-size: 1.1rem;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .testimonials__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows content to push footer down */
+        }
+
+        .testimonial-card__author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-alt);
+        }
+
+        .location-hours__grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 80px;
+        }
+
+        .location-hours__column h2 {
+            font-size: 3rem;
+            margin-bottom: 40px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.15rem;
+            display: block;
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            text-decoration: underline;
+        }
+
+        .location-info .button {
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td,
+        .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #A30000 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--accent-color);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .button {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .final-cta .button:hover {
+            background-color: #f0f0f0;
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer__logo {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-color);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer__tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .footer__social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .footer__social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer__social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer__copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero__name {
+                font-size: 4rem;
+            }
+            .hero__tagline {
+                font-size: 1.4rem;
+            }
+            h2 {
+                font-size: 2.5rem !important;
+            }
+            .our-story__content h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                padding: 15px 0;
+            }
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header__nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header__cta {
+                width: 100%;
+                text-align: center;
+            }
+            .header__cta .button {
+                width: 100%;
+            }
+
+            .hero {
+                padding-top: 150px; /* More padding for collapsed header */
+                height: auto;
+                min-height: 100vh;
+            }
+            .hero__name {
+                font-size: 3rem;
+            }
+            .hero__tagline {
+                font-size: 1.2rem;
+            }
+            .hero__ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero__ctas .button {
+                width: 100%;
+            }
+
+            .section-padding {
+                padding: 60px 0;
+            }
+
+            .social-proof__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .our-story__grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .our-story__content {
+                order: 2; /* Content after stats on mobile */
+            }
+            .our-story__stats {
+                order: 1;
+            }
+
+            .menu-grid, .why-choose-us__grid, .testimonials__grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours__grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero__name {
+                font-size: 2.5rem;
+            }
+            .hero__tagline {
+                font-size: 1rem;
+            }
+            h2 {
+                font-size: 2rem !important;
+            }
+            .our-story__content h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="header__logo">Ralph's NY Italian</a>
+            <nav class="header__nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header__cta">
+                <a href="tel:+12522637047" class="button button--primary">CALL (252) 263-7047</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="hero__content">
+            <p class="hero__location fade-in-up">Edenton, NC</p>
+            <h1 class="hero__name fade-in-up" style="transition-delay: 0.1s;">Ralph's NY Italian</h1>
+            <p class="hero__tagline fade-in-up" style="transition-delay: 0.2s;">Experience the Authentic Taste of New York Italian in Edenton, NC. Freshly Made Pizza & Pasta. Limited Seating – Reservations Recommended.</p>
+            <div class="hero__rating fade-in-up" style="transition-delay: 0.3s;">
+                <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 Stars (100 Reviews)
+            </div>
+            <div class="hero__ctas fade-in-up" style="transition-delay: 0.4s;">
+                <a href="#menu" class="button button--primary">VIEW MENU</a>
+                <a href="#find-us" class="button button--secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof__grid">
+            <div class="social-proof__item fade-in-up">
+                <h3>4.8 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof__item fade-in-up" style="transition-delay: 0.1s;">
+                <h3>100+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof__item fade-in-up" style="transition-delay: 0.2s;">
+                <h3>Local Favorite</h3>
+                <p>Edenton's Go-To Italian</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story section-padding">
+        <div class="container our-story__grid">
+            <div class="our-story__content">
+                <span class="section-label fade-in-up">Our Heritage</span>
+                <h2 class="fade-in-up" style="transition-delay: 0.1s;">A Taste of Family, From Our Kitchen to Your Table</h2>
+                <p class="fade-in-up" style="transition-delay: 0.2s;">At Ralph's NY Italian, we believe that great food brings people together. From the moment you hit the door, we treat you like friends, not just customers. Our passion for authentic New York Italian cuisine is poured into every dish, creating flavors that transport you straight to the heart of Italy. We're proud to serve Edenton with dishes made with love and tradition.</p>
+                <p class="fade-in-up" style="transition-delay: 0.3s;">While our cozy space seats 25, we also boast a very robust take-out business, greeting everyone with appreciation. Whether you're dining in or taking home, expect nothing less than genuine hospitality and unforgettable Italian flavors.</p>
+                <div class="our-story__testimonial fade-in-up" style="transition-delay: 0.4s;">
+                    <p>"Been staying in Edenton for work, my wife joined me and we have been trying out the different spots. Stopped into Ralph's for pizza and wasn't disappointed!"</p>
+                    <span>- A Satisfied Guest</span>
+                </div>
+            </div>
+            <div class="our-story__stats">
+                <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>4.8</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.6s;">
+                    <h3>100+</h3>
+                    <p>Happy Reviews</p>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.7s;">
+                    <h3>25</h3>
+                    <p>Cozy Seats</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Offerings</span>
+            <h2 class="fade-in-up" style="transition-delay: 0.1s;">Handcrafted Italian Classics & New York Favorites</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div>
+                        <h3>Large Cheese Pizza</h3>
+                        <p>Our classic New York style pizza, generously topped with mozzarella and rich tomato sauce. Perfect for sharing (or not!).</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                    <div>
+                        <h3>Special Pizzas</h3>
+                        <p>Explore our rotating selection of unique and inventive pizza creations, featuring fresh, seasonal ingredients and bold flavors.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                    <div>
+                        <h3>Strombolis</h3>
+                        <p>A true New York specialty! Our Strombolis are stuffed sandwiches made with the same great pizza dough, packed with savory fillings.</p>
+                    </div>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                    <div>
+                        <h3>COLD PASTAS - Just Heat & Eat!</h3>
+                        <p>Convenient and delicious, our cold pastas are prepared fresh daily, ready for you to heat and enjoy at home. Perfect for a quick, authentic Italian meal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">The Ralph's Difference</span>
+            <h2 class="fade-in-up" style="transition-delay: 0.1s;">More Than Just Food, It's an Experience</h2>
+            <div class="why-choose-us__grid">
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Authentic NY Taste</h3>
+                    <p>From our crispy pizzas to our flavorful pastas, every dish embodies the true essence of New York Italian cuisine, crafted with generational recipes.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>Small Town Charm, Big City Flavor</h3>
+                    <p>Enjoy sophisticated Italian tastes in the friendly, welcoming atmosphere of Edenton. We bring the best of both worlds to your table.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Robust Takeout & Friendly Service</h3>
+                    <p>Whether dining in or grabbing takeout, our team ensures every interaction is warm and appreciative. Experience true hospitality with every order.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials section-padding">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Guests Say</span>
+            <h2 class="fade-in-up" style="transition-delay: 0.1s;">Hear From Our Valued Customers</h2>
+            <div class="testimonials__grid">
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"The Large Cheese Pizza at Ralph's is a classic done right! Crispy crust and perfect cheese. And those Strombolis are simply to die for – a must-try every time we visit!"</p>
+                    <span class="testimonial-card__author">Sarah L.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.3s;">
+                    <p>"I absolutely loved the convenience of the COLD PASTAS - Just Heat & Eat. It made for a delicious and effortless weeknight dinner. Ralph's always delivers on quality and taste!"</p>
+                    <span class="testimonial-card__author">Michael P.</span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.4s;">
+                    <p>"The staff at Ralph's truly treats you like family. Their Special Pizzas are always a delightful surprise, and the entire dining experience feels personal and welcoming. A true gem in Edenton!"</p>
+                    <span class="testimonial-card__author">Desiree G. (8 contributions)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours section-padding">
+        <div class="container location-hours__grid">
+            <div class="location-hours__column">
+                <span class="section-label fade-in-up">Visit Us</span>
+                <h2 class="fade-in-up" style="transition-delay: 0.1s;">Find Ralph's NY Italian in Edenton</h2>
+                <div class="location-info fade-in-up" style="transition-delay: 0.2s;">
+                    <p><strong>Address:</strong></p>
+                    <p>315 N Granville St</p>
+                    <p>Edenton, NC 27932, USA</p>
+                    <a href="https://maps.google.com/?q=315+N+Granville+St,+Edenton,+NC+27932,+USA" target="_blank" rel="noopener noreferrer">Get Directions &#8599;</a>
+                    <p><strong>Reservations:</strong></p>
+                    <p>With limited seating for 25, we highly recommend calling ahead to secure your table.</p>
+                    <a href="tel:+12522637047" class="button button--primary">CALL (252) 263-7047 TO ORDER OR RESERVE</a>
+                </div>
+            </div>
+            <div class="location-hours__column">
+                <span class="section-label fade-in-up">Opening Times</span>
+                <h2 class="fade-in-up" style="transition-delay: 0.1s;">Our Hours of Operation</h2>
+                <table class="hours-table fade-in-up" style="transition-delay: 0.2s;">
+                    <tr>
+                        <th>Monday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday:</th>
+                        <td>4:00 – 8:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td>4:00 – 8:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td>12:00 – 9:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td>12:00 – 9:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday:</th>
+                        <td>12:00 – 7:00 PM</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Ready for Authentic Italian? Taste the Tradition Today!</h2>
+            <a href="tel:+12522637047" class="button button--primary fade-in-up" style="transition-delay: 0.1s;">CALL TO ORDER OR RESERVE YOUR TABLE</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer__logo">Ralph's NY Italian</p>
+            <p class="footer__tagline">Authentic New York Italian in Edenton, NC.</p>
+            <ul class="footer__social-links">
+                <li><a href="#" aria-label="Facebook">F</a></li> 
+                <li><a href="#" aria-label="Instagram">I</a></li> 
+                <li><a href="#" aria-label="Yelp">Y</a></li> 
+            </ul>
+            <p class="footer__copyright">&copy; 2026 Ralph's NY Italian. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for smooth scroll and IntersectionObserver -->
+    <script>
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const headerOffset = document.querySelector('.header').offsetHeight;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            });
+        });
+
+        // IntersectionObserver for Fade-in-up Animation
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0,
+                rootMargin: "0px 0px -100px 0px" // Start animation when 100px from bottom of viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add("is-visible");
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            },
+            appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Handle potential header height issues with anchor links if page reloads at a hash
+            if (window.location.hash) {
+                const targetId = window.location.hash;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = document.querySelector('.header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    setTimeout(() => { // Give a slight delay for page to render and header height to be calculated
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }, 100);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
