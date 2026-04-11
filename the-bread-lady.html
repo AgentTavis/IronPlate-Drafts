@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bread Lady - Greenville's Beloved Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a;
+            --brand-color: #000000; /* Primary Brand Color */
+            --accent-color: #000000; /* Accent Color - same as brand color */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --section-padding-y: 100px;
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; } /* Will be overridden in Hero */
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+        }
+        
+        /* General Button Styles */
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading); 
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: transparent; /* On hover, brand color button becomes transparent, revealing border */
+            color: var(--text-heading); /* Text stays white */
+            border-color: var(--text-heading); /* Border becomes white */
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            padding: 14px 30px;
+            border: 2px solid var(--text-heading);
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            border-color: var(--text-secondary); /* Subtle change */
+            color: var(--text-secondary); /* Text becomes secondary color */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--brand-color); /* Black label, will be visible on lighter backgrounds/cards */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        /* For visibility of black brand color on dark backgrounds, use white for section labels */
+        section:not(.final-cta) .section-label {
+            color: var(--text-heading);
+        }
+
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--header-bg);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 25px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: background 0.3s ease;
+        }
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        .nav-links a {
+            font-size: 1.05rem;
+            font-weight: 600;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--text-heading);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .header .btn-call {
+            background-color: var(--brand-color); /* Black button */
+            color: var(--text-heading); /* White text */
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            white-space: nowrap;
+            border: 2px solid var(--brand-color); /* Ensure border for hover effect */
+        }
+        .header .btn-call:hover {
+            transform: scale(1.05);
+            background-color: transparent; /* Becomes transparent on hover */
+            color: var(--text-heading);
+            border-color: var(--text-heading); /* Border becomes white */
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(0,0,0,0.7) 100%),
+                        linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)); /* subtle brand color overlay */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.1) 0%, transparent 60%);
+            animation: subtleGlow 15s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        @keyframes subtleGlow {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 0.6; }
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .hero .restaurant-name {
+            font-family: var(--font-heading);
+            font-size: 6rem; /* Massive */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+        .hero .rating-badge svg {
+            fill: #FFD700; /* Gold star */
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(255,255,255,0.03); /* Subtle light tint */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-heading); /* White for visibility on dark strip */
+            font-weight: 700;
+            line-height: 1;
+        }
+        .social-proof-item .label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section General Styles */
+        .section {
+            padding: var(--section-padding-y) 0;
+        }
+        .section:nth-of-type(even) {
+            background-color: var(--bg-alt); /* Slightly lighter background for alternating sections */
+        }
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-subheadline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        .our-story-content p {
+            margin-bottom: 1.5em;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Black border */
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* Visual adjustment for black brand color left border on dark card */
+        .testimonial-card, .menu-card {
+            border-left: 5px solid var(--text-heading); /* Use white for better visibility */
+        }
+
+        .testimonial-card p {
+            font-size: 1.15rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            display: block;
+            text-align: right;
+        }
+        .stat-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px 20px;
+        }
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--text-heading); /* White for visibility on dark card */
+            font-weight: 700;
+            line-height: 1;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--text-heading); /* White for visibility */
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        .menu-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 5px solid var(--text-heading); /* White for visibility */
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+        .why-card svg {
+            fill: var(--text-heading); /* Icons are white */
+            width: 40px;
+            height: 40px;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section (re-using testimonial-card style) */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+        }
+        .location-info .phone {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading); /* White for visibility */
+            font-weight: 600;
+            display: block;
+            margin-top: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+            width: 65%;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .btn-call-to-order {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(0,0,0,0.8) 100%); /* Use a dark gradient with hints of black */
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+        .final-cta .btn-primary {
+            background-color: var(--text-heading); /* Make button white on this dark background */
+            color: var(--brand-color); /* Text should be black */
+            border-color: var(--text-heading);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-body); /* Lighter grey on hover */
+            color: var(--brand-color);
+            transform: scale(1.02);
+            border-color: var(--text-body);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-alt); /* Use an alternative dark background for the footer */
+            color: var(--text-heading);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .footer .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+        .footer-social {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .footer-social a {
+            color: var(--text-heading);
+            font-size: 1.4rem;
+            transition: color 0.3s ease;
+        }
+        .footer-social a:hover {
+            color: var(--text-secondary); /* Subtle hover for social icons */
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            .nav-links {
+                gap: 20px;
+            }
+            .hero .restaurant-name {
+                font-size: 4.5rem;
+            }
+            h2 { font-size: 2.2rem; }
+            .section-label { font-size: 0.9rem; }
+            .section-headline { font-size: 2.2rem; margin-bottom: 40px; }
+            .our-story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .hours-table {
+                margin: 0 auto;
+                max-width: 400px; /* Constrain table width on mobile */
+            }
+            .location-info .phone {
+                text-align: center;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                flex-direction: column;
+                padding: 15px 25px;
+                gap: 15px;
+            }
+            .header .logo {
+                margin-bottom: 5px;
+            }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px 25px;
+                margin-bottom: 10px;
+            }
+            .header .btn-call {
+                order: -1; /* Place button at the top on mobile header */
+                width: 100%;
+                text-align: center;
+            }
+            .hero {
+                padding-top: 120px; /* Account for larger header */
+                min-height: calc(100vh - 120px);
+            }
+            .hero .restaurant-name {
+                font-size: 3rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn-primary, .hero-ctas .btn-secondary {
+                width: 100%;
+            }
+            .social-proof-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid, .stat-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .testimonial-card, .stat-card, .menu-card, .why-card {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero .restaurant-name {
+                font-size: 2.5rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+            .btn-primary, .btn-secondary {
+                font-size: 1rem;
+                padding: 12px 25px;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">The Bread Lady</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+12524130024" class="btn-call">CALL (252) 413-0024</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-content fade-in">
+                <p class="location fade-in">Greenville, NC</p>
+                <h1 class="restaurant-name fade-in">The Bread Lady</h1>
+                <p class="tagline fade-in">Where Every Dish Tells a Story.</p>
+                <div class="rating-badge fade-in">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+                    4.2 Stars (89 Reviews)
+                </div>
+                <div class="hero-ctas fade-in">
+                    <a href="#menu" class="btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip fade-in">
+            <div class="container social-proof-grid">
+                <div class="social-proof-item">
+                    <span class="value">4.2</span>
+                    <span class="label">Star Rating</span>
+                </div>
+                <div class="social-proof-item">
+                    <span class="value">89</span>
+                    <span class="label">Authentic Reviews</span>
+                </div>
+                <div class="social-proof-item">
+                    <span class="value">Local</span>
+                    <span class="label">Favorite Since 2010</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="section">
+            <div class="container">
+                <p class="section-label fade-in">Our Heritage</p>
+                <h2 class="section-headline fade-in">Our Passion, Baked into Every Plate.</h2>
+                <div class="our-story-grid">
+                    <div class="our-story-content fade-in">
+                        <p>The Bread Lady isn't just a name; it's a promise of warmth, comfort, and culinary excellence. For years, we've been a beloved local spot in Greenville, NC, a place where friends and family gather, and every meal feels like coming home.</p>
+                        <p>Our journey began with a simple love for good food and the belief that the best dishes start with the freshest ingredients and a whole lot of heart. While our name highlights our dedication to exceptional baked goods, our bar and grill menu offers a diverse array of handcrafted meals designed to delight every palate.</p>
+                        <p>We're proud to be a cornerstone of the Greenville community, committed to serving up smiles, one delicious dish at a time. Come experience the taste of tradition and innovation, all under one roof.</p>
+                        <div class="testimonial-card fade-in">
+                            <p>"The atmosphere at The Bread Lady is just as comforting as their food. It's our go-to spot for a relaxed evening out!"</p>
+                            <span class="author">— A Loyal Customer</span>
+                        </div>
+                    </div>
+                    <div class="stat-cards-wrapper fade-in">
+                        <div class="stat-cards-grid">
+                            <div class="stat-card">
+                                <span class="number">89</span>
+                                <span class="label">Authentic Reviews</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="number">10+</span>
+                                <span class="label">Years Local Heritage</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="number">Baked</span>
+                                <span class="label">Freshly Daily</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="section">
+            <div class="container">
+                <p class="section-label fade-in">Our Offerings</p>
+                <h2 class="section-headline fade-in">Savor the Flavor: Our Signature Menu.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in">
+                        <h3>The Baker's Burger</h3>
+                        <p>Juicy grilled patty, crisp lettuce, tomato, special sauce, all nestled in our artisan-baked bun.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>Signature Grilled Cheese</h3>
+                        <p>A gourmet blend of melted cheeses, perfectly toasted on thick-cut, house-made sourdough bread.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>Hearty Chicken Sandwich</h3>
+                        <p>Tender grilled chicken breast with fresh greens and veggies, served on our freshly baked bread.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>Loaded Potato Wedges</h3>
+                        <p>Crispy seasoned potato wedges generously topped with melted cheese, savory bacon, and a dollop of sour cream.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>Garden Fresh Salad</h3>
+                        <p>A vibrant mix of seasonal greens and crisp vegetables, tossed in our light and zesty house dressing.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>The "Bread Lady" Sampler</h3>
+                        <p>A delightful selection of our finest appetizers, perfect for sharing and experiencing a taste of everything.</p>
+                    </div>
+                    <div class="menu-card fade-in">
+                        <h3>Sweet Bread Pudding</h3>
+                        <p>Our comforting classic dessert, baked to perfection and served warm with a hint of cinnamon.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="section">
+            <div class="container">
+                <p class="section-label fade-in">Our Promise</p>
+                <h2 class="section-headline fade-in">More Than Just a Meal: The Bread Lady Difference.</h2>
+                <div class="why-choose-us-grid">
+                    <div class="why-card fade-in">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/></svg>
+                        <h3>Freshly Baked Daily</h3>
+                        <p>From our artisan buns to our thick-cut sourdough for the Signature Grilled Cheese, freshness is paramount.</p>
+                    </div>
+                    <div class="why-card fade-in">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        <h3>Locally Sourced Goodness</h3>
+                        <p>We pride ourselves on using quality, local ingredients whenever possible, supporting our Greenville community.</p>
+                    </div>
+                    <div class="why-card fade-in">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.38 0 2.5 1.12 2.5 2.5S13.38 10 12 10 9.5 8.88 9.5 7.5 10.62 5 12 5zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.89 6-3.89s5.97 1.9 6 3.89c-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                        <h3>A Welcoming Atmosphere</h3>
+                        <p>Our friendly staff and cozy ambiance make every visit to The Bread Lady a delightful experience for all ages.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="section">
+            <div class="container">
+                <p class="section-label fade-in">What Our Guests Say</p>
+                <h2 class="section-headline fade-in">Hear From Our Happy Customers.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in">
+                        <p>"Absolutely love The Baker's Burger! The bun is unbelievably fresh, and the special sauce is to die for. My new favorite burger spot in Greenville!"</p>
+                        <span class="author">— Jessica L.</span>
+                    </div>
+                    <div class="testimonial-card fade-in">
+                        <p>"You haven't lived until you've tried The Bread Lady's Signature Grilled Cheese. It's comfort food perfected, and my kids devour the Loaded Potato Wedges!"</p>
+                        <span class="author">— Mark P.</span>
+                    </div>
+                    <div class="testimonial-card fade-in">
+                        <p>"Always a fantastic meal at The Bread Lady. The Garden Fresh Salad is surprisingly hearty, and the Sweet Bread Pudding is the perfect ending to any meal."</p>
+                        <span class="author">— Emily R.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="section">
+            <div class="container location-hours-grid">
+                <div class="location-info fade-in">
+                    <p class="section-label">Visit Us</p>
+                    <h3>Find The Bread Lady</h3>
+                    <p>Come on down and experience the cozy charm and delicious food that makes The Bread Lady a Greenville favorite!</p>
+                    <address>
+                        <p>912 Moye Blvd<br>Greenville, NC 27834, USA</p>
+                    </address>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=912+Moye+Blvd,+Greenville,+NC+27834" target="_blank" class="btn-secondary" style="margin-top: 20px;">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in">
+                    <p class="section-label">Opening Times</p>
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>7:00 AM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>7:00 AM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>7:00 AM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>7:00 AM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>7:00 AM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>Closed</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:+12524130024" class="phone btn-call-to-order btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta fade-in">
+            <div class="container">
+                <h2>Ready for a taste of Greenville's Best?</h2>
+                <a href="#menu" class="btn-primary">EXPLORE OUR MENU TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">The Bread Lady</div>
+            <p class="tagline">Where Every Dish Tells a Story.</p>
+            <ul class="footer-social">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.096-1.092.914-1.092h3.086v-3l-5-.002c-3.248 0-4 1.583-4 4v2.002z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.691 4.91 4.91.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.138 3.212-1.671 4.772-4.91 4.91-1.265.058-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.26-.138-4.773-1.699-4.91-4.91-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.138-3.212 1.671-4.772 4.91-4.91 1.265-.058 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162v-.072c-.004-3.407-2.763-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.594 0-6.524 2.93-6.524 6.524 0 .51.056 1.002.164 1.474-5.432-.274-10.276-2.888-13.516-6.49-.567.974-.896 2.102-.896 3.32 0 2.278 1.159 4.287 2.919 5.467-.85-.026-1.656-.262-2.366-.656v.082c0 3.181 2.261 5.834 5.26 6.438-.58.158-1.19.227-1.82.227-.442 0-.87-.044-1.29-.124.835 2.617 3.266 4.52 6.142 4.562-2.247 1.76-5.071 2.81-8.129 2.81-1.056 0-2.09-.061-3.098-.179 2.894 1.83 6.326 2.89 10.017 2.89 12.025 0 18.546-9.932 18.546-18.547 0-.281-.006-.562-.019-.84z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 The Bread Lady. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in');
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // Start 50px before bottom of viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
