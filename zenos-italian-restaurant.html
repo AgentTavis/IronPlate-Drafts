@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeno's Italian Restaurant | Authentic Italian Cuisine in Troy, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #D4AF37; /* Gold */
+            --accent-color: #8B4513; /* Saddle Brown */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'DM Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Global Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-serif);
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; line-height: 1.1; } /* Hero */
+        h2 { font-size: 2.8rem; line-height: 1.2; } /* Section Headlines */
+        h3 { font-size: 1.8rem; line-height: 1.3; }
+        h4 { font-size: 1.4rem; line-height: 1.4; }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 1.2em;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #E6C56F; /* Lighter gold for hover */
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            opacity: 0; /* For fade-in-up animation */
+            transform: translateY(20px); /* For fade-in-up animation */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.2rem;
+            border-radius: 5px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #E6C56F; /* Lighter gold */
+            border-color: #E6C56F;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+        }
+
+        /* Specific Components */
+
+        /* Sticky Header */
+        .header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .logo {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after,
+        .header .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            padding: 0.6rem 1.4rem;
+            border-radius: 5px;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .header .call-button:hover {
+            transform: translateY(-2px);
+            background-color: #E6C56F;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(212, 175, 55, 0.05) 30%, rgba(139, 69, 19, 0.05) 70%, var(--bg-dark) 100%);
+            background-color: var(--bg-dark); /* Fallback */
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem); /* Responsive font size */
+            margin-bottom: 0.1em;
+            letter-spacing: -1px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .hero .rating-badge svg {
+            color: var(--brand-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(212, 175, 55, 0.03); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .social-proof-item span {
+            display: block;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Our Story */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story h2 {
+            margin-top: 0;
+            text-align: left;
+        }
+
+        .our-story .about-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 60px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .our-story .stat-card .number {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .our-story .stat-card .label {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .testimonial-card-story {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card-story p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card-story .author {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1rem;
+            display: block;
+        }
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-light);
+        }
+
+        .menu h2, .menu .section-label {
+            text-align: center;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5em;
+            color: var(--text-heading);
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us */
+        .why-choose-us h2, .why-choose-us .section-label {
+            text-align: center;
+        }
+
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px 25px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background-color: rgba(212, 175, 55, 0.05); /* Subtle highlight */
+            transform: translateY(-5px);
+        }
+
+        .feature-card svg {
+            color: var(--brand-color);
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 0.8em;
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+            color: var(--text-secondary);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-light);
+        }
+        .testimonials h2, .testimonials .section-label {
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1rem;
+            display: block;
+        }
+
+        .testimonial-card .rating {
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .testimonial-card .rating svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 2px;
+        }
+
+        /* Location & Hours */
+        .location-hours .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-hours h2 {
+            margin-top: 0;
+            text-align: left;
+        }
+
+        .location-hours p {
+            margin-bottom: 0.8em;
+        }
+
+        .location-hours .address-link {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+        .location-hours .address-link:hover {
+            color: var(--brand-color);
+        }
+
+        .location-hours .phone-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-top: 20px;
+            display: block;
+        }
+
+        .location-hours .map-embed {
+            margin-top: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .location-hours .map-embed iframe {
+            width: 100%;
+            height: 350px;
+            border: 0;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.05rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 500;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .hours-table .closed {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .location-hours .call-to-order-btn {
+            margin-top: 40px;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            border-top: 1px solid var(--brand-color);
+        }
+
+        .final-cta h2 {
+            color: var(--bg-dark);
+            margin-bottom: 1.5em;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn-cta-final {
+            background-color: var(--bg-dark);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-dark);
+        }
+
+        .final-cta .btn-cta-final:hover {
+            background-color: rgba(17, 17, 17, 0.8);
+            color: #E6C56F;
+            border-color: rgba(17, 17, 17, 0.8);
+            transform: scale(1.02);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: #0A0A0A;
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--text-body);
+        }
+
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            h1 { font-size: clamp(3rem, 10vw, 5rem); }
+            h2 { font-size: 2.2rem; }
+            p { font-size: 1rem; }
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .header .nav-links {
+                display: none; /* Hide for smaller screens, usually a hamburger menu would appear */
+            }
+
+            .our-story .content-grid,
+            .location-hours .content-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+            .our-story h2, .location-hours h2 {
+                text-align: center;
+            }
+            .our-story .about-text {
+                order: 1;
+            }
+            .our-story .image-placeholder {
+                order: 2; /* If there was an image, push it below */
+            }
+
+            .social-proof .container {
+                flex-direction: column;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .call-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            .hero .rating-badge {
+                margin-bottom: 2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+            .social-proof-item {
+                font-size: 1.3rem;
+            }
+            .social-proof-item span {
+                font-size: 0.8rem;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-label {
+                text-align: center;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* SVG Icons - for stars and social links */
+        .icon {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header class="header">
+        <div class="logo">Zeno's</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(910) 571-0901" class="call-button">CALL (910) 571-0901</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <p class="location">Troy, NC</p>
+        <h1>Zeno's Italian Restaurant</h1>
+        <p class="tagline">Your Authentic Taste of Italy in Troy, NC</p>
+        <div class="rating-badge">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+            4.3 Stars (435 reviews)
+        </div>
+        <div class="cta-group">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- Social Proof Strip -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof-item">4.3 Stars<span>Overall Rating</span></div>
+            <div class="social-proof-item">435+<span>Happy Guests</span></div>
+            <div class="social-proof-item">Local Favorite<span>Troy, NC Community</span></div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label">Our Heritage</span>
+            <div class="content-grid">
+                <div class="about-text">
+                    <h2>Where Every Meal Feels Like Home</h2>
+                    <p>Welcome to Zeno's, a cornerstone of Italian dining in Troy, NC. What started as a dream to bring authentic Italian flavors and heartwarming hospitality to our community has grown into a local favorite. We believe in the power of good food to bring people together, creating memories around the table.</p>
+                    <p>Our dedicated staff embodies the spirit of genuine Italian welcome, ensuring every visit is more than just a meal—it's an experience. From the moment you step into our fairly large dining room, you're treated like family. We pride ourselves on creating a friendly and outgoing atmosphere where delicious food and great company go hand-in-hand.</p>
+                    <p>While we are located in a convenient strip mall, our passion for creating an inviting Italian ambiance shines through, making Zeno's the perfect spot for family dinners, romantic evenings, or a quick, satisfying lunch.</p>
+                </div>
+                <div>
+                    <div class="testimonial-card-story">
+                        <p>"Zeno's staff is truly outstanding! They made us feel so welcome, and the atmosphere was just what we needed for a lovely dinner. A real gem in Troy."</p>
+                        <span class="author">— A Happy Customer</span>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="number">4.3</div>
+                            <div class="label">Star Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">435+</div>
+                            <div class="label">Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">15+</div>
+                            <div class="label">Years Serving Troy</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label">Our Selections</span>
+            <h2>Taste the Tradition</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Classic Spaghetti Carbonara</h3>
+                    <p>A Roman classic with eggs, hard cheese, cured pork, and black pepper. Simple, rich, and unforgettable.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Hearty Lasagna al Forno</h3>
+                    <p>Layers of pasta, rich Bolognese sauce, creamy béchamel, and melted mozzarella, baked to perfection.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Zeno's Chicken Parmigiana</h3>
+                    <p>Tender chicken breast, breaded and fried, topped with marinara and melted provolone, served with spaghetti.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Creamy Fettuccine Alfredo</h3>
+                    <p>Fresh fettuccine pasta tossed in a luxurious sauce of butter, heavy cream, and Parmesan cheese.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Margherita Pizza</h3>
+                    <p>Our traditional Neapolitan pizza with San Marzano tomatoes, fresh mozzarella, basil, and olive oil.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Homemade Tiramisu</h3>
+                    <p>An exquisite Italian dessert with layers of coffee-soaked ladyfingers, mascarpone cheese, and cocoa.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Garlic Knots (NEW & IMPROVED!)</h3>
+                    <p>Soft, warm knots of dough, baked golden and brushed with a fragrant garlic-herb butter. Perfect for sharing!</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Four Cheese Ravioli</h3>
+                    <p>Delicate pasta pockets filled with a blend of ricotta, Parmesan, mozzarella, and asiago cheeses, served with your choice of sauce.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label">Our Promise</span>
+            <h2>The Zeno's Difference</h2>
+            <div class="why-choose-us-grid">
+                <div class="feature-card">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-2.625 6.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm4.875 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm2.25 5.657a.75.75 0 01-1.059.02L12 13.072l-1.971 1.992a.75.75 0 01-1.059-.023.75.75 0 01-.023-1.06L11.47 12l-1.954-1.971a.75.75 0 01.023-1.06.75.75 0 011.06-.023L12 10.928l1.97-1.992a.75.75 0 011.059.022.75.75 0 01.023 1.06L12.53 12l1.954 1.97a.75.75 0 01-.022 1.06z" clip-rule="evenodd" /></svg>
+                    <h3>Warm, Welcoming Staff</h3>
+                    <p>Our team is dedicated to making you feel right at home, providing friendly and outgoing service with a genuine smile from start to finish.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.644 1.26a.75.75 0 01.712 0l9.75 5.25a.75.75 0 010 1.38l-9.75 5.25a.75.75 0 01-.712 0l-9.75-5.25a.75.75 0 010-1.38l9.75-5.25zM12 3.109l-8.706 4.686L12 12.481l8.706-4.686L12 3.109zm-9.75 9.375v4.563c0 .127.085.232.202.252l9.558 1.593a.75.75 0 00.15 0l9.558-1.593a.25.25 0 00.202-.252v-4.563a.75.75 0 011.5 0v4.563a1.75 1.75 0 01-1.412 1.735l-9.558 1.593a1.75 1.75 0 01-.356 0L2.53 17.653A1.75 1.75 0 011 15.918v-4.563a.75.75 0 011.5 0z" /></svg>
+                    <h3>Authentic Italian Flavors</h3>
+                    <p>From time-honored recipes to fresh, quality ingredients, we bring the true taste of Italy to your table, crafted with passion.</p>
+                </div>
+                <div class="feature-card">
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 4.5a3 3 0 013-3h15a3 3 0 013 3v13.5a3 3 0 01-3 3H4.5a3 3 0 01-3-3V4.5zM3 13.1a.75.75 0 00-.75.75v3.15a.75.75 0 00.75.75h18a.75.75 0 00.75-.75v-3.15a.75.75 0 00-.75-.75H3zm.75 1.5a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM7.5 14.65a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM11.25 14.65a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM15 14.65a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM18.75 14.65a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM3 5.25a.75.75 0 00-.75.75v3.15a.75.75 0 00.75.75h18a.75.75 0 00.75-.75V6a.75.75 0 00-.75-.75H3zm.75 1.5a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM7.5 6.75a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM11.25 6.75a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM15 6.75a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008zM18.75 6.75a.75.75 0 000 1.5h.008a.75.75 0 000-1.5h-.008z" clip-rule="evenodd" /></svg>
+                    <h3>Troy's Trusted Local Favorite</h3>
+                    <p>With a 4.3-star rating from over 435 reviews, we're proud to be a cherished dining destination for families and friends in Troy.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Voices of Satisfaction</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <p class="quote">"Absolutely loved the Zeno's Chicken Parmigiana! The chicken was perfectly cooked, and the sauce was divine. The staff were so attentive. A truly fantastic Italian meal."</p>
+                    <span class="author">— Sarah L.</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <p class="quote">"I always order the Lasagna al Forno when I visit Zeno's, and it never disappoints! So rich and comforting. It's truly a taste of authentic Italy right here in Troy."</p>
+                    <span class="author">— Mark T.</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="rating">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" /></svg>
+                    </div>
+                    <p class="quote">"The New & Improved Garlic Knots are a game changer! So soft and flavorful. Zeno's is our go-to for a cozy night out, and their friendly service always makes it special."</p>
+                    <span class="author">— Jessica M.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Hours Section -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <div class="content-wrapper">
+                <div>
+                    <h2>Your Table Awaits in Troy</h2>
+                    <p>Conveniently located in the heart of Troy, Zeno's Italian Restaurant is easy to find and always ready to welcome you. We offer reservations for a guaranteed table, or feel free to walk in and experience our warm hospitality.</p>
+                    <p><strong>Address:</strong><br><a href="https://www.google.com/maps/search/?api=1&query=Zeno%27s+Italian+Restaurant,+908+Albemarle+Rd,+Troy,+NC+27371" target="_blank" class="address-link">908 Albemarle Rd, Troy, NC 27371, USA</a></p>
+                    <p><strong>Phone:</strong><br><a href="tel:(910) 571-0901" class="phone-number">(910) 571-0901</a></p>
+
+                    <div class="map-embed">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3226.791599500099!2d-79.88931568469278!3d35.34001998028716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8854cc3c8b41120f%3A0x62a265147c211516!2sZeno&#39;s%20Italian%20Restaurant!5e0!3m2!1sen!2sus!4v1678910000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+                <div>
+                    <h2>Our Opening Hours</h2>
+                    <p>We're open most days to serve you the finest Italian cuisine. Check our hours below to plan your perfect visit.</p>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><th>Tuesday:</th><td class="closed">Closed</td></tr>
+                        <tr><th>Wednesday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>11:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Saturday:</th><td>11:00 AM – 10:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>11:00 AM – 9:00 PM</td></tr>
+                    </table>
+                    <p style="margin-top: 20px;">We offer dine-in, take-out, and delivery options for your convenience. Please call us to place an order or make a reservation.</p>
+                    <a href="tel:(910) 571-0901" class="btn btn-primary call-to-order-btn">CALL TO ORDER OR RESERVE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready for an Unforgettable Italian Experience?</h2>
+            <a href="tel:(910) 571-0901" class="btn btn-cta-final">CALL US TO DINE, ORDER, OR RESERVE!</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Zeno's</span>
+            <p class="tagline">Your Authentic Taste of Italy in Troy, NC</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M19.5 2.25h-15a.75.75 0 00-.75.75v18a.75.75 0 00.75.75h9.75V15h3a.75.75 0 00.75-.75l.16-3.72a.75.75 0 00-.73-.78H15V8.5c0-.98.74-1.5 1.76-1.5h1.24a.75.75 0 00.75-.75V3a.75.75 0 00-.75-.75z" clip-rule="evenodd" /></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M11.95 2.25c-3.109 0-3.484.01-4.706.058-1.222.048-2.001.258-2.656.516-1.076.42-1.853.921-2.508 1.576S2.158 5.72 1.738 6.796c-.258.655-.468 1.434-.516 2.656C1.173 10.466 1.163 10.84 1.163 11.95s.01 1.484.058 2.706c.048 1.222.258 2.001.516 2.656.42 1.076.921 1.853 1.576 2.508s1.432.922 2.508 1.576c.655.258 1.434.468 2.656.516 1.222.048 1.597.058 2.706.058s1.484-.01 2.706-.058c1.222-.048 2.001-.258 2.656-.516 1.076-.42 1.853-.921 2.508-1.576s.922-1.432 1.576-2.508c.258-.655.468-1.434.516-2.656.048-1.222.058-1.597.058-2.706s-.01-1.484-.058-2.706c-.048-1.222-.258-2.001-.516-2.656-.42-1.076-.921-1.853-1.576-2.508s-1.432-.922-2.508-1.576c-.655-.258-1.434-.468-2.656-.516C13.434 2.26 13.06 2.25 11.95 2.25zM12 7.276a4.724 4.724 1 100 9.448 4.724 4.724 0 000-9.448zM12 8.776a3.224 3.224 0 110 6.448 3.224 3.224 0 010-6.448zm5.724-2.224c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25z" clip-rule="evenodd" /></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-1.853 15.11l-3.23-7.56a.75.75 0 011.455-.62l3.127 7.324L12 15.63l-.403.94-.287.67a.75.75 0 01-1.455-.62zm5.706-5.895l-3.23-7.56a.75.75 0 00-1.455.62l3.127 7.324L12 15.63l.403.94.287.67a.75.75 0 001.455-.62l-3.23-7.56a.75.75 0 011.455-.62z" /></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Zeno's Italian Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Header active link state
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const header = document.querySelector('.header');
+
+        const sectionOffsets = Array.from(sections).map(section => ({
+            id: section.id,
+            offsetTop: section.offsetTop
+        }));
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sectionOffsets.forEach(sec => {
+                if (window.scrollY >= sec.offsetTop - header.offsetHeight - 50) { // Adjusted offset
+                    current = sec.id;
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.href.includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Set initial active link if page loads directly at a hash
+        const initialHash = window.location.hash;
+        if (initialHash) {
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === initialHash) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
