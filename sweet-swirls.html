@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Swirls - China Grove's Favorite Sweet & Savory Spot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles & Reset */
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a;
+            --brand-primary: #FF8C00;
+            --brand-accent: #8B4513;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        p { margin-bottom: 1rem; }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            color: var(--brand-primary);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--bg-main);
+            border: 2px solid var(--brand-primary);
+        }
+        .btn-primary:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-primary);
+            color: var(--bg-main);
+            transform: scale(1.02);
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Utility Classes for Layout */
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .align-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .text-center { text-align: center; }
+
+        /* Fade-in-up animation */
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-element.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .sticky-header .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .sticky-header nav a {
+            color: var(--text-body);
+            margin-left: 30px;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+        }
+        .sticky-header nav a:hover {
+            color: var(--brand-primary);
+        }
+        .sticky-header .call-btn {
+            background-color: var(--brand-primary);
+            color: var(--bg-main);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .sticky-header .call-btn:hover {
+            background-color: var(--brand-accent);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for fixed header */
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(17, 17, 17, 0.7) 30%, rgba(255, 140, 0, 0.1) 60%, rgba(139, 69, 19, 0.1) 100%), var(--bg-main);
+        }
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero-content .location-text {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        .hero-content h1 {
+            font-size: 5.5rem;
+            line-height: 1;
+            margin-bottom: 25px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .hero-content .tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 35px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-content .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 140, 0, 0.15);
+            color: var(--brand-primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: 0.03em;
+        }
+        .hero-content .rating-badge span {
+            margin-right: 5px;
+            color: #FFD700; /* Gold star color */
+        }
+        .hero-cta-group {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(255, 140, 0, 0.05);
+            padding: 40px 0;
+            text-align: center;
+        }
+        .social-proof-strip .proof-item {
+            flex: 1;
+            padding: 0 20px;
+            color: var(--text-heading);
+        }
+        .social-proof-strip .proof-item h3 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: var(--brand-primary);
+        }
+        .social-proof-strip .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--bg-alt);
+        }
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        .our-story-text h2 {
+            margin-bottom: 25px;
+            font-size: 2.5rem;
+        }
+        .our-story-text p {
+            color: var(--text-body);
+            margin-bottom: 1.2rem;
+            max-width: 600px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-top: 40px;
+        }
+        .testimonial-card p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--brand-primary);
+            font-size: 1rem;
+        }
+        .stats-grid {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+        .stat-card .number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--brand-primary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-main);
+        }
+        .menu-section h2 {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-primary);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(255,140,0,0.1);
+        }
+        .menu-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            line-height: 1.2;
+            color: var(--text-heading);
+        }
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--bg-alt);
+        }
+        .why-choose-us-section h2 {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+        }
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+        }
+        .why-card .icon {
+            color: var(--brand-primary);
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-main);
+        }
+        .testimonials-section h2 {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .testimonial-item .quote {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .testimonial-item .author-info {
+            display: flex;
+            align-items: center;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+        .testimonial-item .author-info .name {
+            font-size: 1rem;
+            color: var(--brand-primary);
+        }
+        .testimonial-item .stars {
+            color: #FFD700; /* Gold star color */
+            margin-right: 10px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--bg-alt);
+        }
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .location-info h2 {
+            margin-bottom: 30px;
+        }
+        .location-info p {
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+        .location-info .address {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        .location-info .phone {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            display: block;
+            margin-bottom: 30px;
+        }
+        .location-info .call-button {
+            margin-top: 20px;
+        }
+
+        .hours-info h2 {
+            margin-bottom: 30px;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            text-align: left;
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-accent) 100%);
+            text-align: center;
+            padding: 80px 0;
+        }
+        .final-cta-section h2 {
+            color: var(--bg-main);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .final-cta-section .btn-light {
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+            border: 2px solid var(--text-heading);
+        }
+        .final-cta-section .btn-light:hover {
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            border-color: var(--bg-main);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .footer .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--text-body);
+        }
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            margin: 0 12px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .our-story-content, .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            .social-proof-strip .flex {
+                flex-direction: column;
+                gap: 30px;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav on smaller screens, could add hamburger menu */
+            }
+            .sticky-header {
+                justify-content: center;
+            }
+            .sticky-header .call-btn {
+                position: absolute;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            section { padding: 80px 0; }
+            .sticky-header { padding: 0 20px; }
+            .sticky-header .logo { font-size: 1.5rem; }
+            .hero-content h1 { font-size: 3.5rem; }
+            .hero-content .tagline { font-size: 1.1rem; }
+            .hero-cta-group .btn { width: 100%; max-width: 300px; }
+            .menu-grid, .why-cards-grid, .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta-section h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .call-btn { display: none; } /* Hide call button on very small screens if needed */
+            .hero-content h1 { font-size: 2.8rem; }
+            .hero-content .tagline { font-size: 1rem; }
+            .section-label { font-size: 1rem; }
+            h2 { font-size: 2rem; }
+            .social-proof-strip .proof-item h3 { font-size: 1.8rem; }
+            .social-proof-strip .proof-item p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Sweet Swirls</a>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:(704) 855-0122" class="call-btn">CALL (704) 855-0122</a>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-content fade-in-element">
+                <p class="location-text">CHINA GROVE, NC</p>
+                <h1>SWEET SWIRLS</h1>
+                <p class="tagline">Crafting irresistible cinnamon rolls with endless toppings, alongside delicious savory delights, right here on Main Street.</p>
+                <div class="rating-badge">
+                    <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 Stars (34 Reviews)
+                </div>
+                <div class="hero-cta-group">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container flex justify-center align-center fade-in-element">
+                <div class="proof-item">
+                    <h3>4.8 / 5.0</h3>
+                    <p>Star Rating</p>
+                </div>
+                <div class="proof-item">
+                    <h3>34+</h3>
+                    <p>Glowing Reviews</p>
+                </div>
+                <div class="proof-item">
+                    <h3>&hearts;</h3>
+                    <p>Local Favorite</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section">
+            <div class="container fade-in-element">
+                <p class="section-label">Our Journey</p>
+                <div class="our-story-content">
+                    <div class="our-story-text">
+                        <h2>Our Passion, Your Sweet & Savory Experience.</h2>
+                        <p>Sweet Swirls recently opened on Main Street in China Grove, quickly becoming a beloved local spot. We believe in bringing joy through freshly made cinnamon rolls that you can customize with endless toppings, making every bite a unique adventure.</p>
+                        <p>But we're not just about sweets! Our commitment to deliciousness extends to our savory menu, where we serve up equally tasty items. From great cupcakes and decadent cheesecakes to savory classics, there's something to satisfy every craving.</p>
+                        <p>We LOVE the pimento cheese, bacon and tomato sandwich for a hearty lunch, and our shepherd's pie is a comforting favorite. Come experience the warmth and flavor that makes Sweet Swirls truly special.</p>
+                        <div class="testimonial-card">
+                            <p>"Sweet Swirls is a gem! The cinnamon rolls are out of this world, and I can't get enough of their pimento cheese sandwich. It's truly a taste of home."</p>
+                            <p class="author">- A Happy Regular, China Grove</p>
+                        </div>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="number">4.8</div>
+                            <div class="label">Star Rating</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">34+</div>
+                            <div class="label">Satisfied Guests</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">28023</div>
+                            <div class="label">Proudly Local, China Grove</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container fade-in-element">
+                <p class="section-label text-center">Our Delicious Offerings</p>
+                <h2>Taste the Sweet Swirls Difference.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-element">
+                        <h3>Customizable Cinnamon Rolls</h3>
+                        <p>Freshly baked, warm, and ready for your choice of glazes and toppings.</p>
+                    </div>
+                    <div class="menu-card fade-in-element">
+                        <h3>Gourmet Cupcakes</h3>
+                        <p>Delightful and moist, available in a variety of seasonal flavors.</p>
+                    </div>
+                    <div class="menu-card fade-in-element">
+                        <h3>Decadent Cheesecakes</h3>
+                        <p>Rich, creamy, and irresistible – the perfect sweet indulgence.</p>
+                    </div>
+                    <div class="menu-card fade-in-element">
+                        <h3>Pimento Cheese & Bacon Sandwich</h3>
+                        <p>A savory sensation, perfectly melted pimento cheese with crispy bacon and fresh tomato.</p>
+                    </div>
+                    <div class="menu-card fade-in-element">
+                        <h3>Hearty Shepherd's Pie</h3>
+                        <p>A comforting classic, packed with flavorful meat and vegetables, topped with creamy mashed potatoes.</p>
+                    </div>
+                    <div class="menu-card fade-in-element">
+                        <h3>Seasonal Sweet Treats</h3>
+                        <p>Always something new and exciting from our bakers, ask about today's special!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us-section">
+            <div class="container fade-in-element">
+                <p class="section-label text-center">More Than Just Food</p>
+                <h2>Why Sweet Swirls is Your New Favorite Spot.</h2>
+                <div class="why-cards-grid">
+                    <div class="why-card fade-in-element">
+                        <div class="icon">&#127855;</div>
+                        <h3>Freshly Baked Daily</h3>
+                        <p>From our customizable cinnamon rolls to our great cupcakes and cheesecakes, everything is made fresh with love every single day.</p>
+                    </div>
+                    <div class="why-card fade-in-element">
+                        <div class="icon">&#128150;</div>
+                        <h3>Support Local & Community</h3>
+                        <p>We're proud to be a part of the China Grove, NC community (28023). Every purchase helps us grow and support our local area.</p>
+                    </div>
+                    <div class="why-card fade-in-element">
+                        <div class="icon">&#127828;</div>
+                        <h3>Unbeatable Sweet & Savory Variety</h3>
+                        <p>Whether you're craving a sweet swirl or a savory pimento cheese & bacon sandwich, our menu has delightful options for every taste.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container fade-in-element">
+                <p class="section-label text-center">What Our Customers Say</p>
+                <h2>Real Voices, Real Experiences.</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-item fade-in-element">
+                        <p class="quote">"I stop by Sweet Swirls almost every day for their cinnamon rolls – they're seriously addictive! And don't even get me started on the cupcakes. Best sweet treats in China Grove!"</p>
+                        <div class="author-info">
+                            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="name">Sarah K.</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item fade-in-element">
+                        <p class="quote">"Finally, a place that masters both sweet AND savory! The pimento cheese, bacon and tomato sandwich is my go-to for lunch, and their shepherd's pie is pure comfort. You won't regret stopping by."</p>
+                        <div class="author-info">
+                            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="name">Michael D.</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-item fade-in-element">
+                        <p class="quote">"Sweet Swirls is exactly what China Grove needed! Great food, warm atmosphere, and always a friendly face. I've tried the cheesecakes and the savory items, and everything is top-notch."</p>
+                        <div class="author-info">
+                            <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                            <span class="name">Emily R.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours-section">
+            <div class="container fade-in-element">
+                <p class="section-label text-center">Visit Us Today</p>
+                <h2>Find Sweet Swirls in China Grove!</h2>
+                <div class="location-hours-content">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p class="address">113 S Main St,<br>China Grove, NC 28023, USA</p>
+                        <p>We're conveniently located on Main Street, making us the perfect stop for a quick bite or a sweet treat.</p>
+                        <a href="tel:(704) 855-0122" class="phone">(704) 855-0122</a>
+                        <a href="https://www.google.com/maps/search/Sweet+Swirls+113+S+Main+St,+China+Grove,+NC+28023,+USA" target="_blank" rel="noopener noreferrer" class="btn btn-primary call-button">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table class="hours-table">
+                            <tr>
+                                <th>Monday:</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>8:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>8:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>8:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>8:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td>8:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </table>
+                        <a href="tel:(704) 855-0122" class="btn btn-primary call-button">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-element">
+                <h2>Don't Just Crave It, Taste It! Visit Sweet Swirls Today.</h2>
+                <a href="#find-us" class="btn btn-light">GET DIRECTIONS</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <a href="#hero" class="logo">Sweet Swirls</a>
+        <p class="tagline">Eat Sweet. Repeat. #SweetSwirlsCG</p>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p class="copyright">&copy; 2026 Sweet Swirls. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Font Awesome for Social Icons (Placeholder) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- IntersectionObserver for fade-in-up animation -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const fadeElements = document.querySelectorAll('.fade-in-element');
+
+            const observerOptions = {
+                root: null, /* viewport */
+                rootMargin: '0px',
+                threshold: 0.1 /* element is 10% visible */
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); /* Stop observing once visible */
+                    }
+                });
+            }, observerOptions);
+
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
