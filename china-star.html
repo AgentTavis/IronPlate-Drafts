@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China Star - Raleigh's Favorite Chinese Takeout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-dark: #111111;
+            --bg-light-alt: #1a1a1a;
+            --brand-primary: #CC0000;
+            --accent-white: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --transition-speed: 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.05rem; /* 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Lora', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--accent-white);
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        a:hover {
+            color: var(--brand-primary);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0; /* Generous whitespace */
+        }
+        
+        .section-label {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* 2.5-3rem */
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: var(--border-radius-sm);
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform var(--transition-speed), background-color var(--transition-speed), border-color var(--transition-speed), color var(--transition-speed);
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .primary-btn {
+            background-color: var(--brand-primary);
+            color: var(--accent-white);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .primary-btn:hover {
+            background-color: #e60000; /* Slightly darker red */
+            border-color: #e60000;
+        }
+
+        .outline-btn {
+            background-color: transparent;
+            color: var(--accent-white);
+            border: 2px solid var(--accent-white);
+        }
+
+        .outline-btn:hover {
+            border-color: var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .large-btn {
+            padding: 18px 36px;
+            font-size: 1.1rem;
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            transition: background-color var(--transition-speed);
+        }
+
+        .sticky-header.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .sticky-header .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-white);
+            letter-spacing: 0.5px;
+        }
+
+        .sticky-header nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 1rem;
+            color: var(--text-body);
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--brand-primary);
+            transition: width var(--transition-speed);
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-btn {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.08) 0%, var(--bg-dark) 60%);
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content .location-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h1 {
+            font-size: 5rem; /* 4-6rem, massive, bold */
+            font-weight: 700;
+            color: var(--accent-white);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .hero-content .tagline {
+            font-size: 1.4rem; /* smaller, lighter weight */
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 15px;
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+            color: var(--accent-white);
+            font-weight: 600;
+            gap: 8px;
+        }
+
+        .rating-badge .reviews-count {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color at very low opacity */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .proof-item {
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            max-width: 250px;
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-primary);
+            margin-bottom: 5px;
+        }
+
+        .proof-item p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-dark);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary); /* Brand color accent */
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-size: 1.15rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            line-height: 1.6;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-primary);
+            text-align: right;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px 20px;
+            border-radius: var(--border-radius-md);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-primary);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-light-alt); /* Alternating section background */
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2-3 column grid */
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary); /* Brand color left border accent */
+            padding: 25px;
+            border-radius: var(--border-radius-md);
+            position: relative;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: var(--text-heading);
+        }
+
+        .menu-item-card p {
+            font-size: 0.95rem;
+            color: var(--text-body);
+        }
+
+        .menu-item-price {
+            display: block;
+            font-family: 'Lora', serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--brand-primary);
+            margin-bottom: 10px;
+        }
+
+        .menu-cta-container {
+            text-align: center;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            text-align: center;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .feature-card .feature-title {
+            font-size: 1.6rem;
+            color: var(--brand-primary);
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-light-alt);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card.bordered {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary); /* Left border accent */
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        
+        .testimonial-card.bordered:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card.bordered p {
+            font-size: 1.05rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card.bordered cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-primary);
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-dark);
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 10px;
+        }
+
+        .location-info address {
+            font-style: normal;
+            margin-bottom: 25px;
+            color: var(--text-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .location-info .map-btn {
+            margin-bottom: 40px;
+        }
+
+        .location-info .phone-link {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            margin-bottom: 25px;
+            transition: color var(--transition-speed);
+        }
+
+        .location-info .phone-link:hover {
+            color: #ff3333; /* Slightly brighter red */
+        }
+
+        .location-info .call-to-order-btn {
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .hours-info table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .hours-info td {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hours-info td:first-child {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .hours-info td:last-child {
+            text-align: right;
+            color: var(--text-body);
+        }
+
+        .hours-info tr:last-child td {
+            border-bottom: none;
+        }
+
+        .delivery-note {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-primary) 0%, #a30000 100%); /* Brand color gradient background */
+            text-align: center;
+            padding: 100px 0;
+            color: var(--accent-white);
+            margin-bottom: 0;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.2rem;
+            margin-bottom: 40px;
+            color: var(--accent-white);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 10. FOOTER */
+        .site-footer {
+            background-color: #0d0d0d; /* Darker than main dark bg */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Lora', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-white);
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color var(--transition-speed);
+        }
+
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .social-links a svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* VISUAL EFFECTS */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.33, 1, 0.68, 1), transform 0.8s cubic-bezier(0.33, 1, 0.68, 1);
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 80px 0;
+            }
+            .sticky-header .header-content {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+                padding: 10px 20px;
+            }
+            .sticky-header {
+                height: auto;
+                min-height: 60px;
+            }
+            .sticky-header nav {
+                order: 3;
+                width: 100%;
+                text-align: center;
+            }
+            .sticky-header nav ul {
+                justify-content: center;
+                gap: 20px;
+            }
+            .sticky-header .call-btn {
+                order: 2;
+            }
+            .sticky-header .logo {
+                order: 1;
+                margin-right: auto;
+            }
+
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin-bottom: 60px;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-info .call-to-order-btn {
+                max-width: 100%;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 1rem;
+            }
+            .section-padding {
+                padding: 60px 0;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header nav ul {
+                gap: 10px;
+                font-size: 0.9rem;
+            }
+            .sticky-header .call-btn {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content .tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+                margin-bottom: 40px;
+            }
+            .proof-item h3 {
+                font-size: 1.8rem;
+            }
+            .stat-card h3 {
+                font-size: 2.5rem;
+            }
+            .menu-item-card h3 {
+                font-size: 1.2rem;
+            }
+            .menu-item-price {
+                font-size: 1.4rem;
+            }
+            .feature-card .feature-title {
+                font-size: 1.4rem;
+            }
+            .location-info .phone-link {
+                font-size: 1.5rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="container header-content">
+            <div class="logo">China Star</div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:9199774678" class="btn primary-btn call-btn">CALL (919) 977-4678</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <p class="location-text">Raleigh, NC</p>
+                <h1>China Star</h1>
+                <p class="tagline">Raleigh's Favorite for Authentic Chinese Takeout & Legendary Mumbo Sauce Wings.</p>
+                <div class="rating-badge">
+                    <span>3.8 ★</span>
+                    <span class="reviews-count">(204 Reviews)</span>
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn primary-btn">VIEW MENU</a>
+                    <a href="#find-us" class="btn outline-btn">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof-strip">
+            <div class="container">
+                <div class="proof-item">
+                    <h3>3.8 Stars</h3>
+                    <p>Average Rating</p>
+                </div>
+                <div class="proof-item">
+                    <h3>204+</h3>
+                    <p>Customer Reviews</p>
+                </div>
+                <div class="proof-item">
+                    <h3>Raleigh's</h3>
+                    <p>Local Favorite</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="our-story" class="our-story-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">OUR STORY</p>
+                <h2 class="section-headline">From Our Family Kitchen to Your Table.</h2>
+                <div class="story-grid">
+                    <div class="story-text">
+                        <p>For years, China Star has been serving Raleigh the finest Chinese takeout, built on a passion for authentic flavors and fresh ingredients. Our secret? Time-honored recipes, a dedication to quality, and a commitment to making every meal a memorable experience.</p>
+                        <p>We're proud to be known for our legendary Mumbo Sauce Chicken Wings – a sweet, spicy, and tangy delight that keeps our customers coming back for more. From perfectly crafted Eggrolls to flavorful stir-fries, we invite you to taste the difference that genuine care makes.</p>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"The Mumbo Sauce Chicken Wings are simply the best Chinese takeout wings around – sweet, spicy, tangy perfection! And their eggrolls? Absolutely awesome. I've finally found my go-to spot!"</p>
+                        <cite>- A Satisfied Local</cite>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>3.8 ★</h3>
+                        <p>Average Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>204+</h3>
+                        <p>Customer Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Raleigh's</h3>
+                        <p>Local Favorite</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="menu" class="menu-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">OUR MENU</p>
+                <h2 class="section-headline">Signature Dishes & Timeless Classics.</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$4.95</span>
+                        <h3>Mumbo Sauce Chicken Wings</h3>
+                        <p>Cooked in a sweet and spicy sauce.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$4.95</span>
+                        <h3>Beef and Cabbage Eggroll</h3>
+                        <p>Contains beef and cabbage.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$6.95</span>
+                        <h3>Cream Cheese Wontons</h3>
+                        <p>Contains cream cheese.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$5.25</span>
+                        <h3>Pork Dumplings</h3>
+                        <p>Fried or steamed and filled with pork.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$12.95</span>
+                        <h3>Cashew Chicken</h3>
+                        <p>Diced chicken and cashew nuts.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$12.50</span>
+                        <h3>Mongolian Beef</h3>
+                        <p>Stir-fried beef, onions, and scallions.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$13.50</span>
+                        <h3>Beef with String Beans</h3>
+                        <p>Beef and string beans in a ginger sauce.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <span class="menu-item-price">$13.95</span>
+                        <h3>Bone-in Ribs</h3>
+                        <p>Tender, flavorful bone-in ribs.</p>
+                    </div>
+                </div>
+                <div class="menu-cta-container">
+                    <a href="http://www.chinastarnc.com/menu.aspx" target="_blank" class="btn primary-btn">VIEW FULL MENU</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose-us" class="why-choose-us-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">WHY CHOOSE US</p>
+                <h2 class="section-headline">More Than Just a Meal, It's an Experience.</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3 class="feature-title">Legendary Mumbo Sauce Wings</h3>
+                        <p>Our signature sweet, spicy, and tangy Mumbo Sauce Chicken Wings are a local obsession. Taste the flavor that keeps everyone coming back!</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Raleigh's Favorite Eggrolls</h3>
+                        <p>Crispy, savory, and packed with flavor – our Beef & Cabbage Eggrolls are hailed as the best in the area. A perfect start to any meal.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 class="feature-title">Fresh & Fast Takeout</h3>
+                        <p>Experience authentic Chinese cuisine made with fresh ingredients, prepared quickly for your convenience. Perfect for family dinners or a quick bite.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">HEAR FROM OUR CUSTOMERS</p>
+                <h2 class="section-headline">What Raleigh is Saying About China Star.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card bordered">
+                        <p>"I'm obsessed with the Mumbo Sauce Chicken Wings! That sweet/spicy/tangy sauce is a game-changer. Plus, their Eggrolls are hands-down the best I've found in Raleigh. China Star is my new favorite spot!"</p>
+                        <cite>- Sarah P.</cite>
+                    </div>
+                    <div class="testimonial-card bordered">
+                        <p>"Ordered the Cashew Chicken and Cream Cheese Wontons for delivery, and everything was delicious and arrived hot. The chicken was perfectly cooked, and those wontons were so creamy. Highly recommend!"</p>
+                        <cite>- Mike L.</cite>
+                    </div>
+                    <div class="testimonial-card bordered">
+                        <p>"My go-to for Mongolian Beef. It's always stir-fried to perfection with great flavor. Their Pork Dumplings are fantastic too, whether fried or steamed. Always a consistent and satisfying meal from China Star."</p>
+                        <cite>- Emily R.</cite>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-us" class="location-hours-section section-padding fade-in-up">
+            <div class="container">
+                <p class="section-label">FIND US & HOURS</p>
+                <h2 class="section-headline">Visit or Call Us Today.</h2>
+                <div class="location-hours-grid">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <address>
+                            6109 Rock Quarry Rd,<br>
+                            Raleigh, NC 27610, USA
+                        </address>
+                        <a href="https://www.google.com/maps/search/6109+Rock+Quarry+Rd,+Raleigh,+NC+27610,+USA" target="_blank" class="btn outline-btn map-btn">GET DIRECTIONS</a>
+                        <h3>Call Us</h3>
+                        <a href="tel:9199774678" class="phone-link">(919) 977-4678</a>
+                        <a href="tel:9199774678" class="btn primary-btn call-to-order-btn">CALL TO ORDER</a>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Our Hours</h3>
+                        <table>
+                            <tr><td>Monday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Tuesday:</td><td>Closed</td></tr>
+                            <tr><td>Wednesday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Thursday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Friday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Saturday:</td><td>11:00 AM – 10:00 PM</td></tr>
+                            <tr><td>Sunday:</td><td>12:00 PM – 10:00 PM</td></tr>
+                        </table>
+                        <p class="delivery-note">
+                            Delivery available:<br>
+                            Sunday - Thursday: 11:30 AM - 8:30 PM<br>
+                            Friday - Saturday: 11:30 AM - 9:30 PM
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta-section">
+            <div class="container">
+                <h2>Ready for Raleigh's Best Chinese Takeout?</h2>
+                <a href="#menu" class="btn primary-btn large-btn">VIEW MENU & ORDER NOW</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">China Star</div>
+                <p class="footer-tagline">Raleigh's Favorite for Authentic Chinese Takeout & Legendary Mumbo Sauce Wings.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c3.232 0 3.695.012 4.981.072 1.348.064 2.112.28 2.658.494.757.291 1.259.615 1.748 1.104.49.489.813.991 1.104 1.748.214.546.43 1.31.494 2.658.06 1.286.072 1.749.072 4.981s-.012 3.695-.072 4.981c-.064 1.348-.28 2.112-.494 2.658-.291.757-.615 1.259-1.104 1.748-.489.49-1.104 1.104-1.748 1.104-.546.214-1.31.43-2.658.494-1.286.06-1.749.072-4.981.072s-3.695-.012-4.981-.072c-1.348-.064-2.112-.28-2.658-.494-.757-.291-1.259-.615-1.748-1.104-.49-.489-.813-.991-1.104-1.748-.214-.546-.43-1.31-.494-2.658-.06-1.286-.072-1.749-.072-4.981s.012-3.695.072-4.981c.064-1.348.28-2.112.494-2.658.291-.757.615-1.259 1.104-1.748.489-.49.991-.813 1.748-1.104.546-.214 1.31-.43 2.658-.494c1.286-.06 1.749-.072 4.981-.072zm0-2c-3.284 0-3.712.012-5.048.073-1.464.07-2.457.303-3.238.618-.834.332-1.428.796-2.008 1.376-.58.58-.962 1.174-1.376 2.008-.315.781-.548 1.774-.618 3.238-.061 1.336-.073 1.764-.073 5.048s.012 3.712.073 5.048c.07 1.464.303 2.457.618 3.238.332.834.796 1.428 1.376 2.008.58.58 1.174.962 2.008 1.376.781.315 1.774.548 3.238.618 1.336.061 1.764.073 5.048.073s3.712-.012 5.048-.073c1.464-.07 2.457-.303 3.238-.618.834-.332.796-1.428 1.376-2.008.58-.58 1.174-.962 2.008-1.376.781-.315 1.774-.548 3.238-.618-1.336-.061-1.764-.073-5.048-.073zm0 4c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zm0 13c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm5.325-12.215c-.687 0-1.243-.556-1.243-1.243s.556-1.243 1.243-1.243 1.243.556 1.243 1.243-.556 1.243-1.243 1.243z"/></svg></a>
+                </div>
+                <p class="copyright">&copy; 2026 China Star. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Smooth scroll for nav links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const headerOffset = document.querySelector('.sticky-header').offsetHeight;
+                const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                const offsetPosition = elementPosition - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Fade-in-up on scroll (IntersectionObserver)
+        const faders = document.querySelectorAll('.fade-in-up');
+        const appearOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Sticky header background change on scroll
+        const header = document.querySelector('.sticky-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 0) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
