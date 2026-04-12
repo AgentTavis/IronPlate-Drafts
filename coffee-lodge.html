@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Lodge | Rolesville, NC | Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-primary: #111111;
+            --bg-secondary: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #8B7355;
+            --accent-color: #000000; /* Used sparingly for subtle accents */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2.8rem; line-height: 1.2; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.05rem; margin-bottom: 1rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: lighten(var(--brand-color), 10%); /* This won't work in pure CSS, need to define a lighter color or use rgba for hover */
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 25px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+        section:nth-of-type(even) {
+            background-color: var(--bg-secondary);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .text-brand { color: var(--brand-color); }
+        .text-light { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            border-radius: 5px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: darken(var(--brand-color), 5%); /* Again, pure CSS won't darken */
+            filter: brightness(90%); /* Use filter for darkening effect */
+            transform: scale(1.02);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            text-decoration: none;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        /* Fade-in-up (requires JS to trigger on scroll, CSS for initial state and transition) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. STICKY HEADER */
+        #sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: height 0.3s ease, background-color 0.3s ease;
+        }
+
+        #sticky-header .logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+
+        #sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        #sticky-header nav ul li a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        #sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+            text-decoration: none;
+        }
+
+        #sticky-header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent phone number from wrapping */
+        }
+        #sticky-header .call-button:hover {
+            filter: brightness(90%);
+            transform: scale(1.02);
+            text-decoration: none;
+        }
+
+        /* Mobile Nav Toggle (hidden by default) */
+        .nav-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            cursor: pointer;
+        }
+        .nav-menu {
+            display: flex;
+        }
+
+        /* 2. HERO SECTION */
+        #hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17,17,17,0.95) 0%, rgba(17,17,17,0.85) 50%, rgba(139,115,85,0.2) 100%), var(--bg-primary); /* Rich dark gradient */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(139,115,85,0.05) 0%, rgba(17,17,17,0.9) 70%);
+            z-index: 1;
+        }
+
+        #hero .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        #hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 900;
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.7);
+        }
+
+        #hero .location {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        #hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        #hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+        #hero .rating-badge .stars {
+            color: gold;
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        #hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        #social-proof {
+            background-color: rgba(139, 115, 85, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        #social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        #social-proof .proof-item {
+            text-align: center;
+            color: var(--text-heading);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        #social-proof .proof-item span {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* 4. OUR STORY SECTION */
+        #our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+        #our-story .story-text p {
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        #our-story .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        #our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        #our-story .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        #our-story .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* About section placeholder to avoid the "Jawa" review */
+        #our-story .story-text {
+            color: var(--text-body);
+        }
+
+        /* 5. MENU SECTION */
+        #menu h2 {
+            margin-bottom: 60px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .menu-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+        .menu-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+        .menu-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            position: absolute;
+            top: 30px;
+            right: 30px;
+        }
+        .menu-card .price::before {
+            content: '$';
+            font-size: 0.9em;
+            vertical-align: super;
+        }
+        
+        /* 6. WHY CHOOSE US SECTION */
+        #why-choose-us .container {
+            text-align: center;
+        }
+        #why-choose-us h2 {
+            margin-bottom: 60px;
+        }
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .why-card i {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+        .why-card h4 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        #testimonials .container {
+            text-align: center;
+        }
+        #testimonials h2 {
+            margin-bottom: 60px;
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            position: relative;
+        }
+        .testimonial-card .quote-icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            opacity: 0.2;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            z-index: 0;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .testimonial-card .author span {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        #find-us .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        #find-us h2 {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        .location-card, .hours-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .location-card h3, .hours-card h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+            text-align: center;
+        }
+        .location-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+            text-align: center;
+        }
+        .location-card .phone-number {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-top: 20px;
+            text-align: center;
+        }
+        .location-card .phone-number:hover {
+            text-decoration: underline;
+        }
+        .location-card .map-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .location-card .map-link .btn {
+            padding: 0.8rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.05rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 40%;
+        }
+        .hours-table td {
+            color: var(--text-body);
+            width: 60%;
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-card .btn {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 0.9rem 2.5rem;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        #final-cta {
+            background: linear-gradient(90deg, var(--brand-color) 0%, rgba(139,115,85,0.8) 100%);
+            text-align: center;
+            padding: 100px 0;
+            color: var(--text-heading);
+            margin-top: var(--section-padding-y);
+        }
+        #final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        #final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+            padding: 1.2rem 3rem;
+        }
+        #final-cta .btn:hover {
+            background-color: transparent;
+            color: var(--text-heading);
+        }
+
+        /* 10. FOOTER */
+        footer {
+            background-color: var(--accent-color); /* Using accent color for a deep dark */
+            color: var(--text-body);
+            padding: 80px 0 40px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        footer .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+        footer .footer-logo {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        footer .footer-tagline {
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        footer .copyright {
+            margin-top: 30px;
+            color: var(--text-secondary);
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            #sticky-header { padding: 0 25px; }
+            #sticky-header nav ul { gap: 20px; }
+            #sticky-header .call-button { padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+
+            #hero h1 { font-size: 4rem; }
+            #hero .tagline { font-size: 1.3rem; }
+            #hero .cta-buttons { flex-direction: column; gap: 15px; }
+            #hero .btn { width: fit-content; margin: 0 auto; }
+
+            #our-story .story-content { grid-template-columns: 1fr; text-align: center; }
+            #our-story .story-text { order: 2; } /* Story text below stats on mobile */
+            #our-story .story-stats { margin-top: 30px; }
+            #our-story .stat-card { padding: 25px; }
+            #our-story .stat-card .number { font-size: 2.2rem; }
+            #our-story .stat-card .label { font-size: 0.9rem; }
+
+            #find-us .location-hours-grid { grid-template-columns: 1fr; gap: 40px; }
+            #find-us .location-card, #find-us .hours-card { text-align: center; }
+            #find-us .location-card p { text-align: center; }
+            #find-us .hours-table { margin-left: auto; margin-right: auto; max-width: 400px; } /* Center table */
+            #find-us .hours-table th, #find-us .hours-table td { text-align: center; }
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 2.2rem; }
+            p { font-size: 1rem; }
+            .section-label { font-size: 0.8rem; }
+            --section-padding-y: 80px;
+
+            #sticky-header { height: 70px; } /* Slightly taller for mobile */
+            #sticky-header nav ul { display: none; } /* Hide main nav */
+            .nav-toggle { display: block; } /* Show toggle icon */
+            #sticky-header .call-button { padding: 0.5rem 1rem; font-size: 0.85rem; }
+
+            #hero { height: auto; min-height: 100vh; padding-top: 70px; padding-bottom: 80px; }
+            #hero h1 { font-size: 3rem; }
+            #hero .location { font-size: 1rem; }
+            #hero .tagline { font-size: 1.1rem; }
+            #hero .rating-badge { font-size: 1rem; padding: 0.4rem 1rem; margin-bottom: 30px; }
+            #hero .rating-badge .stars { font-size: 1rem; }
+
+            #social-proof .proof-item { font-size: 1.5rem; }
+            #social-proof .proof-item span { font-size: 0.85rem; }
+            #social-proof .container { flex-direction: column; }
+
+            .menu-card, .why-card, .testimonial-card { padding: 25px; }
+            .menu-card h3 { font-size: 1.4rem; }
+            .why-card h4 { font-size: 1.4rem; }
+            .testimonial-card p { font-size: 0.95rem; }
+
+            #final-cta h2 { font-size: 2.5rem; }
+            #final-cta .btn { padding: 1rem 2.5rem; }
+
+            footer .footer-logo { font-size: 1.8rem; }
+            footer .footer-tagline { font-size: 0.85rem; }
+            footer .social-links a { font-size: 1.3rem; margin: 0 10px; }
+        }
+
+        /* Mobile Menu Overlay (JS controlled) */
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .mobile-nav-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-nav-overlay .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            cursor: pointer;
+        }
+        .mobile-nav-overlay ul {
+            list-style: none;
+            text-align: center;
+        }
+        .mobile-nav-overlay ul li {
+            margin: 25px 0;
+        }
+        .mobile-nav-overlay ul li a {
+            color: var(--text-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+        .mobile-nav-overlay ul li a:hover {
+            color: var(--brand-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header id="sticky-header">
+        <div class="logo">Coffee Lodge</div>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:(919) 985-1152" class="call-button"><i class="fas fa-phone-alt"></i> (919) 985-1152</a>
+        <div class="nav-toggle" id="nav-toggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <!-- Mobile Navigation Overlay (hidden by default) -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <div class="close-btn" id="close-nav"><i class="fas fa-times"></i></div>
+        <ul>
+            <li><a href="#our-story">Our Story</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#why-choose-us">Why Choose Us</a></li>
+            <li><a href="#find-us">Find Us</a></li>
+            <li><a href="tel:(919) 985-1152" style="color: var(--brand-color);">(919) 985-1152</a></li>
+        </ul>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="hero">
+        <div class="hero-content">
+            <p class="location fade-in-up">Rolesville, NC</p>
+            <h1 class="fade-in-up">Coffee Lodge</h1>
+            <p class="tagline fade-in-up">A local cafe with delicious food & coffee! The inside is cozy with plenty of natural lighting. Not pictured is the beautiful outdoor area with ...</p>
+            <div class="rating-badge fade-in-up">
+                <span class="stars"><i class="fas fa-star"></i> 4.4</span> (319 Reviews)
+            </div>
+            <div class="cta-buttons fade-in-up">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#find-us" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section id="social-proof">
+        <div class="container">
+            <div class="proof-item fade-in-up is-visible">4.4 / 5 Stars <span>Overall Rating</span></div>
+            <div class="proof-item fade-in-up is-visible">319+ <span>Happy Customers</span></div>
+            <div class="proof-item fade-in-up is-visible">Local Favorite <span>Rolesville Community</span></div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Story</p>
+            <h2 class="text-center fade-in-up">More Than Just Coffee, It's a Community Hub</h2>
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p>Welcome to Coffee Lodge, your cozy escape in the heart of Rolesville, NC. We believe in crafting more than just delicious food and coffee; we're dedicated to creating a warm, inviting atmosphere where neighbors can connect, relax, and savor the simple pleasures of life.</p>
+                    <p>From our carefully selected coffee beans to our freshly prepared dishes, every detail at Coffee Lodge is designed with your comfort and enjoyment in mind. We're proud to be a local spot where every visit feels like coming home.</p>
+                </div>
+                <div class="story-stats fade-in-up">
+                    <div class="stat-card">
+                        <div class="number text-brand">4.4</div>
+                        <div class="label">Star Average</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-brand">319</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-brand">44.5</div>
+                        <div class="label">Hours Open Weekly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Menu</p>
+            <h2 class="fade-in-up">Handcrafted Coffee & Comfort Delights</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Iced Vanilla Almond Latte</h3>
+                    <p>A perfect blend of smooth espresso, creamy vanilla, and almond milk over ice. Your daily refreshing treat.</p>
+                    <!-- <span class="price">5.50</span> No prices provided, so omit -->
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Green Giant Smoothie</h3>
+                    <p>Fuel your day with this vibrant and healthy blend of fresh greens, fruits, and a touch of sweetness.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Iced Coffee</h3>
+                    <p>Our signature brew, chilled to perfection. The classic pick-me-up for any time of day.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>Freshly Brewed Coffee & Tea</h3>
+                    <p>A selection of aromatic coffees and fine teas, brewed fresh throughout the day.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Artisan Donuts</h3>
+                    <p>Indulge in our delightful selection of freshly baked donuts, perfect with your morning coffee.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>Signature Espresso Drinks</h3>
+                    <p>Explore our full range of espresso creations, from classic cappuccinos to unique seasonal lattes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Why Coffee Lodge?</p>
+            <h2 class="text-center fade-in-up">Experience the Warmth of Rolesville</h2>
+            <div class="why-cards">
+                <div class="why-card fade-in-up">
+                    <i class="fas fa-home"></i>
+                    <h4>Cozy & Inviting Ambiance</h4>
+                    <p>Step into an atmosphere designed for comfort. Our inside space is cozy with plenty of natural lighting, making it the perfect spot to unwind or catch up with friends.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.1s;">
+                    <i class="fas fa-paw"></i>
+                    <h4>Pet-Friendly Outdoor Seating</h4>
+                    <p>Enjoy the beautiful Rolesville weather in our lovely outdoor area. We're proud to be a dog-friendly spot, so bring your furry friends along!</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <i class="fas fa-coffee"></i>
+                    <h4>Delicious Food & Coffee</h4>
+                    <p>From our fan-favorite Iced Vanilla Almond Latte to our energizing Green Giant Smoothie and classic Iced Coffee, we offer delicious food & coffee to satisfy every craving.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">What Our Guests Say</p>
+            <h2 class="text-center fade-in-up">Real Stories, Real Moments</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"Love starting my day with their Iced Vanilla Almond Latte, it's perfectly balanced every time and the staff are always so welcoming!"</p>
+                    <div class="author">- Sarah K. <span>Rolesville Resident</span></div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"The Green Giant Smoothie is my go-to for a healthy and refreshing boost. Plus, the beautiful outdoor patio is just lovely for a quick escape."</p>
+                    <div class="author">- David L. <span>Happy Customer</span></div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <i class="fas fa-quote-right quote-icon"></i>
+                    <p>"Coffee Lodge is my favorite spot for a quick Iced Coffee and a quiet moment. It truly feels like a local gem, warm and inviting."</p>
+                    <div class="author">- Emily R. <span>Community Member</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Visit Us</p>
+            <h2 class="text-center fade-in-up">Your Table Awaits in Rolesville</h2>
+            <div class="location-hours-grid">
+                <div class="location-card fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Find us conveniently located in the heart of Rolesville, a perfect spot to start your day or take a relaxing break.</p>
+                    <address>
+                        412 S Main St<br>
+                        Rolesville, NC 27571, USA
+                    </address>
+                    <a href="tel:(919) 985-1152" class="phone-number">(919) 985-1152</a>
+                    <div class="map-link">
+                        <a href="https://www.google.com/maps/search/?api=1&query=Coffee+Lodge+412+S+Main+St,+Rolesville,+NC+27571" target="_blank" class="btn btn-secondary">Get Directions</a>
+                    </div>
+                </div>
+                <div class="hours-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Our Hours</h3>
+                    <p>We're open daily to serve you your favorite coffee and delights. Stop by and make us a part of your routine!</p>
+                    <table class="hours-table">
+                        <tr><th>Monday:</th><td>6:00 AM – 4:30 PM</td></tr>
+                        <tr><th>Tuesday:</th><td>6:00 AM – 4:30 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>6:00 AM – 4:30 PM</td></tr>
+                        <tr><th>Thursday:</th><td>6:00 AM – 4:30 PM</td></tr>
+                        <tr><th>Friday:</th><td>6:00 AM – 4:30 PM</td></tr>
+                        <tr><th>Saturday:</th><td>7:00 AM – 3:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>7:30 AM – 2:00 PM</td></tr>
+                    </table>
+                    <a href="tel:(919) 985-1152" class="btn btn-primary">Call to Order</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section id="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Your Cozy Escape Awaits. Visit Us Today!</h2>
+            <a href="#find-us" class="btn fade-in-up">Plan Your Visit</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">Coffee Lodge</div>
+            <p class="footer-tagline">A local cafe with delicious food & coffee! The inside is cozy with plenty of natural lighting. Not pictured is the beautiful outdoor area with ...</p>
+            <div class="social-links">
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Coffee Lodge. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+                // Close mobile menu if open
+                if (mobileNavOverlay.classList.contains('open')) {
+                    mobileNavOverlay.classList.remove('open');
+                    document.body.style.overflow = ''; // Restore scroll
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const faders = document.querySelectorAll(".fade-in-up");
+
+        const appearOptions = {
+            threshold: 0.2, // Trigger when 20% of the element is visible
+            rootMargin: "0px 0px -50px 0px" // Start 50px before the end of the viewport
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add("is-visible");
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        // Mobile Nav Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const closeNav = document.getElementById('close-nav');
+        const mobileNavOverlay = document.getElementById('mobile-nav-overlay');
+
+        if (navToggle && mobileNavOverlay && closeNav) {
+            navToggle.addEventListener('click', () => {
+                mobileNavOverlay.classList.add('open');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling on body
+            });
+
+            closeNav.addEventListener('click', () => {
+                mobileNavOverlay.classList.remove('open');
+                document.body.style.overflow = ''; // Restore scroll
+            });
+        }
+    </script>
+</body>
+</html>
