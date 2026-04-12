@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crafty Beer, Wine & Spirits | Raleigh's Neighborhood Pub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-light: #1A1A1A; /* Slightly lighter for alternating sections */
+            --brand-color: #1B5E9E;
+            --accent-color: #FFD700;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9);
+
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --gap: 30px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 500;
+        }
+
+        /* Utility Classes for Animation (assuming JS will add 'revealed' class on scroll) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .fade-in-up.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0; /* Remove container padding for full width flex */
+            max-width: var(--max-width);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.5px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 3px;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            font-weight: 700;
+            border: 2px solid var(--brand-color);
+        }
+
+        .header-cta button:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, #0d1a29 50%, #1B5E9E22 100%); /* Rich dark gradient with subtle brand color */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.02) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+            letter-spacing: -2px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+            font-weight: 300;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            margin-bottom: 2.5rem;
+            font-size: 1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+            gap: 8px;
+        }
+
+        .hero .rating-badge svg {
+            color: var(--accent-color);
+            height: 18px;
+            width: 18px;
+            fill: currentColor;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .hero-ctas .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.15rem;
+        }
+
+        .hero-ctas .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .hero-ctas .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.15rem;
+        }
+
+        .hero-ctas .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(27, 94, 158, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item strong {
+            font-size: 2.2rem;
+            font-family: 'Oswald', sans-serif;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .social-proof-item span {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Our Story Section */
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap);
+            align-items: center;
+        }
+
+        .story-content {
+            padding-right: 40px;
+        }
+
+        .story-content h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-content p {
+            margin-bottom: 1.2rem;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .story-quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 35px;
+            border-radius: 12px;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-quote-card::before {
+            content: '“';
+            font-family: serif;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 8rem;
+            color: rgba(255, 255, 255, 0.05);
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .story-quote-card p {
+            font-size: 1.3rem;
+            font-style: italic;
+            color: var(--text-heading);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .story-quote-card .author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .story-quote-card .author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--brand-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-family: 'Oswald', sans-serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-light);
+        }
+
+        .menu h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap);
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 0.8rem;
+            font-size: 1.8rem;
+            line-height: 1.3;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+
+        .menu-card .details {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* Why Choose Us Section */
+        .why-choose-us h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap);
+        }
+
+        .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .choice-card svg {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .choice-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            font-size: 1.8rem;
+        }
+
+        .choice-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-light);
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--gap);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+            font-size: 1rem;
+        }
+
+        .testimonial-card .rating {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .testimonial-card .rating svg {
+            color: var(--accent-color);
+            height: 16px;
+            width: 16px;
+            fill: currentColor;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap);
+            align-items: flex-start;
+        }
+
+        .location-info h2,
+        .hours-info h2 {
+            margin-bottom: 2rem;
+        }
+
+        .location-details p {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .location-details a {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--brand-color);
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-details a:hover {
+            text-decoration: underline;
+            color: var(--accent-color);
+        }
+
+        .location-map {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            height: 350px; /* Placeholder for map iframe */
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            overflow: hidden;
+            position: relative;
+        }
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .hours-table th,
+        .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-cta .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+            padding: 1.2rem 2.5rem;
+            font-size: 1.15rem;
+            display: inline-block;
+        }
+
+        .hours-cta .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #174d7f 100%); /* Brand color gradient */
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.1;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            border: 2px solid var(--accent-color);
+            padding: 1.2rem 2.8rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            border-color: var(--text-heading);
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .footer .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-social ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer-social a {
+            color: var(--text-body);
+            font-size: 1.8rem;
+        }
+
+        .footer-social a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copy {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+            .hero-ctas .btn-primary, .hero-ctas .btn-secondary { width: 80%; max-width: 300px; }
+
+            .our-story .container,
+            .location-hours .container {
+                grid-template-columns: 1fr;
+            }
+            .story-content { padding-right: 0; margin-bottom: 50px; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .social-proof .container { justify-content: center; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header { height: auto; padding: 10px 20px; flex-wrap: wrap; }
+            .sticky-header .container { flex-direction: column; gap: 15px; }
+            .header-nav ul { flex-wrap: wrap; justify-content: center; gap: 20px; }
+            .header-cta { width: 100%; text-align: center; }
+            .header-cta button { width: 100%; }
+
+            .hero { height: auto; min-height: 80vh; padding-top: 120px; padding-bottom: var(--section-padding-y); }
+            .hero h1 { font-size: 3rem; letter-spacing: -1px; }
+            .hero .location { font-size: 0.9rem; }
+            .hero .tagline { font-size: 1rem; margin-bottom: 1.5rem; }
+            .hero .rating-badge { margin-bottom: 1.5rem; padding: 0.4rem 0.8rem; font-size: 0.9rem; }
+            .hero-ctas { gap: 15px; }
+            .hero-ctas .btn-primary, .hero-ctas .btn-secondary { padding: 1rem 2rem; font-size: 1rem; }
+
+            .social-proof-item strong { font-size: 1.8rem; }
+            .social-proof-item span { font-size: 0.8rem; }
+
+            section { padding: 80px 0; }
+            h2 { font-size: 2rem; }
+            .story-quote-card p { font-size: 1.1rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .menu-grid, .choice-grid, .testimonial-grid { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta .btn-primary { padding: 1rem 2rem; font-size: 1rem; }
+            .footer .footer-logo { font-size: 1.5rem; }
+            .footer .footer-tagline { font-size: 0.9rem; }
+            .footer-social a { font-size: 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 0.9rem; }
+            .hero .location { font-size: 0.8rem; }
+            .hero .rating-badge { font-size: 0.8rem; }
+            .hero-ctas .btn-primary, .hero-ctas .btn-secondary { width: 90%; }
+            .social-proof-item strong { font-size: 1.5rem; }
+            .social-proof-item span { font-size: 0.7rem; }
+            .story-quote-card p { font-size: 1rem; }
+            .stat-card .number { font-size: 2.5rem; }
+            .stat-card .label { font-size: 0.9rem; }
+            .menu-card h3, .choice-card h3 { font-size: 1.5rem; }
+            .testimonial-card p { font-size: 1rem; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="header-logo">
+                <a href="#hero">Crafty Beer, Wine & Spirits</a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:(919) 615-3008">
+                    <button>Call (919) 615-3008</button>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up" style="--delay: 0.2s;">
+            <p class="location fade-in-up" style="--delay: 0.4s;">Raleigh, NC</p>
+            <h1 class="fade-in-up" style="--delay: 0.6s;">Crafty Beer, Wine & Spirits</h1>
+            <p class="tagline fade-in-up" style="--delay: 0.8s;">Dog friendly bar and bottle shop with a neighborhood pub vibe. 16 craft beer taps, 15 wines by the glass, and a full liquor bar.</p>
+            <div class="rating-badge fade-in-up" style="--delay: 1s;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                <span>4.6 stars (213 reviews)</span>
+            </div>
+            <div class="hero-ctas fade-in-up" style="--delay: 1.2s;">
+                <a href="#menu" class="btn-primary">View Menu</a>
+                <a href="#location-hours" class="btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="social-proof-item fade-in-up" style="--delay: 0.2s;">
+                <strong>4.6 Stars</strong>
+                <span>From 213 Reviews</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--delay: 0.4s;">
+                <strong>Neighborhood</strong>
+                <span>Local Favorite</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="--delay: 0.6s;">
+                <strong>Wendy & Glen</strong>
+                <span>Delightful Owners</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="story-content">
+                <span class="section-label fade-in-up">Our Story</span>
+                <h2 class="fade-in-up" style="--delay: 0.2s;">Where Every Pour Tells a Tale of Community and Craft.</h2>
+                <p class="fade-in-up" style="--delay: 0.4s;">Crafty Beer, Wine & Spirits isn't just a bar; it's a vibrant hub where friends, neighbors, and their furry companions gather to unwind. Owners Wendy and Glen envisioned a space that feels like an extension of your own living room – friendly, welcoming, and always ready with a great drink.</p>
+                <p class="fade-in-up" style="--delay: 0.6s;">From the moment you step in, you're greeted by a friendly crowd and a genuine neighborhood pub vibe. We're proud to offer a diverse selection, focusing on the best national and international craft beers, with a special emphasis on the incredible brews from right here in North Carolina.</p>
+                <div class="story-quote-card fade-in-up" style="--delay: 0.8s;">
+                    <p>“Wendy and Glen are the owners and absolutely delightful. This neighborhood bar has a friendly crowd of locals that welcomed us at the door. We will be back!”</p>
+                    <div class="author">
+                        <img src="https://s3-media0.fl.yelpcdn.com/buphoto/5_80B2uG7Wd1qGLA-imf1w/90s.jpg" alt="Wendy H.">
+                        <span>Wendy H. (Business Owner, via customer review)</span>
+                    </div>
+                </div>
+            </div>
+            <div class="story-visual">
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up" style="--delay: 1s;">
+                        <div class="number">16</div>
+                        <div class="label">Craft Beer Taps</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--delay: 1.2s;">
+                        <div class="number">15</div>
+                        <div class="label">Wines By The Glass</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--delay: 1.4s;">
+                        <div class="number">4.6</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label text-center fade-in-up">Our Offerings</span>
+            <h2 class="fade-in-up" style="--delay: 0.2s;">Discover Your Next Favorite Pour</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up" style="--delay: 0.4s;">
+                    <h3>Craft Beer Taps</h3>
+                    <p>Explore our rotating selection of 16 craft beer taps, featuring the best of local North Carolina brews and national favorites. Always something new to discover!</p>
+                    <div class="details"><span>Featured: NC Craft Beer Focus</span></div>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.6s;">
+                    <h3>Wines by the Glass</h3>
+                    <p>Indulge in our curated list of 15 wines available by the glass. From crisp whites to robust reds, there's a perfect pairing for every palate.</p>
+                    <div class="details"><span>Premium Selection</span></div>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.8s;">
+                    <h3>Full Liquor Bar</h3>
+                    <p>Our full liquor bar is stocked with a wide range of spirits, ready for your classic cocktails or adventurous new concoctions. Cheers to good times!</p>
+                    <div class="details"><span>Classic & Craft Cocktails</span></div>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 1s;">
+                    <h3>Craft Beers To Go</h3>
+                    <p>Take the Crafty experience home with you! Our bottle shop features an extensive collection of craft beers available for purchase and enjoyment later.</p>
+                    <div class="details"><span>National & International Selection</span></div>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 1.2s;">
+                    <h3>Special Events</h3>
+                    <p>Join us for exciting community events like poker night, wine dinners, and daily specials. Check our calendar for what's happening this month!</p>
+                    <div class="details"><span>Always Something Fun</span></div>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 1.4s;">
+                    <h3>Neighborhood Pub Grub</h3>
+                    <p>Though not an extensive restaurant, we offer delicious snacks and light bites perfect for complementing your drink. Ask our staff for today's specials!</p>
+                    <div class="details"><span>Perfect Pairings</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label text-center fade-in-up">Why Crafty?</span>
+            <h2 class="fade-in-up" style="--delay: 0.2s;">More Than Just a Drink, It's an Experience.</h2>
+            <div class="choice-grid">
+                <div class="choice-card fade-in-up" style="--delay: 0.4s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                    <h3>Dog Friendly Fun</h3>
+                    <p>Bring your best friend! Our patio is always open for your furry companions, making us the perfect spot for every member of your family to relax and socialize.</p>
+                </div>
+                <div class="choice-card fade-in-up" style="--delay: 0.6s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>
+                    <h3>Incredible Selection</h3>
+                    <p>Explore 16 Craft Taps & 15 Wines by the Glass. From local NC brews to international favorites, discover your next go-to pour, all carefully selected for quality.</p>
+                </div>
+                <div class="choice-card fade-in-up" style="--delay: 0.8s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>
+                    <h3>Community Vibe</h3>
+                    <p>Experience the Warmth of a Neighborhood Pub. Wendy & Glen welcome you to a friendly crowd and a genuine local atmosphere where everyone feels at home.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label text-center fade-in-up">What Our Locals Say</span>
+            <h2 class="fade-in-up" style="--delay: 0.2s;">Voices From Our Happy Customers</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up" style="--delay: 0.4s;">
+                    <p>“The selection of craft beers on tap is truly outstanding! There's always something new and exciting to try, and the bartenders are always ready with a great recommendation. It’s my favorite spot for a flight after work.”</p>
+                    <span class="author">— Sarah L.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 6.02L13.78 9.69l4.02.59-2.9 2.82.69 4.01L12 16.51l-3.6 1.89.69-4.01-2.9-2.82 4.02-.59L12 6.02zM12 .587l-3.642 7.369-8.117 1.18 5.875 5.727-1.39 8.087L12 18.896l7.274 3.824-1.39-8.087 5.875-5.727-8.117-1.18L12 .587z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.6s;">
+                    <p>“I was invited to a retirement party here and the back room was perfect. The bartenders were amazing, and the wine selection by the glass was fantastic. Looking forward to their next wine dinner!”</p>
+                    <span class="author">— John D.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.8s;">
+                    <p>“Whether it's for poker night, daily specials, or just grabbing some craft beers to go, Crafty is always a great choice. The dog-friendly atmosphere is a huge bonus, and the full liquor bar means everyone finds their drink!”</p>
+                    <span class="author">— Emily R.</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.642 7.369 8.117 1.18-5.875 5.727 1.39 8.087L12 18.896l-7.274 3.824 1.39-8.087-5.875-5.727 8.117-1.18L12 .587z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <div class="location-info">
+                <span class="section-label fade-in-up">Find Us</span>
+                <h2 class="fade-in-up" style="--delay: 0.2s;">Your Neighborhood Pub Awaits</h2>
+                <div class="location-details fade-in-up" style="--delay: 0.4s;">
+                    <p><strong>Address:</strong></p>
+                    <p>2005 Fairview Rd</p>
+                    <p>Raleigh, NC 27608, USA</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Crafty+Beer,+Wine+%26+Spirits+Raleigh+NC" target="_blank" rel="noopener noreferrer">Get Directions</a>
+                    <p><strong>Phone:</strong></p>
+                    <a href="tel:(919) 615-3008">(919) 615-3008</a>
+                </div>
+                <div class="location-map fade-in-up" style="--delay: 0.6s;">
+                    <!-- Google Maps Embed Example (replace with actual iframe if available, using placeholder here) -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.9161048680197!2d-78.63661158485232!3d35.79555198016482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89ac5f87b32267b1%3A0xf69c5e2193e2a095!2sCrafty%20Beer%2C%20Wine%20%26%20Spirits!5e0!3m2!1sen!2sus!4v1678912345678!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+            <div class="hours-info">
+                <span class="section-label fade-in-up" style="--delay: 0.8s;">Hours of Operation</span>
+                <h2 class="fade-in-up" style="--delay: 1s;">When to Find Us</h2>
+                <table class="hours-table fade-in-up" style="--delay: 1.2s;">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Monday:</td><td>2:00 – 11:00 PM</td></tr>
+                        <tr><td>Tuesday:</td><td>2:00 – 11:00 PM</td></tr>
+                        <tr><td>Wednesday:</td><td>2:00 – 11:00 PM</td></tr>
+                        <tr><td>Thursday:</td><td>2:00 – 11:00 PM</td></tr>
+                        <tr><td>Friday:</td><td>2:00 PM – 12:59 AM</td></tr>
+                        <tr><td>Saturday:</td><td>2:00 PM – 12:30 AM</td></tr>
+                        <tr><td>Sunday:</td><td>2:00 – 10:00 PM</td></tr>
+                    </tbody>
+                </table>
+                <div class="hours-cta fade-in-up" style="--delay: 1.4s;">
+                    <a href="tel:(919) 615-3008" class="btn-primary">Call to Order Take-Out</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Your New Favorite Neighborhood Spot Awaits. Come On In!</h2>
+            <a href="#location-hours" class="btn-primary fade-in-up" style="--delay: 0.2s;">Plan Your Visit Today</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">Crafty Beer, Wine & Spirits</div>
+            <p class="footer-tagline">Dog friendly bar and bottle shop with a neighborhood pub vibe. 16 craft beer taps, 15 wines by the glass, and a full liquor bar.</p>
+            <div class="footer-social">
+                <ul>
+                    <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg></a></li>
+                    <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2A4.2 4.2 0 0 0 4 7.8v8.4c0 2.33 1.9 4.2 4.2 4.2h8.4c2.33 0 4.2-1.9 4.2-4.2V7.8A4.2 4.2 0 0 0 16.2 4z"/><path fill="currentColor" d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5s5-2.24 5-5s-2.24-5-5-5m0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3s-3-1.34-3-3s1.34-3 3-3"/><circle cx="16.9" cy="7.1" r="1.5" fill="currentColor"/></svg></a></li>
+                    <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20c-5 0-9.28-4.14-10-9h2.24l.58-1h1.12l-.58 1c.64 4.3 4.2 7 8.58 7h2.32c-1.34-1.29-2.18-3.08-2.18-5a5 5 0 0 1 5-5c2.61 0 4.7 1.76 4.93 4h-1.28l.19-1h1.12l-.19 1c-.13 1.71-1.14 3.19-2.58 4.09l.34 1h1.12l-.34-1c.26 1.7-.56 3.24-1.84 4.14l.34 1h1.12l-.34-1c.47 2.1-.82 4-2.5 4h-2.32c-1.34 1.29-2.18 3.08-2.18 5a5 5 0 0 1-5 5zM10 4c-2.76 0-5 2.24-5 5c0 1.94 1.11 3.6 2.73 4.41L7 14.5c.3.5.7.9 1.12 1.25L7.96 16c-.2.5.2 1 .7 1h1.5l-1.5 2h-1.4l1.5-2H7.28c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5 2h1.4l-1.5-2H2.72c1.12 0 2.06.72 2.42 1.74l1.86 2.76c.3.5.7.9 1.12 1.25l1.45-1.54c.3-.5-.2-1-.7-1h-1.5l1.5 2h1.4l-1.5-2H7.28c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5 2H2.72c1.12 0 2.06.72 2.42 1.74l1.86 2.76c.3.5.7.9 1.12 1.25l1.45-1.54c.3-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c1.12 0 2.06.72 2.42 1.74l1.86 2.76c.3.5.7.9 1.12 1.25l1.45-1.54c.3-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1-.7-1h-1.5l1.5-2h1.4l-1.5-2H2.72c-1.12 0-2.06-.72-2.42-1.74L4 14.5c-.3-.5-.7-.9-1.12-1.25L4.04 12c.2-.5-.2-1
