@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carolina Cafe - Spindale's Favorite Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for colors and fonts */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818;
+            --brand-color: #1a4d2e;
+            --accent-color: #4a90e2;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        /* Global Resets & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility Classes */
+        .text-brand {
+            color: var(--brand-color) !important;
+        }
+
+        .text-accent {
+            color: var(--accent-color) !important;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #21633d; /* Slightly darker brand color */
+            border-color: #21633d;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(26, 77, 46, 0.1);
+            color: var(--brand-color);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--bg-light);
+        }
+
+        /* Fade-in-up effect (CSS only, JS would add 'is-visible') */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0; /* Remove container padding as header has its own */
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header .btn-call {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: linear-gradient(135deg, rgba(26, 77, 46, 0.2), rgba(74, 144, 226, 0.1), var(--bg-main) 70%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+            line-height: 1;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 800px;
+            line-height: 1.5;
+        }
+
+        .hero .rating-badge {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 2.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .hero .rating-badge::before {
+            content: '⭐'; /* Star emoji */
+            font-size: 1.2em;
+            line-height: 1;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(26, 77, 46, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .social-proof-item span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story .text-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .our-story .text-content p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .story-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .story-card .quote {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .story-card .author {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .menu .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .why-choose-us .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-card h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+
+        .why-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .testimonials .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-hours .section-title {
+            margin-bottom: 3rem;
+        }
+        .location-hours .section-title h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .location-info .map-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .phone-number {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color), rgba(26, 77, 46, 0.8));
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-heading);
+            line-height: 1.2;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-heading);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: #3b7ad1; /* Slightly darker accent color */
+            border-color: #3b7ad1;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer .tagline-full {
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            margin-top: 2rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem; /* Using a placeholder icon size */
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.85rem;
+            margin-top: 3rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 1.5rem;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .our-story .content-grid,
+            .location-hours .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story .text-content {
+                text-align: center;
+            }
+            .story-card {
+                margin-top: 3rem;
+            }
+            .location-hours .section-title {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header .container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .header .nav-links, .header .btn-call {
+                display: none; /* Hide navigation and call button on smaller screens, can be replaced by a hamburger menu */
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                padding: 120px 20px 60px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+                margin-bottom: 2rem;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .social-proof-item {
+                font-size: 1.8rem;
+            }
+
+            .our-story .text-content h2,
+            .menu .section-title h2,
+            .why-choose-us .section-title h2,
+            .testimonials .section-title h2,
+            .location-hours .section-title h2 {
+                font-size: 2.5rem;
+            }
+
+            .story-card .quote {
+                font-size: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .why-grid, .testimonials-grid, .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-card h3 {
+                font-size: 1.8rem;
+            }
+
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .phone-number {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline {
+                font-size: 0.9rem;
+            }
+            .our-story .text-content h2,
+            .menu .section-title h2,
+            .why-choose-us .section-title h2,
+            .testimonials .section-title h2,
+            .location-hours .section-title h2 {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="logo">Carolina Cafe</a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:8283820463" class="btn btn-primary btn-call">CALL (828) 382-0463</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container fade-in-up">
+            <p class="location">Spindale, NC</p>
+            <h1>Carolina Cafe</h1>
+            <p class="tagline">Main St., Spindale, NC 28160. Come on down for a great breakfast, lunch or dinner. We are here ready to serve you 8 AM till 8 PM.</p>
+            <div class="rating-badge">4.5 Stars (668 Reviews)</div>
+            <div class="cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">4.5 Stars<span>Customer Rating</span></div>
+            <div class="social-proof-item">668<span>Happy Reviews</span></div>
+            <div class="social-proof-item">Local<span>Favorite Diner</span></div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="content-grid">
+                <div class="text-content fade-in-up">
+                    <span class="section-label">Our Story</span>
+                    <h2>A Taste of Home, Decades in the Making</h2>
+                    <p>At Carolina Cafe, we believe every meal is an opportunity to make your day a little brighter. For years, we've poured our heart into serving the Spindale community with genuine hospitality and delicious, comforting food. Our 4.5-star rating from 668 happy customers speaks volumes about our dedication.</p>
+                    <p>We've dedicated ourselves to maintaining a very clean space, ensuring efficient service, and always serving excellent food. Customers like Josh D. have even noted our food is "better" than larger chains. We're proud to be your go-to local spot, where quality meets a welcoming atmosphere every time.</p>
+                    <div class="story-card">
+                        <p class="quote">"The place was very clean, the waitstaff was efficient and the food was excellent. It has been years since I ate at a Denny's and the food was better..."</p>
+                        <p class="author">- Josh D., Satisfied Customer</p>
+                    </div>
+                </div>
+                <div class="stats-grid fade-in-up">
+                    <div class="stat-card">
+                        <div class="number text-accent">4.5</div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-accent">668</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number text-accent">Since '98</div>
+                        <div class="label">Serving Spindale</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <div class="section-title fade-in-up">
+                <span class="section-label">Our Menu</span>
+                <h2>Popular Dishes That Keep You Coming Back</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h3>French Toast</h3>
+                    <p>Perfectly golden, fluffy, and served just how you like it. A breakfast classic that always hits the spot.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Ribeye Steaks</h3>
+                    <p>Tender, juicy ribeye cooked to perfection. A hearty meal that satisfies any craving, morning or night.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Chicken Philly Cheesesteak</h3>
+                    <p>Our flavorful chicken Philly, packed with savory goodness and served on a fresh roll. A crowd favorite!</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Hamburger Steak</h3>
+                    <p>A classic diner staple, our juicy hamburger steak is seasoned and grilled to your liking. Comfort food at its best.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <div class="section-title fade-in-up">
+                <span class="section-label">Why Carolina Cafe?</span>
+                <h2>More Than Just a Meal, It's an Experience</h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Unbeatable Quality & Value</h3>
+                    <p>Don't just take our word for it—customers like Josh D. rave about our 'excellent food' and 'very clean' diner, often comparing us favorably to larger chains. We believe in serving hearty, delicious meals that won't break the bank.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Diner Classics, Done Right</h3>
+                    <p>From our famous French Toast, perfectly golden and fluffy, to the savory Ribeye Steaks and our irresistible Chicken Philly Cheesesteak, we master the dishes you crave. Every plate is prepared with care, ensuring that classic diner taste you love.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>A True Community Hub</h3>
+                    <p>Whether you're bringing the whole family (we're 'Good for kids'!), catching up with friends ('Good for groups'), or just enjoying a quiet meal, Carolina Cafe is where Spindale connects. Our friendly staff is 'ready to serve you' from breakfast to dinner.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title fade-in-up">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Voices From Our Table</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"Absolutely loved the French Toast! It was perfectly cooked, fluffy, and just what I needed to start my day. The service was quick and friendly too. Carolina Cafe is my new breakfast spot!"</p>
+                    <p class="author">- Sarah P., Spindale Resident</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"The Ribeye Steak here is surprisingly good for a diner! Cooked just right, tender, and seasoned perfectly. A real hidden gem for dinner in Spindale. Highly recommend giving it a try."</p>
+                    <p class="author">- Mark T., Happy Customer</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"My go-to is the Chicken Philly Cheesesteak. It's packed with flavor, and the bread is always fresh. You can tell they put effort into every dish. So much better than fast food!"</p>
+                    <p class="author">- Emily R., Local Regular</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <div class="section-title fade-in-up">
+                <span class="section-label">Visit Us</span>
+                <h2>Your Table Awaits in Spindale</h2>
+            </div>
+            <div class="content-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>We're conveniently located on Main Street in Spindale, North Carolina, making us easy to find for your next meal.</p>
+                    <p><strong>584 E Main St,<br>Spindale, NC 28160, USA</strong></p>
+                    <a href="https://maps.app.goo.gl/YourGoogleMapsLinkHere" target="_blank" class="map-link">Get Directions on Google Maps</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Hours & Contact</h3>
+                    <a href="tel:8283820463" class="phone-number">(828) 382-0463</a>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday</td><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Tuesday</td><td>11:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Wednesday</td><td class="closed">Closed</td></tr>
+                            <tr><td>Thursday</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Friday</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Saturday</td><td>8:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Sunday</td><td class="closed">Closed</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:8283820463" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Experience Spindale's Favorite Diner?</h2>
+            <a href="#hero" class="btn btn-primary">Come On Down Today!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Carolina Cafe</a>
+            <p class="tagline-full">Main St., Spindale, NC 28160. Come on down for a great breakfast, lunch or dinner. We are here ready to serve you 8 AM till 8 PM.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <!-- Placeholder for social icons -->
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Carolina Cafe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons (Optional, but commonly used) -->
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit-id.js" crossorigin="anonymous"></script>
+    <!-- Placeholder for Intersection Observer JS for fade-in-up effect -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, /* Trigger when 20% of the element is visible */
+                rootMargin: "0px 0px -50px 0px" /* Adjust bottom margin to trigger slightly earlier */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
