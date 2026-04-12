@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spud Kings Foodtruck - Experience the Fries!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #FFD700; /* Gold */
+            --accent-color: #000000; /* Black */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            font-size: 1.1rem; /* 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: rgba(255, 215, 0, 0.8);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* 2.5-3rem */
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Utility Classes */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.2rem;
+            border-radius: 4px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(255, 215, 0, 0.9);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Fade-in-up (simulated CSS for structure, JS would add 'is-visible') */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            /* For this static HTML, we assume these are 'visible' by default for design display */
+            opacity: 1; 
+            transform: translateY(0);
+        }
+        /* .fade-in-up.is-visible { // Uncomment for actual JS implementation
+            opacity: 1;
+            transform: translateY(0);
+        } */
+
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(0, 0, 0, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-heading);
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-btn {
+            padding: 0.6rem 1.4rem;
+            font-size: 0.95rem;
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: none;
+            border-radius: 4px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background-color: rgba(255, 215, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Account for sticky header */
+            background: linear-gradient(145deg, var(--bg-dark) 0%, rgba(17, 17, 17, 0.9) 30%, rgba(255, 215, 0, 0.05) 70%, var(--bg-dark) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(255, 215, 0, 0.03) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(255, 215, 0, 0.03) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+
+        .hero-location {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* 4-6rem, going for massive */
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.6rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-rating svg {
+            fill: var(--brand-color);
+            height: 18px;
+            width: 18px;
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(255, 215, 0, 0.03); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+
+        .social-proof-item span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .social-proof-item::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background-color: var(--brand-color);
+            border-radius: 2px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-text h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .our-story-text p {
+            margin-bottom: 1.2rem;
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+
+        .our-story-quote {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .our-story-quote p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+
+        .our-story-quote span {
+            display: block;
+            font-weight: 600;
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+        }
+
+        .our-story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px 20px;
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            flex-grow: 1; /* Allows description to take up available space */
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-light);
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--brand-color);
+        }
+
+        .why-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+            padding: 30px;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .author {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.15rem;
+            display: block;
+        }
+
+        .testimonial-card .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .testimonial-card .rating svg {
+            fill: var(--brand-color);
+            height: 16px;
+            width: 16px;
+            margin-right: 5px;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-details h3, .hours-details h3 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-heading);
+        }
+
+        .location-details p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+
+        .location-details a {
+            display: inline-block;
+            margin-top: 15px;
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+        .location-details a:hover {
+            text-decoration: underline;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        
+        .call-to-order-btn {
+            margin-top: 30px;
+            width: fit-content;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(255, 215, 0, 0.8) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-content h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .final-cta-content .btn {
+            background-color: var(--accent-color);
+            color: var(--brand-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .final-cta-content .btn:hover {
+            background-color: rgba(0,0,0,0.8);
+            transform: scale(1.02);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--accent-color);
+            padding: 60px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: var(--text-body);
+        }
+
+        .social-links {
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: var(--text-secondary);
+            font-size: 1.5rem; /* Placeholder for actual icons */
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            margin-top: 40px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            .section-headline {
+                font-size: 2.4rem;
+            }
+            .our-story-content, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+            .our-story-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-nav {
+                display: none; /* Hide nav links on mobile for simplicity */
+            }
+            .header {
+                justify-content: center; /* Center logo and button */
+                gap: 20px;
+            }
+            .header-logo {
+                font-size: 1.6rem;
+            }
+            .header-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding-top: 80px;
+            }
+            .hero-title {
+                font-size: 3rem;
+                margin-bottom: 0.5rem;
+            }
+            .hero-location {
+                font-size: 1.2rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            .hero-rating {
+                margin-bottom: 2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                padding: 1rem 1.5rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .social-proof-item {
+                font-size: 2rem;
+            }
+            .social-proof-item span {
+                font-size: 0.95rem;
+            }
+
+            .our-story-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-details h3, .hours-details h3 {
+                font-size: 1.8rem;
+            }
+
+            .final-cta-content h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .final-cta-content h2 {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <a href="#hero" class="header-logo">Spud Kings</a>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+19193558279" class="header-btn">Call (919) 355-8279</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Apex, NC</p>
+            <h1 class="hero-title">Spud Kings<br>Foodtruck</h1>
+            <p class="hero-tagline">Spud Kings home of the Fresh Cut Fries, Loaded Fries, Wings and Chicken tenders, Hot Dogs and Hoagies. "Experience the Fries".</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                5-Star Rated (4 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#location-hours" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item fade-in-up">
+                5<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 2rem; width: 2rem; vertical-align: middle; margin-left: 5px;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                <span>Star Rating</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.1s;">
+                4+
+                <span>Happy Reviews</span>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.2s;">
+                Apex's
+                <span>Local Favorite</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Journey</p>
+            <h2 class="section-headline fade-in-up">The Story Behind Your Favorite Fries.</h2>
+            <div class="our-story-content">
+                <div class="our-story-text fade-in-up">
+                    <h3>From a "Fry Snob" to a Spud King!</h3>
+                    <p>At Spud Kings Foodtruck, our passion is simple: crafting the most delicious, perfectly cooked fries you've ever tasted. It all started with a love for fries and a keen eye for perfection – a self-proclaimed "fry snob" on a mission to bring superior spuds to Apex, NC.</p>
+                    <p>We believe fries aren't just a side; they're an experience. That's why we're dedicated to fresh-cut excellence, generous portions, and flavors that balance perfectly. Beyond our signature fries, we extend that same dedication to every item on our menu, from juicy wings to savory hoagies. We're a local, mom-and-pop operation committed to serving up joy, one perfectly seasoned fry at a time.</p>
+                </div>
+                <div class="our-story-quote fade-in-up" style="transition-delay: 0.1s;">
+                    <p>"I love fries and I'm a bit of a "fry snob." I've tried the bacon ranch fries from Spud Kings twice and they are sooo delicious. The flavor is balanced and the fries are cooked perfectly. The platter is worth the price because it's a heaping portion and is enough to share. If you see them around, then you should definitely check them out. You will not be disappointed!!!"</p>
+                    <span>- A Happy Fry Snob</span>
+                </div>
+            </div>
+            <div class="our-story-stats" style="margin-top: var(--section-padding-y);">
+                <div class="stat-card fade-in-up">
+                    <div class="number">5<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="height: 1.5rem; width: 1.5rem; vertical-align: baseline; margin-left: 5px;"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg></div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.1s;">
+                    <div class="number">4+</div>
+                    <div class="label">Glowing Reviews</div>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.2s;">
+                    <div class="number">Apex</div>
+                    <div class="label">Local Favorite</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Offerings</p>
+            <h2 class="section-headline fade-in-up">Unforgettable Flavors, Heaping Portions.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h3>Fresh Cut Fries</h3>
+                    <p>Our classic, perfectly golden, crispy on the outside and fluffy on the inside, hand-cut fries. The foundation of the Spud Kings experience.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Loaded Fries</h3>
+                    <p>Dive into a world of flavor with our generously topped loaded fries. Featuring crowd favorites like Bacon Ranch and Philly Cheesesteak!</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Wings</h3>
+                    <p>Juicy, tender chicken wings tossed in your choice of delicious sauces. A perfect companion to our fries or a meal on its own.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>Chicken Tenders</h3>
+                    <p>Crispy, golden-brown chicken tenders, seasoned to perfection and served with your favorite dipping sauce.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Hot Dogs</h3>
+                    <p>Classic American hot dogs, grilled to perfection and served on a soft bun with your preferred toppings.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>Hoagies</h3>
+                    <p>Hearty and satisfying hoagies, packed with fresh ingredients and bursting with flavor. A meal designed to fill you up!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Promise</p>
+            <h2 class="section-headline fade-in-up">More Than Just Food, It's an Experience.</h2>
+            <div class="why-grid">
+                <div class="why-card fade-in-up">
+                    <h3>"Experience the Fries"</h3>
+                    <p>From our Fresh Cut Fries to our incredible Loaded Fries like Bacon Ranch and Philly Cheesesteak, we guarantee a fry experience unlike any other. Crispy, flavorful, and cooked to perfection every single time.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Unbeatable Quality & Flavor</h3>
+                    <p>We're passionate about fresh ingredients and balanced flavors. Every item, from our juicy Wings to our satisfying Hot Dogs and Hoagies, is prepared with care to ensure deliciousness.</p>
+                </div>
+                <div class="why-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Heaping Portions, Great Value</h3>
+                    <p>Our customers rave about our generous platters. You get a heaping portion that's truly worth the price, often enough to share – but we won't tell if you don't!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="testimonials">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">What Our Customers Say</p>
+            <h2 class="section-headline fade-in-up">Real Love, Real Reviews.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"My husband and I got the Philly cheesesteak fries last night, and OMG. They were beyond delicious. The peppers and onions were cooked perfectly!"</p>
+                    <span class="author">- Yelp Reviewer</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p>"The bacon ranch fries from Spud Kings are sooo delicious. The flavor is balanced and the fries are cooked perfectly. The platter is worth the price because it's a heaping portion!"</p>
+                    <span class="author">- A. Customer</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"Just tried the wings and chicken tenders combo, and wow! Perfectly crispy, juicy, and the sauces were on point. Spud Kings consistently delivers amazing food!"</p>
+                    <span class="author">- Local Foodie</span>
+                    <div class="rating">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Visit Us</p>
+            <h2 class="section-headline fade-in-up">Find the Spud Kings Foodtruck!</h2>
+            <div class="location-hours-content">
+                <div class="location-details fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>You can find the Spud Kings Foodtruck serving up deliciousness at:</p>
+                    <p><strong>Regents Ln, Apex, NC 27502, USA</strong></p>
+                    <p>As a food truck, our location can vary! We often post our updated spots on social media.</p>
+                    <a href="https://www.google.com/maps/search/Spud+Kings+Foodtruck+Regents+Ln,+Apex,+NC+27502,+USA" target="_blank" class="btn btn-secondary" style="padding: 0.8rem 1.8rem; font-size: 0.95rem;">Get Directions</a>
+                </div>
+                <div class="hours-details fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Hours of Operation</h3>
+                    <p>Our hours can vary as we move to different events and locations. For the most up-to-date schedule:</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday - Sunday</td>
+                                <td>Call for Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 15px;">We recommend giving us a call or checking our social media before you visit to confirm our location and hours!</p>
+                    <a href="tel:+19193558279" class="btn btn-primary call-to-order-btn">Call to Order (919) 355-8279</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container final-cta-content fade-in-up">
+            <h2>Ready to "Experience the Fries"?</h2>
+            <a href="#menu" class="btn">View Our Full Menu Now!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Spud Kings</a>
+            <p class="footer-tagline">Spud Kings home of the Fresh Cut Fries, Loaded Fries, Wings and Chicken tenders, Hot Dogs and Hoagies. "Experience the Fries".</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook">FB</a>
+                <a href="#" aria-label="Instagram">IG</a>
+                <a href="#" aria-label="Yelp">YP</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Spud Kings Foodtruck. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer for fade-in-up (JavaScript would be implemented here for a live site) -->
+    <!-- For this HTML-only output, the .fade-in-up classes are rendered as visible by default in CSS. -->
+
+</body>
+</html>
