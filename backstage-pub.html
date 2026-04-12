@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backstage Pub - Cary's Favorite Local Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-alt: #1a1a1a;
+            --brand-primary: #6B2D8C;
+            --brand-accent: #FFD700;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        h3 {
+            font-size: 2rem;
+            margin-bottom: 0.8em;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            display: block;
+            text-transform: uppercase;
+            color: var(--brand-primary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-family: var(--font-body);
+            height: fit-content;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn--primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+        }
+
+        .btn--primary:hover {
+            background-color: #8a3fb0; /* Slightly lighter purple */
+        }
+
+        .btn--secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border-color: var(--brand-primary);
+        }
+
+        .btn--secondary:hover {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border-color: var(--brand-primary);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header__logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .header__nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header__nav a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .header__nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+
+        .header__nav a:hover::after {
+            width: 100%;
+        }
+
+        .header__call-btn {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .header__call-btn:hover {
+            background-color: var(--brand-accent);
+            color: var(--bg-main);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Account for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(107, 45, 140, 0.2) 0%, rgba(17, 17, 17, 0.9) 70%, rgba(17, 17, 17, 1) 100%);
+            background-color: var(--bg-main); /* Fallback */
+            z-index: 1;
+        }
+
+        .hero__content {
+            position: relative;
+            z-index: 2;
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero__location {
+            font-size: 1.2rem;
+            color: var(--brand-accent);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .hero__title {
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        .hero__tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero__rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: var(--text-heading);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+        }
+
+        .hero__rating i {
+            color: var(--brand-accent);
+            font-size: 1.1rem;
+        }
+
+        .hero__cta-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(107, 45, 140, 0.08); /* Brand color at low opacity */
+            padding: 40px 0;
+        }
+
+        .social-proof__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof__item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-proof__item i {
+            font-size: 2.5rem;
+            color: var(--brand-accent);
+        }
+
+        .social-proof__item strong {
+            font-size: 2.5rem;
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .social-proof__item span {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 500;
+        }
+
+        /* Generic Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .card--accent-border {
+            border-left: 5px solid var(--brand-primary);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Our Story Section */
+        .our-story .container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        .our-story__content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .our-story__content h2 {
+            text-align: left;
+        }
+        .our-story__content p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .our-story__stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .our-story__stat-card {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+        }
+        .our-story__stat-card strong {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            color: var(--brand-accent);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .our-story__stat-card span {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+        .our-story__testimonial {
+            margin-top: 60px;
+            padding: 40px;
+            border-radius: 10px;
+            background-color: rgba(107, 45, 140, 0.1);
+            border: 1px solid var(--brand-primary);
+            text-align: center;
+            font-style: italic;
+            position: relative;
+        }
+        .our-story__testimonial::before {
+            content: "\201C"; /* Left double quotation mark */
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            color: var(--brand-primary);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            opacity: 0.6;
+        }
+        .our-story__testimonial p {
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            margin-bottom: 1em;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .our-story__testimonial footer {
+            font-weight: 600;
+            color: var(--brand-accent);
+            font-size: 1rem;
+        }
+
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            color: var(--brand-accent);
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .container {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+            background-color: var(--bg-alt); /* Slightly lighter background */
+        }
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .why-card {
+            text-align: center;
+            padding: 40px;
+            border-left: none; /* Override for this section */
+        }
+        .why-card i {
+            font-size: 3.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 20px;
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials .container {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        .testimonial-card {
+            padding: 30px;
+            border-left: 5px solid var(--brand-primary);
+            font-style: italic;
+        }
+        .testimonial-card p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+        }
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--brand-accent);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-alt); /* Slightly lighter background */
+        }
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+            align-items: flex-start;
+        }
+        .location-map {
+            border-radius: 10px;
+            overflow: hidden;
+            height: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .location-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .hours-info h3 {
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-align: left;
+        }
+        .hours-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--brand-accent);
+            font-weight: 500;
+        }
+        .contact-info {
+            margin-bottom: 30px;
+        }
+        .contact-info a {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-primary);
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, #8a3fb0 100%);
+            text-align: center;
+            padding: var(--section-padding-y) 0;
+        }
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .final-cta .btn {
+            background-color: var(--brand-accent);
+            color: var(--bg-main);
+            padding: 16px 32px;
+            font-size: 1.15rem;
+            border: 2px solid transparent;
+        }
+        .final-cta .btn:hover {
+            background-color: #ffd200; /* Slightly darker accent */
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+        .footer__logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .footer__tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer__social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .footer__social-links a {
+            color: var(--text-body);
+            font-size: 1.8rem;
+        }
+        .footer__social-links a:hover {
+            color: var(--brand-primary);
+        }
+        .footer__copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .header__nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header {
+                justify-content: center; /* Center logo and button */
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 2.2rem;
+            }
+            .hero__title {
+                font-size: clamp(3rem, 10vw, 4.5rem);
+            }
+            .hero__tagline {
+                font-size: 1.2rem;
+            }
+            .hero__cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof__grid, .menu-grid, .why-choose-us-grid, .testimonial-grid, .our-story__stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-map {
+                height: 300px;
+            }
+            .hours-info h3 {
+                text-align: center;
+                margin-top: 40px;
+            }
+            .contact-info {
+                text-align: center;
+            }
+            .contact-info a {
+                font-size: 1.2rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+            .section-label {
+                margin-top: 20px;
+            }
+            .our-story__content h2 {
+                text-align: center;
+            }
+            .our-story__testimonial {
+                padding: 30px 20px;
+            }
+            .our-story__testimonial::before {
+                font-size: 4rem;
+                top: 5px;
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="header__logo">Backstage Pub</div>
+        <nav class="header__nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:9198595411" class="btn header__call-btn">CALL (919) 859-5411</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+        <div class="hero__content">
+            <p class="hero__location">Cary, NC</p>
+            <h1 class="hero__title">Backstage Pub</h1>
+            <p class="hero__tagline">Local Cary Bar. Come hangout with us @backstagepub401. Your official spot for fun and friends.</p>
+            <div class="hero__rating">
+                <i class="fas fa-star"></i> 4.3 stars (149 reviews)
+            </div>
+            <div class="hero__cta-group">
+                <a href="#menu" class="btn btn--primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn--secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof is-visible">
+        <div class="container">
+            <div class="social-proof__grid">
+                <div class="social-proof__item">
+                    <i class="fas fa-star"></i>
+                    <strong>4.3 Stars</strong>
+                    <span>(149 Reviews)</span>
+                </div>
+                <div class="social-proof__item">
+                    <i class="fas fa-users"></i>
+                    <strong>100s</strong>
+                    <span>Locals Served Weekly</span>
+                </div>
+                <div class="social-proof__item">
+                    <i class="fas fa-trophy"></i>
+                    <strong>Local Favorite</strong>
+                    <span>Cary's Ultimate Hangout</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <div class="our-story__content">
+                <span class="section-label">Our Story</span>
+                <h2>More Than Just a Bar, It's Your Local Hub.</h2>
+                <p>Welcome to Backstage Pub, Cary's beloved local spot where good times and great company are always on tap. We're not just a bar; we're a community gathering place where friendly faces and top-notch bartenders create an atmosphere you won't find anywhere else.</p>
+                <p>Step inside and discover endless entertainment: we've got a full-size pool table, an exhilarating shuffleboard table, four league-quality dart boards, and cornhole out back. With 10 TVs playing all the big games, you won't miss a single moment of the action. And while we don't have a full kitchen, we've got you covered with tasty snacks and frozen pizzas to curb any munchies. Plus, we're DoorDash-friendly, so you can order your favorite meal right to your seat!</p>
+                <p>Come for the games, stay for the company. Our regulars are like family, and new friends are always welcome. Backstage Pub is where memories are made, one drink and one game at a time. Can't find better!</p>
+            </div>
+            <div class="our-story__testimonial">
+                <p>"This place is a gem! Always a great time with friendly faces and fantastic bartenders. The shuffleboard table is addictive!"</p>
+                <footer>&mdash; A Backstage Regular</footer>
+            </div>
+            <div class="our-story__stats-grid">
+                <div class="our-story__stat-card">
+                    <strong>4.3</strong>
+                    <span>Star Rating</span>
+                </div>
+                <div class="our-story__stat-card">
+                    <strong>10</strong>
+                    <span>Big Screens</span>
+                </div>
+                <div class="our-story__stat-card">
+                    <strong>5+</strong>
+                    <span>Game Tables</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section class="menu" id="menu">
+        <div class="container">
+            <span class="section-label">Our Menu</span>
+            <h2>Fuel Your Fun with Our Pub Snacks</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Snacks</h3>
+                    <p>Perfect for curbing those sudden cravings while you're enjoying a game or a drink. Ask our bartenders for today's selection!</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Frozen Pizza</h3>
+                    <p>The ultimate bar munchie! Quick, hot, and satisfying to pair with your favorite beverage.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>DoorDash Friendly!</h3>
+                    <p>No kitchen? No problem! Feel free to DoorDash anything you crave right to our pub. Enjoy the best of both worlds!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <span class="section-label">Why Backstage?</span>
+            <h2>Your Ultimate Cary Hangout Awaits</h2>
+            <div class="why-choose-us-grid">
+                <div class="card why-card">
+                    <i class="fas fa-beer"></i>
+                    <h3>The Perfect Pour & Chill</h3>
+                    <p>Our friendly bartenders are known for their great drinks and even better conversation. Come for the pour, stay for the pub family vibe!</p>
+                </div>
+                <div class="card why-card">
+                    <i class="fas fa-gamepad"></i>
+                    <h3>Game Night Central</h3>
+                    <p>With pool, shuffleboard, 4 dart boards, and cornhole, Backstage Pub is your ultimate destination for league play or a casual game with friends.</p>
+                </div>
+                <div class="card why-card">
+                    <i class="fas fa-tv"></i>
+                    <h3>Catch Every Big Game</h3>
+                    <p>Never miss a moment of the action! Our 10 large TVs ensure you have a prime view of all the biggest games, making us the best sports bar in Cary.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">Hear from our regulars</span>
+            <h2>See Why Everyone Loves Backstage Pub</h2>
+            <div class="testimonial-grid">
+                <div class="card testimonial-card">
+                    <p>"Best spot in Cary for a night out! The bartenders are amazing, and I love that I can DoorDash my favorite wings while enjoying a beer and a game of darts."</p>
+                    <footer>&mdash; Jessica L.</footer>
+                </div>
+                <div class="card testimonial-card">
+                    <p>"Always a good time at Backstage. The frozen pizzas hit the spot after a few rounds of shuffleboard, and the atmosphere is always welcoming."</p>
+                    <footer>&mdash; Mark S.</footer>
+                </div>
+                <div class="card testimonial-card">
+                    <p>"If you're looking for a friendly bar with plenty of activities and huge TVs for the games, this is it. Plus, snacks and cold drinks are always on point!"</p>
+                    <footer>&mdash; David K.</footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section class="location-hours" id="find-us">
+        <div class="container">
+            <span class="section-label">Find Us & Hours</span>
+            <h2>Your New Favorite Local Spot Awaits</h2>
+            <div class="location-hours-grid">
+                <div class="location-map">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3233.190678250005!2d-78.78453402379568!3d35.77259642598506!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89ac8df0d0d5403f%3A0x1d667c2957b936d5!2sBackstage%20Pub!5e0!3m2!1sen!2sus!4v1701292800000!5m2!1sen!2sus"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="hours-info">
+                    <h3>Visit Us Today!</h3>
+                    <p><strong>Address:</strong><br> 401 Ashville Ave #109, Cary, NC 27518, USA</p>
+                    <div class="contact-info">
+                        <p><strong>Phone:</strong></p>
+                        <a href="tel:9198595411">(919) 859-5411</a>
+                    </div>
+                    <h3>Our Hours:</h3>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td>12:00 PM – 2:00 AM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:9198595411" class="btn btn--primary">CALL US</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Experience Cary's Best Local Bar?</h2>
+            <a href="#find-us" class="btn">COME HANG OUT TODAY!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__logo">Backstage Pub</div>
+            <p class="footer__tagline">Local Cary Bar. Come hangout with us @backstagepub401. Your community hub for good times.</p>
+            <ul class="footer__social-links">
+                <li><a href="https://www.instagram.com/backstagepub401/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <!-- Add other social links if available -->
+            </ul>
+            <p class="footer__copyright">&copy; 2026 Backstage Pub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
