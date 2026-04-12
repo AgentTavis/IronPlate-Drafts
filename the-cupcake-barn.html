@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Cupcake Barn - Artisan Cupcakes in Knightdale, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --color-background-dark: #111111;
+            --color-brand-primary: #8B6F47; /* Rustic Brown */
+            --color-brand-accent: #228B22; /* Vibrant Green */
+            --color-text-light: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --section-padding: 100px 0; /* Generous whitespace */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-background-dark);
+            line-height: 1.7;
+            font-size: 1.08rem; /* 1.05-1.15rem */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-light);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: var(--color-brand-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-brand-accent);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            transform: translateZ(0); /* Force GPU acceleration */
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand-primary);
+            color: var(--color-text-light);
+            border: 2px solid var(--color-brand-primary);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--color-brand-accent);
+            border-color: var(--color-brand-accent);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-brand-primary);
+            border: 2px solid var(--color-brand-primary);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255,255,255,0.05);
+            color: var(--color-brand-accent);
+            border-color: var(--color-brand-accent);
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem; /* 2.5-3rem */
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--color-text-light);
+        }
+
+        /* Utility Classes for Fade-in-up effect (JS would handle this for real) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- STICKY HEADER --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            white-space: nowrap;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--color-text-light);
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-brand-primary);
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        .header-nav a:hover::after,
+        .header-nav a.active::after {
+            width: 100%;
+            left: 0;
+        }
+
+        .header-button .btn {
+            background-color: var(--color-brand-primary);
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            border-color: var(--color-brand-primary);
+        }
+        .header-button .btn:hover {
+            background-color: var(--color-brand-accent);
+            border-color: var(--color-brand-accent);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at 70% 30%, rgba(139,111,71,0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 30% 70%, rgba(34,139,34,0.08) 0%, transparent 40%),
+                        linear-gradient(180deg, var(--color-background-dark) 0%, #000000 100%);
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="p" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M5 0 L0 5 L5 10 L10 5 Z" fill="%231a1a1a" fill-opacity="0.2"/></pattern></defs><rect x="0" y="0" width="100%" height="100%" fill="url(%23p)" /></svg>');
+            background-size: 150px;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            margin-bottom: 10px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* 4-6rem */
+            font-weight: 900;
+            color: var(--color-text-light);
+            text-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--color-text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            font-family: var(--font-heading);
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            color: var(--color-text-light);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .hero-rating svg {
+            color: #FFD700; /* Gold star */
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* --- SOCIAL PROOF STRIP --- */
+        .social-proof {
+            background-color: rgba(139,111,71,0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .proof-item {
+            flex: 1;
+            min-width: 200px;
+            max-width: 300px;
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .proof-item .label {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* --- OUR STORY SECTION --- */
+        .our-story .container {
+            text-align: center;
+        }
+
+        .our-story-content {
+            max-width: 800px;
+            margin: 0 auto 80px auto;
+        }
+
+        .story-text p {
+            font-size: 1.15rem;
+            color: var(--color-text-body);
+            margin-bottom: 1.5em;
+        }
+
+        .story-testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 50px auto;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .story-testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--color-text-body);
+        }
+
+        .story-testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-text-light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .stat-card .value {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* --- MENU SECTION --- */
+        .menu {
+            background-color: #1a1a1a; /* Slightly lighter background */
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand-primary);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            margin-bottom: 10px;
+        }
+
+        .menu-card .price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--color-brand-accent);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            margin-bottom: 0;
+        }
+        
+        /* --- WHY CHOOSE US SECTION --- */
+        .why-choose-us .container {
+            text-align: center;
+        }
+
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-us-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .choose-us-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 5px;
+            background-color: var(--color-brand-primary);
+            border-radius: 0 0 5px 5px;
+            transition: width 0.3s ease;
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .choose-us-card:hover::before {
+            width: 100%;
+        }
+
+        .choose-us-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-brand-primary);
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        /* --- TESTIMONIALS SECTION --- */
+        .testimonials {
+            background-color: #1a1a1a;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .testimonial-card .quote {
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .testimonial-card .author-name {
+            font-weight: 600;
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card .rating {
+            display: flex;
+            gap: 2px;
+            margin-top: 5px;
+        }
+
+        .testimonial-card .rating svg {
+            color: #FFD700;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* --- LOCATION & HOURS SECTION --- */
+        .location-hours .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            margin-bottom: 25px;
+        }
+
+        .address-text, .phone-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--color-text-body);
+        }
+
+        .phone-text a {
+            color: var(--color-brand-primary);
+            font-weight: 600;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            margin-top: 25px;
+            font-size: 0.95rem;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--color-text-body);
+        }
+
+        .hours-table th {
+            color: var(--color-text-light);
+            font-weight: 600;
+            width: 35%;
+        }
+
+        .hours-table td {
+            text-align: right;
+            color: var(--color-text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        
+        .hours-table .open-time {
+            color: var(--color-brand-accent);
+            font-weight: 600;
+        }
+
+        .hours-table .closed-time {
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .location-hours .call-to-order-btn {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* --- FINAL CTA SECTION --- */
+        .final-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--color-brand-primary) 0%, #a07d57 100%); /* Brand color gradient */
+            text-align: center;
+            color: var(--color-text-light);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--color-text-light);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn-light {
+            background-color: var(--color-text-light);
+            color: var(--color-brand-primary);
+            border: 2px solid var(--color-text-light);
+        }
+
+        .final-cta .btn-light:hover {
+            transform: scale(1.02);
+            background-color: var(--color-brand-accent);
+            color: var(--color-text-light);
+            border-color: var(--color-brand-accent);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--color-text-light);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--color-brand-primary);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 60px 0;
+            }
+
+            .header .container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                padding: 0 15px;
+            }
+            .header {
+                height: auto;
+                padding: 10px 0;
+            }
+            .header-logo {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 10px;
+            }
+            .header-nav {
+                width: 100%;
+            }
+            .header-nav ul {
+                justify-content: center;
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+            .header-button {
+                width: 100%;
+                text-align: center;
+            }
+            .header-button .btn {
+                width: 80%;
+            }
+
+            .hero {
+                padding-top: 120px; /* Adjust for taller header */
+                height: auto;
+                min-height: 100vh;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-actions .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            .social-proof .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .proof-item {
+                max-width: none;
+            }
+
+            .our-story-content {
+                margin-bottom: 60px;
+            }
+
+            .location-hours .container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-logo">
+                <a href="#hero">The Cupcake Barn</a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-button">
+                <a href="tel:+19192596528" class="btn btn-primary">CALL (919) 259-6528</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="hero-location">Knightdale, NC</p>
+            <h1 class="hero-name">The Cupcake Barn</h1>
+            <p class="hero-tagline">Artisan Cupcakes, Crafted with Love in Knightdale's Sweetest Spot.</p>
+            <div class="hero-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                    <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" />
+                </svg>
+                <span>4.7 Stars (12 Reviews)</span>
+            </div>
+            <div class="hero-actions">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="proof-item fade-in-up">
+                <div class="value">4.7</div>
+                <div class="label">Average Rating</div>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <div class="value">12+</div>
+                <div class="label">Glowing Reviews</div>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <div class="value">Local</div>
+                <div class="label">Knightdale Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Journey</span>
+            <h2 class="section-headline fade-in-up">The Story Behind Every Sweet Bite</h2>
+            <div class="our-story-content fade-in-up">
+                <div class="story-text">
+                    <p>The Cupcake Barn is the passion project of Devinn and Jaden, a local duo dedicated to bringing joy through freshly baked cupcakes right here in Knightdale, NC. We believe in crafting delicious, simple pleasures that make every day a little sweeter.</p>
+                    <p>Every cupcake is made with love, care, and the finest ingredients, ensuring a delightful treat for every occasion. Our barn-inspired atmosphere is designed to feel welcoming and cozy, a true sweet escape for our community. We started this journey with a simple goal: to share our love for baking with our neighbors, one perfect cupcake at a time.</p>
+                </div>
+                <div class="story-testimonial-card fade-in-up" style="transition-delay: 0.3s;">
+                    <p>"Devinn and Jaden have created something truly special here. The Cupcake Barn isn't just about delicious treats; it's about the warm, friendly atmosphere that makes you feel right at home. A must-visit!"</p>
+                    <div class="author">- A Cherished Local</div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up" style="transition-delay: 0.4s;">
+                    <div class="value">Fresh</div>
+                    <div class="label">Baked Daily</div>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.5s;">
+                    <div class="value">$1.50</div>
+                    <div class="label">Per Cupcake</div>
+                </div>
+                <div class="stat-card fade-in-up" style="transition-delay: 0.6s;">
+                    <div class="value">Local</div>
+                    <div class="label">Knightdale Business</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Treats</span>
+            <h2 class="section-headline fade-in-up">Taste the Sweetness</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Classic Vanilla Bean Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>Our timeless vanilla cupcake, moist and fluffy, topped with a creamy vanilla bean buttercream.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Decadent Chocolate Fudge Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>Rich, dark chocolate cupcake with a luxurious chocolate fudge frosting, a true indulgence.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Rich Red Velvet Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>The iconic crimson delight, with a hint of cocoa and a generous swirl of tangy cream cheese frosting.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.3s;">
+                    <h3>Seasonal Berry Burst Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>A light cupcake infused with fresh seasonal berries, topped with a delicate berry-infused buttercream.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.4s;">
+                    <h3>Caramel Drizzle Delight Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>Caramel-infused cupcake with a salted caramel buttercream and a sweet caramel drizzle finish.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="transition-delay: 0.5s;">
+                    <h3>Cookies & Cream Dream Cupcake</h3>
+                    <span class="price">$1.50 each / $13 per dozen</span>
+                    <p>Vanilla cupcake filled with crushed cookies, topped with a cookies & cream frosting and more cookie pieces.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label fade-in-up">Our Promise</span>
+            <h2 class="section-headline fade-in-up">More Than Just Cupcakes, It's an Experience</h2>
+            <div class="choose-us-grid">
+                <div class="choose-us-card fade-in-up">
+                    <h3>Hand-Crafted Goodness</h3>
+                    <p>Every cupcake is meticulously baked and decorated by Devinn and Jaden, ensuring the freshest ingredients and a touch of homemade love in every bite.</p>
+                </div>
+                <div class="choose-us-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Unbeatable Value</h3>
+                    <p>Enjoy our premium cupcakes at an incredible price – just $1.50 each or a fantastic $13 for a dozen. Perfect for a quick treat or your next big celebration.</p>
+                </div>
+                <div class="choose-us-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Community Focused</h3>
+                    <p>We're proud to be a local Knightdale business, committed to serving our community. Follow us, we follow back – connecting with our neighbors is what we love.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label fade-in-up">What Our Customers Say</span>
+            <h2 class="section-headline fade-in-up">Sweet Words from Our Satisfied Guests</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"Devinn and Jaden's Classic Vanilla Bean cupcakes are absolutely divine! So moist and flavorful, a perfect treat. The barn vibe is super cozy too!"</p>
+                    <div class="author-info">
+                        <span class="author-name">Happy Customer</span>
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p class="quote">"We ordered a dozen cupcakes for a family gathering, and they were a massive hit. The Rich Red Velvet was especially delicious, and you can't beat $13 for a dozen – amazing value!"</p>
+                    <div class="author-info">
+                        <span class="author-name">Local Fan</span>
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p class="quote">"The Decadent Chocolate Fudge cupcake from The Cupcake Barn is my go-to indulgence. It's rich, not too sweet, and always fresh. Knightdale is lucky to have this sweet spot!"</p>
+                    <div class="author-info">
+                        <span class="author-name">Regular Patron</span>
+                        <div class="rating">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354l-4.44-2.775c-.996-.608-2.231.29-1.96 1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <div class="location-info fade-in-up">
+                <h3>Find Our Sweet Spot</h3>
+                <p class="address-text"><strong>Address:</strong> 1805 Bethlehem Rd, Knightdale, NC 27545, USA</p>
+                <p class="phone-text"><strong>Phone:</strong> <a href="tel:+19192596528">(919) 259-6528</a></p>
+                <div class="map-placeholder">
+                    <p>[Map Integration Placeholder]</p>
+                </div>
+                <div class="location-hours .call-to-order-btn">
+                    <a href="tel:+19192596528" class="btn btn-primary" style="width: 100%;">CALL TO ORDER</a>
+                </div>
+            </div>
+            <div class="hours-info fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Our Hours</h3>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday:</th>
+                        <td class="closed-time">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td class="closed-time">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday:</th>
+                        <td class="open-time">9:00 AM – 2:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td class="closed-time">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td class="closed-time">Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td class="open-time">8:30 AM – 4:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday:</th>
+                        <td class="closed-time">Closed</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for a Taste of Knightdale's Sweetest Secret?</h2>
+            <a href="tel:+19192596528" class="btn btn-light">Order Your Cupcakes Today!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">The Cupcake Barn</div>
+            <p class="footer-tagline">Artisan Cupcakes, Crafted with Love in Knightdale, NC.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-3 7h-2c-.407 0-.602.138-.602.667v1.333h2.602l-.353 3h-2.249v8h-3v-8h-2v-3h2v-2.196c0-3.323 1.054-4.804 4.14-4.804h2.86v3z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.25-.148-4.77-1.691-4.919-4.919-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.668-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 The Cupcake Barn. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% visible */
+                rootMargin: "0px 0px -50px 0px" /* Shrink viewport by 50px from bottom */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
