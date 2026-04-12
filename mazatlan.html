@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mazatlan - Authentic Mexican Restaurant in Warrenton, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Nunito:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        :root {
+            --bg-dark: #111111;
+            --bg-light-alt: rgba(255,255,255,0.03); /* for alternating sections */
+            --brand-color: #CC0000;
+            --accent-color: #FFD700;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding: 100px 0; /* Adjusted for generosity */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Archivo Black', sans-serif;
+            color: var(--text-heading);
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 3rem; } /* Base, will be overridden in hero */
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 2rem; }
+        p { font-size: 1.05rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        button, .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn--primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border-color: var(--brand-color);
+        }
+
+        .btn--primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(204, 0, 0, 0.3);
+        }
+
+        .btn--secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border-color: var(--text-heading);
+        }
+
+        .btn--secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            display: block;
+            font-weight: 700;
+        }
+
+        /* Utility classes for layout */
+        .grid {
+            display: grid;
+            gap: 40px;
+        }
+        .grid-2-cols { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3-cols { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-4-cols { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+        /* Smooth fade-in-up effect (requires JS for full functionality, but CSS provides initial state) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+        }
+        
+        .logo span {
+            color: var(--brand-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 700;
+            font-size: 1.05rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            border-radius: 5px;
+            white-space: nowrap;
+        }
+
+        .header .call-button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding-top: var(--header-height);
+            background: linear-gradient(135deg, rgba(17,17,17,1) 0%, rgba(17,17,17,0.9) 30%, rgba(204,0,0,0.05) 70%, rgba(255,215,0,0.05) 100%),
+                        linear-gradient(rgba(17,17,17,0.95), rgba(17,17,17,0.95)); /* Rich dark gradient */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin-top: -60px; /* Offset header height for true center */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero .tagline {
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+            gap: 8px;
+        }
+        .hero .rating-badge svg {
+            color: var(--accent-color);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color, low opacity */
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .proof-item {
+            color: var(--text-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .proof-item span {
+            color: var(--brand-color);
+            font-size: 2rem;
+        }
+        .proof-item .subtext {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+        .proof-item svg {
+            color: var(--accent-color);
+            width: 28px;
+            height: 28px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .our-story-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .our-story h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2.8rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .our-story p {
+            max-width: 700px;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-quote-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            margin: 4rem auto;
+            max-width: 800px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+            text-align: left;
+        }
+
+        .testimonial-quote-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-quote-card .author {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            margin-top: 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-card .number {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-light-alt); /* Alternating section background */
+            text-align: center;
+        }
+
+        .menu-section h2 {
+            margin-bottom: 3rem;
+            font-size: 2.8rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--card-border);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        .why-choose-us h2 {
+            margin-bottom: 3rem;
+            font-size: 2.8rem;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border-top: 5px solid var(--accent-color); /* Accent border */
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+
+        .reason-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+        }
+
+        .reason-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-light-alt); /* Alternating section background */
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            margin-bottom: 3rem;
+            font-size: 2.8rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: left;
+            border: 1px solid var(--card-border);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-card .author {
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-dark);
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 60px;
+            align-items: start;
+        }
+
+        .location-info h2, .hours-info h2 {
+            margin-bottom: 2rem;
+            font-size: 2.8rem;
+        }
+
+        .location-info address {
+            font-style: normal;
+            margin-bottom: 1.5rem;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+        
+        .location-info .map-embed {
+            margin-top: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            height: 350px;
+            border: 1px solid var(--card-border);
+        }
+        .location-info .map-embed iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 1rem 0;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            width: 150px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        
+        .hours-table tr:last-child td,
+        .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            margin-top: 3rem;
+            width: 100%; /* Make button full width of its column */
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(204,0,0,0.8) 50%, rgba(255,215,0,0.8) 100%);
+            text-align: center;
+            padding: 6rem 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn--primary {
+            background-color: var(--text-heading); /* White button on color bg */
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            padding: 1.2rem 3rem;
+            font-size: 1.25rem;
+        }
+        .final-cta .btn--primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--text-heading);
+        }
+
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 4rem 0 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 2.5rem;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1.4rem; }
+            .nav-links { gap: 20px; }
+            .header .call-button { padding: 0.5rem 1rem; font-size: 0.9rem; }
+            .header-content { padding: 0 15px; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            .hero .location { font-size: 1rem; }
+            .hero .tagline { font-size: 1.2rem; margin-bottom: 1.5rem; }
+            .hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; }
+            .section-padding { padding: 80px 0; }
+            .nav-links { display: none; /* Hide navigation on small screens */ }
+            .header-content { justify-content: center; } /* Center logo if no nav */
+            .header .call-button { margin-left: auto; /* Push button right if nav is hidden */ }
+            .social-proof-grid { flex-direction: column; gap: 30px; }
+            .our-story h2 { font-size: 2.2rem; }
+            .testimonial-quote-card { padding: 2rem; margin: 3rem auto; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .menu-grid, .why-choose-us .grid, .testimonials-grid { grid-template-columns: 1fr; }
+            .location-hours-content { grid-template-columns: 1fr; }
+            .final-cta h2 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .header .call-button { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+            .logo { font-size: 1.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1rem; }
+            .hero .rating-badge { font-size: 0.9rem; padding: 0.4rem 0.8rem; }
+            .proof-item { font-size: 1.2rem; }
+            .proof-item span { font-size: 1.6rem; }
+            h2 { font-size: 2rem; }
+            .btn { font-size: 1rem; padding: 0.8rem 1.5rem; }
+            .location-hours-content { gap: 40px; }
+            .final-cta h2 { font-size: 2rem; }
+            .final-cta .btn--primary { padding: 1rem 2rem; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Mazatlan<span>.</span></a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#find-us">Find Us</a>
+            </nav>
+            <a href="tel:2522571660" class="btn call-button">CALL (252) 257-1660</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location">Warrenton, NC</p>
+            <h1>Mazatlan</h1>
+            <p class="tagline">Experience Authentic Mexican Flavors in the Heart of Warrenton.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.212a.5.5 0 01.436 0l4.276 2.039a.5.5 0 00.276.074h5.118a.5.5 0 01.419.783l-1.956 3.424a.5.5 0 00-.06.495l.966 5.373a.5.5 0 01-.703.518l-4.296-2.288a.5.5 0 00-.472 0l-4.296 2.288a.5.5 0 01-.703-.518l.966-5.373a.5.5 0 00-.06-.495L2.164 6.108a.5.5 0 01.419-.783h5.118a.5.5 0 00.276-.074l4.276-2.039z"></path></svg>
+                4.5 Stars <span style="color: var(--text-heading);">(313 Reviews)</span>
+            </div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn--primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn--secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="proof-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.788 3.212a.5.5 0 01.436 0l4.276 2.039a.5.5 0 00.276.074h5.118a.5.5 0 01.419.783l-1.956 3.424a.5.5 0 00-.06.495l.966 5.373a.5.5 0 01-.703.518l-4.296-2.288a.5.5 0 00-.472 0l-4.296 2.288a.5.5 0 01-.703-.518l.966-5.373a.5.5 0 00-.06-.495L2.164 6.108a.5.5 0 01.419-.783h5.118a.5.5 0 00.276-.074l4.276-2.039z"></path></svg>
+                <span>4.5</span> <span class="subtext">Stars <br>(313 Reviews)</span>
+            </div>
+            <div class="proof-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 11.25a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z"></path><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-.622 17.56a.75.75 0 00.914 0 8.232 8.232 0 004.052-2.791.75.75 0 00-.638-1.428 6.732 6.732 0 01-3.776 1.144.75.75 0 00-.622.75zm.914-11.41a.75.75 0 00-.914 0 8.232 8.232 0 00-4.052 2.791.75.75 0 00.638 1.428 6.732 6.732 0 013.776-1.144.75.75 0 00.622-.75z" clip-rule="evenodd"></path></svg>
+                <span>Local</span> <span class="subtext">Favorite <br>in Warrenton</span>
+            </div>
+            <div class="proof-item">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.644 19.987L9.421 16.516a2.25 2.25 0 01-.132-2.138L14.77 8.163l-.714-.714a2.25 2.25 0 00-3.182 0L8.608 8.91l-1.765 1.765a.75.75 0 000 1.06l.714.714L4.93 15.659a.75.75 0 001.06 1.06l3.328-3.327 1.765 1.765a.75.75 0 001.06 0l.714-.714 2.121 2.121a.75.75 0 001.06 0l.714-.714a.75.75 0 000-1.06l-2.121-2.121.714-.714a.75.75 0 000-1.06l-1.765-1.765-3.327 3.328z"></path><path fill-rule="evenodd" d="M4.5 5.625A1.125 1.125 0 015.625 4.5h12.75a1.125 1.125 0 011.125 1.125v12.75c0 .621-.504 1.125-1.125 1.125H5.625A1.125 1.125 0 014.5 18.375V5.625z" clip-rule="evenodd"></path></svg>
+                <span>5000+</span> <span class="subtext">Happy <br>Customers Served</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Story</span>
+            <h2>Where Authentic Mexican Flavors Come Alive</h2>
+            <p>Welcome to Mazatlan, Warrenton's beloved spot for authentic Mexican cuisine, where every dish tells a story of tradition and flavor. From the moment you step inside, you'll be greeted by our vibrant decor and a warm, inviting atmosphere that transports you straight to Mexico. We pride ourselves on serving fresh, delicious food crafted with passion.</p>
+            <p>While we continuously strive to perfect every plate, we're particularly proud of our crowd-pleasing crispy hot wings and freshly prepared chips and salsa – favorites that keep our community coming back. Join us for a memorable dining experience, where great food, friendly service, and a festive ambiance come together to create moments you'll cherish.</p>
+
+            <div class="testimonial-quote-card fade-in-up">
+                <p>"The decor is very nice and appears to be clean and inviting. While I initially came for the main course, I keep coming back for the cocktails and those amazing hot wings!"</p>
+                <div class="author">- A Warrenton Local</div>
+            </div>
+
+            <div class="stats-grid fade-in-up">
+                <div class="stat-card">
+                    <div class="number">4.5</div>
+                    <div class="label">Stars (313 Reviews)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">10+</div>
+                    <div class="label">Years Serving Warrenton</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">5K+</div>
+                    <div class="label">Happy Customers</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Specialties</span>
+            <h2>Savor the Flavors of Mazatlan</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Classic Tacos</h3>
+                    <p>Your choice of seasoned chicken, savory beef, or tender carnitas, served on soft corn tortillas with fresh toppings.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Sizzling Fajitas</h3>
+                    <p>Grilled steak, chicken, or shrimp served on a hot skillet with onions, peppers, and warm tortillas.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Enchiladas Rojas & Verdes</h3>
+                    <p>Corn tortillas filled with cheese or meat, smothered in your choice of rich red or tangy green sauce.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Mazatlan Burrito Grande</h3>
+                    <p>A generously sized burrito packed with rice, beans, your choice of meat, and smothered in our special sauce.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Crispy Hot Wings</h3>
+                    <p>Our famous crispy hot wings, perfectly spiced with a kick. A fan favorite appetizer!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Fresh Chips & Salsa</h3>
+                    <p>Endless basket of warm, crispy tortilla chips served with our homemade, zesty salsa.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Quesadillas Supremas</h3>
+                    <p>Large flour tortilla filled with melted cheese, your choice of meat, served with sour cream and guacamole.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Carne Asada Plate</h3>
+                    <p>Tender grilled steak, marinated to perfection, served with rice, beans, and fresh tortillas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Promise</span>
+            <h2>More Than Just a Meal</h2>
+            <div class="grid grid-3-cols">
+                <div class="reason-card">
+                    <h3>Authentic Flavors</h3>
+                    <p>Taste the tradition with every bite. Our chefs use time-honored recipes to bring you the true essence of Mexican cuisine, from savory Carne Asada to classic Enchiladas.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Convenient Dining</h3>
+                    <p>Whether you're dining in, grabbing a quick lunch, or feeding the family, we make it easy. We offer take-out, accept credit cards, and happily take reservations for your special occasions.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Vibrant Atmosphere</h3>
+                    <p>Step into a fiesta! Our beautiful, colorful decor creates a lively and welcoming environment perfect for family dinners, date nights, or celebrating with friends.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container fade-in-up">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Hear From Our Valued Customers</h2>
+            <div class="grid grid-3-cols testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Absolutely love the hot wings here! They're perfectly crispy with just the right kick. Paired with their fresh chips and salsa, it's the ideal start to any meal. Mazatlan is my go-to!"</p>
+                    <div class="author">- Maria S.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The Sizzling Steak Fajitas are a must-try! The meat is always tender and flavorful, and the portion is generous. The service is attentive, making every visit a pleasure."</p>
+                    <div class="author">- David L.</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Mazatlan has a fantastic atmosphere and their classic Tacos are simply delicious. You can tell they put effort into every dish. It's truly a local gem for authentic Mexican food."</p>
+                    <div class="author">- Jessica R.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container location-hours-content fade-in-up">
+            <div class="location-info">
+                <span class="section-label">Visit Us</span>
+                <h2>Find Mazatlan</h2>
+                <address>
+                    895 US-158 BUS<br>
+                    Warrenton, NC 27589, USA
+                </address>
+                <a href="tel:2522571660">(252) 257-1660</a>
+                <div class="map-embed">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3195.9686007421255!2d-78.16723042385493!3d36.38139707238206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89b5311029c54e03%3A0x633e622b3127818e!2sMazatlan%20Restaurant!5e0!3m2!1sen!2sus!4v1701388800000!5m2!1sen!2sus" 
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+            <div class="hours-info">
+                <span class="section-label">Our Schedule</span>
+                <h2>Hours of Operation</h2>
+                <table class="hours-table">
+                    <tr>
+                        <th>Monday:</th>
+                        <td>Closed</td>
+                    </tr>
+                    <tr>
+                        <th>Tuesday:</th>
+                        <td>11:00 AM – 8:30 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Wednesday:</th>
+                        <td>11:00 AM – 8:30 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Thursday:</th>
+                        <td>11:00 AM – 8:30 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Friday:</th>
+                        <td>11:00 AM – 9:00 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Saturday:</th>
+                        <td>12:00 – 8:30 PM</td>
+                    </tr>
+                    <tr>
+                        <th>Sunday:</th>
+                        <td>12:00 – 7:00 PM</td>
+                    </tr>
+                </table>
+                <a href="tel:2522571660" class="btn btn--primary call-to-order-btn">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Taste Authentic Mexico?</h2>
+            <a href="tel:2522571660" class="btn btn--primary">CALL US TO MAKE A RESERVATION!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="logo">Mazatlan<span>.</span></a>
+            <p class="tagline">Experience Authentic Mexican Flavors in the Heart of Warrenton.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.818.062-1.232 1.291-1.232h2.709v-4h-3c-4.085 0-4.871 3.161-4.871 4.723v2.277z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.064 9.2c.266 1.425-.561 2.87-2.028 3.511l-.39.167-.012.005c-1.292.557-2.678.922-4.636.922-1.957 0-3.344-.365-4.636-.922l-.012-.005-.39-.167c-1.467-.641-2.294-2.086-2.028-3.511.139-.747.625-1.416 1.258-1.898.632-.482 1.393-.812 2.219-1.011.085-.02.172-.038.259-.053-.298-.444-.45-1.026-.45-1.628 0-1.724 1.394-3.118 3.118-3.118 1.725 0 3.118 1.394 3.118 3.118 0 .602-.153 1.184-.45 1.628.087.015.174.033.259.053.826.199 1.587.529 2.219 1.011.633.482 1.119 1.151 1.258 1.898z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Mazatlan. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, // Trigger when 10% of the element is visible
+                rootMargin: "0px 0px -50px 0px" // Adjust to trigger slightly before reaching 10%
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
