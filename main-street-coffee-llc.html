@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Street Coffee LLC - Pilot Mountain's Cozy Diner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818; /* For alternating sections */
+            --brand-primary: #8B4513; /* SaddleBrown */
+            --brand-accent: #D4AF37; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-primary);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-accent);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h1 { font-size: 4rem; } /* Hero */
+        h2 { font-size: 2.8rem; } /* Section Headlines */
+        h3 { font-size: 1.8rem; } /* Card/Sub-headlines */
+        p { font-size: 1.1rem; margin-bottom: 1rem; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.fade-in-up {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--brand-primary);
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(139, 69, 19, 0.1); /* Subtle hover for outlined */
+            border-color: var(--brand-accent);
+            color: var(--brand-accent);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .sticky-header .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .sticky-header .nav-links li {
+            margin: 0 20px;
+        }
+
+        .sticky-header .nav-links a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header .nav-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .sticky-header .call-button {
+            background-color: var(--brand-primary);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: var(--brand-accent);
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95) 0%, rgba(17, 17, 17, 0.9) 30%, rgba(139, 69, 19, 0.1) 70%, rgba(212, 175, 55, 0.1) 100%), var(--bg-main);
+            background-size: cover;
+            background-position: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 5.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero-content .location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--brand-accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .hero-content .tagline {
+            font-size: 1.35rem;
+            color: var(--text-body);
+            font-weight: 300;
+            max-width: 800px;
+            margin: 1.5rem auto 2.5rem;
+        }
+
+        .hero-content .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(212, 175, 55, 0.15);
+            color: var(--brand-accent);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .hero-content .rating-badge svg {
+            margin-right: 8px;
+            fill: var(--brand-accent);
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05);
+            padding: 40px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .proof-items {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .social-proof-strip .proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--text-heading);
+            margin-bottom: 5px;
+            font-family: 'Bitter', serif;
+            font-weight: 700;
+        }
+
+        .social-proof-strip .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 0;
+        }
+
+        /* Section Layouts */
+        .section-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card h3 {
+            color: var(--brand-primary);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+
+        .card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Our Story */
+        .our-story .content-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .our-story .text-content {
+            flex: 2;
+        }
+
+        .our-story .text-content h2 {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .our-story .text-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            font-style: italic;
+            position: relative;
+        }
+
+        .our-story .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            z-index: 0;
+        }
+
+        .our-story .testimonial-card p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .our-story .testimonial-card span {
+            display: block;
+            text-align: right;
+            font-weight: 500;
+            color: var(--brand-accent);
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .our-story .stats-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .our-story .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 2.5rem;
+            color: var(--brand-primary);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-light);
+            padding: 100px 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary); /* Accent border */
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .menu-item-card h3 {
+            color: var(--text-heading);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .section-grid {
+            margin-top: 60px;
+        }
+
+        .why-choose-us .card {
+            text-align: center;
+            align-items: center;
+        }
+
+        .why-choose-us .card h3 {
+            color: var(--brand-accent);
+            margin-bottom: 15px;
+        }
+
+        .why-choose-us .card p {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-light);
+        }
+
+        .testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .testimonials .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 3rem;
+            color: rgba(255,255,255,0.1);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            z-index: 0;
+        }
+
+        .testimonials .testimonial-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonials .testimonial-card .author {
+            display: block;
+            text-align: right;
+            font-weight: 600;
+            color: var(--brand-accent);
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Location & Hours */
+        .location-hours-section {
+            padding: 100px 0;
+            background-color: var(--bg-main);
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+            align-items: flex-start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--text-heading);
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .location-info a.phone-link {
+            font-size: 1.5rem;
+            color: var(--brand-primary);
+            font-weight: 600;
+            display: block;
+            margin-bottom: 25px;
+        }
+        .location-info a.phone-link:hover {
+            color: var(--brand-accent);
+        }
+
+        .location-info .map-placeholder {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            height: 300px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            overflow: hidden; /* Ensures border-radius applies to table content */
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            background-color: rgba(139, 69, 19, 0.1);
+            font-weight: 600;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .hours-table tr:nth-child(even) td {
+            background-color: rgba(255,255,255,0.02);
+        }
+        .hours-table tr:hover td {
+            background-color: rgba(255,255,255,0.05);
+        }
+
+        .location-hours-content .btn {
+            margin-top: 40px;
+            width: fit-content;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--brand-primary) 0%, rgba(139, 69, 19, 0.8) 50%, rgba(212, 175, 55, 0.5) 100%);
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: 3.2rem;
+            margin-bottom: 35px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-primary);
+            border: 2px solid var(--text-heading);
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--brand-accent);
+            border-color: var(--brand-accent);
+            color: var(--text-heading);
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+
+            .sticky-header {
+                height: 80px; /* Taller for mobile to accommodate text-based logo better */
+                padding: 0 15px;
+            }
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+            .sticky-header .nav-links {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .sticky-header .call-button {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding-top: var(--header-height);
+            }
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+            .hero-content .location {
+                font-size: 1rem;
+            }
+            .hero-content .tagline {
+                font-size: 1.1rem;
+                margin-top: 1rem;
+                margin-bottom: 2rem;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .social-proof-strip .proof-items {
+                flex-direction: column;
+            }
+            .social-proof-strip .proof-item {
+                margin-bottom: 30px;
+            }
+            .social-proof-strip .proof-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .our-story .content-wrapper {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .our-story .text-content h2 {
+                text-align: center;
+            }
+            .our-story .stats-grid {
+                margin-top: 40px;
+            }
+
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-info h3, .hours-info h3 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .location-info .map-placeholder {
+                height: 250px;
+            }
+            .location-info .phone-link, .location-info p {
+                text-align: center;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+                margin-bottom: 30px;
+            }
+            .footer .social-links a {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <div class="logo">Main Street Coffee LLC</div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3363682033" class="call-button">CALL (336) 368-2033</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="location">PILOT MOUNTAIN, NC</p>
+            <h1>Main Street Coffee LLC</h1>
+            <p class="tagline">Experience the warm charm of Downtown Pilot Mountain. Delicious coffee, delightful treats, and friendly faces await!</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63L2 9.24l5.46 4.73L5.82 21z"/></svg>
+                4.9 Stars (544 Reviews)
+            </div>
+            <div class="hero-cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Strip -->
+    <section class="social-proof-strip fade-in-up">
+        <div class="container">
+            <div class="proof-items">
+                <div class="proof-item">
+                    <h3>4.9/5</h3>
+                    <p>Overall Rating</p>
+                </div>
+                <div class="proof-item">
+                    <h3>544+</h3>
+                    <p>Raving Reviews</p>
+                </div>
+                <div class="proof-item">
+                    <h3>Pilot Mountain's</h3>
+                    <p>Local Favorite</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story" id="our-story">
+        <div class="container">
+            <span class="section-label">Our Journey</span>
+            <h2 class="text-center">More Than Just Coffee & Food, It's a Community Hub</h2>
+            <div class="content-wrapper">
+                <div class="text-content">
+                    <p>Nestled in the heart of Downtown Pilot Mountain, Main Street Coffee LLC is a true local gem. From the moment you step inside, you're greeted by a warm, inviting atmosphere, filled with charming details and decorations that tell a story.</p>
+                    <p>We believe in creating a space where everyone feels welcome – a place for friends to gather, families to enjoy, and solo adventurers to find a peaceful moment. Our friendly staff are always ready with a smile, eager to make your visit special.</p>
+                    <p>Whether you're craving a unique latte, a refreshing boba tea, or looking for a delicious bite to eat, we've carefully crafted our offerings to bring joy with every order. We're proud to be a vibrant part of Pilot Mountain's community, building connections one cup and one meal at a time.</p>
+                    <div class="testimonial-card">
+                        <p>“This place is SO cute!! I loved all the details and decorations. The staff were also super friendly and welcoming. A super fun local spot!!”</p>
+                        <span>— A Happy Local, Yelp Review</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="number">4.9<small>/5</small></div>
+                        <div class="label">Star Rating</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">544+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">89</div>
+                        <div class="label">Hours of Deliciousness Each Week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu" id="menu">
+        <div class="container">
+            <span class="section-label">Our Offerings</span>
+            <h2 class="text-center">Delightful Drinks & Satisfying Bites</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Lavender Vanilla Iced Latte</h3>
+                    <p>A customer favorite! Our perfectly balanced iced latte infused with the calming notes of lavender and sweet vanilla. A delicious escape in every sip.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Premium Coffee & Tea</h3>
+                    <p>From rich espresso drinks to soothing herbal teas, we have a beverage to perfectly complement your mood. Freshly brewed, always.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Ice Cream & Frozen Yogurt</h3>
+                    <p>Cool down with our delightful selection of creamy ice cream and refreshing frozen yogurt. The perfect treat for any time of day.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Boba Tea Creations</h3>
+                    <p>Explore our vibrant boba tea menu, featuring classic flavors and unique combinations. A fun and flavorful adventure awaits!</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Daily Diner Specials</h3>
+                    <p>Ask about our rotating daily specials, always crafted with fresh ingredients and a dash of creativity. (Like our past Star Wars themed delights!)</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Classic Breakfast Plates</h3>
+                    <p>Start your day right with hearty and satisfying breakfast options, prepared with that comforting diner touch.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Hearty Lunch Sandwiches</h3>
+                    <p>Grab a delicious sandwich for lunch, made with quality ingredients and perfect for a midday refueling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <span class="section-label">Why Main Street Coffee?</span>
+            <h2 class="text-center">The Little Touches That Make a Big Difference</h2>
+            <div class="section-grid">
+                <div class="card">
+                    <h3>Friendly Faces, Cozy Space</h3>
+                    <p>Our staff are known for being super friendly and welcoming! Combine that with our cute details and decorations, and you've got the perfect relaxing retreat right here in Pilot Mountain.</p>
+                </div>
+                <div class="card">
+                    <h3>Deliciously Unique Offerings</h3>
+                    <p>From our popular Lavender Vanilla Iced Latte to exciting Daily Specials (like our Star Wars themed past events!), we consistently deliver delicious and memorable tastes for every palate.</p>
+                </div>
+                <div class="card">
+                    <h3>A True Community Hub</h3>
+                    <p>We're proud to be a 'super fun local spot!' With outdoor seating and a dog-friendly policy, we're the perfect place for families, friends, and even your furry companions to gather and make memories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">Hear From Our Guests</span>
+            <h2 class="text-center">What Our Wonderful Customers Are Saying</h2>
+            <div class="section-grid">
+                <div class="testimonial-card">
+                    <p>“I absolutely adore Main Street Coffee! The Lavender Vanilla Iced Latte is simply divine – my go-to every time. The atmosphere is always so cheerful and the team goes above and beyond.”</p>
+                    <span class="author">— Jessica M.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>“My husband and I loved our visit. We tried one of their daily specials (it was May 4th and Star Wars themed!) and it was delicious. The food and ice cream looked amazing too; we'll definitely be back to try more.”</p>
+                    <span class="author">— Emily R.</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>“This is the best spot for Coffee & Tea in Pilot Mountain! They also have fantastic Boba Tea options. It's such a welcoming environment, perfect for relaxing or catching up with friends. A definite must-visit!”</p>
+                    <span class="author">— David L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Hours Section -->
+    <section class="location-hours-section" id="find-us">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="text-center">Find Main Street Coffee LLC</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>Nestled in the heart of historic Downtown Pilot Mountain, we're easy to find and always ready to welcome you.</p>
+                    <p><strong>Main Street Coffee LLC</strong><br>115 E Main St<br>Pilot Mountain, NC 27041, USA</p>
+                    <a href="tel:3363682033" class="phone-link">(336) 368-2033</a>
+                    <div class="map-placeholder">
+                        Map Placeholder (Click for directions)
+                    </div>
+                    <a href="https://maps.google.com/?q=115+E+Main+St,+Pilot+Mountain,+NC+27041" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <p>Join us seven days a week for your daily dose of coffee, food, and community spirit.</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday</td><td>7:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Tuesday</td><td>7:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Wednesday</td><td>7:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Thursday</td><td>7:00 AM – 8:00 PM</td></tr>
+                            <tr><td>Friday</td><td>7:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Saturday</td><td>8:00 AM – 9:00 PM</td></tr>
+                            <tr><td>Sunday</td><td>10:00 AM – 8:00 PM</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:3363682033" class="btn btn-secondary">CALL TO ORDER / ASK A QUESTION</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2>Ready to Experience Pilot Mountain's Favorite Cozy Spot?</h2>
+            <a href="#menu" class="btn btn-primary">EXPLORE OUR MENU TODAY</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#home" class="logo">Main Street Coffee LLC</a>
+            <p class="tagline">Your local destination for delicious coffee, delightful treats, and friendly faces in Pilot Mountain, NC.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Follow us on Facebook">F</a>
+                <a href="#" aria-label="Follow us on Instagram">I</a>
+                <a href="#" aria-label="Find us on Yelp">Y</a>
+            </div>
+            <p class="copyright">&copy; 2026 Main Street Coffee LLC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth Scroll for Navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for Fade-in-up effect
+            const faders = document.querySelectorAll('.fade-in-up, section');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" // Start animating 50px before it enters
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries,
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('fade-in-up');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            },
+            appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
