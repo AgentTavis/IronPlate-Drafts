@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pancakes House - Classic Diner in Asheboro, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #D4AF37; /* Gold */
+            --accent-color: #8B4513; /* Saddle Brown */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark for header */
+            --section-padding: 80px 0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+            text-decoration: underline;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--bg-dark);
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: none;
+        }
+
+        .btn-call:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--brand-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0; /* Override container padding for header */
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .sticky-header nav ul li {
+            margin-left: 30px;
+        }
+
+        .sticky-header nav ul li a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .sticky-header nav ul li a:hover {
+            color: var(--brand-color);
+            text-decoration: none;
+        }
+
+        .sticky-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(17, 17, 17, 0.95) 0%, rgba(212, 175, 55, 0.05) 50%, rgba(139, 69, 19, 0.05) 100%), var(--bg-dark); /* Rich dark gradient */
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Account for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, rgba(139, 69, 19, 0.05) 30%, rgba(17, 17, 17, 0) 70%);
+            opacity: 0.3;
+            animation: subtleZoom 20s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes subtleZoom {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            letter-spacing: -0.03em;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 15px;
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hero .rating-badge svg {
+            color: var(--brand-color);
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        .hero .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(212, 175, 55, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .social-proof-item .value {
+            font-family: 'Bitter', serif;
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .social-proof-item .label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            padding: var(--section-padding);
+            background-color: var(--bg-dark); /* Consistent dark background */
+        }
+
+        .our-story .content-wrapper {
+            display: flex;
+            gap: 80px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .our-story .text-content {
+            flex: 2;
+            min-width: 300px;
+            max-width: 700px;
+            margin: 0 auto; /* Center text content if it's the only thing */
+            text-align: left;
+        }
+
+        .our-story .text-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .our-story .testimonial-card {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            margin: 0 auto; /* Center card if it's the only thing */
+        }
+
+        .our-story .testimonial-card blockquote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .our-story .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            display: block;
+            margin-top: 10px;
+        }
+
+        .our-story .stat-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+
+        .our-story .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .our-story .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .our-story .stat-card .number {
+            font-family: 'Bitter', serif;
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .our-story .stat-card .description {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            padding: var(--section-padding);
+            background-color: rgba(255, 255, 255, 0.02); /* Slightly lighter background */
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-card .price {
+            font-size: 1.3rem;
+            color: var(--brand-color);
+            font-weight: 600;
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            padding: var(--section-padding);
+            background-color: var(--bg-dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            padding: var(--section-padding);
+            background-color: rgba(255, 255, 255, 0.02); /* Slightly lighter background */
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .testimonial-item blockquote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-item .reviewer-info {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .testimonial-item .reviewer-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color); /* Placeholder avatar color */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-heading);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            text-transform: uppercase;
+        }
+
+        .testimonial-item .reviewer-name {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1.1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            padding: var(--section-padding);
+            background-color: var(--bg-dark);
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+            margin-top: 50px;
+            align-items: start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--brand-color);
+            font-weight: 600;
+            width: 100px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        
+        .location-hours-section .btn-primary {
+            width: 100%;
+            max-width: 300px; /* Limit button width */
+            margin-top: 20px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--brand-color), var(--accent-color));
+            text-align: center;
+            color: var(--bg-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--bg-dark); /* Dark text on light background */
+            margin-bottom: 30px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--bg-dark);
+            color: var(--brand-color);
+            border: 2px solid var(--bg-dark);
+            font-size: 1.1rem;
+            padding: 16px 40px;
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            border-color: var(--text-heading);
+            color: var(--accent-color);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .footer .social-link {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-link:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Icons (basic placeholders) */
+        .icon-star:before { content: '⭐'; }
+        .icon-utensils:before { content: '🍽️'; }
+        .icon-smile:before { content: '😊'; }
+        .icon-heart:before { content: '❤️'; }
+
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+
+            .sticky-header nav ul {
+                display: none; /* Hide nav for smaller screens, can add hamburger menu later */
+            }
+
+            .sticky-header .container {
+                justify-content: center;
+            }
+
+            .sticky-header .logo {
+                flex-grow: 1; /* Pushes logo left when nav is hidden */
+                text-align: left;
+            }
+
+            .sticky-header .btn-call {
+                margin-left: auto; /* Pushes button right */
+            }
+
+            .section-headline {
+                font-size: 2.2rem;
+            }
+
+            .our-story .content-wrapper {
+                flex-direction: column;
+                gap: 50px;
+            }
+
+            .our-story .text-content, .our-story .testimonial-card {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: auto;
+                min-height: 100vh;
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero .location {
+                font-size: 1rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.15rem;
+            }
+
+            .hero .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .sticky-header .logo {
+                font-size: 1.5rem;
+            }
+
+            .sticky-header .btn-call {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+
+            .social-proof-item {
+                font-size: 1.1rem;
+            }
+            .social-proof-item .value {
+                font-size: 2.2rem;
+            }
+
+            .section-headline {
+                font-size: 2rem;
+            }
+
+            .our-story .stat-cards {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .our-story .stat-card {
+                max-width: 100%;
+            }
+
+            .menu-grid, .features-grid, .testimonials-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                gap: 40px;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+
+            .final-cta .btn-primary {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header fade-in-up">
+        <div class="container">
+            <div class="logo">Pancakes House</div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu-section">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3366284488" class="btn-call">CALL (336) 628-4488</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <div class="container fade-in-up">
+            <p class="location">ASHEBORO, NC</p>
+            <h1>Pancakes House</h1>
+            <p class="tagline">Your Home for Hearty Breakfasts, Classic Dinners, and Friendly Faces in Asheboro.</p>
+            <div class="rating-badge">
+                <span class="icon-star"></span> 4.3 Stars (225 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu-section" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip fade-in-up">
+        <div class="container">
+            <div class="social-proof-item">
+                <div class="value">4.3</div>
+                <div class="label">Average Rating</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="value">225+</div>
+                <div class="label">Happy Reviews</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="value">Local</div>
+                <div class="label">Asheboro Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Heritage</p>
+            <h2 class="section-headline text-center fade-in-up">Taste the Tradition, Feel the Warmth</h2>
+            <div class="content-wrapper">
+                <div class="text-content fade-in-up">
+                    <p>For decades, Pancakes House has been a cornerstone of the Asheboro community. We're more than just a diner; we're a gathering place where families create memories, friends share laughs, and everyone can enjoy a delicious, home-style meal.</p>
+                    <p>Our commitment is simple: serve generous portions of classic comfort food, made with fresh ingredients, and always delivered with a friendly smile. From our famous fluffy pancakes to our hearty breakfast combos, every dish is prepared with the same care and love that built our reputation. Join us and become part of our story!</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <blockquote>"Always a great experience at Pancakes House! Their breakfast combos are a perfect start to any day, and the coffee is always hot and fresh. A true Asheboro gem."</blockquote>
+                    <span class="author">— Sarah J.</span>
+                </div>
+            </div>
+
+            <div class="stat-cards">
+                <div class="stat-card fade-in-up">
+                    <div class="number">4.3<span class="icon-star"></span></div>
+                    <p class="description">Average Customer Rating</p>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">225+</div>
+                    <p class="description">Satisfied Reviews</p>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="number">30+</div>
+                    <p class="description">Years Serving Asheboro</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu-section" class="menu-section">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Specialties</p>
+            <h2 class="section-headline text-center fade-in-up">Diner Classics & Hearty Favorites</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Fluffy Buttermilk Pancakes</h3>
+                        <p>Our signature stacks, golden brown and served with real maple syrup.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Classic Breakfast Combo</h3>
+                        <p>Eggs your way, crispy bacon or sausage, toast, and home fries. The perfect start.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Hearty Omelette Your Way</h3>
+                        <p>Choose your fillings: cheese, veggies, ham, bacon, and more. Served with toast.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>The Diner Cheeseburger</h3>
+                        <p>A juicy patty, melted cheese, fresh toppings, served on a toasted bun with fries.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Crispy Chicken Sandwich</h3>
+                        <p>Golden fried chicken breast, pickles, and our special sauce on a brioche bun.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Signature Club Sandwich</h3>
+                        <p>Layers of turkey, ham, bacon, lettuce, tomato, and mayo on toasted bread.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Fresh Garden Salad</h3>
+                        <p>Crisp mixed greens, fresh vegetables, and your choice of dressing.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <div>
+                        <h3>Milkshakes & Malts</h3>
+                        <p>Classic flavors: vanilla, chocolate, strawberry. Hand-spun to perfection.</p>
+                    </div>
+                    <p class="price">Prices Vary</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Our Promise</p>
+            <h2 class="section-headline text-center fade-in-up">Why Pancakes House is Asheboro's Favorite</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <span class="icon icon-utensils"></span>
+                    <h3>Hearty Portions, Great Value</h3>
+                    <p>We believe in feeding you well! Enjoy generous servings of delicious food at prices that keep you coming back.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <span class="icon icon-smile"></span>
+                    <h3>Friendly, Welcoming Service</h3>
+                    <p>Our staff treats you like family. Expect warm smiles, attentive service, and a comfortable atmosphere every visit.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <span class="icon icon-heart"></span>
+                    <h3>Classic Diner Experience</h3>
+                    <p>Step back in time to a classic diner. We're proud to offer that authentic, nostalgic charm with every meal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">What Our Guests Say</p>
+            <h2 class="section-headline text-center fade-in-up">Real Stories, Delicious Experiences</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <blockquote>"Hands down the best pancakes in Asheboro! They're so light and fluffy, and the syrup is perfect. My kids absolutely love coming here for breakfast. A true family favorite."</blockquote>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">MJ</div>
+                        <span class="reviewer-name">Maria J.</span>
+                    </div>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <blockquote>"I always get the Classic Breakfast Combo when I visit. Everything is cooked to perfection, especially the bacon. The staff is super friendly, and it's such a comforting place to eat."</blockquote>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">TR</div>
+                        <span class="reviewer-name">Thomas R.</span>
+                    </div>
+                </div>
+                <div class="testimonial-item fade-in-up">
+                    <blockquote>"You can't go wrong with their Diner Cheeseburger. It's perfectly grilled and hits the spot every time. Great value for a hearty lunch. My go-to spot in Asheboro."</blockquote>
+                    <div class="reviewer-info">
+                        <div class="reviewer-avatar">LC</div>
+                        <span class="reviewer-name">Lisa C.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours-section">
+        <div class="container">
+            <p class="section-label text-center fade-in-up">Visit Us</p>
+            <h2 class="section-headline text-center fade-in-up">Find Us & Our Daily Hours</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Pancakes House is conveniently located in the heart of Asheboro, NC. Easy to find, even easier to love!</p>
+                    <p><strong>Address:</strong><br>1222 N Fayetteville St, Asheboro, NC 27203, USA</p>
+                    <a href="https://maps.google.com/?q=1222+N+Fayetteville+St,+Asheboro,+NC+27203" target="_blank">Get Directions on Google Maps</a>
+                    <p><strong>Phone:</strong><br><a href="tel:3366284488">(336) 628-4488</a></p>
+                    <p><strong>Social:</strong><br>Instagram: <a href="https://instagram.com/pancake_house00" target="_blank">@pancake_house00</a></p>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Hours</h3>
+                    <p>We're open daily to serve you the best breakfast and lunch!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>7:00 AM – 2:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>7:00 AM – 3:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Planning to pick up? Call ahead for your order!</p>
+                    <a href="tel:3366284488" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up">
+        <div class="container">
+            <h2>Ready for a Taste of Asheboro's Best?</h2>
+            <p class="tagline" style="color: rgba(17, 17, 17, 0.8);">Don't just read about it, come experience the warmth and flavor yourself!</p>
+            <a href="tel:3366284488" class="btn btn-primary">CALL AHEAD FOR PICK-UP OR QUESTIONS</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">Pancakes House</span>
+            <p class="tagline">1222 N Fayetteville St, Asheboro, NC 27203 OPEN EVERYDAY from 7am-9pm Call Ahead for Pick-Up Orders! 📲 336-628-4488 Sc: pancake_house00</p>
+            <div class="social-links">
+                <a href="https://instagram.com/pancake_house00" target="_blank" class="social-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <!-- Add more social links here if available (e.g., Facebook, Twitter) -->
+            </div>
+            <p class="copyright">&copy; 2026 Pancakes House. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // IntersectionObserver for fade-in-up effect
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll(".fade-in-up");
+
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px" // Start animation slightly before element enters viewport
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add("is-visible");
+                    appearOnScroll.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
