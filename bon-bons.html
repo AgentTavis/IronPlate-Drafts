@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bon Bon's - Elkin's Premier Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #111111;
+            --bg-light: #161616; /* Slightly lighter for alternating sections */
+            --brand-color: #1B4965;
+            --accent-color: #6BA3C0;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+            --header-height: 60px;
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            margin: 0;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            margin-top: 0;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4.5rem; font-weight: 700; }
+        h2 { font-size: 2.8rem; font-weight: 700; }
+        h3 { font-size: 1.8rem; font-weight: 600; }
+        p { font-size: 1.1rem; }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        /* Utility classes for fade-in effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 12px 26px; /* Adjust padding for border */
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            box-shadow: none;
+            border-radius: 6px;
+        }
+
+        .sticky-header .btn-call:hover {
+            background-color: var(--accent-color);
+            transform: none; /* No scale for header button */
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-heading);
+            position: relative;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(27, 73, 101, 0.4) 30%, rgba(107, 163, 192, 0.2) 70%, var(--bg-main) 100%);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-section h1 {
+            font-size: clamp(3.5rem, 10vw, 6rem);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0,0,0,0.6);
+        }
+
+        .hero-section .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: 400;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        .hero-section .tagline {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-heading);
+            gap: 8px;
+            border: 1px solid var(--card-border);
+        }
+        .rating-badge span { color: gold; font-size: 1.2rem; }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(27, 73, 101, 0.1); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-strip .items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .social-proof-strip .item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 25px;
+            border-radius: 10px;
+            color: var(--text-heading);
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .social-proof-strip .item strong {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            font-family: var(--font-heading);
+            line-height: 1;
+        }
+        .social-proof-strip .item span {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Section Styling */
+        .section-label {
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .our-story-text p:last-of-type {
+            margin-bottom: 40px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+            text-align: right;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .stat-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .stat-item .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 10px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .menu-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.6rem;
+        }
+
+        .menu-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            flex-grow: 1; /* Ensures cards are same height if descriptions vary */
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        .why-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-size: 1.7rem;
+        }
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-item .quote {
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            flex-grow: 1;
+        }
+
+        .testimonial-item .author-info {
+            font-weight: 600;
+            color: var(--text-heading);
+            display: block;
+        }
+        .testimonial-item .author-info span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        .testimonial-item .stars {
+            color: gold;
+            margin-bottom: 10px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            font-size: 2rem;
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            color: var(--text-heading);
+            font-size: 1.15rem;
+        }
+
+        .location-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .location-info a:hover {
+            color: var(--brand-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-body);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td {
+            color: var(--text-secondary);
+        }
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours-ctas {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .final-cta-section .container {
+            max-width: 800px;
+        }
+
+        .final-cta-section h2 {
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            font-size: clamp(2.2rem, 5vw, 3.2rem);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .final-cta-section .btn-primary {
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            border: 2px solid var(--bg-main);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+        }
+
+        .final-cta-section .btn-primary:hover {
+            background-color: var(--bg-light);
+            border-color: var(--bg-light);
+            color: var(--text-heading);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-light);
+            color: var(--text-secondary);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            text-decoration: none;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            .hero-section .location { font-size: 1rem; }
+            .hero-section .tagline { font-size: 1rem; }
+            .section-padding-y { padding: 80px 0; }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-hours-ctas {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav links on mobile for simplicity, could be a hamburger menu */
+            }
+            .sticky-header .btn-call {
+                margin-left: auto; /* Push button to right if nav is hidden */
+            }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            p { font-size: 1rem; }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .social-proof-strip .items {
+                grid-template-columns: 1fr;
+            }
+            .our-story-content {
+                gap: 40px;
+            }
+            .stats-grid, .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-padding-y { padding: 60px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .sticky-header .logo { font-size: 1.5rem; }
+            .sticky-header .btn-call { padding: 8px 15px; font-size: 0.9rem; }
+            h1 { font-size: 2.5rem; }
+            .hero-section .tagline { font-size: 0.9rem; }
+            .rating-badge { padding: 6px 15px; font-size: 0.9rem; }
+            .social-proof-strip .item strong { font-size: 1.8rem; }
+            .social-proof-strip .item span { font-size: 0.9rem; }
+            .section-headline { font-size: 1.8rem; }
+            .testimonial-card p, .testimonial-item .quote { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="logo">Bon Bon's</a>
+        <nav>
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:3368743500" class="btn btn-call">CALL (336) 874-3500</a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content fade-in">
+            <p class="location">Elkin, NC</p>
+            <h1>Bon Bon's</h1>
+            <p class="tagline">NEW PAGE FOR Yadkin Valley Chamber of Commerce!! . Hello from David & Quinn at the Yadkin Valley Chamber located in Elkin!</p>
+            <div class="rating-badge">
+                <span>⭐</span> 4.9 Stars (53 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container items fade-in">
+            <div class="item">
+                <strong>4.9/5</strong>
+                <span>Overall Rating</span>
+            </div>
+            <div class="item">
+                <strong>53+</strong>
+                <span>Happy Customers</span>
+            </div>
+            <div class="item">
+                <strong>Elkin's</strong>
+                <span>Local Favorite Bar & Grill</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="fade-in">
+        <div class="container">
+            <span class="section-label">Our Story</span>
+            <h2 class="section-headline">Experience the Heart of Elkin's Culinary Scene.</h2>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>Welcome to Bon Bon's, a cherished Bar and Grill in the heart of Elkin, NC. We invite you to explore our story, discover our delectable menu, read our glowing reviews, find us easily on the map, and get directions to your new favorite local spot. At Bon Bon's, we're more than just a meal; we're a community hub where great food and good times come together.</p>
+                    <p>We're dedicated to providing a welcoming atmosphere where every guest feels like family. From hearty meals to refreshing drinks, Bon Bon's is your destination for unforgettable flavors and genuine hospitality. Come see why Elkin locals love to gather here!</p>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p>"Bon Bon's is truly a gem in Elkin! The atmosphere is fantastic, and the food is always on point. It's our go-to spot for a relaxed evening out. Highly recommend to anyone looking for great food and even better company."</p>
+                    <span class="author">— A Happy Regular, Elkin</span>
+                </div>
+            </div>
+            <div class="stats-grid fade-in">
+                <div class="stat-item">
+                    <div class="number">4.9</div>
+                    <div class="label">Star Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">53</div>
+                    <div class="label">Glowing Reviews</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number">6</div>
+                    <div class="label">Days A Week</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="fade-in" style="background-color: var(--bg-light);">
+        <div class="container">
+            <span class="section-label">Our Menu</span>
+            <h2 class="section-headline">Taste the Flavors That Keep Elkin Coming Back.</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in">
+                    <h3>Bon Bon's Signature Burgers</h3>
+                    <p>Juicy, handcrafted burgers, cooked to perfection with your choice of premium toppings. A local favorite!</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Crispy Golden Wings</h3>
+                    <p>Our famously crispy wings, tossed in your choice of classic or signature sauces. Perfect for sharing!</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Hearty BBQ Sandwiches</h3>
+                    <p>Slow-smoked meats piled high on fresh buns with our tangy BBQ sauce. A true taste of Southern comfort.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Fresh Garden Salads</h3>
+                    <p>Light and refreshing salads made with the freshest seasonal greens and vibrant ingredients.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Local Craft Brews</h3>
+                    <p>A rotating selection of the finest local and regional craft beers, perfectly complementing your meal.</p>
+                </div>
+                <div class="menu-card fade-in">
+                    <h3>Decadent Daily Desserts</h3>
+                    <p>Indulge in our homemade desserts, crafted fresh daily to sweeten your dining experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="fade-in">
+        <div class="container">
+            <span class="section-label">Why Bon Bon's?</span>
+            <h2 class="section-headline">More Than Just Food & Drinks – It's an Experience.</h2>
+            <div class="why-choose-us-grid">
+                <div class="why-card fade-in">
+                    <h3>Unbeatable Flavor, Proven by 4.9 Stars</h3>
+                    <p>Experience why Bon Bon's is rated 4.9 stars by 53 happy customers! Our kitchen crafts every dish, from our <strong>Bon Bon's Signature Burgers</strong> to our <strong>Crispy Golden Wings</strong>, with passion and the freshest ingredients, making every visit a culinary delight.</p>
+                </div>
+                <div class="why-card fade-in">
+                    <h3>Your Elkin Community Hub</h3>
+                    <p>More than just a meal, Bon Bon's is where Elkin comes together. Enjoy a welcoming atmosphere perfect for family dinners, catching up with friends, or unwinding after a long day. We're proud to be part of the Yadkin Valley Chamber of Commerce, bringing quality dining to our vibrant community.</p>
+                </div>
+                <div class="why-card fade-in">
+                    <h3>Freshness & Fun, 6 Days a Week</h3>
+                    <p>Open Monday through Saturday, Bon Bon's is dedicated to serving you delicious food and a great time. Whether you're craving a <strong>Hearty BBQ Sandwich</strong> for lunch or exploring our <strong>Local Craft Brews</strong> after work, we're ready to make your visit memorable.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="fade-in" style="background-color: var(--bg-light);">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="section-headline">Hear From Our Happy Customers.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="quote">"Absolutely loved the <strong>Bon Bon's Signature Burger</strong>! It was perfectly cooked and so flavorful. The service was friendly and the atmosphere made for a great evening. Can't wait to come back for more!"</p>
+                    <span class="author-info">— Jessica L. <span>(Elkin Local)</span></span>
+                </div>
+                <div class="testimonial-item fade-in">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="quote">"The <strong>Crispy Golden Wings</strong> are a must-try! Best in Elkin, hands down. We also enjoyed a few of their <strong>Local Craft Brews</strong>. Bon Bon's is our new favorite spot for a casual and delicious meal."</p>
+                    <span class="author-info">— Mark R. <span>(Visited last week)</span></span>
+                </div>
+                <div class="testimonial-item fade-in">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <p class="quote">"I stop by for a <strong>Hearty BBQ Sandwich</strong> almost every week. The consistency is amazing, and it always hits the spot. Friendly staff and a cozy place to enjoy lunch. Highly recommend for anyone in Elkin!"</p>
+                    <span class="author-info">— David P. <span>(Regular Customer)</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="fade-in">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Find Bon Bon's in Elkin, NC.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p><strong>Bon Bon's Bar And Grill</strong></p>
+                    <p>2113 N Bridge St,<br>Elkin, NC 28621, USA</p>
+                    <p>Get Directions on <a href="https://www.google.com/maps/dir/?api=1&destination=2113+N+Bridge+St,+Elkin,+NC+28621,+USA" target="_blank" rel="noopener noreferrer">Google Maps</a></p>
+                    <p>Phone: <a href="tel:3368743500">(336) 874-3500</a></p>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>9:00 AM – 12:30 PM, 1:00 PM – 4:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="location-hours-ctas">
+                        <a href="tel:3368743500" class="btn btn-primary">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section fade-in">
+        <div class="container">
+            <h2>Ready for Elkin's Best Bar & Grill Experience?</h2>
+            <a href="tel:3368743500" class="btn btn-primary">DINE WITH US TODAY!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">Bon Bon's</a>
+            <p class="tagline">NEW PAGE FOR Yadkin Valley Chamber of Commerce!! . Hello from David & Quinn at the Yadkin Valley Chamber located in Elkin!</p>
+            <div class="social-links">
+                <!-- Placeholder for social icons -->
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.563 0-.65.233-.65.748v1.157h2.001l-.257 2.189h-1.744v5.046h-3.218v-5.046h-1.726v-2.189h1.726v-1.127c0-2.071 1.009-3.169 3.029-3.169h1.758v3z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.251-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.058 1.644-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Bon Bon's. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of the item is visible
+                rootMargin: '0px 0px -50px 0px' // Start observing a bit earlier
+            });
+
+            elements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
