@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rachel's Whistle Stop Cafe - Norlina's Beloved Diner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables & Global Styles */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #1e3a5f;
+            --accent-color: #d4a574;
+            --heading-color: #ffffff;
+            --body-color: #cccccc;
+            --secondary-text-color: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --border-radius-sm: 6px;
+            --border-radius-md: 10px;
+            --spacing-sm: 20px;
+            --spacing-md: 40px;
+            --spacing-lg: 80px;
+            --spacing-xl: 120px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--body-color);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--heading-color);
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-sm);
+        }
+
+        section {
+            padding: var(--spacing-xl) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up */
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--secondary-bg);
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--heading-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #162c4b; /* Slightly darker brand color */
+            border-color: #162c4b;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(212, 165, 116, 0.1);
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Utility classes for fade-in-up */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 var(--spacing-sm);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--heading-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header .logo a {
+            color: var(--heading-color);
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-md);
+        }
+
+        .header nav a {
+            color: var(--body-color);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .header nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .header .btn-call {
+            padding: 8px 18px;
+            background-color: var(--brand-color);
+            color: var(--heading-color);
+            border: none;
+            font-size: 0.95rem;
+            border-radius: var(--border-radius-sm);
+            white-space: nowrap;
+        }
+
+        .header .btn-call:hover {
+            background-color: #162c4b;
+            transform: scale(1.05); /* Slightly more prominent scale for sticky button */
+        }
+        
+        /* HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 60px; /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--primary-bg) 0%, rgba(30, 58, 95, 0.2) 30%, rgba(212, 165, 116, 0.1) 70%, var(--primary-bg) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(17, 17, 17, 0) 0%, rgba(17, 17, 17, 0.8) 75%);
+            z-index: 1;
+        }
+
+        .hero .content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 var(--spacing-sm);
+        }
+
+        .hero .location-text {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive, bold */
+            color: var(--heading-color);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            color: var(--body-color);
+            font-weight: 300;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            padding: 8px 15px;
+            font-size: 1.1rem;
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-lg);
+            font-weight: 500;
+            gap: 8px;
+        }
+
+        .hero .rating-badge svg {
+            color: #FFD700; /* Gold star */
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero .cta-group {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+        }
+
+        /* SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(30, 58, 95, 0.05); /* Brand color at low opacity */
+            padding: var(--spacing-md) 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof .proof-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .social-proof .proof-item {
+            flex: 1;
+            min-width: 180px;
+            padding: 10px;
+            color: var(--heading-color);
+        }
+
+        .social-proof .proof-item .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof .proof-item .text {
+            font-size: 1.1rem;
+            color: var(--body-color);
+        }
+
+        /* OUR STORY SECTION */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+        
+        .our-story .story-text p {
+            font-size: 1.1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        .our-story .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .our-story .story-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .our-story .testimonial-card {
+            border-left: 5px solid var(--brand-color);
+            padding-left: var(--spacing-md);
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--body-color);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .our-story .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-top: 10px;
+            display: block;
+        }
+
+        .our-story .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .our-story .stat-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md) var(--spacing-sm);
+        }
+
+        .our-story .stat-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .our-story .stat-card .label {
+            font-size: 1.05rem;
+            color: var(--body-color);
+        }
+
+        /* MENU SECTION */
+        .menu-section .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .menu-section .menu-item-card {
+            position: relative;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 8px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-section .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-section .menu-item-card h3 {
+            font-size: 1.5rem;
+            color: var(--heading-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-section .menu-item-card p {
+            font-size: 1rem;
+            color: var(--body-color);
+            margin-bottom: 0;
+        }
+        
+        .menu-section .full-menu-cta {
+            text-align: center;
+        }
+
+        /* WHY CHOOSE US SECTION */
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .why-choose-us .reason-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+        }
+
+        .why-choose-us .reason-card svg {
+            color: var(--accent-color);
+            width: 50px;
+            height: 50px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .why-choose-us .reason-card h3 {
+            font-size: 1.6rem;
+            color: var(--heading-color);
+            margin-bottom: 15px;
+        }
+
+        .why-choose-us .reason-card p {
+            font-size: 1.05rem;
+            color: var(--body-color);
+            margin-bottom: 0;
+        }
+
+        /* TESTIMONIALS SECTION */
+        .testimonials .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .testimonials .testimonial-card-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 8px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: var(--border-radius-md);
+            padding: var(--spacing-md);
+            font-style: italic;
+        }
+
+        .testimonials .testimonial-card-item .quote {
+            font-size: 1.1rem;
+            color: var(--body-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .testimonials .testimonial-card-item .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            display: block;
+        }
+
+        /* LOCATION & HOURS SECTION */
+        .location-hours .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+        }
+
+        .location-hours .location-info h3,
+        .location-hours .hours-info h3 {
+            font-size: 2rem;
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .location-hours .address {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--body-color);
+        }
+        
+        .location-hours .phone-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: var(--spacing-md);
+            transition: color 0.3s ease;
+        }
+        .location-hours .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-sm);
+        }
+
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 1.05rem;
+        }
+
+        .location-hours .hours-table th {
+            color: var(--heading-color);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .location-hours .hours-table td {
+            color: var(--body-color);
+        }
+        .location-hours .hours-table td.closed {
+            color: var(--secondary-text-color);
+        }
+
+        .location-hours .call-to-order-btn {
+            margin-top: var(--spacing-md);
+        }
+
+        /* FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(45deg, var(--brand-color) 0%, #162c4b 100%);
+            text-align: center;
+            padding: var(--spacing-xl) 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--primary-bg);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: #c0946b; /* Slightly darker accent */
+            border-color: #c0946b;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--primary-bg);
+            padding: var(--spacing-lg) 0 var(--spacing-sm);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo {
+            font-family: 'Bitter', serif;
+            font-size: 2.5rem;
+            color: var(--heading-color);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: var(--spacing-sm);
+        }
+        .footer .logo a {
+            color: var(--heading-color);
+        }
+
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--body-color);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .footer .social-links a {
+            color: var(--body-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--secondary-text-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: 70px; /* Slightly taller for better touch target */
+                padding: 0 var(--spacing-sm);
+            }
+            .header nav {
+                display: none; /* Hide nav on mobile, typically replaced by a hamburger menu */
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .btn-call {
+                font-size: 0.85rem;
+                padding: 6px 14px;
+            }
+
+            .hero {
+                padding-top: 70px;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+                margin-bottom: 15px;
+            }
+            .hero .location-text {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+                margin-bottom: var(--spacing-md);
+            }
+            .hero .rating-badge {
+                font-size: 1rem;
+                padding: 6px 12px;
+                margin-bottom: var(--spacing-md);
+            }
+            .hero .rating-badge svg {
+                width: 16px;
+                height: 16px;
+            }
+            .hero .cta-group {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            section {
+                padding: var(--spacing-lg) 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: var(--spacing-md);
+            }
+
+            .social-proof .proof-grid {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+
+            .our-story .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-section .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-choose-us .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .testimonials .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours .location-info,
+            .location-hours .hours-info {
+                text-align: center;
+            }
+            .location-hours .hours-table {
+                margin: auto;
+                text-align: center;
+            }
+            .location-hours .hours-table th,
+            .location-hours .hours-table td {
+                text-align: center;
+                padding: 8px 0;
+            }
+            .location-hours .phone-number {
+                font-size: 1.4rem;
+            }
+
+            .final-cta h2 {
+                font-size: 2.2rem;
+                margin-bottom: var(--spacing-md);
+            }
+            .final-cta .btn {
+                max-width: 250px;
+            }
+
+            .footer .logo {
+                font-size: 2rem;
+            }
+            .footer .tagline {
+                font-size: 1rem;
+            }
+            .footer .social-links {
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo"><a href="#hero">Rachel's Whistle Stop Cafe</a></div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:2524560855" class="btn btn-call">CALL (252) 456-0855</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="content fade-in-up">
+            <p class="location-text">Norlina, NC</p>
+            <h1>Rachel's Whistle Stop Cafe</h1>
+            <p class="tagline">Monday - Friday 11:00am to 8:00pm · We will be open on Good Friday! · Looking forward to seeing you all.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.788 3.212a.75.75 0 011.424 0l4.5 9A.75.75 0 0116.5 13.5h-9a.75.75 0 01-.712-.5l4.5-9z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M12 16.5a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0v-3.75a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+                <span>4.6 Stars (262 Reviews)</span>
+            </div>
+            <div class="cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container proof-grid fade-in-up">
+            <div class="proof-item">
+                <div class="number">4.6</div>
+                <div class="text">Star Rating</div>
+            </div>
+            <div class="proof-item">
+                <div class="number">262+</div>
+                <div class="text">Happy Reviews</div>
+            </div>
+            <div class="proof-item">
+                <div class="number">Local</div>
+                <div class="text">Favorite Diner</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Heritage</span>
+            <h2 class="section-headline">A Heartbeat in Norlina: More Than Just a Diner</h2>
+            <div class="content-grid">
+                <div class="story-text">
+                    <p>Rachel's Whistle Stop Cafe is a cherished cornerstone of Norlina, NC, a clean, family-oriented restaurant that has welcomed generations of locals. We sit proudly across the street from the old railway dining car museum, a nod to the town's vibrant past when Norlina was a bustling hub.</p>
+                    <p>Like many small towns, Norlina has seen its share of changes, bypassed by interstates and shifting transportation. But through it all, Rachel's has remained a steadfast beacon, a place where the community gathers for good food and warm company. Our doors are open, offering plenty of seating in our bright, train-decorated space—complete with models, posters, and toy train ads that tell a story of local history and enduring charm.</p>
+                    <p>We are committed to providing a comforting, nostalgic experience, serving up classic diner fare with a smile. Every visit to Rachel's Whistle Stop Cafe is a journey back to simpler times, a taste of home in the heart of Norlina.</p>
+                </div>
+                <div class="story-details">
+                    <blockquote class="testimonial-card">
+                        "Stepping into Rachel's is like coming home. The train decor, the friendly faces, and the comforting food make it a true gem in Norlina. A must-visit for anyone passing through!"
+                        <span class="author">— A Loyal Local</span>
+                    </blockquote>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="number">262+</div>
+                            <div class="label">Positive Reviews</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">Family</div>
+                            <div class="label">Owned & Operated</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="number">Clean</div>
+                            <div class="label">Comfortable Space</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Delicious Offerings</span>
+            <h2 class="section-headline">Classic Diner Comfort Food, Made Fresh Daily</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div>
+                        <h3>The Whistle Stop Breakfast Platter</h3>
+                        <p>A hearty start to your day! Fluffy pancakes, crispy bacon, savory sausage, scrambled eggs, and golden hash browns.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Classic All-American Burger</h3>
+                        <p>Juicy beef patty, crisp lettuce, ripe tomato, onions, pickles, and our special sauce on a toasted bun. Served with fries.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Homestyle Meatloaf Dinner</h3>
+                        <p>Our comforting meatloaf recipe, served with creamy mashed potatoes and seasonal green beans. Just like Grandma used to make.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Creamy Tomato Soup & Grilled Cheese</h3>
+                    <p>The ultimate comfort combo. Rich, savory tomato soup paired with a perfectly grilled, gooey cheese sandwich.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Southern Fried Chicken</h3>
+                        <p>Crispy on the outside, juicy on the inside. Our perfectly seasoned fried chicken served with your choice of sides.</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Rich Chocolate Milkshake</h3>
+                        <p>Hand-spun, thick, and decadent. A classic diner treat that's perfect any time of day.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="full-menu-cta fade-in-up">
+                <p style="margin-bottom: var(--spacing-sm); font-size: 1.15rem; color: var(--accent-color);">These are just a few of our beloved diner classics. We have much more to offer!</p>
+                <a href="https://www.yelp.com/menu/whistle-stop-cafe-norlina" target="_blank" rel="noopener noreferrer" class="btn btn-primary">VIEW FULL MENU ON YELP</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container fade-in-up">
+            <span class="section-label">Our Promise</span>
+            <h2 class="section-headline">Why Locals & Travelers Stop at Rachel's</h2>
+            <div class="cards-grid">
+                <div class="reason-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M14.615 1.595a.75.75 0 01.359.852L13.25 8.685a.75.75 0 01-.108.188l-3.377 3.377a.75.75 0 01-.188.108l-6.238 1.403a.75.75 0 01-.852-.359.75.75 0 01.359-.852l1.403-.624A.75.75 0 018.685 13.25l3.377-3.377a.75.75 0 01.108-.188L13.636 2.054a.75.75 0 01.852-.359zM12 6.75a5.25 5.25 0 016.75 6.75H12V6.75z" clip-rule="evenodd" /><path d="M10.875 18.75a.75.75 0 00.75-1.5H11.25a.75.75 0 00-.75.75c0 .414.336.75.75.75zM15 17.25a.75.75 0 00-.75.75c0 .414.336.75.75.75h.375a.75.75 0 00.75-.75.75.75 0 00-.75-.75H15zM18.375 19.5a.75.75 0 00-.75.75c0 .414.336.75.75.75h.375a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.375zM16.5 21a.75.75 0 00-.75.75c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.75zM12.75 21a.75.75 0 00-.75.75c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.75zM7.5 17.25a.75.75 0 00-.75.75c0 .414.336.75.75.75h.375a.75.75 0 00.75-.75.75.75 0 00-.75-.75H7.5zM14.25 22.5a.75.75 0 00-.75.75c0 .414.336.75.75.75h.375a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.375zM9.375 19.5a.75.75 0 00-.75.75c0 .414.336.75.75.75h.375a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.375zM7.875 21a.75.75 0 00-.75.75c0 .414.336.75.75.75h.75a.75.75 0 00.75-.75.75.75 0 00-.75-.75h-.75z" /></svg>
+                    <h3>A Taste of Norlina History</h3>
+                    <p>We're deeply rooted in Norlina's rich railway past, offering a nostalgic ambiance decorated with charming train models and posters. Experience a piece of local heritage with every meal.</p>
+                </div>
+                <div class="reason-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M18.685 19.02a1.75 1.75 0 00-.867 1.13c-.267.809-.298 1.63-.298 1.63H9.838c-.021-.19-.016-.272-.016-.272-.119-.884-.271-1.74-.539-2.527a4.25 4.25 0 01-2.924-4.043c0-2.316 1.77-4.225 4.099-4.524A7.472 7.472 0 0112 9c.148 0 .298.006.446.018a.75.75 0 00.912-.767c.059-.44-.06-.947-.235-1.442-2.196-.45-4.516.326-5.918 2.348A6.002 6.002 0 006 14.5c0 1.25.39 2.45 1.114 3.444A.75.75 0 006.5 19h-.75a.75.75 0 00-.75.75v.5a.75.75 0 00.75.75h.75zM12 9a6.002 6.002 0 015.659 4.382c.324.87.521 1.761.597 2.658.1.115.195.228.289.336.216.248.406.495.568.736l.244.359a.75.75 0 00.514 1.106h2.25a.75.75 0 00.75-.75v-.5a.75.75 0 00-.75-.75h-.75c-.29-.624-.766-1.296-1.401-1.897a.75.75 0 00-.872-.221A4.252 4.252 0 0118 14.5c0-.853-.16-1.676-.454-2.459A.75.75 0 0017.5 11.25h-.75a.75.75 0 00-.704.498A6.002 6.002 0 0112 9z" clip-rule="evenodd" /></svg>
+                    <h3>Clean, Welcoming & Family-Friendly</h3>
+                    <p>Our diner is immaculately clean with ample seating, perfect for families and friends. We pride ourselves on creating a warm, inviting atmosphere where everyone feels at home.</p>
+                </div>
+                <div class="reason-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M10.788 3.212a.75.75 0 011.424 0l4.5 9A.75.75 0 0116.5 13.5h-9a.75.75 0 01-.712-.5l4.5-9z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M12 16.5a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0v-3.75a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+                    <h3>Highly Rated by Our Community</h3>
+                    <p>With 4.6 stars and over 260 positive reviews, our dedication to quality food and friendly service shines through. We're a proven local favorite you can trust.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container fade-in-up">
+            <span class="section-label">What Our Customers Say</span>
+            <h2 class="section-headline">Hear From Our Happy Diners!</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card-item">
+                    <p class="quote">"Rachel's Whistle Stop Cafe is a true gem! Their coffee is always fresh and hot, and the breakfast platter gets my day started right every time. The staff makes you feel like family."</p>
+                    <span class="author">— Margaret S., Norlina, NC</span>
+                </div>
+                <div class="testimonial-card-item">
+                    <p class="quote">"Stopped in on a whim and was so glad I did. The Classic All-American Burger was perfectly cooked, and the fries were crispy. You can tell they put love into their food. Highly recommend!"</p>
+                    <span class="author">— David R., Visitor from Manson, NC</span>
+                </div>
+                <div class="testimonial-card-item">
+                    <p class="quote">"The atmosphere here is wonderfully nostalgic, and the food matches! My kids loved the chocolate milkshakes, and I really enjoyed the homestyle meatloaf. It's our new favorite spot."</p>
+                    <span class="author">— Jessica L., Local Parent</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container fade-in-up">
+            <span class="section-label">Visit Us Today</span>
+            <h2 class="section-headline">Find Your Way to Rachel's Whistle Stop Cafe</h2>
+            <div class="content-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p class="address">123 Hyco St, Norlina, NC 27563, USA</p>
+                    <a href="tel:2524560855" class="phone-number">(252) 456-0855</a>
+                    <p style="margin-bottom: var(--spacing-md);">Conveniently located in the heart of Norlina, right across from the historic railway museum.</p>
+                    <a href="https://maps.google.com/?q=123+Hyco+St,+Norlina,+NC+27563,+USA" target="_blank" rel="noopener noreferrer" class="btn btn-primary">GET DIRECTIONS</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday:</th>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>11:00 AM – 8:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: var(--spacing-sm); font-size: 0.95rem; color: var(--accent-color);">We will be open on Good Friday! 11:00am to 8:00pm</p>
+                    <a href="tel:2524560855" class="btn btn-primary call-to-order-btn">CALL TO ORDER TAKE-OUT</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready for a Taste of Norlina's Best?</h2>
+            <a href="tel:2524560855" class="btn btn-primary">CALL AHEAD OR STOP BY TODAY!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo"><a href="#hero">Rachel's Whistle Stop Cafe</a></div>
+            <p class="tagline">Norlina's Beloved Local Diner</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.092-1.192 1.127-1.192h2.873v-5h-3.847c-3.35 0-4.153 1.157-4.153 3.571v2.429z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.071 1.17.067 1.761.233 2.193.42 1.48.69 2.193 1.956 2.427 3.668.239 1.762.261 2.219.261 4.542s-.022 2.78-.261 4.542c-.234 1.712-.947 2.978-2.427 3.668-.432.187-1.023.353-2.193.42-1.266.059-1.646.071-4.85.071s-3.584-.012-4.85-.071c-1.17-.067-1.761-.233-2.193-.42-1.48-.69-2.193-1.956-2.427-3.668-.239-1.762-.261-2.219-.261-4.542s.022-2.78.261-4.542c.234-1.712.947-2.978 2.427-3.668.432-.187 1.023-.353 2.193-.42 1.266-.059 1.646-.071 4.85-.071zm0-2.163c-3.265 0-3.665.012-4.947.072-1.24.071-2.002.262-2.68.583-.755.35-1.378.809-1.993 1.424-.615.615-1.074 1.238-1.424 1.993-.321.678-.512 1.44-.583 2.68-.06 1.282-.072 1.682-.072 4.947s.012 3.665.072 4.947c.071 1.24.262 2.002.583 2.68.35.755.809 1.378 1.424 1.993.615.615 1.238 1.074 1.993 1.424.678.321 1.44.512 2.68.583 1.282.06 1.682.072 4.947.072s3.665-.012 4.947-.072c1.24-.071 2.002-.262 2.68-.583.755-.35 1.378-.809 1.993-1.424.615-.615 1.074-1.238 1.424-1.993.321-.678.512-1.44.583-2.68.06-1.282.072-1.682.072-4.947s-.012-3.665-.072-4.947c-.071-1.24-.262-2.002-.583-2.68-.35-.755-.809-1.378-1.424-1.993-.615-.615-1.238-1.074-1.993-1.424-.678-.321-1.44-.512-2.68-.583-1.282-.06-1.682-.072-4.947-.072zm0 8.838c-2.179 0-3.942 1.763-3.942 3.942s1.763 3.942 3.942 3.942 3.942-1.763 3.942-3.942-1.763-3.942-3.942-3.942zm0 6.446c-1.381 0-2.504-1.123-2.504-2.504s1.123-2.504 2.504-2.504c1.381 0 2.504 1.123 2.504 2.504s-1.123 2.504-2.504 2.504zm5.118-8.987c-.554 0-1.002.448-1.002 1.002s.448 1.002 1.002 1.002 1.002-.448 1.002-1.002-.448-1.002-1.002-1.002z"/></svg></a>
+                <a href="https://www.yelp.com/menu/whistle-stop-cafe-norlina" target="_blank" rel="noopener noreferrer" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M10.966 2c-.309-.001-.617.039-.92.115-.417.103-.795.345-1.135.631-.22.184-.42.386-.6.602-.416.5-.724 1.082-.879 1.767l-2.015 9.079c-.046.21-.069.421-.069.632 0 1.259 1.02 2.279 2.279 2.279.136 0 .272-.012.404-.037.288-.052.56-.168.802-.341l2.42-1.815c.356-.267.755-.429 1.166-.464.385-.032.772.032 1.144.183.39.157.747.41 1.054.743l2.42 1.815c.242.173.514.289.802.341.132.025.268.037.404.037 1.259 0 2.279-1.02 2.279-2.279 0-.211-.023-.422-.069-.632l-2.015-9.079c-.155-.685-.463-1.267-.879-1.767-.18-.216-.38-.418-.6-.602-.34-.286-.718-.528-1.135-.631-.303-.076-.611-.116-.92-.115h-2.007zm-1.082 2.686c-.52.272-.942.753-1.18 1.332l-1.928 8.677c-.03.134-.045.268-.045.404 0 .692.561 1.253 1.253 1.253.076 0 .15-.008.223-.021.16-.029.31-.093.444-.188l2.25-1.688c.197-.148.418-.238.648-.258.232-.02.465.02.688.117.234.1.448.257.625.468l2.25 1.688c.134.095.284.159.444.188.073.013.147.021.223.021.692 0 1.253-.561 1.253-1.253 0-.136-.015-.27-.045-.404l-1.928-8.677c-.238-.579-.66-1.06-1.18-1.332-.23-.121-.475-.205-.726-.251-.235-.043-.473-.049-.708-.016-.245.035-.48.118-.703.242l-1.092.593z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 Rachel's Whistle Stop Cafe. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null, /* viewport */
+                rootMargin: '0px',
+                threshold: 0.1 /* element is 10% visible */
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            elements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
