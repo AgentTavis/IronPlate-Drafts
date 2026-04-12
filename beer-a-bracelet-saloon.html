@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beer & A Bracelet Saloon | Brevard's Unique Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-color: #1a5f3f;
+            --accent-color: #ffffff;
+            --bg-main: #111111;
+            --bg-section-alt: #161616; /* Slightly lighter for contrast */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        button, .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-main);
+            transform: scale(1.02);
+        }
+
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            color: var(--brand-color);
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 0.1em;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header-nav a {
+            color: var(--accent-color);
+            font-size: 1rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .header-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-phone-button {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(circle at top left, rgba(26, 95, 63, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(26, 95, 63, 0.2) 0%, transparent 40%),
+                        linear-gradient(to bottom, var(--bg-main) 0%, #0d0d0d 100%);
+            padding-top: 60px; /* Account for sticky header */
+            opacity: 1; /* Hero is always visible */
+            transform: translateY(0); /* Hero is always visible */
+        }
+
+        .hero-content {
+            z-index: 10;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-name {
+            font-size: 5.5rem;
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-body);
+            font-weight: 400;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(26, 95, 63, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            color: var(--accent-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            gap: 8px;
+        }
+
+        .rating-badge svg {
+            fill: #FFD700; /* Gold star color */
+            width: 18px;
+            height: 18px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(26, 95, 63, 0.05);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .wrapper {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .proof-item p {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Our Story Section */
+        .our-story-section .wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        .story-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            max-width: 700px;
+        }
+
+        .story-testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-top: 3rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .story-testimonial-card p {
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .story-testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--bg-section-alt);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 1.8rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            line-height: 1.2;
+        }
+
+        .menu-item-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section .wrapper {
+            text-align: center;
+        }
+
+        .why-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--brand-color);
+            line-height: 1.2;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--bg-section-alt);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section .wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 4rem;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--brand-color);
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        
+        .location-hours-section .btn {
+            margin-top: 40px;
+            width: fit-content;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(26, 95, 63, 0.8) 100%);
+            text-align: center;
+            padding: 100px 0;
+            opacity: 1; /* Always visible */
+            transform: translateY(0); /* Always visible */
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            line-height: 1.2;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4.5rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .header-nav ul {
+                gap: 1.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-direction: column;
+                padding: 10px 1.5rem;
+                gap: 10px;
+            }
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 0.8rem 1.5rem;
+            }
+            .header-phone-button {
+                width: 100%;
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+            .social-proof-strip .wrapper {
+                flex-direction: column;
+            }
+            .proof-item h3 {
+                font-size: 1.8rem;
+            }
+
+            .our-story-section .wrapper,
+            .location-hours-section .wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid,
+            .why-cards,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .wrapper {
+                padding: 0 1rem;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .story-testimonial-card p, .testimonial-card p {
+                font-size: 1.05rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <div class="header-logo">BEER & A BRACELET SALOON</div>
+        <nav class="header-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:+18288833709" class="btn btn-primary header-phone-button">CALL (828) 883-3709</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-content">
+            <p class="hero-location">Brevard, NC</p>
+            <h1 class="hero-name">Beer & A Bracelet Saloon</h1>
+            <p class="hero-tagline">Brevard's Unique Blend: Local Art, Craft Brews, and the Smallest Bar in the USA.</p>
+            <div class="rating-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279l-7.416-3.921-7.417 3.921 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.3 Stars (1 Review)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Strip -->
+    <section class="social-proof-strip">
+        <div class="wrapper">
+            <div class="proof-item">
+                <h3>4.3/5</h3>
+                <p>Star Rating</p>
+            </div>
+            <div class="proof-item">
+                <h3>1</h3>
+                <p>Happy Customer (and growing!)</p>
+            </div>
+            <div class="proof-item">
+                <h3>Local</h3>
+                <p>Brevard Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story-section" id="our-story">
+        <div class="wrapper">
+            <div class="story-content">
+                <span class="section-label">Our Story</span>
+                <h2 class="section-headline">More Than Just a Bar: A Community Hub in Brevard.</h2>
+                <p>Welcome to Beer & A Bracelet Saloon, where charm meets craft in the heart of Brevard, NC. We're a unique destination that beautifully merges two passions: celebrating local artistry and serving up exceptional drinks in an unforgettable setting. Step inside and discover a treasure trove of delightful items from talented local artists – a true "Hunters & Gatherers" experience.</p>
+                <p>But that's just one half of our story. Beyond the curated artisan goods, you'll find what signs proudly declare is the smallest bar in the US. Nestled cozy, with just three intimate chairs for those over 21, our bar offers a distinctive experience. Here, you can unwind with a selection of craft beers, finely mixed cocktails, and expertly brewed coffee-type drinks. We believe in friendly faces, a warm atmosphere, and making every visit feel special. Come for the art, stay for the unique ambiance and a chat with our friendly staff!</p>
+
+                <div class="story-testimonial-card">
+                    <p>"Cuuuute! There are a ton of little items from local artists. I love shops like this. Inside there is the smallest bar ever. The bar serves beers, cocktails, and coffee type drinks. The guy behind the bar was really nice."</p>
+                    <span>- Happy Customer, Yelp</span>
+                </div>
+
+                <div class="story-stats">
+                    <div class="stat-card">
+                        <h3>The Smallest Bar</h3>
+                        <p>in the USA</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Curated Local Art</h3>
+                        <p>from Brevard's best</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>3 Cozy Seats</h3>
+                        <p>for an intimate experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section" id="menu">
+        <div class="wrapper">
+            <span class="section-label">Our Offerings</span>
+            <h2 class="section-headline">Crafted Drinks & Bites for Every Taste.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Local Craft Beer Selection</h3>
+                    <p>Discover a rotating tap of the finest regional and national craft brews. Ask our friendly staff for today's specials!</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Signature Cocktails</h3>
+                    <p>Expertly mixed cocktails, from timeless classics to our unique house creations. Perfect for a cozy evening.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Gourmet Coffee & Espresso</h3>
+                    <p>Whether you need a morning pick-me-up or an afternoon treat, enjoy our selection of rich coffees and espressos.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Artisan Cheese Board</h3>
+                    <p>A perfectly curated selection of local and imported cheeses, crackers, and accompaniments. Pairs wonderfully with our beers.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Pulled Pork Sliders</h3>
+                    <p>Tender, slow-cooked pulled pork on mini buns with our signature BBQ sauce. A hearty bite.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Spicy Chicken Wraps</h3>
+                    <p>Grilled chicken, fresh greens, and a zesty sauce, all wrapped in a soft tortilla for a light yet satisfying meal.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Homemade Chili</h3>
+                    <p>Warm up with a bowl of our savory homemade chili, packed with flavor and served with a side of cornbread.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Dessert of the Day</h3>
+                    <p>Ask your server about our delightful daily dessert special – the perfect sweet ending to your visit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-us-section" id="why-choose-us">
+        <div class="wrapper">
+            <span class="section-label">Our Promise</span>
+            <h2 class="section-headline">Experience Brevard Like Never Before.</h2>
+            <div class="why-cards">
+                <div class="why-card">
+                    <h3>Brevard's Smallest Bar</h3>
+                    <p>Enjoy an unparalleled, intimate drinking experience at what is proudly claimed to be the smallest bar in the entire USA. Three seats, endless charm.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Support Local Artistry</h3>
+                    <p>Browse unique, handcrafted goods from talented local artists. Every purchase supports our vibrant Brevard creative community.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Craft & Community</h3>
+                    <p>From carefully selected craft beers and inventive cocktails to gourmet coffee and friendly faces, we blend quality drinks with a welcoming, local vibe.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section">
+        <div class="wrapper">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="section-headline">Stories From Our Beloved Patrons.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"The unique atmosphere here is incredible! Loved browsing the local art, and the bar's craft beer selection, though small, is mighty. A real gem in Brevard!"</p>
+                    <span>- Sarah P., Brevard Local</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"I finally tried one of their Signature Cocktails, and it was absolute perfection. The staff is so friendly, and the 'smallest bar' concept is just brilliant. A must-visit!"</p>
+                    <span>- Mark D., Asheville Visitor</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Stopped in for a quick bite and was surprised by how delicious the Pulled Pork Sliders were! And the local artisan items make for great gift ideas. This place has it all."</p>
+                    <span>- Emily R., Weekend Explorer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Hours Section -->
+    <section class="location-hours-section" id="find-us">
+        <div class="wrapper">
+            <div class="location-info">
+                <span class="section-label">Visit Us</span>
+                <h2 class="section-headline">Find Our Unique Spot in Brevard.</h2>
+                <p>Beer & A Bracelet Saloon</p>
+                <p>46 W Main St suite a,</p>
+                <p>Brevard, NC 28712, USA</p>
+                <a href="https://maps.app.goo.gl/YOUR_GOOGLE_MAPS_LINK_HERE" target="_blank" class="btn-text">Get Directions &rarr;</a>
+                <p>Have a question or want to inquire about local art?</p>
+                <a href="tel:+18288833709" class="phone-link">(828) 883-3709</a>
+                <p class="small-text">Coolamericanproducts@gmail.com</p>
+                <a href="tel:+18288833709" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+            <div class="hours-info">
+                <span class="section-label">Our Schedule</span>
+                <h2 class="section-headline">Open Daily for Your Enjoyment.</h2>
+                <table class="hours-table">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Monday:</td><td>10:00 AM – 6:00 PM</td></tr>
+                        <tr><td>Tuesday:</td><td>10:00 AM – 6:00 PM</td></tr>
+                        <tr><td>Wednesday:</td><td>10:00 AM – 6:00 PM</td></tr>
+                        <tr><td>Thursday:</td><td>10:00 AM – 7:00 PM</td></tr>
+                        <tr><td>Friday:</td><td>10:00 AM – 7:00 PM</td></tr>
+                        <tr><td>Saturday:</td><td>10:00 AM – 7:00 PM</td></tr>
+                        <tr><td>Sunday:</td><td>10:00 AM – 6:00 PM</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta-section">
+        <div class="wrapper">
+            <h2>Ready for a truly unique Brevard experience?</h2>
+            <a href="#find-us" class="btn btn-secondary">Visit Us Today!</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="wrapper">
+            <div class="footer-logo">BEER & A BRACELET SALOON</div>
+            <p class="footer-tagline">Hunters & Gatherers & Beer & A Bracelet Saloon: Brevard's Smallest Bar, Biggest Heart.</p>
+            <ul class="social-links">
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.37-.8.47-1.68.8-2.6.98c-.76-.81-1.84-1.31-3.03-1.31-2.31 0-4.18 1.93-4.18 4.31 0 .34.04.67.11.98-3.48-.17-6.55-1.93-8.61-4.59-.36.62-.56 1.35-.56 2.13 0 1.49.75 2.81 1.89 3.59-.7-.02-1.36-.21-1.95-.53v.06c0 2.08 1.48 3.82 3.44 4.21-.36.1-.73.15-1.12.15-.27 0-.53-.03-.79-.08.55 1.77 2.14 3.06 4.02 3.09-1.47 1.18-3.32 1.89-5.32 1.89-.35 0-.7-.02-1.05-.07 1.9 1.29 4.16 2.04 6.6 2.04 7.92 0 12.98-6.73 12.98-12.55 0-.2-.01-.4-.02-.6.9-.65 1.68-1.47 2.3-2.4z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14.017 21v-7.397h3.493l.512-4.175h-4.005v-2.78c0-1.22.347-2.067 2.107-2.067h2.24v-3.565c-.387-.051-1.724-.167-3.276-.167c-3.313 0-5.592 2.053-5.592 5.766v3.235h-3.493v4.175h3.493v7.397h4.085z"/></svg></a></li>
+                <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2H16.2A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.8 3.8 0 0 0 4 7.8v8.4A3.8 3.8 0 0 0 7.8 20h8.4A3.8 3.8 0 0 0 20 16.2V7.8A3.8 3.8 0 0 0 16.2 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8a1.25 1.25 0 0 1-1.25-1.25a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Beer & A Bracelet Saloon. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Fade-in-up effect on scroll
+            const sections = document.querySelectorAll('section:not(.hero-section, .final-cta-section)'); // Exclude hero and final CTA as they are always visible
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Adjust as needed
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once it's visible
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
