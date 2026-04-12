@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Brew Taproom & Tunes - Craft Beer, Pizza & Live Music in Monroe, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B4513; /* SaddleBrown */
+            --accent-color: #FFD700; /* Gold */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; }
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+
+        /* Buttons */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .button.primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .button.primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--bg-dark); /* Ensure contrast */
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .button.secondary:hover {
+            background-color: var(--text-heading);
+            color: var(--bg-dark);
+            border-color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.95); /* Dark semi-transparent */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            padding: 0; /* Remove container padding here */
+        }
+
+        .logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .main-nav a:hover {
+            color: var(--brand-color);
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta .button {
+            padding: 8px 18px;
+            font-size: 1rem;
+            border-radius: 6px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-dark);
+            background-image: linear-gradient(135deg, rgba(17, 17, 17, 1) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(139, 69, 19, 0.1) 80%, rgba(255, 215, 0, 0.05) 100%);
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero h1 {
+            font-size: 5.5rem; /* Massive */
+            margin-bottom: 10px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .rating-badge svg {
+            margin-right: 8px;
+            fill: var(--accent-color);
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .proof-items {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            color: var(--text-heading);
+        }
+
+        .proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 8px;
+        }
+
+        .proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 300;
+        }
+
+        /* Card styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .story-headline {
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            font-style: italic;
+            position: relative;
+            margin-top: 30px;
+        }
+
+        .testimonial-card p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card span {
+            display: block;
+            font-weight: 500;
+            color: var(--text-heading);
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-item {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 30px 20px;
+        }
+
+        .stat-item .number {
+            font-family: 'Bitter', serif;
+            font-size: 2.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-item .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Accent border */
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px; /* Ensure consistent height */
+        }
+        
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-card {
+            text-align: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 40px;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 12px;
+            padding: 30px;
+            font-style: italic;
+            position: relative;
+        }
+
+        .testimonial-item p {
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .testimonial-item .author {
+            display: block;
+            font-weight: 500;
+            color: var(--text-heading);
+            font-style: normal;
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-info h3 {
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .location-info .button {
+            margin-top: 30px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden; /* For rounded corners */
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            background-color: rgba(255, 255, 255, 0.05);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background-image: linear-gradient(90deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 50%, var(--accent-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 80px 0 40px 0;
+            text-align: center;
+        }
+
+        .footer .logo {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 { font-size: 4rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+
+            .main-nav ul {
+                gap: 25px;
+            }
+
+            .sticky-header {
+                padding: 0 20px;
+            }
+
+            .hero h1 {
+                font-size: 4.5rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+
+            .our-story-content,
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .story-text, .location-info {
+                order: 2; /* Content after testimonial/hours on mobile */
+            }
+            .testimonial-card, .hours-table {
+                order: 1;
+            }
+
+            .proof-items {
+                flex-direction: column;
+                align-items: center;
+            }
+            .proof-item {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .button-group .button {
+                width: 100%;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                flex-wrap: wrap;
+                height: auto;
+                min-height: var(--header-height);
+                padding: 10px 20px;
+            }
+            .sticky-header .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .logo {
+                font-size: 1.6rem;
+                margin-bottom: 5px;
+            }
+            .main-nav ul {
+                display: none; /* Hide nav links on very small screens for simplicity */
+            }
+            .header-cta {
+                width: 100%;
+                text-align: center;
+            }
+            .header-cta .button {
+                width: 100%;
+            }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.4rem; }
+            p { font-size: 0.95rem; }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding-top: calc(var(--header-height) + 20px);
+                height: auto;
+                min-height: 100vh;
+            }
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+
+            .menu-grid, .why-choose-grid, .testimonials-grid, .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-item-card {
+                min-height: 160px;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+            .footer {
+                padding: 60px 0 30px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">Home Brew Taproom & Tunes</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:9802153564" class="button primary">CALL (980) 215-3564</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container fade-in-up">
+            <p class="location" style="--delay: 0.1s;">Monroe, NC</p>
+            <h1 style="--delay: 0.2s;">Home Brew Taproom & Tunes</h1>
+            <p class="tagline" style="--delay: 0.3s;">Your downtown Monroe hub for craft beer, cocktails, wine, mimosas, cold brew coffee, delicious pizza, and live music.</p>
+            <div class="rating-badge" style="--delay: 0.4s;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.922-7.416 3.922 1.48-8.279-6.064-5.828 8.332-1.151z"/></svg>
+                4.9 Stars (179 Reviews)
+            </div>
+            <div class="button-group" style="--delay: 0.5s;">
+                <a href="#menu" class="button primary">View Menu</a>
+                <a href="#find-us" class="button secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Strip -->
+    <section class="social-proof-strip">
+        <div class="container proof-items">
+            <div class="proof-item fade-in-up" style="--delay: 0.1s;">
+                <h3>4.9 Stars</h3>
+                <p>Across 179 Glowing Reviews</p>
+            </div>
+            <div class="proof-item fade-in-up" style="--delay: 0.2s;">
+                <h3>Monroe's Favorite</h3>
+                <p>Consistently Rated Top Local Spot</p>
+            </div>
+            <div class="proof-item fade-in-up" style="--delay: 0.3s;">
+                <h3>Live Music</h3>
+                <p>Your Go-To Venue for Local Tunes</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="our-story" class="section-alt">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Story</p>
+            <h2 class="story-headline fade-in-up" style="--delay: 0.1s;">Crafting Community, One Brew and Tune at a Time.</h2>
+            <div class="our-story-content">
+                <div class="story-text fade-in-up" style="--delay: 0.2s;">
+                    <p>Home Brew Taproom & Tunes isn't just a place to eat and drink; it's a vibrant cornerstone of downtown Monroe. We're proud to be a small music venue, bringing local talent and good vibes to our community every week. Our passion is creating a welcoming space where friends gather, stories are shared, and memories are made.</p>
+                    <p>We believe in quality, from the perfectly crafted <span style="color: var(--accent-color); font-weight: 500;">pizza Napoletana</span> that melts in your mouth, to our curated selection of craft beers, signature cocktails, and refreshing cold brew coffee. Every item on our menu is chosen to enhance your experience, whether you're here for a lively night of music or a relaxing afternoon on our outdoor patio.</p>
+                    <p>Join us and discover why Home Brew Taproom & Tunes is more than just a taproom – it’s where good food, great music, and even better company come together.</p>
+                </div>
+                <div class="fade-in-up" style="--delay: 0.3s;">
+                    <div class="testimonial-card">
+                        <p>"Went here twice over the last couple of days when we were passing through Charlotte on a long car trip. Absolutely delicious and perfectly cooked pizza Napoletana. We had four different varieties and they were all amazing."</p>
+                        <span>— Daniel C.</span>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item fade-in-up" style="--delay: 0.4s;">
+                    <p class="number">4.9</p>
+                    <p class="label">Star Rating</p>
+                </div>
+                <div class="stat-item fade-in-up" style="--delay: 0.5s;">
+                    <p class="number">179+</p>
+                    <p class="label">Customer Reviews</p>
+                </div>
+                <div class="stat-item fade-in-up" style="--delay: 0.6s;">
+                    <p class="number">Weekly</p>
+                    <p class="label">Live Music Events</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Offerings</p>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Taste the Craft, Feel the Vibe.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up" style="--delay: 0.2s;">
+                    <h3>Classic Margherita Pizza</h3>
+                    <p>Authentic Napoletana style, simple perfection.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.3s;">
+                    <h3>Spicy Diavola Pizza</h3>
+                    <p>Zesty pepperoni and a kick of spice.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.4s;">
+                    <h3>Seasonal Veggie Pizza</h3>
+                    <p>Fresh, local vegetables on our signature crust.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.5s;">
+                    <h3>Artisanal Craft Beers</h3>
+                    <p>A rotating selection of local and regional brews.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.6s;">
+                    <h3>Signature Cocktails & Wines</h3>
+                    <p>Expertly mixed drinks and a curated wine list.</p>
+                </div>
+                <div class="menu-item-card fade-in-up" style="--delay: 0.7s;">
+                    <h3>Cold Brew & Mimosas</h3>
+                    <p>Morning pick-me-ups or weekend brunch delights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-choose-us" class="section-alt">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Why Home Brew?</p>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">More Than Just a Taproom.</h2>
+            <div class="why-choose-grid">
+                <div class="why-card fade-in-up" style="--delay: 0.2s;">
+                    <h3>Unbeatable Live Music</h3>
+                    <p>As Monroe's premier small music venue, we host talented local artists, creating an energetic and unforgettable atmosphere every time you visit.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.3s;">
+                    <h3>Crafted Excellence</h3>
+                    <p>From our "absolutely delicious and perfectly cooked pizza Napoletana" to our wide range of craft beers, signature cocktails, and specialty cold brew, quality is in every sip and bite.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.4s;">
+                    <h3>Vibrant Community Hub</h3>
+                    <p>Whether you're enjoying outdoor seating or catching a show, Home Brew Taproom & Tunes is the heart of downtown Monroe's social scene. Come make new friends!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section>
+        <div class="container text-center">
+            <p class="section-label fade-in-up">What Our Guests Say</p>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Hear From Our Happy Customers.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up" style="--delay: 0.2s;">
+                    <p>"The Neapolitan pizza here is a game-changer! We tried the Classic Margherita and the Spicy Diavola, and both were outstanding. The crust, the sauce – everything was perfect. We'll be back just for the pizza!"</p>
+                    <span class="author">— Jessica M.</span>
+                </div>
+                <div class="testimonial-item fade-in-up" style="--delay: 0.3s;">
+                    <p>"Love the vibe at Home Brew! Great selection of craft beers, and their signature cocktails are top-notch. Caught a fantastic live band last Saturday. It's truly a gem in Monroe."</p>
+                    <span class="author">— Mark T.</span>
+                </div>
+                <div class="testimonial-item fade-in-up" style="--delay: 0.4s;">
+                    <p>"Came in for Sunday brunch and thoroughly enjoyed the mimosas and delicious cold brew coffee. The outdoor seating was perfect, and the service was so friendly. A great spot to relax and unwind!"</p>
+                    <span class="author">— Sarah L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location & Hours Section -->
+    <section id="find-us" class="section-alt">
+        <div class="container">
+            <p class="section-label fade-in-up">Visit Us</p>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Your Table Awaits in Downtown Monroe.</h2>
+            <div class="location-hours-content">
+                <div class="location-info fade-in-up" style="--delay: 0.2s;">
+                    <h3>Find Home Brew Taproom & Tunes</h3>
+                    <p><strong>Address:</strong> 215 S Main St, Monroe, NC 28112, USA</p>
+                    <p><strong>Phone:</strong> <a href="tel:9802153564">(980) 215-3564</a></p>
+                    <p style="margin-top: 20px;">We're located right in the heart of downtown Monroe, easily accessible and ready to welcome you!</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=215+S+Main+St,+Monroe,+NC+28112" target="_blank" class="button secondary">Get Directions</a>
+                </div>
+                <div class="fade-in-up" style="--delay: 0.3s;">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Monday</td><td>Closed</td></tr>
+                            <tr><td>Tuesday</td><td>Closed</td></tr>
+                            <tr><td>Wednesday</td><td>12:00 – 10:30 PM</td></tr>
+                            <tr><td>Thursday</td><td>12:00 – 10:30 PM</td></tr>
+                            <tr><td>Friday</td><td>12:00 – 10:30 PM</td></tr>
+                            <tr><td>Saturday</td><td>12:00 – 10:30 PM</td></tr>
+                            <tr><td>Sunday</td><td>1:00 – 7:00 PM</td></tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:9802153564" class="button primary" style="margin-top: 30px;">Call To Order / Reserve</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Experience Monroe's Best Taproom, Pizza & Live Music Venue?</h2>
+            <a href="tel:9802153564" class="button secondary" style="background-color: var(--bg-dark); border-color: var(--bg-dark); color: var(--text-heading);">Call Us Today!</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">Home Brew Taproom & Tunes</div>
+            <p class="tagline">Craft Beer, Delicious Pizza, and Live Music in Monroe, NC</p>
+            <ul class="social-links">
+                <li><a href="#"><!-- Social Icon SVG for Facebook --></a></li>
+                <li><a href="#"><!-- Social Icon SVG for Instagram --></a></li>
+                <li><a href="#"><!-- Social Icon SVG for Twitter/X --></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Home Brew Taproom & Tunes. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.fade-in-up');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of item visible
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
