@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meli Bakehouse – Your Mt Airy Favorite Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #111111;
+            --brand-color: #B8871F;
+            --accent-color: #CF9E25;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --section-padding-y: 100px;
+            --max-width: 1200px;
+        }
+
+        /* Base styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 0.05em;
+        }
+
+        h1 { font-size: 4.5rem; } /* Hero section specific override */
+        h2 { font-size: 2.8rem; }
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.4rem; }
+        p { font-size: 1.1rem; }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .bg-brand-light-tint { background-color: rgba(184,135,31,0.05); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Section Layouts */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Intersection Observer Fade-in-up */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.85); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .logo img {
+            height: 40px;
+            width: auto;
+            display: block;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(145deg, rgba(17,17,17,1) 0%, rgba(184,135,31,0.1) 40%, rgba(17,17,17,1) 100%), var(--bg-primary);
+            background-size: cover;
+            background-position: center;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero-section h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 10px;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-section .location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .hero-section .tagline {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .hero-rating {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-heading);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .hero-rating span {
+            color: var(--accent-color);
+            font-size: 1.2em;
+        }
+
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            padding: 40px 0;
+            background-color: rgba(184,135,31,0.05);
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .social-proof-item {
+            color: var(--text-heading);
+        }
+
+        .social-proof-item .value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            letter-spacing: 0.05em;
+        }
+        .social-proof-item .value.star::before {
+            content: '★ ';
+            color: var(--accent-color);
+        }
+
+        .social-proof-item .label {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-body);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: rgba(17, 17, 17, 0.9); /* Slightly lighter/darker variation */
+            padding-bottom: calc(var(--section-padding-y) / 2);
+        }
+
+        .story-content {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+            margin-top: 60px;
+        }
+
+        .story-text {
+            flex: 2;
+            padding-right: 40px;
+        }
+
+        .story-text h3 {
+            margin-bottom: 25px;
+            font-size: 2.2rem;
+            letter-spacing: 0.03em;
+            line-height: 1.3;
+        }
+        .story-text p {
+            margin-bottom: 20px;
+            color: var(--text-body);
+        }
+
+        .story-testimonial {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: sticky;
+            top: 100px; /* Stick below header */
+        }
+
+        .story-testimonial p {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .story-testimonial .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .story-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 180px;
+        }
+
+        .stat-card .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 10px;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-card .stat-description {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 400;
+        }
+        .stat-card .stat-value.icon::before {
+            content: '★ ';
+            color: var(--accent-color);
+            font-size: 0.9em;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-primary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h4 {
+            color: var(--text-heading);
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+            letter-spacing: 0.03em;
+        }
+
+        .menu-card .description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .menu-card .price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: rgba(17, 17, 17, 0.9);
+        }
+        .why-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .why-card .icon {
+            color: var(--brand-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .why-card h4 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            letter-spacing: 0.03em;
+        }
+
+        .why-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-primary);
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: block;
+        }
+        .testimonial-card .rating {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: rgba(17, 17, 17, 0.9);
+        }
+        .location-hours-content {
+            display: flex;
+            gap: 80px;
+            margin-top: 60px;
+        }
+
+        .location-info, .hours-info {
+            flex: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            letter-spacing: 0.03em;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info .address-link,
+        .location-info .phone-link {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+        .location-info .address-link:hover,
+        .location-info .phone-link:hover {
+            color: var(--brand-color);
+        }
+        .location-info .phone-link {
+            color: var(--brand-color);
+            font-weight: 600;
+        }
+
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.03em;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+        .hours-table .closed {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--accent-color) 100%);
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .final-cta-section h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            letter-spacing: 0.03em;
+        }
+
+        .final-cta-section .btn-primary {
+            background-color: var(--text-heading); /* Invert for contrast */
+            color: var(--brand-color);
+            border: 2px solid var(--text-heading);
+            padding: 16px 40px;
+        }
+
+        .final-cta-section .btn-primary:hover {
+            background-color: var(--bg-primary);
+            color: var(--accent-color);
+            border-color: var(--bg-primary);
+            transform: scale(1.05);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-primary);
+            padding: 60px 0 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        .footer .tagline {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .footer-socials {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer-socials a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .story-content, .location-hours-content {
+                flex-direction: column;
+                gap: 60px;
+            }
+            .story-text {
+                padding-right: 0;
+            }
+            .story-testimonial {
+                position: static;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                padding: 10px 20px;
+            }
+            .sticky-header .logo {
+                flex-basis: 100%;
+                text-align: center;
+            }
+            .sticky-header nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sticky-header nav a {
+                font-size: 0.9rem;
+                padding-bottom: 2px;
+            }
+            .header-call-btn {
+                margin-left: 0;
+                order: 3; /* Move button below nav */
+                flex-basis: 100%;
+            }
+
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2.2rem; }
+            h3 { font-size: 1.6rem; }
+            p { font-size: 1rem; }
+
+            .hero-section {
+                min-height: 80vh;
+                padding-top: 100px;
+            }
+            .hero-section h1 {
+                font-size: 3.5rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .social-proof-strip {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .section-padding-y { padding: 80px 0; }
+            .section-header { margin-bottom: 40px; }
+
+            .story-content {
+                gap: 40px;
+            }
+            .story-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid, .why-cards-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours-content {
+                gap: 40px;
+            }
+            .location-info, .hours-info {
+                padding: 30px;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .hero-section h1 { font-size: 3rem; }
+            .sticky-header nav ul { gap: 10px; }
+            .sticky-header nav a { font-size: 0.85rem; }
+            .header-call-btn { font-size: 0.8rem; padding: 6px 15px; }
+            .hero-section .location { font-size: 0.9rem; }
+            .hero-section .tagline { font-size: 1rem; }
+            .hero-rating { font-size: 0.85rem; padding: 6px 12px; }
+            .social-proof-item .value { font-size: 2rem; }
+            .social-proof-item .label { font-size: 0.9rem; }
+            .section-label { font-size: 0.8rem; }
+            .stat-card .stat-value { font-size: 3rem; }
+            .stat-card .stat-description { font-size: 1rem; }
+            .menu-card h4 { font-size: 1.4rem; }
+            .menu-card .description { font-size: 0.9rem; }
+            .menu-card .price { font-size: 1.6rem; }
+            .why-card h4 { font-size: 1.6rem; }
+            .why-card p { font-size: 0.9rem; }
+            .testimonial-card p { font-size: 0.95rem; }
+            .testimonial-card .author { font-size: 0.9rem; }
+            .location-info h3, .hours-info h3 { font-size: 1.8rem; }
+            .location-info p, .hours-table th, .hours-table td { font-size: 0.95rem; }
+            .final-cta-section h2 { font-size: 2rem; }
+            .final-cta-section .btn-primary { font-size: 1rem; padding: 12px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero">
+                <img src="https://melibakehouse.com/images/MELI-Long.jpg" alt="Meli Bakehouse Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3364299604" class="header-call-btn">CALL (336) 429-9604</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <p class="location fade-in-up">Mt Airy, NC</p>
+            <h1 class="fade-in-up">Meli Bakehouse</h1>
+            <p class="tagline fade-in-up">I'm Here for Pickup!</p>
+            <div class="hero-rating fade-in-up">
+                <span>★★★★★</span> 4.6 Stars (55 Reviews)
+            </div>
+            <div class="hero-ctas fade-in-up">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="social-proof-item fade-in-up">
+                <div class="value star">4.6</div>
+                <div class="label">Average Rating</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="value">55+</div>
+                <div class="label">Happy Reviews</div>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <div class="value">⭐</div>
+                <div class="label">Local Favorite</div>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <p class="section-label">Our Passion</p>
+                    <h2>Crafting Delicious Moments, Daily.</h2>
+                </div>
+                <div class="story-content">
+                    <div class="story-text fade-in-up">
+                        <h3>Experience the Warmth and Taste of Meli Bakehouse.</h3>
+                        <p>At Meli Bakehouse, we believe every meal should be an experience. Nestled in the heart of Mt Airy, NC, we're more than just a Bar & Grill; we're a community hub where fresh flavors meet friendly faces.</p>
+                        <p>We are committed to excellence in everything we do — whether our service, ingredients, or our fresh pastries. From the moment you step through our doors, you'll feel the dedication to quality and a warm, inviting atmosphere that makes you feel right at home. We meticulously select the finest ingredients to ensure every dish, from our hearty grill options to our delicate, fresh-baked pastries, is a testament to our passion.</p>
+                        <p>Come for a quick pickup, linger over a delicious meal, or simply grab a freshly baked treat. We're here to make your day a little sweeter and your plate a little fuller.</p>
+                    </div>
+                    <div class="story-testimonial fade-in-up">
+                        <p>"Meli Bakehouse is a true gem in Mt Airy! The atmosphere is always so welcoming, and you can truly taste the care in every dish. Their commitment to fresh ingredients shines through. It's our go-to spot!"</p>
+                        <span class="author">— A Loyal Customer, Mt Airy</span>
+                    </div>
+                </div>
+                <div class="story-stats-grid">
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-value icon">4.6</div>
+                        <div class="stat-description">Average Rating</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-value">55</div>
+                        <div class="stat-description">Reviews & Counting</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="stat-value">✨</div>
+                        <div class="stat-description">Fresh Baked Daily</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu-section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <p class="section-label">Our Offerings</p>
+                    <h2>Taste the Best of Meli Bakehouse</h2>
+                    <p style="margin-top: 20px; font-size: 1.2rem;">Our full menu is currently being updated to bring you even more delicious options! Below is a glimpse of the handcrafted quality you can expect daily.</p>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h4>Classic Burger</h4>
+                        <p class="description">Juicy beef patty, fresh lettuce, tomato, onion, and our signature sauce on a toasted bun.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h4>Grilled Chicken Sandwich</h4>
+                        <p class="description">Tender grilled chicken breast with melted cheese, crisp bacon, and avocado.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h4>Daily Fresh Pastry</h4>
+                        <p class="description">Ask about today's selection of our scratch-made pastries, baked fresh every morning.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h4>Homestyle Chili</h4>
+                        <p class="description">Our hearty, slow-cooked chili, perfect for a comforting meal, topped with cheddar and onions.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h4>Gourmet Coffee</h4>
+                        <p class="description">Expertly brewed coffee from local beans, available hot or iced.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h4>Loaded Fries</h4>
+                        <p class="description">Crispy golden fries loaded with cheese, bacon bits, and a drizzle of ranch.</p>
+                        <p class="price">Price Varies</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us-section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <p class="section-label">Our Promise</p>
+                    <h2>Why Meli Bakehouse is Mt Airy's Favorite</h2>
+                </div>
+                <div class="why-cards-grid">
+                    <div class="why-card fade-in-up">
+                        <div class="icon">🍰</div>
+                        <h4>Fresh Pastries Daily</h4>
+                        <p>Beyond our grill, our bakehouse crafts exquisite pastries from scratch every morning, offering a delightful treat for any time of day.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">🥩</div>
+                        <h4>Quality Bar & Grill Fare</h4>
+                        <p>We use only the finest ingredients for our Bar & Grill menu, ensuring a delicious and satisfying experience with every bite.</p>
+                    </div>
+                    <div class="why-card fade-in-up">
+                        <div class="icon">❤️</div>
+                        <h4>Community & Comfort</h4>
+                        <p>Meli Bakehouse is a local favorite, known for its warm, welcoming atmosphere and friendly staff that make you feel like family.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <p class="section-label">Kind Words</p>
+                    <h2>What Our Wonderful Customers Say</h2>
+                </div>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Absolutely love Meli Bakehouse! Their daily fresh pastries are heavenly, and the coffee is always perfect. It's my go-to spot for a morning treat. The staff are so sweet too!"</p>
+                        <span class="author">— Sarah J., Local Resident</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"The best bar and grill in Mt Airy, hands down. Had the grilled chicken sandwich last week, and it was incredible. Portions are generous, and you can tell they use quality ingredients. Highly recommend!"</p>
+                        <span class="author">— Mark T., Visitor</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                    <div class="testimonial-card fade-in-up">
+                        <p>"Always a pleasure to stop by Meli Bakehouse. Their friendly service makes all the difference, and everything on the menu, from their burgers to their pastries, is consistently delicious. A true local gem."</p>
+                        <span class="author">— Emily R., Regular Customer</span>
+                        <div class="rating">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours-section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <p class="section-label">Visit Us</p>
+                    <h2>Your Table Awaits in Mt Airy</h2>
+                </div>
+                <div class="location-hours-content">
+                    <div class="location-info fade-in-up">
+                        <h3>Find Meli Bakehouse</h3>
+                        <p>We're conveniently located in the heart of Mt Airy, ready to serve you delicious meals and freshly baked goods.</p>
+                        <p>
+                            <a href="https://maps.app.goo.gl/YourGoogleMapsLink" target="_blank" rel="noopener noreferrer" class="address-link">
+                                801 Rockford St, Mt Airy, NC 27030, USA
+                            </a>
+                        </p>
+                        <p>
+                            Have a question or want to place an order for pickup? Give us a call!
+                            <a href="tel:3364299604" class="phone-link">(336) 429-9604</a>
+                        </p>
+                        <a href="tel:3364299604" class="btn btn-primary" style="margin-top: 20px;">CALL TO ORDER</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h3>Our Daily Hours</h3>
+                        <table class="hours-table">
+                            <tr>
+                                <th>Monday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday:</th>
+                                <td>7:00 AM – 5:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday:</th>
+                                <td class="closed">Closed</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Don't Just Read About It — Taste It!</h2>
+                <p style="color: white; font-size: 1.2rem; margin-bottom: 30px; font-weight: 300;">Your next favorite meal or freshest pastry is waiting for you at Meli Bakehouse.</p>
+                <a href="#find-us" class="btn btn-primary">VISIT US TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://melibakehouse.com/images/MELI-Long.jpg" alt="Meli Bakehouse Logo">
+            </div>
+            <p class="tagline">I'm Here for Pickup!</p>
+            <ul class="footer-socials">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h3V2h-3a4 4 0 0 0-4 4v3.5H8v4h3.5V22h4z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4c0 3.2-2.6 5.8-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8C2 4.6 4.6 2 7.8 2m-.2 2A4.8 4.8 0 0 0 4 7.6v8.8C4 19.4 4.6 20 7.4 20h9.2c2.8 0 3.4-.6 3.4-3.4V7.6C20 4.6 19.4 4 16.6 4zM12 7a5 5 0 0 0-5 5a5 5 0 0 0 5 5a5 5 0 0 0 5-5a5 5 0 0 0-5-5m0 2a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m6.5-3A1.5 1.5 0 1 0 18 5.5A1.5 1.5 0 0 0 16.5 4z"/></svg></a></li>
+                <li><a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98c-3.56-.18-6.73-1.89-8.85-4.48c-.37.64-.58 1.39-.58 2.22c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07c.54 1.7 2.11 2.92 3.96 2.95c-1.48 1.16-3.35 1.85-5.38 1.85c-.35 0-.7 0-1.04-.06c1.93 1.29 4.23 2.04 6.69 2.04c8.05 0 12.46-6.67 12.46-12.47c0-.2-.01-.4-.02-.6c.85-.61 1.59-1.37 2.17-2.24Z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Meli Bakehouse. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
