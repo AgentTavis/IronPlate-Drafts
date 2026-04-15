@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evil Czech Brewery & Public House</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a;
+            --brand-color: #8D220D;
+            --accent-color: #FABA7D;
+            --heading-text: #ffffff;
+            --body-text: #cccccc;
+            --secondary-text: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17,17,17,0.95); /* Slightly transparent primary bg */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--body-text);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--heading-text);
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .uppercase { text-transform: uppercase; }
+        .brand-color-text { color: var(--brand-color); }
+        .accent-color-text { color: var(--accent-color); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--heading-text);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a7280f; /* Slightly darker brand color */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--heading-text);
+            border: 2px solid var(--heading-text);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--accent-color);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .sticky-header .logo img {
+            height: 40px; /* Adjust logo size */
+            width: auto;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--heading-text);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .sticky-header nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .sticky-header .call-button {
+            padding: 8px 20px;
+            background-color: var(--brand-color);
+            color: var(--heading-text);
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .sticky-header .call-button:hover {
+            background-color: #a7280f; /* Darker brand color */
+            transform: none; /* No scale for smaller button */
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, rgba(141,34,13,0.1) 40%, rgba(250,186,125,0.05) 60%, var(--primary-bg) 100%);
+            position: relative;
+            padding-top: 60px; /* Space for sticky header */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(17,17,17,0) 0%, rgba(17,17,17,0.5) 70%, rgba(17,17,17,1) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--heading-text);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 300;
+            color: var(--body-text);
+            margin-bottom: 5px;
+        }
+
+        .hero .tagline {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+        }
+
+        .hero .rating-badge {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--heading-text);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(141,34,13,0.05); /* Very low opacity brand color */
+            padding: 40px 0;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            gap: 20px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.8rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+        }
+        .social-proof-item p {
+            font-size: 1.15rem;
+            color: var(--heading-text);
+            font-weight: 300;
+        }
+
+        /* Our Story Section */
+        .our-story h2,
+        .menu h2,
+        .why-choose-us h2,
+        .testimonials h2,
+        .location-hours h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .our-story h2 span,
+        .menu h2 span,
+        .why-choose-us h2 span,
+        .testimonials h2 span,
+        .location-hours h2 span {
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+            font-size: 1.2rem;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .our-story-text p {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+        }
+        .our-story-text p:last-child {
+            margin-bottom: 0;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--body-text);
+        }
+        .testimonial-card span {
+            display: block;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        .stat-cards-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        .stat-card p {
+            font-size: 1.1rem;
+            color: var(--heading-text);
+            font-weight: 300;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            justify-content: center; /* Center items if less than full row */
+        }
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 4px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative; /* For the "F-Up Your Salad" badge */
+        }
+        .menu-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--heading-text);
+            margin-bottom: 10px;
+        }
+        .menu-item-card .price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .menu-item-card .description {
+            font-size: 1.05rem;
+            color: var(--body-text);
+        }
+        .menu-item-card .add-on {
+            font-size: 0.95rem;
+            color: var(--secondary-text);
+            margin-top: 10px;
+            font-style: italic;
+        }
+        /* Specific menu item styling */
+        .f-up-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--brand-color);
+            color: var(--heading-text);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: var(--secondary-bg);
+        }
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 4px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choose-us-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .choose-us-card h3 {
+            font-size: 2rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+        .choose-us-card p {
+            font-size: 1.1rem;
+            color: var(--body-text);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .testimonial-review-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .testimonial-review-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            color: var(--body-text);
+        }
+        .testimonial-review-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            display: block;
+        }
+        .testimonial-review-card .item-ref {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--secondary-bg);
+        }
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            color: var(--brand-color);
+        }
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            color: var(--heading-text);
+        }
+        .location-info a {
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--heading-text);
+        }
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 600;
+            width: 30%;
+        }
+        .hours-table td {
+            color: var(--body-text);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .call-to-order-btn {
+            background-color: var(--brand-color);
+            color: var(--heading-text);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 4px;
+            display: inline-block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .call-to-order-btn:hover {
+            background-color: #a7280f;
+            transform: scale(1.02);
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #a7280f 100%);
+            padding: 100px 0;
+            text-align: center;
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--heading-text);
+            margin-bottom: 40px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--heading-text); /* White button */
+            color: var(--brand-color);
+            border: 2px solid var(--heading-text);
+            padding: 16px 40px;
+            font-size: 1.2rem;
+        }
+        .final-cta .btn:hover {
+            background-color: rgba(255,255,255,0.9);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-bg);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+        .footer .logo img {
+            height: 50px;
+            margin: 0 auto 20px;
+        }
+        .footer .tagline {
+            font-size: 1.1rem;
+            color: var(--secondary-text);
+            margin-bottom: 30px;
+        }
+        .footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .footer .social-links a {
+            color: var(--body-text);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--accent-color);
+        }
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+            .our-story-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .sticky-header {
+                justify-content: center;
+                gap: 20px;
+            }
+            .sticky-header .call-button {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: 70px; /* Taller header for smaller logo/button */
+                padding: 0 20px;
+            }
+            .sticky-header .logo img {
+                height: 35px;
+            }
+            .sticky-header .call-button {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding-top: 70px;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .our-story h2, .menu h2, .why-choose-us h2, .testimonials h2, .location-hours h2 {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+            .our-story h2 span, .menu h2 span, .why-choose-us h2 span, .testimonials h2 span, .location-hours h2 span {
+                font-size: 1rem;
+            }
+            .stat-cards-wrapper {
+                margin-top: 60px;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                margin-bottom: 30px;
+            }
+            .social-proof-item:last-child {
+                margin-bottom: 0;
+            }
+            .menu-grid, .choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero"><img src="https://evilczech.com/content/themes/dctheme/assets/evil-logo.jpg" alt="Evil Czech Brewery Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:" class="btn call-button">CALL US</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero visible">
+        <div class="hero-content">
+            <p class="location">Mishawaka, NC</p>
+            <h1>Evil Czech Brewery <br>& Public House</h1>
+            <p class="tagline">EVIL CZECH Youtube - YouTube</p>
+            <span class="rating-badge">Highly Rated · Local Favorite</span>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">View Menu</a>
+                <a href="#location-hours" class="btn btn-secondary">Find Us</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3>5-Star</h3>
+                <p>Dining Experience</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Thousands</h3>
+                <p>Of Happy Regulars</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>The Local</h3>
+                <p>Favorite Brewery</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <h2 class="text-center"><span>Our Story</span>Crafted for Speed & Flavor</h2>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>Welcome to Evil Czech Brewery and Public House, where every dish is an adventure and every visit is a celebration. We believe in crafting unforgettable experiences, blending bold flavors with a vibrant atmosphere that's truly unique.</p>
+                    <p>At the heart of our weekday offerings is the <span class="accent-color-text">Lightnin' Lunch</span>. It isn't just a meal; it's an all-you-can-eat experience built for both flavor and speed. Every weekday our chefs roll out brewery favorites and fresh daily creations in perfect small-plate form, so you can sample it all and go back for more.</p>
+                    <p>Whether you're sneaking out from the office, grabbing a quick bite between errands, or just want a fun midday escape, Lightnin' Lunch makes it easy to fill up, try something new, and still be back on schedule. Fast. Flavorful. All you can eat. It's our commitment to quality, speed, and genuine hospitality that defines us.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The atmosphere at Evil Czech is unmatched! Perfect spot for a quick, delicious lunch or a fun evening with friends. You can really taste the passion in every dish."</p>
+                    <span>— A Happy Regular</span>
+                </div>
+            </div>
+            <div class="stat-cards-wrapper">
+                <div class="stat-card">
+                    <h3>Fast</h3>
+                    <p>Lightnin' Lunch Speed</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Flavorful</h3>
+                    <p>Brewery Favorites</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Unlimited</h3>
+                    <p>All-You-Can-Eat</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <h2 class="text-center"><span>Our Menu</span>Bold Flavors, Evil Good</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Esquites Wedge</h3>
+                        <span class="f-up-badge">Popular!</span>
+                        <p class="description">Crisp iceberg wedge topped with roasted corn, cotija cheese, cilantro, chili-lime crema, and crispy tortilla strips. A refreshing twist.</p>
+                    </div>
+                    <div class="add-on">
+                        <p>F-Up Your Salad (Add Fried Shrimp +$7)</p>
+                    </div>
+                </div>
+                <div class="menu-item-card">
+                    <div>
+                        <h3>Burger Box</h3>
+                        <span class="price">$17.95</span>
+                        <p class="description">Our signature grilled burger served with a generous side of crispy seasoned fries and a pickle spear. Classic comfort, Evil Czech style.</p>
+                    </div>
+                    <div class="add-on">
+                        <p>F-It Up (Add Grilled Chicken +$5)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <h2 class="text-center"><span>Why Choose Evil Czech?</span>Experience the Difference</h2>
+            <div class="choose-us-grid">
+                <div class="choose-us-card">
+                    <h3>Unbeatable Lightnin' Lunch</h3>
+                    <p>Experience our all-you-can-eat small plates featuring brewery favorites and daily specials, served fast and fresh every weekday. Perfect for a quick, flavorful escape.</p>
+                </div>
+                <div class="choose-us-card">
+                    <h3>Creative, Bold Menu</h3>
+                    <p>From our unique Esquites Wedge to the "F-It Up" Burger Box, our menu pushes boundaries with unexpected flavors and premium ingredients. There's always something new to try.</p>
+                </div>
+                <div class="choose-us-card">
+                    <h3>Vibrant Public House Vibe</h3>
+                    <p>More than just a meal, it's an atmosphere. Enjoy our lively setting, perfect for unwinding with friends, family, or colleagues after a long day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <h2 class="text-center"><span>What Our Guests Say</span>Real Tastes, Real Reviews</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-review-card">
+                    <p>"I can't get enough of the Lightnin' Lunch! The variety is incredible, and I always go back for more. It's my go-to spot for a quick, delicious midday meal."</p>
+                    <span class="author">— Sarah M.</span>
+                    <span class="item-ref">Recommends: Lightnin' Lunch</span>
+                </div>
+                <div class="testimonial-review-card">
+                    <p>"The Esquites Wedge is a game-changer! Never thought a salad could be so exciting. And when you F-Up Your Salad with the fried shrimp? Absolutely divine!"</p>
+                    <span class="author">— David P.</span>
+                    <span class="item-ref">Recommends: Esquites Wedge</span>
+                </div>
+                <div class="testimonial-review-card">
+                    <p>"The Burger Box is solid, perfectly cooked every time. I decided to F-It Up with the chicken on my last visit, and it was a fantastic twist. Great value!"</p>
+                    <span class="author">— Jessica L.</span>
+                    <span class="item-ref">Recommends: Burger Box</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours">
+        <div class="container">
+            <h2 class="text-center"><span>Find Us</span>Your Next Favorite Spot</h2>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Visit Us</h3>
+                    <p>Evil Czech Brewery and Public House</p>
+                    <p>Mishawaka, NC</p>
+                    <p><a href="https://maps.google.com/?q=Mishawaka,+NC" target="_blank" rel="noopener noreferrer">Get Directions</a></p>
+                    <p>For inquiries, please call:</p>
+                    <p><a href="tel:" class="brand-color-text">Call for Hours / Orders</a></p>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday - Friday</td>
+                                <td>Call for hours</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>Call for hours</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>Call for hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:" class="call-to-order-btn">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Experience Evil Good?</h2>
+            <a href="#hero" class="btn btn-primary">Plan Your Visit Today</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://evilczech.com/content/themes/dctheme/assets/evil-logo.jpg" alt="Evil Czech Brewery Logo">
+            </div>
+            <p class="tagline">EVIL CZECH Youtube - YouTube</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.58-4.192 4.615v3.385z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.264-.149-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="https://www.youtube.com/user/evilczech" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.848.261-4.735 2.126-4.385 5.485.394 3.864 1.058 5.484 4.385 5.485 3.601.246 11.629.245 15.23 0 3.848-.261 4.735-2.126 4.385-5.485-.394-3.864-1.058-5.484-4.385-5.485zm-4.341 5.922l-4.524 2.106v-4.212l4.524 2.106z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 Evil Czech Brewery and Public House. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('nav a').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            document.querySelectorAll('.hero .cta-buttons a, .call-to-order-btn, .final-cta .btn').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+
+            // Fade-in-up effect on scroll
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section:not(#hero), .social-proof-item, .testimonial-card, .stat-card, .menu-item-card, .choose-us-card, .testimonial-review-card').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Delay showing the hero section slightly to ensure smooth initial load without FOUC
+            const heroSection = document.getElementById('hero');
+            if (heroSection) {
+                setTimeout(() => {
+                    heroSection.classList.add('visible');
+                }, 100); // Small delay
+            }
+        });
+    </script>
+</body>
+</html>
