@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Pizza - Mayodan's Favorite Italian Food & Subs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System - Global Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B0000; /* Dark Red */
+            --accent-color: #000080; /* Dark Blue */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4.5rem; font-weight: 700; } /* Hero name */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--text-heading);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .text-light { color: var(--text-heading); }
+        .text-secondary { color: var(--text-secondary); }
+        .uppercase { text-transform: uppercase; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-4 { gap: 1rem; }
+        .gap-8 { gap: 2rem; }
+        .gap-16 { gap: 4rem; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: 1fr; }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #a30000; /* Slightly darker red */
+            border-color: #a30000;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+
+        .btn-call-header {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            border-radius: 3px;
+        }
+        .btn-call-header:hover {
+            background-color: #a30000;
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.95); /* semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header .logo img {
+            height: 40px; /* Adjust logo size */
+            filter: brightness(1.2); /* Make logo pop a bit against dark background */
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header nav a {
+            font-weight: 500;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .header nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height);
+            background: linear-gradient(to bottom right, 
+                        var(--bg-dark) 0%, 
+                        rgba(139, 0, 0, 0.1) 50%, 
+                        rgba(0, 0, 128, 0.1) 100%); /* Rich dark gradient with subtle brand colors */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem); /* Responsive font size */
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+            text-shadow: 0 0 15px rgba(139, 0, 0, 0.5);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 1rem auto 2rem auto;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-heading);
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .hero .rating-badge span {
+            color: gold;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(139, 0, 0, 0.05); /* Tinted with brand color at low opacity */
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .social-proof-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .social-proof-item {
+            padding: 1.5rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-proof-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+
+        /* Section Label */
+        .section-label {
+            font-size: 1.1rem;
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .our-story-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .story-content {
+            padding-right: 2rem;
+        }
+
+        .story-content h2 {
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+        }
+
+        .story-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-body);
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 3rem;
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+        }
+
+        .story-testimonial::before {
+            content: '“';
+            font-family: serif;
+            font-size: 5rem;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .story-testimonial p {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--text-heading);
+            position: relative;
+            z-index: 1;
+        }
+
+        .story-testimonial .author {
+            font-weight: 500;
+            color: var(--brand-color);
+            text-align: right;
+            display: block;
+        }
+
+        .story-stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        @media (min-width: 768px) {
+            .story-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 1.8rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        @media (min-width: 768px) {
+            .why-choose-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 3px solid var(--accent-color); /* Accent color border */
+        }
+
+        .choose-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-bottom-color: var(--brand-color);
+        }
+
+        .choose-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+
+        .choose-card h3 {
+            font-size: 1.5rem;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+        }
+
+        .choose-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        @media (min-width: 768px) {
+            .testimonials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            border-radius: 8px;
+            position: relative;
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.08);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+            z-index: 0;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            font-style: italic;
+            margin-bottom: 1.2rem;
+            color: var(--text-body);
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-card .author {
+            font-weight: 500;
+            color: var(--text-heading);
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .testimonial-card .rating {
+            color: gold;
+            margin-top: 0.5rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        @media (min-width: 768px) {
+            .location-hours-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .location-info p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+        .location-info iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            text-align: left;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            margin-top: 2.5rem;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(to right, 
+                        var(--brand-color) 0%, 
+                        rgba(139, 0, 0, 0.8) 50%, 
+                        var(--brand-color) 100%);
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--text-heading);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo img {
+            height: 50px;
+            margin-bottom: 1.5rem;
+            filter: brightness(1.2);
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 0.8rem;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 767px) {
+            .header {
+                padding: 0 1rem;
+                height: 80px; /* Taller for mobile */
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header .logo img {
+                height: 35px;
+                margin-bottom: 0.5rem;
+            }
+            .header nav {
+                display: none; /* Hide nav links on small screens */
+            }
+            .header .btn-call-header {
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+                margin-left: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .rating-badge {
+                font-size: 0.9rem;
+                padding: 0.5rem 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+                padding: 0.8rem 1.5rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            .container {
+                padding: 0 1rem;
+            }
+
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 1rem; }
+
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .story-content {
+                padding-right: 0;
+            }
+            .story-testimonial {
+                margin-top: 2rem;
+            }
+            .story-stats {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid, .why-choose-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="logo">
+            <a href="#hero">
+                <img src="http://starpizza.shoprockinghamcounty.com/images/STAR%20PIZZA%20LOGO.gif" alt="Star Pizza Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3364275797" class="btn btn-call-header">CALL (336) 427-5797</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <p class="location text-secondary uppercase">Mayodan, NC</p>
+        <h1>Star Pizza</h1>
+        <p class="tagline">The official menu page for Star Pizza Italian Food & Subs in Mayodan, NC on www.ShopRockinghamCounty.com</p>
+        <div class="rating-badge">
+            <span>&#9733;</span> 4.5 stars (497 reviews)
+        </div>
+        <div class="cta-buttons">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof is-visible">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <span class="icon">&#9733;</span>
+                <h3>4.5 Stars</h3>
+                <p>Based on 497 Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">&#128100;</span>
+                <h3>497+ Happy Customers</h3>
+                <p>Loved by the Mayodan Community</p>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">&#127829;</span>
+                <h3>Local Favorite</h3>
+                <p>Authentic Italian & Delicious Subs</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <p class="section-label uppercase">Our Story</p>
+            <div class="our-story-grid">
+                <div class="story-content">
+                    <h2>Bringing Authentic Italian Flavors to Mayodan</h2>
+                    <p>Nestled in the heart of Mayodan, Star Pizza Italian Food & Subs has been a beloved fixture in our community for years. We pride ourselves on crafting delicious pizzas, hearty subs, and authentic Italian dishes using quality ingredients and time-honored recipes.</p>
+                    <p>More than just a meal, we offer a warm, family-friendly dining experience where every guest feels like part of our extended family. Come discover why Star Pizza is Mayodan's favorite spot for a taste of Italy!</p>
+                    
+                    <div class="story-testimonial">
+                        <p>“Star Pizza is truly a gem in Mayodan! Every visit feels like coming home. The food is consistently amazing, and the staff always makes you feel welcome. Our family can't get enough!”</p>
+                        <span class="author">— A Loyal Mayodan Local</span>
+                    </div>
+                </div>
+                <div class="story-stats flex flex-col justify-center gap-4">
+                    <div class="stat-card">
+                        <h3>497+</h3>
+                        <p>Glowing Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>4.5 Stars</h3>
+                        <p>Community Rated Excellence</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Mayodan's</h3>
+                        <p>Community's Choice for Italian</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container text-center">
+            <p class="section-label uppercase">Our Delicious Offerings</p>
+            <h2>Explore Our Authentic Italian Menu</h2>
+            <p class="text-secondary">From classic pizzas to hearty subs, every dish is crafted with passion and the finest ingredients.</p>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div>
+                        <h3>Classic Pepperoni Pizza</h3>
+                        <p>Our signature pizza, piled high with savory pepperoni and rich mozzarella.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Supreme Pizza</h3>
+                        <p>Loaded with pepperoni, sausage, peppers, onions, and mushrooms for a taste sensation.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Veggie Lover's Pizza</h3>
+                        <p>A fresh garden medley of bell peppers, onions, olives, mushrooms, and tomatoes.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Meatball Parmigiana Sub</h3>
+                        <p>Hearty meatballs smothered in marinara and melted provolone cheese on a toasted roll.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Philly Cheesesteak Sub</h3>
+                        <p>Shaved steak, sautéed onions, and melted cheese on a toasted hoagie roll.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Italian Cold Cut Sub</h3>
+                        <p>A classic combination of Italian deli meats, provolone, lettuce, tomato, and vinaigrette.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Garlic Knots</h3>
+                        <p>Freshly baked, tossed in garlic butter and parmesan, served with marinara sauce.</p>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div>
+                        <h3>Garden Salad</h3>
+                        <p>Crisp lettuce, fresh veggies, and your choice of dressing for a lighter option.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container text-center">
+            <p class="section-label uppercase">Why Star Pizza?</p>
+            <h2>More Than Just Food, It's an Experience</h2>
+            <p class="text-secondary">Here's why Mayodan keeps coming back for Star Pizza.</p>
+            <div class="why-choose-grid">
+                <div class="choose-card">
+                    <span class="icon">&#127822;</span> <!-- Pizza slice icon -->
+                    <h3>Fresh, Quality Ingredients</h3>
+                    <p>We believe great food starts with great ingredients. That's why we use only the freshest produce and premium meats in every dish, from our Supreme Pizza to our Italian Cold Cut Sub.</p>
+                </div>
+                <div class="choose-card">
+                    <span class="icon">&#127836;</span> <!-- Spaghetti icon -->
+                    <h3>Authentic Italian Flavors</h3>
+                    <p>Experience the true taste of Italy right here in Mayodan. Our recipes are crafted with traditional techniques, ensuring every bite, especially our Meatball Parmigiana Sub, transports you to the heart of Italy.</p>
+                </div>
+                <div class="choose-card">
+                    <span class="icon">&#127961;</span> <!-- House icon -->
+                    <h3>Community Favorite Since Day One</h3>
+                    <p>With a 4.5-star rating and hundreds of loyal customers, Star Pizza isn't just a restaurant—it's a community gathering place. We're proud to be Mayodan's go-to spot for delicious food and friendly service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container text-center">
+            <p class="section-label uppercase">What Our Customers Say</p>
+            <h2>Hear From Our Happy Guests</h2>
+            <p class="text-secondary">Real reviews from our beloved Mayodan community.</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>“The Classic Pepperoni Pizza here is unmatched! Perfect crust, generous toppings, and just the right amount of cheese. It’s our Friday night tradition, and they never disappoint!”</p>
+                    <span class="author">— Sarah M.</span>
+                    <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>“I dream about their Meatball Parmigiana Sub! The meatballs are so tender, and the sauce is divine. Easily the best sub in Rockingham County. Highly recommend trying it!”</p>
+                    <span class="author">— David L.</span>
+                    <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                </div>
+                <div class="testimonial-card">
+                    <p>“Every time we order the Supreme Pizza, it’s a hit! My kids love it, and I appreciate the fresh veggies. It’s always fresh, hot, and delicious. Star Pizza is a true local treasure.”</p>
+                    <span class="author">— Jessica R.</span>
+                    <div class="rating">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container text-center">
+            <p class="section-label uppercase">Visit Us</p>
+            <h2>Find Us in Mayodan & See Our Hours</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>Star Pizza Italian Food & Subs</p>
+                    <p>204 W Main St, Mayodan, NC 27027, USA</p>
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Star+Pizza+204+W+Main+St,+Mayodan,+NC+27027" target="_blank" class="btn btn-secondary">Get Directions</a>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.805500971207!2d-79.91925348468759!3d36.38602288001712!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88523c114f05a901%3A0xc3f8e6e5b47a957d!2sStar%20Pizza!5e0!3m2!1sen!2sus!4v1678886400000!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <div class="hours-info">
+                    <h3>Opening Hours</h3>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <th>Monday</th>
+                                <td>10:30 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Tuesday</th>
+                                <td><span class="text-primary">Closed</span></td>
+                            </tr>
+                            <tr>
+                                <th>Wednesday</th>
+                                <td>10:30 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Thursday</th>
+                                <td>10:30 AM – 9:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Friday</th>
+                                <td>10:30 AM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Saturday</th>
+                                <td>10:30 AM – 10:00 PM</td>
+                            </tr>
+                            <tr>
+                                <th>Sunday</th>
+                                <td>11:30 AM – 9:00 PM</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-secondary" style="margin-top: 2rem;">Got questions or ready to order?</p>
+                    <a href="tel:3364275797" class="btn btn-primary call-to-order-btn">CALL TO ORDER (336) 427-5797</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Taste Mayodan's Best Italian?</h2>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 2.5rem auto; color: var(--text-heading);">Don't miss out on Star Pizza's delicious pizzas, subs, and Italian specialties. Your next favorite meal is just a call away!</p>
+            <a href="tel:3364275797" class="btn btn-primary">CALL US NOW TO ORDER</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="http://starpizza.shoprockinghamcounty.com/images/STAR%20PIZZA%20LOGO.gif" alt="Star Pizza Logo">
+            </div>
+            <p class="tagline">The official menu page for Star Pizza Italian Food & Subs in Mayodan, NC on www.ShopRockinghamCounty.com</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.579-4.192 4.615v3.385z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.933.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.265-.073 1.673-.073 4.932 0 3.259.014 3.668.072 4.934.2 4.358 2.618 6.78 6.98 6.98 1.265.059 1.673.073 4.932.073 3.259 0 3.668-.014 4.934-.072 4.358-.2 6.78-2.618 6.979-6.98.059-1.265.073-1.673.073-4.931 0-3.259-.014-3.668-.072-4.934-.199-4.358-2.618-6.779-6.979-6.979-1.266-.06-1.673-.073-4.933-.073zm0 6.551c-3.28 0-5.94 2.659-5.94 5.94s2.66 5.94 5.94 5.94 5.94-2.659 5.94-5.94-2.66-5.94-5.94-5.94zm0 9.94c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.545-11.44c0 .647-.527 1.174-1.174 1.174-.647 0-1.173-.527-1.173-1.174s.526-1.174 1.173-1.174c.647 0 1.174.527 1.174 1.174z"/></svg></a>
+                <!-- Add other social links as needed -->
+            </div>
+            <p class="copyright">&copy; 2026 Star Pizza. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for fade-in-up effect
+            const sections = document.querySelectorAll('section');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the section must be visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Handle initial visibility for hero and social proof (they might be in viewport on load)
+            const heroSection = document.getElementById('hero');
+            if (heroSection) {
+                heroSection.classList.add('is-visible');
+            }
+            const socialProofSection = document.querySelector('.social-proof');
+            if (socialProofSection) {
+                socialProofSection.classList.add('is-visible');
+            }
+        });
+    </script>
+
+</body>
+</html>
