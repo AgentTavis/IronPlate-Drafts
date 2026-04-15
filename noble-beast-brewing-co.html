@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noble Beast Brewing Co. | Cleveland, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #4B6299;
+            --accent-color: #3374FF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.9); /* Semi-transparent dark for header */
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Section Labels */
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 18px 35px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--brand-color-rgb, 75, 98, 153), 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .sticky-header .logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        .sticky-header nav ul {
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-heading);
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .call-btn {
+            height: 40px;
+            padding: 0 25px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-main) 0%, rgba(var(--brand-color-rgb, 75, 98, 153), 0.1) 50%, var(--bg-main) 100%);
+            background-size: 400% 400%;
+            animation: gradient-shift 15s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            margin-bottom: 10px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            -webkit-text-stroke: 1px rgba(255,255,255,0.1); /* Subtle outline */
+        }
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+        .hero .tagline {
+            font-family: var(--font-body);
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 0.05em;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(var(--brand-color-rgb, 75, 98, 153), 0.05); /* Very low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof .container {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-heading);
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .social-proof-item span {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-right: 10px;
+        }
+        .social-proof-item p {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 1.1rem;
+        }
+
+
+        /* Our Story Section */
+        .our-story .container {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+
+        .story-content {
+            flex: 2;
+        }
+        .story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+        }
+        .story-content p {
+            margin-bottom: 20px;
+            max-width: 650px;
+            color: var(--text-body);
+        }
+
+        .story-testimonial {
+            background: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 30px;
+            max-width: 650px;
+        }
+        .story-testimonial p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+        .story-testimonial .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        .story-stats {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-top: 50px;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .stat-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Menu Section */
+        .menu {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+        .menu h2 {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .menu-card {
+            background: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(var(--brand-color-rgb, 75, 98, 153), 0.05), transparent 80%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 0 1px var(--brand-color);
+        }
+        .menu-card:hover::before {
+            opacity: 1;
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+            position: relative;
+            z-index: 1;
+        }
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .menu-card .price {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+        .menu-card .note {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        .menu-cta {
+            margin-top: 60px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us h2 {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .why-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+        .testimonials h2 {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours {
+            background-color: var(--bg-main);
+            text-align: center;
+        }
+        .location-hours .container {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .location-content, .hours-content {
+            flex: 1;
+            max-width: 450px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .location-content h2, .hours-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .location-content p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-align: left;
+        }
+        .location-content .address {
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+        .location-content .phone {
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            font-weight: 600;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 40%;
+            font-family: var(--font-body);
+        }
+        .hours-table td {
+            color: var(--text-body);
+            font-family: var(--font-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .location-hours .call-btn {
+            margin-top: 40px;
+        }
+
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color), var(--accent-color));
+            padding: 100px 0;
+            text-align: center;
+            color: var(--text-heading);
+            box-shadow: 0 -8px 30px rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .final-cta h2 {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .final-cta .btn {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+            font-size: 1.1rem;
+            padding: 20px 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .final-cta .btn:hover {
+            background-color: var(--bg-main);
+            color: var(--text-heading);
+            border-color: var(--bg-main);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-main);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer .logo img {
+            height: 50px;
+            width: auto;
+            margin-bottom: 20px;
+            filter: brightness(0.8);
+        }
+        .footer .tagline {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .our-story .container,
+            .location-hours .container {
+                flex-direction: column;
+                gap: 50px;
+                align-items: center;
+            }
+            .story-content, .story-stats,
+            .location-content, .hours-content {
+                width: 100%;
+                max-width: 600px; /* Constrain width for readability on larger mobiles/tablets */
+                text-align: center;
+            }
+            .story-testimonial {
+                text-align: left; /* Keep testimonial left aligned for better readability */
+            }
+            .story-content h2, .location-content h2, .hours-content h2 {
+                text-align: center;
+            }
+            .location-content p {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav on smaller screens */
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location, .hero .tagline {
+                font-size: 1rem;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%; /* Make buttons full width in mobile */
+                margin: 0 auto;
+                padding: 15px 25px;
+                font-size: 0.9rem;
+            }
+            .social-proof .container {
+                flex-direction: column;
+            }
+            section {
+                padding: 60px 0;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer .logo img {
+                height: 40px;
+            }
+            .footer .social-links a {
+                font-size: 1.2rem;
+                margin: 0 10px;
+            }
+        }
+
+        /* Variables for RGB values for rgba() usage */
+        body {
+            --brand-color-rgb: 75, 98, 153; /* R, G, B for #4B6299 */
+            --accent-color-rgb: 51, 116, 255; /* R, G, B for #3374FF */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero">
+                <img src="https://80424f2be9fc424d3862.cdn6.editmysite.com/uploads/b/cdfff000-7e7f-11ea-b54a-37de610bbeef/Noble-Beast-Logo-Screen-Horizontal.png?width=2400&optimize=medium" alt="Noble Beast Brewing Co. Logo">
+            </a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#location-hours">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:#" class="btn btn-primary call-btn">CALL US NOW</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <p class="location">Cleveland, NC</p>
+            <h1>Noble Beast Brewing Co.</h1>
+            <p class="tagline">Continue Shopping</p>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof is-visible">
+        <div class="container">
+            <div class="social-proof-item">
+                <p>No Public Rating Yet</p>
+            </div>
+            <div class="social-proof-item">
+                <p>A Cleveland, NC Favorite!</p>
+            </div>
+            <div class="social-proof-item">
+                <p>Historic Location & Brews</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <div class="story-content">
+                <span class="section-label">Our Heritage</span>
+                <h2>Crafted Brews & Timeless Tales.</h2>
+                <p>At Noble Beast Brewing Co., we're more than just a bar and grill – we're a living canvas of Cleveland's history. Our story is woven into the very fabric of our establishment, anchored by a truly unique piece of local art.</p>
+                <p>Step inside and discover our vintage beer ad mural, a hand-painted masterpiece by Old Soul Sign Co. This mural isn't just decoration; it's a heartfelt homage to a now-covered Gold Bond advertisement from the mid-twentieth century, once a familiar sight from the Shoreway. We've adapted this iconic image onto our Bella+Canvas sponge fleece hoodies, bringing a piece of Cleveland's past into the present.</p>
+                <p>We believe in celebrating heritage, fostering community, and pouring quality into every glass and plate. Come experience the rich history and vibrant atmosphere that defines Noble Beast Brewing Co.</p>
+
+                <div class="story-testimonial">
+                    <p>"Every visit feels like stepping into a piece of local history. The mural is stunning, and the vibe is unmatched. A true gem in Cleveland!"</p>
+                    <p class="author">— A Loyal Local</p>
+                </div>
+            </div>
+            <div class="story-stats">
+                <div class="stat-card">
+                    <h3>Vintage Ad Inspired</h3>
+                    <p>Our hand-painted mural pays homage to Cleveland's past</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Local Art & Brews</h3>
+                    <p>Celebrating community with unique craft and ambiance</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Community Gathering</h3>
+                    <p>A place where friends and family connect</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <span class="section-label">Our Offerings</span>
+            <h2>Taste The Tradition.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>Craft Beers</h3>
+                    <p>Discover our rotating selection of local and regional brews. From crisp lagers to robust stouts, there's a pour for every palate.</p>
+                    <p class="note">Ask your server for today's seasonal tap list.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Signature Cocktails</h3>
+                    <p>Expertly mixed classic cocktails and innovative concoctions, crafted with premium spirits and fresh ingredients.</p>
+                    <p class="note">Perfect for pairing with your meal or enjoying on its own.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Bar Bites & Appetizers</h3>
+                    <p>Delicious small plates designed to complement your drink. Shareable and satisfying, perfect for starting your evening.</p>
+                    <p class="note">Our menu is constantly evolving, call us for details.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Hearty Burgers</h3>
+                    <p>Juicy, gourmet burgers made with fresh, quality ingredients and served with your choice of sides. A true bar and grill classic.</p>
+                    <p class="note">Customizable to your preference. Ask for today's special!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Daily Specials</h3>
+                    <p>Our kitchen team loves to get creative! Enjoy unique dishes and rotating features inspired by fresh, seasonal ingredients.</p>
+                    <p class="note">Always new, always delicious. Call us for today's menu!</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Non-Alcoholic Options</h3>
+                    <p>Refreshing non-alcoholic beers, craft sodas, and specialty mocktails ensuring everyone finds their perfect beverage.</p>
+                    <p class="note">Thoughtfully crafted for a full flavor experience.</p>
+                </div>
+            </div>
+            <div class="menu-cta">
+                <a href="tel:#" class="btn btn-primary">CALL FOR TODAY'S SPECIALS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <span class="section-label">Our Difference</span>
+            <h2>Why Noble Beast Brewing Co.?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <h3>Unique Ambiance</h3>
+                    <p>Immerse yourself in our historic setting, complete with our iconic hand-painted mural. Experience Cleveland's past with every visit.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Quality Craft & Cuisine</h3>
+                    <p>From carefully selected brews to freshly prepared grill favorites, we prioritize taste and quality in every offering.</p>
+                </div>
+                <div class="why-card">
+                    <h3>A True Local Hub</h3>
+                    <p>We're more than a restaurant; we're a community gathering spot where locals connect, relax, and create new memories.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2>Voices of Noble Beast.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"The atmosphere here is absolutely incredible! Love the vintage mural and the friendly staff. Always a great time."</p>
+                    <p class="author">— Samantha R.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Fantastic selection of beers and the food is always on point. It's my go-to spot for unwinding after a long week. Highly recommend!"</p>
+                    <p class="author">— David M.</p>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Noble Beast has such a welcoming vibe. It feels like home every time I walk in. Truly a Cleveland staple for good drinks and good company."</p>
+                    <p class="author">— Emily C.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours">
+        <div class="container">
+            <div class="location-content">
+                <span class="section-label">Visit Us</span>
+                <h2>Find Our Roost.</h2>
+                <p class="address">Noble Beast Brewing Co.<br>Cleveland, NC</p>
+                <a href="tel:#" class="phone">Call For Hours: (Not Available)</a>
+                <p style="margin-top: 20px;">We're conveniently located in the heart of Cleveland, NC. Perfect for a quick stop or a relaxed evening.</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Noble+Beast+Brewing+Co.+Cleveland,+NC" target="_blank" class="btn btn-primary call-btn" rel="noopener noreferrer">GET DIRECTIONS</a>
+            </div>
+            <div class="hours-content">
+                <span class="section-label">Our Schedule</span>
+                <h2>When To Find Us.</h2>
+                <table class="hours-table">
+                    <tbody>
+                        <tr>
+                            <th>Monday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td>Call for hours</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 20px; font-size: 0.95rem; color: var(--text-secondary);">Our hours may vary seasonally or for special events. Please call ahead to confirm!</p>
+                <a href="tel:#" class="btn btn-secondary call-btn">CALL TO CONFIRM HOURS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta is-visible">
+        <div class="container">
+            <h2>Ready for an Unforgettable Experience?</h2>
+            <a href="tel:#" class="btn">SECURE YOUR SPOT NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://80424f2be9fc424d3862.cdn6.editmysite.com/uploads/b/cdfff000-7e7f-11ea-b54a-37de610bbeef/Noble-Beast-Logo-Screen-Horizontal.png?width=2400&optimize=medium" alt="Noble Beast Brewing Co. Logo">
+                </a>
+            </div>
+            <p class="tagline">Continue Shopping</p>
+            <div class="social-links">
+                <!-- Placeholder for social icons - using text for now as no icons provided -->
+                <a href="#" aria-label="Facebook">FB</a>
+                <a href="#" aria-label="Instagram">IG</a>
+                <a href="#" aria-label="Twitter">TW</a>
+            </div>
+            <p class="copyright">&copy; 2026 Noble Beast Brewing Co. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, {
+                rootMargin: '0px',
+                threshold: 0.1
+            });
+
+            sections.forEach(section => {
+                // Skip hero and social-proof as they are visible by default or quickly
+                if (!section.classList.contains('hero') && !section.classList.contains('social-proof')) {
+                    observer.observe(section);
+                } else if (section.classList.contains('hero')) {
+                    // Make hero immediately visible or trigger its animation
+                    section.classList.add('is-visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
