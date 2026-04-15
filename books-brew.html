@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books & Brew | East Bend's Favorite Diner & Bookstore Cafe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --color-bg-main: #111111;
+            --color-bg-light: #181818; /* Slightly lighter for alternating sections */
+            --color-brand: #FF8C00; /* Primary Brand Color */
+            --color-accent: #000000; /* Accent Color (used subtly for depth/shadows) */
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --max-width-content: 1200px;
+            --padding-section-vertical: 80px;
+            --padding-section-horizontal: 30px; /* Default for desktop, adjusted for mobile */
+        }
+
+        /* Base Styles & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: var(--color-brand);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--color-text-heading);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        strong {
+            color: var(--color-brand);
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: var(--max-width-content);
+            margin: 0 auto;
+            padding: 0 var(--padding-section-horizontal);
+        }
+
+        section {
+            padding: var(--padding-section-vertical) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+
+        section:nth-of-type(even) {
+            background-color: var(--color-bg-light);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2.2rem;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-accent);
+            border-color: var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            background-color: #ff9d2b; /* Slightly lighter orange */
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-brand);
+            border-color: var(--color-brand);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 140, 0, 0.1);
+            transform: scale(1.02);
+            color: var(--color-brand);
+        }
+
+        .btn-dark {
+            background-color: var(--color-accent);
+            color: var(--color-brand);
+            border-color: var(--color-accent);
+        }
+
+        .btn-dark:hover {
+            background-color: #333;
+            transform: scale(1.02);
+        }
+
+        /* Section Labels */
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--color-brand);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            display: block;
+            text-align: center;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+        }
+        
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--padding-section-horizontal);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: var(--max-width-content);
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--color-text-heading);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .header-nav a {
+            color: var(--color-text-heading);
+            font-size: 1.05rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--color-brand);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after,
+        .header-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--color-brand);
+            color: var(--color-accent);
+            padding: 0.6rem 1.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap; /* Prevent phone number from wrapping */
+        }
+
+        .header-call-btn:hover {
+            background-color: #ff9d2b;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-bg-main) 0%, #1a1a1a 50%, rgba(255, 140, 0, 0.05) 100%);
+            padding-top: 60px; /* Account for sticky header */
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 10;
+            padding: 0 var(--padding-section-horizontal);
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .hero-title {
+            font-size: 5.5rem; /* Massive */
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            line-height: 1;
+            background: linear-gradient(to right, var(--color-text-heading), var(--color-brand));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--color-text-body);
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 140, 0, 0.15);
+            color: var(--color-brand);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .rating-badge .star-icon {
+            color: var(--color-brand);
+            font-size: 1.2rem;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(255, 140, 0, 0.05); /* Tinted with brand color */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .proof-item {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            line-height: 1.2;
+        }
+
+        .proof-item span {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--color-text-body);
+            margin-top: 0.3rem;
+        }
+
+        .proof-item strong {
+            color: var(--color-brand);
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .story-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            color: var(--color-text-body);
+            margin-bottom: 1.5rem;
+        }
+        
+        .story-quote-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2.5rem;
+            font-style: italic;
+            position: relative;
+            text-align: left;
+        }
+
+        .story-quote-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            color: rgba(255, 140, 0, 0.3);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .story-quote-card p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-left: 20px; /* Space for the quote mark */
+            color: var(--color-text-heading);
+        }
+
+        .story-quote-card .author {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--color-brand);
+            display: block;
+            text-align: right;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .stat-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-card strong {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-brand);
+            font-family: var(--font-heading);
+            line-height: 1;
+        }
+
+        .stat-card span {
+            font-size: 1.1rem;
+            color: var(--color-text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-section h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .menu-item-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: left;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--color-text-heading);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-top: 5px solid var(--color-brand); /* Accent on top for variety */
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--color-brand);
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-section h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            text-align: left;
+        }
+        
+        .testimonial-card::before {
+            content: '“';
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: rgba(255, 140, 0, 0.2);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            padding-left: 10px; /* Space for quote */
+            color: var(--color-text-heading);
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--color-brand);
+            display: block;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .location-info h2, .hours-info h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 1rem;
+            color: var(--color-text-body);
+        }
+
+        .location-address {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--color-text-heading);
+        }
+
+        .get-directions-btn {
+            margin-top: 1.5rem;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--color-text-body);
+        }
+
+        .hours-table tr:last-child td,
+        .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .closed-day {
+            color: var(--color-brand);
+            font-weight: 600;
+        }
+        
+        .call-to-order-btn {
+            margin-top: 2.5rem;
+            display: inline-block; /* To align with text-align left */
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--color-brand) 0%, #ff9d2b 100%);
+            padding: var(--padding-section-vertical) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--color-accent);
+            margin-bottom: 2.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--color-accent);
+            color: var(--color-brand);
+            border-color: var(--color-accent);
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: #333;
+            color: var(--color-brand);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--color-accent);
+            color: var(--color-text-secondary);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--color-text-heading);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .footer-socials {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-socials a {
+            color: var(--color-text-heading);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            color: var(--color-brand);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Fade-in-up effect */
+        .fade-in-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            .story-content h2, .menu-section h2, .why-choose-us h2, .testimonials-section h2,
+            .location-info h2, .hours-info h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2.8rem;
+            }
+            .header-nav ul {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --padding-section-vertical: 60px;
+                --padding-section-horizontal: 20px;
+            }
+
+            .sticky-header {
+                height: auto;
+                padding: 10px var(--padding-section-horizontal);
+                flex-wrap: wrap;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+            .header-call-btn {
+                width: 100%;
+                text-align: center;
+                padding: 0.8rem 1rem;
+            }
+            
+            .hero-section {
+                padding-top: 120px; /* Adjust for larger header on mobile */
+            }
+            .hero-title {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .our-story-grid, .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .story-content h2 {
+                text-align: center;
+            }
+            .story-quote-card {
+                margin-top: 2rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+
+            .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-info h2, .hours-info h2, .section-label {
+                text-align: center;
+            }
+
+            .hours-table {
+                font-size: 1rem;
+            }
+            .hours-table th {
+                width: 100px;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <a href="#hero" class="header-logo">Books & Brew</a>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:3366996142" class="header-call-btn">CALL (336) 699-6142</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-content fade-in-item">
+                <p class="hero-location">East Bend, NC</p>
+                <h1 class="hero-title">Books & Brew</h1>
+                <p class="hero-tagline">Books & Brew, LLC. We sell all types coffee, teas, cold beverages. An assortment of pastries is offered.</p>
+                <div class="rating-badge">
+                    <span class="star-icon">★</span> 5 Stars (68 Reviews)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container social-proof-grid fade-in-item">
+                <div class="proof-item">
+                    <strong>5.0</strong>
+                    <span>Star Rating</span>
+                </div>
+                <div class="proof-item">
+                    <strong>68+</strong>
+                    <span>Happy Customers</span>
+                </div>
+                <div class="proof-item">
+                    <strong>Local</strong>
+                    <span>East Bend's Favorite</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story">
+            <div class="container">
+                <p class="section-label fade-in-item">Our Story</p>
+                <div class="our-story-grid">
+                    <div class="story-content fade-in-item">
+                        <h2>More Than Just a Meal, It's an Experience.</h2>
+                        <p>This charming spot combines the aromatic allure of freshly brewed coffee with the intellectual stimulation of a well-curated book selection. As you step inside, you're greeted by the comforting scent of roasted beans and turning pages.</p>
+                        <p>Our cozy corners invite you to linger, whether you're diving into a new novel or catching up with friends. We believe in crafting more than just beverages; we create an atmosphere where community thrives and stories unfold. Every cup, every book, every moment is designed to be savored.</p>
+                        <div class="story-quote-card">
+                            <p>"Books & Brew is a true gem in East Bend! Their coffee is always perfect, and I love browsing the books while I sip. It's truly my happy place."</p>
+                            <span class="author">— A Loyal Local</span>
+                        </div>
+                    </div>
+                    <div class="stats-grid fade-in-item">
+                        <div class="stat-card">
+                            <strong>5.0</strong>
+                            <span>Star Rating</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>68+</strong>
+                            <span>Reviews</span>
+                        </div>
+                        <div class="stat-card">
+                            <strong>Cozy</strong>
+                            <span>Atmosphere</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu">
+            <div class="container">
+                <p class="section-label fade-in-item">Our Offerings</p>
+                <h2 class="fade-in-item">Taste the Comfort, Sip the Inspiration.</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card fade-in-item">
+                        <h3>Freshly Brewed Coffee & Teas</h3>
+                        <p>A delightful selection of all types of coffee, from robust blends to delicate single origins, alongside a comforting array of premium teas.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-item">
+                        <h3>Refreshing Cold Beverages</h3>
+                        <p>Cool down with our assortment of iced coffees, teas, and other cold refreshments perfect for any time of day.</p>
+                    </div>
+                    <div class="menu-item-card fade-in-item">
+                        <h3>Assorted Pastries & Baked Goods</h3>
+                        <p>Indulge in a freshly baked assortment of pastries, perfectly complementing your chosen brew.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us">
+            <div class="container">
+                <p class="section-label fade-in-item">Why Books & Brew?</p>
+                <h2 class="fade-in-item">Your Perfect Escape Awaits.</h2>
+                <div class="why-grid">
+                    <div class="why-card fade-in-item">
+                        <h3>A Unique Community Hub</h3>
+                        <p>More than just a diner, we're a beloved gathering spot where the aroma of coffee meets the magic of literature. Find your next favorite book while enjoying your daily ritual.</p>
+                    </div>
+                    <div class="why-card fade-in-item">
+                        <h3>5-Star Quality, Every Time</h3>
+                        <p>Our 5-star rating across 68 reviews speaks for itself. We're committed to serving only the best coffee, teas, and pastries in a consistently welcoming environment.</p>
+                    </div>
+                    <div class="why-card fade-in-item">
+                        <h3>Cozy & Inspiring Atmosphere</h3>
+                        <p>Step into a space designed for relaxation and discovery. With comfortable seating and shelves filled with stories, it's the ideal place to unwind, work, or connect.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section>
+            <div class="container">
+                <p class="section-label fade-in-item">What Our Community Says</p>
+                <h2 class="fade-in-item">Voices of Delight from Books & Brew.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card fade-in-item">
+                        <p>"Books & Brew is my go-to! Their freshly brewed coffee always hits the spot, and I love finding new reads here. A perfect start to any day."</p>
+                        <span class="author">— Happy Customer A</span>
+                    </div>
+                    <div class="testimonial-card fade-in-item">
+                        <p>"So glad I found this place. The assorted pastries are always delicious, and the atmosphere is so relaxing. Definitely a 5-star experience every visit!"</p>
+                        <span class="author">— Regular Patron B</span>
+                    </div>
+                    <div class="testimonial-card fade-in-item">
+                        <p>"East Bend needed a spot like this. Great selection of teas, comfy chairs, and books galore. It's a true community treasure that brightens my week."</p>
+                        <span class="author">— Local Reviewer C</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us">
+            <div class="container location-hours-grid">
+                <div class="location-info fade-in-item">
+                    <p class="section-label">Visit Us</p>
+                    <h2>Find Your Spot at Books & Brew.</h2>
+                    <p class="location-address">
+                        2909 Nebo Rd,<br>
+                        East Bend, NC 27018, USA
+                    </p>
+                    <p>Experience the unique blend of coffee and captivating stories. We're conveniently located in the heart of East Bend, ready to welcome you.</p>
+                    <a href="https://www.google.com/maps/search/Books+%26+Brew+2909+Nebo+Rd,+East+Bend,+NC+27018,+USA" target="_blank" class="btn btn-primary get-directions-btn">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in-item">
+                    <p class="section-label">Our Schedule</p>
+                    <h2>When We're Open.</h2>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>7:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>7:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>7:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>7:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>7:00 AM – 4:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>8:00 AM – 1:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday</td>
+                                <td class="closed-day">Closed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:3366996142" class="btn btn-primary call-to-order-btn">Call to Inquire: (336) 699-6142</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-item">
+                <h2>Ready for Your Next Great Read & Brew?</h2>
+                <a href="#hero" class="btn btn-dark">Visit Books & Brew Today!</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Books & Brew</a>
+            <p class="footer-tagline">Books & Brew, LLC. We sell all types coffee, teas, cold beverages. An assortment of pastries is offered.</p>
+            <ul class="footer-socials">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm3 8h-1.35c-.524 0-.65.234-.65.756v1.442h2l-.24 2.002h-1.76v5.8h-2v-5.8h-1.737v-2.002h1.737v-1.797c0-1.748 1.121-2.901 2.946-2.901h1.754v2.001z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-3.327 0-3.799.014-5.133.076-1.34.067-2.285.259-3.085.578-.81.32-1.464.757-2.121 1.414s-1.094 1.311-1.414 2.121c-.319.8-.511 1.745-.578 3.085-.062 1.334-.076 1.806-.076 5.133s.014 3.799.076 5.133c.067 1.34.259 2.285.578 3.085.32.81.757 1.464 1.414 2.121s1.311 1.094 2.121 1.414c.8.319 1.745.511 3.085.578 1.334.062 1.806.076 5.133.076s3.799-.014 5.133-.076c1.34-.067 2.285-.259 3.085-.578.81-.32 1.464-.757 2.121-1.414s1.094-1.311 1.414-2.121c.319-.8.511-1.745.578-3.085.062-1.334.076-1.806.076-5.133s-.014-3.799-.076-5.133c-.067-1.34-.259-2.285-.578-3.085-.32-.81-.757-1.464-1.414-2.121s-1.311-1.094-2.121-1.414c-.8-.319-1.745-.511-3.085-.578-1.334-.062-1.806-.076-5.133-.076zm0 2.2c3.279 0 3.682.013 4.975.076 1.156.058 1.724.237 2.059.373.335.136.564.298.811.545.247.247.409.476.545.811.136.335.315.903.373 2.059.063 1.293.076 1.696.076 4.975s-.013 3.682-.076 4.975c-.058 1.156-.237 1.724-.373 2.059-.136.335-.298.564-.545.811-.247.247-.476.409-.811.545-.335.136-.903.315-2.059.373-1.293.063-1.696.076-4.975.076s-3.682-.013-4.975-.076c-1.156-.058-1.724-.237-2.059-.373-.335-.136-.564-.298-.811-.545-.247-.247-.409-.476-.545-.811-.136-.335-.315-.903-.373-2.059-.063-1.293-.076-1.696-.076-4.975s.013-3.682.076-4.975c.058-1.156.237-1.724.373-2.059.136-.335.298-.564.545-.811.247-.247.476-.409.811-.545.335-.136.903-.315 2.059-.373 1.293-.063 1.696-.076 4.975-.076zm0 4.301c-2.617 0-4.739 2.122-4.739 4.739s2.122 4.739 4.739 4.739 4.739-2.122 4.739-4.739-2.122-4.739-4.739-4.739zm0 7.239c-1.372 0-2.5-1.128-2.5-2.5s1.128-2.5 2.5-2.5 2.5 1.128 2.5 2.5-1.128 2.5-2.5 2.5zm6.404-11.899c-.771 0-1.4.629-1.4 1.4s.629 1.4 1.4 1.4 1.4-.629 1.4-1.4-.629-1.4-1.4-1.4z"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3 8.5c0-.829.672-1.5 1.5-1.5s1.5.671 1.5 1.5c0 .828-.672 1.5-1.5 1.5s-1.5-.672-1.5-1.5zm6.5 0c0-.829.672-1.5 1.5-1.5s1.5.671 1.5 1.5c0 .828-.672 1.5-1.5 1.5s-1.5-.672-1.5-1.5zm-5 6h-3.5l-2.5 5.5h2l.5-1.5h3.5l.5 1.5h2l-2.5-5.5zm11 0h-3.5l-2.5 5.5h2l.5-1.5h3.5l.5 1.5h2l-2.5-5.5zm-7.994-3.501c0-2.909 2.5-3.004 2.5-3.004v-2c-3 0-5.5 2.012-5.5 5.004v2c0 2.992 2.5 5.004 5.5 5.004v-2c0-.001-2.5-.096-2.5-3.004z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Books & Brew. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Smooth Scroll for Navigation Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Intersection Observer for Fade-in-up effect
+            const fadeInElements = document.querySelectorAll('.fade-in-item');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% of the element must be visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            fadeInElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
