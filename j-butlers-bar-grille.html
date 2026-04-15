@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J Butler's Bar & Grille - Your Lewisville Home for Hearty Meals & Good Times</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        :root {
+            --bg-main: #111111;
+            --bg-light: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #000000;
+            --accent-color: #000000;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Oswald', serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            --max-width: 1200px;
+            --section-padding: 100px 0;
+            --header-height: 60px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color); /* Black background for button */
+            color: var(--text-heading); /* White text on black button */
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            background-color: #222; /* Slightly lighten black on hover */
+            border-color: #222;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary); /* Text color for label */
+            display: inline-block;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .section-label::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px; 
+            height: 3px;
+            background-color: var(--brand-color); /* Brand color used as an accent underline */
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            transition: background 0.3s ease;
+        }
+
+        .header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .header .nav-links a {
+            color: var(--text-body);
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .header .nav-links a:hover {
+            color: var(--text-heading);
+        }
+
+        .header .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color); /* Brand color for hover underline */
+            transition: width 0.3s ease;
+        }
+
+        .header .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header .call-button {
+            background-color: var(--brand-color); /* Black brand color background */
+            color: var(--text-heading); /* White text on black button */
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .header .call-button:hover {
+            background-color: #222; /* Slightly lighten black on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.8)), radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, var(--bg-main) 100%);
+            background-color: var(--bg-main); /* Fallback */
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(0,0,0,0.1) 0%, transparent 50%),
+                        radial-gradient(circle at bottom right, rgba(0,0,0,0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+
+        .rating-badge {
+            background-color: rgba(255,255,255,0.1);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .rating-badge svg {
+            color: gold;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(0,0,0,0.05); /* Tinted with brand color at very low opacity */
+            padding: 60px 0;
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            flex-wrap: wrap;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-item {
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            flex: 1;
+            min-width: 280px;
+            max-width: 350px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .our-story .headline {
+            font-size: 3rem;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            color: var(--text-heading);
+        }
+
+        .our-story .about-text {
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-body);
+        }
+
+        .our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 60px auto 80px auto;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-style: italic;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: var(--text-body);
+        }
+        .our-story .testimonial-card::before {
+            content: '“';
+            font-family: serif;
+            font-size: 6rem;
+            color: rgba(255,255,255,0.08);
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            z-index: 0;
+        }
+        .our-story .testimonial-card p {
+            position: relative;
+            z-index: 1;
+        }
+        .our-story .testimonial-card .author {
+            margin-top: 20px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color accent */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            font-weight: 600;
+        }
+
+        /* 5. MENU SECTION */
+        .menu {
+            text-align: center;
+        }
+
+        .menu .headline {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color accent */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-heading);
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+        
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--bg-light);
+            text-align: center;
+        }
+
+        .why-choose-us .headline {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        
+        .choose-us-card .icon {
+            font-size: 3.5rem;
+            color: var(--brand-color); /* Brand color for icon */
+            margin-bottom: 20px;
+            display: inline-block;
+            background-color: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 50%;
+            border: 1px solid var(--card-border);
+        }
+
+        .choose-us-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+
+        .choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials .headline {
+            font-size: 3rem;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card-small {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color accent */
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-card-small:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .testimonial-card-small .quote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .testimonial-card-small .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--bg-light);
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: flex-start;
+        }
+
+        .location-info h2, .hours-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            color: var(--text-body);
+        }
+
+        .location-info .address {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+        }
+
+        .location-info .phone-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--brand-color); /* Brand color for phone text */
+            margin-bottom: 30px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .location-info .phone-number:hover {
+            color: #222; /* Slightly darker black on hover */
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .hours-table th {
+            font-weight: 600;
+            color: var(--text-heading);
+            width: 35%;
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .location-hours .btn-call-order {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background-image: linear-gradient(to right, var(--brand-color) 0%, rgba(0,0,0,0.8) 100%); /* Brand color gradient */
+            padding: 120px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .final-cta .headline {
+            font-size: 3.5rem;
+            max-width: 900px;
+            margin: 0 auto 50px auto;
+            color: var(--text-heading);
+            line-height: 1.1;
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--brand-color); /* Dark background (black) */
+            padding: 80px 0 40px 0;
+            text-align: center;
+            color: var(--text-body);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer .tagline {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--text-heading);
+        }
+
+        .footer .copyright {
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 80px 0;
+            }
+
+            .header {
+                padding: 0 20px;
+            }
+            .header .logo {
+                font-size: 1.5rem;
+            }
+            .header .nav-links {
+                display: none; /* Hide nav links on mobile, a hamburger menu could be implemented */
+            }
+            .header .call-button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding-top: var(--header-height); /* Account for sticky header */
+            }
+            .hero-name {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+                margin-bottom: 20px;
+            }
+            .rating-badge {
+                margin-bottom: 30px;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                padding: 12px 25px;
+            }
+
+            .social-proof {
+                flex-direction: column;
+                gap: 20px;
+                padding: 40px 20px;
+            }
+            .social-proof-item {
+                max-width: 100%;
+                min-width: unset;
+                padding: 20px;
+            }
+            .social-proof-item h3 {
+                font-size: 2rem;
+            }
+
+            .our-story .headline, .menu .headline, .why-choose-us .headline, .testimonials .headline, .location-hours-content h2, .final-cta .headline {
+                font-size: 2.2rem;
+                margin-bottom: 40px;
+            }
+
+            .our-story .about-text {
+                margin-bottom: 40px;
+                font-size: 1rem;
+            }
+
+            .our-story .testimonial-card {
+                margin: 40px auto 60px auto;
+                padding: 30px;
+                font-size: 1.1rem;
+            }
+            .our-story .testimonial-card::before {
+                font-size: 4rem;
+                top: -10px;
+                left: 10px;
+            }
+
+            .stat-cards {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-top: 60px;
+            }
+
+            .menu-grid, .choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .menu-card, .choose-us-card, .testimonial-card-small {
+                padding: 25px;
+            }
+
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .location-info .phone-number {
+                font-size: 1.5rem;
+            }
+
+            .final-cta {
+                padding: 80px 20px;
+            }
+            .final-cta .headline {
+                font-size: 2.5rem;
+            }
+
+            .footer {
+                padding: 60px 20px 30px 20px;
+            }
+            .footer .logo {
+                font-size: 1.8rem;
+            }
+            .footer .tagline {
+                font-size: 0.95rem;
+            }
+            .footer .social-links a {
+                font-size: 1.3rem;
+                margin: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .social-proof-item h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="header">
+        <div class="logo">J Butler's</div>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:+13367668780" class="call-button">CALL (336) 766-8780</a>
+    </header>
+
+    <main>
+        <!-- 2. HERO SECTION -->
+        <section class="hero">
+            <p class="hero-location fade-in-up">Lewisville, NC</p>
+            <h1 class="hero-name fade-in-up">J Butler's Bar & Grille</h1>
+            <p class="hero-tagline fade-in-up">Your Home for Hearty Meals & Good Times.</p>
+            <div class="rating-badge fade-in-up">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                </svg>
+                4.1 Stars (854 Reviews)
+            </div>
+            <div class="hero-ctas fade-in-up">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </section>
+
+        <!-- 3. SOCIAL PROOF STRIP -->
+        <section class="social-proof">
+            <div class="social-proof-item fade-in-up">
+                <h3>4.1 / 5</h3>
+                <p>Average Rating</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>854+</h3>
+                <p>Happy Customers Reviewed</p>
+            </div>
+            <div class="social-proof-item fade-in-up">
+                <h3>Local Favorite</h3>
+                <p>Beloved Lewisville Spot</p>
+            </div>
+        </section>
+
+        <!-- 4. OUR STORY SECTION -->
+        <section id="our-story" class="our-story section-padding">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Our Roots</p>
+                <h2 class="headline fade-in-up">Serving Up Comfort, Connection, and Community in Lewisville.</h2>
+                <div class="about-text fade-in-up">
+                    <p>J Butler's Bar & Grille isn't just a place to eat; it's a cornerstone of the Lewisville community. For years, we've been dedicated to providing a warm, inviting atmosphere where friends and families can gather, share laughter, and enjoy hearty, delicious meals made with passion.</p>
+                    <p>We believe in the power of good food and great company. Our commitment to quality ingredients, friendly service, and a truly local feel has made us a beloved spot for countless memories and celebrations. Come on in and become part of our story.</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"J Butler's is our go-to for everything. The moment you walk in, you feel like family. The food is consistently amazing, and the staff always goes the extra mile. It’s truly Lewisville's best-kept secret for a relaxed, delicious meal."</p>
+                    <p class="author">- A Loyal Patron from Lewisville</p>
+                </div>
+                <div class="stat-cards container">
+                    <div class="stat-card fade-in-up">
+                        <div class="number">854+</div>
+                        <div class="label">Customer Reviews</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">4.1</div>
+                        <div class="label">Average Rating</div>
+                    </div>
+                    <div class="stat-card fade-in-up">
+                        <div class="number">10+</div>
+                        <div class="label">Years Serving Lewisville</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. MENU SECTION -->
+        <section id="menu" class="menu section-padding">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Our Offerings</p>
+                <h2 class="headline fade-in-up">Taste the Heart of Lewisville.</h2>
+                <div class="menu-grid">
+                    <div class="menu-card fade-in-up">
+                        <h3>Classic Burgers & Sandwiches</h3>
+                        <p>Juicy, grilled-to-perfection burgers and satisfying sandwiches crafted with fresh toppings and premium ingredients. A true American classic.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Signature Wings & Appetizers</h3>
+                        <p>Crispy wings tossed in your favorite sauces, alongside a selection of delicious starters perfect for sharing (or not!).</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Hearty Entrees</h3>
+                        <p>Generous portions of comfort food favorites, from savory steaks to robust pasta dishes, designed to satisfy any appetite.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Fresh Salads</h3>
+                        <p>Light and flavorful options featuring crisp greens, vibrant vegetables, and delicious proteins, dressed with house-made goodness.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Craft Beer & Cocktails</h3>
+                        <p>A curated selection of local craft beers on tap and expertly mixed cocktails, perfect for unwinding after a long day.</p>
+                    </div>
+                    <div class="menu-card fade-in-up">
+                        <h3>Sweet Endings</h3>
+                        <p>Indulge in our delightful dessert creations, the perfect finish to any meal. Ask your server for today's specials!</p>
+                    </div>
+                </div>
+                <div class="text-center" style="margin-top: 60px;">
+                    <a href="#find-us" class="btn btn-primary fade-in-up">Visit Us to See Today's Specials</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us section-padding">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">Why J Butler's?</p>
+                <h2 class="headline fade-in-up">More Than Just a Meal, It's an Experience.</h2>
+                <div class="choose-us-grid">
+                    <div class="choose-us-card fade-in-up">
+                        <span class="icon">&#x1F374;</span> <!-- Fork and Knife icon -->
+                        <h3>Unbeatable Comfort Food</h3>
+                        <p>From our juicy burgers to our crispy wings and hearty entrees, every dish is prepared with fresh ingredients and a touch of home-style love. We focus on classic flavors done right.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up">
+                        <span class="icon">&#x1F3E0;</span> <!-- Home icon -->
+                        <h3>Lewisville's Community Hub</h3>
+                        <p>As a beloved local spot, J Butler's is where neighbors connect, friendships are forged, and good times are always on the menu. Experience the true spirit of Lewisville with us.</p>
+                    </div>
+                    <div class="choose-us-card fade-in-up">
+                        <span class="icon">&#x1F37A;</span> <!-- Beer mug icon -->
+                        <h3>Perfect Pairing Every Time</h3>
+                        <p>Complement your meal with our diverse selection of craft beers, fine wines, and expertly mixed cocktails. Our bar offers something for every taste.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. TESTIMONIALS SECTION -->
+        <section class="testimonials section-padding">
+            <div class="container text-center">
+                <p class="section-label fade-in-up">What Our Guests Say</p>
+                <h2 class="headline fade-in-up">Real Stories from Our Lewisville Family.</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card-small fade-in-up">
+                        <p class="quote">"The atmosphere at J Butler's is always welcoming. My go-to is always one of their <span style="color: var(--text-heading); font-weight: 600;">classic burgers</span> – perfectly cooked every time! A true Lewisville gem."</p>
+                        <p class="author">- Jessica L.</p>
+                    </div>
+                    <div class="testimonial-card-small fade-in-up">
+                        <p class="quote">"Love bringing my friends here for a casual night out. Their <span style="color: var(--text-heading); font-weight: 600;">signature wings</span> are a must-try, and the beer selection is fantastic. Always a great time!"</p>
+                        <p class="author">- Mark T.</p>
+                    </div>
+                    <div class="testimonial-card-small fade-in-up">
+                        <p class="quote">"This place truly feels like home. Whether it's a <span style="color: var(--text-heading); font-weight: 600;">hearty entrée</span> or just some appetizers, the food and service never disappoint. Highly recommend to everyone in the area."</p>
+                        <p class="author">- Emily R.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours section-padding">
+            <div class="container">
+                <p class="section-label fade-in-up">Visit Us</p>
+                <div class="location-hours-content">
+                    <div class="location-info fade-in-up">
+                        <h2>Find J Butler's Bar & Grille</h2>
+                        <p>We're conveniently located in the heart of Lewisville, ready to welcome you for lunch, dinner, or just a friendly drink.</p>
+                        <p class="address">1355 Lewisville Clemmons Rd, Lewisville, NC 27023, USA</p>
+                        <a href="tel:+13367668780" class="phone-number">(336) 766-8780</a>
+                        <a href="https://www.google.com/maps/search/J+Butler's+Bar+&+Grille+Lewisville,+NC" target="_blank" class="btn btn-secondary btn-call-order">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info fade-in-up">
+                        <h2>Our Opening Hours</h2>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>11:00 AM – 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>11:00 AM – 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>11:00 AM – 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>11:00 AM – 11:00 PM</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>11:00 AM – 12:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>11:00 AM – 12:00 AM</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>11:00 AM – 11:00 PM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="tel:+13367668780" class="btn btn-primary btn-call-order">CALL TO ORDER</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2 class="headline">Ready for the Best Bar & Grille Experience in Lewisville?</h2>
+                <a href="#find-us" class="btn btn-secondary">PLAN YOUR VISIT TODAY</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="logo">J Butler's</span>
+            <p class="tagline">Your Home for Hearty Meals & Good Times.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"><path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.979h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.5V16c3.824-.604 6.75-3.934 6.75-7.951z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.269.087 3.85.048 4.703.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.297-.048c.852-.04 1.433-.174 1.942-.372a3.927 3.927 0 0 0 1.417-.923c.445-.444.719-.89.923-1.416.198-.51.333-1.09.372-1.942C15.99 12.445 16 12.173 16 10V8c0-2.172-.01-2.444-.048-3.297-.04-.852-.174-1.433-.372-1.942a3.917 3.917 0 0 0-.923-1.417A3.927 3.927 0 0 0 13.24 0.42c-.51-.198-1.09-.333-1.942-.372C10.445.01 10.173 0 8 0zm0 2.16c2.186 0 2.427.01 3.28.05.782.037 1.17.16 1.416.264.493.203.795.456.974.636.179.18.432.483.636.975.104.246.227.634.264 1.416.04 0.852.05 1.093.05 3.28s-.01 2.427-.05 3.28c-.037.782-.16 1.17-.264 1.416a1.92 1.92 0 0 1-.636.975c-.18.179-.483.432-.974.636-.246.104-.634.227-1.416.264-.852.04-1.093.05-3.28.05s-2.427-.01-3.28-.05c-.782-.037-1.17-.16-1.416-.264a1.92 1.92 0 0 1-.975-.636c-.179-.18-.432-.483-.636-.974-.104-.246-.227-.634-.264-1.416-.04-.852-.05-1.093-.05-3.28s.01-2.427.05-3.28c.037-.782.16-1.17.264-1.416.203-.493.456-.795.636-.974.18-.179.483-.432.974-.636.246-.104.634-.227 1.416-.264C5.573 2.16 5.814 2.16 8 2.16zm0 3.868c-2.144 0-3.927 1.783-3.927 3.927 0 2.145 1.783 3.927 3.927 3.927 2.145 0 3.927-1.782 3.927-3.927 0-2.144-1.782-3.927-3.927-3.927zM8 12c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.199-6.858a.5.5 0 0 1-.5.5h-.01a.5.5 0 0 1-.5-.5v-.01a.5.5 0 0 1 .5-.5h.01a.5.5 0 0 1 .5.5v.01z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16"><path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/></svg></a>
+            </div>
+            <p class="copyright">&copy; 2026 J Butler's Bar & Grille. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = document.querySelector('.header').offsetHeight; // Account for sticky header
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the item is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeInElements.forEach(element => {
+            observer.observe(element);
+        });
+
+        // Add a class to the hero section's elements once JS is loaded to trigger animation for hero
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroElements = document.querySelectorAll('.hero .fade-in-up');
+            heroElements.forEach((el, index) => {
+                // Add a small delay for staggered animation in hero
+                setTimeout(() => {
+                    el.classList.add('is-visible');
+                }, index * 100); 
+            });
+        });
+
+    </script>
+</body>
+</html>
