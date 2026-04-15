@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heff's Burger Club - Winston-Salem's Favorite BBQ Burger Joint</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --primary-bg: #111111;
+            --secondary-bg: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #1a472a;
+            --accent-color: #d4af37;
+            --text-light: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --section-padding-y: 100px;
+            --container-max-width: 1200px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            opacity: 0; /* For fade-in-up effect */
+            transform: translateY(20px); /* For fade-in-up effect */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 4rem; font-weight: 700; }
+        h2 { font-size: 3rem; }
+        h3 { font-size: 2rem; }
+        h4 { font-size: 1.5rem; }
+
+        p {
+            margin-bottom: 1em;
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 30px;
+            border-radius: 6px;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-light);
+            border: 2px solid var(--text-light);
+        }
+
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 0.05em;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-body);
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after,
+        .main-nav a.active::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-light);
+            border: none;
+            padding: 8px 18px;
+            font-size: 0.95rem;
+            border-radius: 4px;
+        }
+        .header-call-btn:hover {
+            transform: scale(1.05);
+            background-color: var(--brand-color); /* keep brand color */
+            filter: brightness(1.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, #111111 0%, rgba(26, 71, 42, 0.2) 30%, rgba(212, 175, 55, 0.1) 70%, #111111 100%);
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero-content {
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero-location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 8px 18px;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            color: var(--text-light);
+        }
+
+        .hero-rating span {
+            color: var(--accent-color);
+            margin-right: 8px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(26, 71, 42, 0.05);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0;
+        }
+
+        /* Our Story Section */
+        .our-story-section {
+            background-color: var(--primary-bg);
+        }
+
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+        }
+
+        .our-story-text p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 1.15rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card span {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .stats-grid {
+            margin-top: 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px 20px;
+            border-radius: 8px;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.9;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: var(--secondary-bg);
+        }
+
+        .menu-section h2 {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.8rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .menu-item-header h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-light);
+        }
+
+        .menu-item-header .price {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us-section {
+            background-color: var(--primary-bg);
+            text-align: center;
+        }
+
+        .why-choose-us-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--accent-color);
+            padding: 35px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .why-card h3 {
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .why-card h3::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+            width: 50px;
+            height: 3px;
+            background-color: var(--brand-color);
+            border-radius: 2px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-top: 25px;
+            line-height: 1.7;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            background-color: var(--secondary-bg);
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-item .author {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            display: block;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-section {
+            background-color: var(--primary-bg);
+        }
+
+        .location-hours-section h2 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .location-info a {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .location-info a:hover {
+            text-decoration: underline;
+        }
+
+        .location-info .phone-number {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .location-info .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 15px 0;
+            text-align: left;
+        }
+
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table .closed {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .location-hours-section .btn {
+            margin-top: 40px;
+            width: fit-content;
+            align-self: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color) 0%, var(--brand-color) 60%, var(--accent-color) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta-section .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+        }
+        .final-cta-section .btn-accent:hover {
+            filter: brightness(1.1);
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: var(--secondary-bg);
+            padding: 60px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            font-size: 1.3rem; /* Example icon size */
+            color: var(--text-body);
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .our-story-content, .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-text, .location-info, .hours-info {
+                padding: 30px;
+            }
+            .stats-grid, .menu-grid, .why-grid, .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+            .location-hours-grid {
+                gap: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .main-nav {
+                display: none; /* Hide nav links on smaller screens */
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-call-btn {
+                padding: 6px 14px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding-top: 80px; /* More space for header */
+                height: auto;
+                min-height: 100vh;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 80%;
+                margin: 0 auto;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            h3 {
+                font-size: 1.8rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+            }
+            .social-proof-item {
+                min-width: unset;
+                flex-basis: auto;
+            }
+
+            .our-story-content, .location-hours-grid {
+                gap: 40px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-grid, .why-grid, .testimonials-grid {
+                gap: 30px;
+            }
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .btn {
+                width: 90%;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            h3 {
+                font-size: 1.5rem;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-logo">Heff's Burger Club</div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:3368139473" class="btn header-call-btn">CALL (336) 813-9473</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container hero-content">
+            <span class="hero-location">Winston-Salem, NC</span>
+            <h1>Heff's Burger Club</h1>
+            <p class="hero-tagline">Heff's Burger Club 285 W 4th St, Winston-Salem, NC 27101 Adding this to my list of go-to Winston-Salem food spots! What should I try next time?</p>
+            <div class="hero-rating">
+                <span>&#9733;</span> 4.4 Stars (355 Reviews)
+            </div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip is-visible">
+        <div class="container">
+            <div class="social-proof-item">
+                <h3>4.4 Stars</h3>
+                <p>Average Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>355+</h3>
+                <p>Happy Reviews</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Local</h3>
+                <p>Winston-Salem Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container">
+            <span class="section-label text-center">Our Story</span>
+            <h2 class="text-center">Crafted with Passion, Served with a Smile.</h2>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>At Heff's Burger Club, nestled in the heart of Winston-Salem, we believe in simple, honest food made with care. We're a beloved local spot where quality meets convenience, offering a vibrant atmosphere that's always buzzing.</p>
+                    <p>You order at the counter, and our dedicated team gets straight to work, crafting each burger to perfection. We pride ourselves on creating flavorful and filling meals, like our famous Fatty Patty, that keep our community coming back. While there might be a short wait during peak hours, it's always worth it for a taste of the best burgers in town. We're more than just a burger joint; we're a place where friends and family gather for a memorable meal and delicious food.</p>
+                    <div class="testimonial-card">
+                        <p>"The wait was absolutely worth it! My Fatty Patty was incredibly flavorful and filling – a true standout. This place is a gem!"</p>
+                        <span>- A Satisfied Winston-Salem Diner</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>4.4 Stars</h3>
+                        <p>Average Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>355+</h3>
+                        <p>Glowing Reviews</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>6</h3>
+                        <p>Signature Dishes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <span class="section-label text-center">Our Menu</span>
+            <h2 class="text-center">Taste the Heff's Difference.</h2>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Fatty Patty</h3>
+                        <span class="price">$11.00</span>
+                    </div>
+                    <p>Our signature single patty, juicy and packed with flavor. A true classic.</p>
+                </div>
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Piggy Wiggy</h3>
+                        <span class="price">$10.00</span>
+                    </div>
+                    <p>Tender, slow-smoked pulled pork, piled high and seasoned to perfection.</p>
+                </div>
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Lady Killer</h3>
+                        <span class="price"></span>
+                    </div>
+                    <p>A mysterious and captivating creation that leaves an unforgettable impression. (See menu for pricing)</p>
+                </div>
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Smash Burger</h3>
+                        <span class="price"></span>
+                    </div>
+                    <p>Perfectly smashed patty with crispy edges and a succulent, juicy core. (See menu for pricing)</p>
+                </div>
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Black Garlic Burger</h3>
+                        <span class="price"></span>
+                    </div>
+                    <p>An umami bomb! Savory black garlic infuses this unique, gourmet burger. (See menu for pricing)</p>
+                </div>
+                <div class="menu-item-card">
+                    <div class="menu-item-header">
+                        <h3>Heffy Baby</h3>
+                        <span class="price"></span>
+                    </div>
+                    <p>The little sibling with big flavor. A perfectly sized, satisfying bite. (See menu for pricing)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container">
+            <span class="section-label text-center">Why Heff's?</span>
+            <h2 class="text-center">More Than Just a Meal: An Experience.</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <h3>Flavorful & Filling</h3>
+                    <p>Every bite of our Fatty Patty or Piggy Wiggy promises a burst of flavor, leaving you truly satisfied. We craft meals that stick with you, made with passion and quality ingredients.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Winston-Salem's Choice</h3>
+                    <p>With a stellar 4.4-star rating from 355+ reviews, we're a proven local favorite. Come see why Heff's Burger Club is Winston-Salem's go-to spot for quality burgers and a great atmosphere.</p>
+                </div>
+                <div class="why-card">
+                    <h3>Community & Comfort</h3>
+                    <p>Step right up to the counter, grab a classic root beer, and enjoy the vibrant, welcoming buzz. Heff's is your laid-back, friendly neighborhood spot for a relaxed, delicious dining experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container">
+            <span class="section-label text-center">What People Are Saying</span>
+            <h2 class="text-center">Hear From Our Happy Customers</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-item">
+                    <p>"Absolutely loved the Fatty Patty! It was incredibly flavorful and hit the spot perfectly. The wait was worth every delicious minute at Heff's."</p>
+                    <span class="author">- Jessica R.</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"The Piggy Wiggy is a game-changer – tender, smoky, and absolutely addictive. Heff's Burger Club never disappoints with their amazing BBQ creations!"</p>
+                    <span class="author">- Mark T.</span>
+                </div>
+                <div class="testimonial-item">
+                    <p>"Tried the Lady Killer and it was a revelation! Unique flavors and perfectly cooked. Heff's Burger Club truly knows their craft and delivers every time."</p>
+                    <span class="author">- Sarah L.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <span class="section-label text-center">Find Us</span>
+            <h2 class="text-center">Your Table Awaits in Winston-Salem.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info">
+                    <h3>Visit Our Club</h3>
+                    <p>Heff's Burger Club is conveniently located in the vibrant heart of Winston-Salem. Stop by for a quick, delicious meal!</p>
+                    <p><strong>Address:</strong> <a href="https://www.google.com/maps/search/?api=1&query=285+W+4th+St,+Winston-Salem,+NC+27101,+USA" target="_blank">285 W 4th St, Winston-Salem, NC 27101, USA</a></p>
+                    <p><strong>Phone:</strong> <a href="tel:3368139473" class="phone-number">(336) 813-9473</a></p>
+                    <p>Get directions and plan your visit on Google Maps. We're excited to see you!</p>
+                </div>
+                <div class="hours-info">
+                    <h3>Our Hours</h3>
+                    <p>We're open most days for lunch and dinner, ready to serve you the best burgers in town. Please note our specific hours below:</p>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday:</th>
+                            <td class="closed">Closed</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday:</th>
+                            <td>11:00 AM – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday:</th>
+                            <td>11:00 AM – 2:30 PM, 3:00 – 8:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Friday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday:</th>
+                            <td>11:00 AM – 9:00 PM</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday:</th>
+                            <td>11:00 AM – 4:00 PM</td>
+                        </tr>
+                    </table>
+                    <a href="tel:3368139473" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta-section is-visible">
+        <div class="container">
+            <h2>Don't Just Crave It. Taste It! Your Next Favorite Burger is Waiting.</h2>
+            <a href="#menu" class="btn btn-accent">VIEW OUR MENU NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <span class="footer-logo">Heff's Burger Club</span>
+            <p class="footer-tagline">Adding this to my list of go-to Winston-Salem food spots! What should I try next time?</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.271 0-4.192 1.543-4.192 4.615v3.385z"></path></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.772 1.691 4.91 4.91.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.138 3.213-1.672 4.772-4.91 4.91-1.267.058-1.647.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.138-4.773-1.699-4.91-4.91-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.069-4.849.138-3.212 1.672-4.772 4.91-4.91 1.264-.058 1.644-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg></a></li>
+            </ul>
+            <p>&copy; 2026 Heff's Burger Club. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            // Skip the hero section as it's visible by default (or loads first)
+            if (section.id !== 'hero') {
+                sectionObserver.observe(section);
+            } else {
+                // Ensure hero is visible immediately
+                section.classList.add('is-visible');
+            }
+        });
+        
+        // Header active link state (optional, for visual feedback)
+        const navLinks = document.querySelectorAll('.main-nav a');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) { // Offset for header height
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>
