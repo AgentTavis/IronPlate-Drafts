@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Winery Restaurant & Wine Bar - Tustin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #111111;
+            --brand-color: #54080A;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Raleway', sans-serif;
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+            --header-height: 60px;
+        }
+
+        /* Basic Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 4rem; } /* Hero text */
+        h2 { font-size: 2.8rem; margin-bottom: 1.5rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; margin-bottom: 1rem; }
+        h4 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+        p { font-size: 1.05rem; margin-bottom: 1rem; }
+
+        .text-small { font-size: 0.9rem; color: var(--text-secondary); }
+        .text-muted { color: var(--text-secondary); }
+        .text-brand { color: var(--brand-color); }
+        .text-uppercase { text-transform: uppercase; }
+        .font-bold { font-weight: 700; }
+        .font-light { font-weight: 300; }
+
+        /* Layout & Utilities */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+        }
+
+        .flex-group {
+            display: flex;
+            gap: 2rem;
+        }
+        .flex-group-center {
+            align-items: center;
+        }
+        .flex-group-between {
+            justify-content: space-between;
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+        .btn-primary:hover {
+            background-color: var(--brand-color); /* No change, just scale */
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--text-heading);
+        }
+        .btn-secondary:hover {
+            background-color: var(--text-heading);
+            color: var(--bg-primary);
+        }
+
+        .btn-call {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+            padding: 0.75rem 1.5rem;
+        }
+        .btn-call:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo img {
+            height: 40px;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        .header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .header nav a {
+            color: var(--text-body);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .header nav a:hover {
+            color: var(--brand-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height);
+            background: radial-gradient(circle at center, rgba(84, 8, 10, 0.2) 0%, rgba(17, 17, 17, 0.8) 70%, rgba(17, 17, 17, 1) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://source.unsplash.com/random/1920x1080/?wine,fine-dining,restaurant'); /* Subtle background image for texture */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 8vw, 6rem); /* Responsive font size */
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            margin-bottom: 2rem;
+            color: var(--text-body);
+            font-weight: 300;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(84, 8, 10, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-heading);
+        }
+
+        .social-proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+        }
+        .social-proof-item .value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+            line-height: 1;
+        }
+        .social-proof-item .label {
+            font-size: 0.9rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Our Story Section */
+        .story-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .story-content h2 {
+            margin-top: 0.5rem;
+        }
+        .story-content p {
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .quote-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 2.5rem;
+            margin-top: 3rem;
+            margin-bottom: 4rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .quote-card p {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        .quote-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1.1rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-family: var(--font-heading);
+            color: var(--brand-color);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background-color: rgba(255,255,255,0.01); /* Slightly lighter background for contrast */
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .menu-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 0.5rem;
+        }
+        .menu-card .description {
+            color: var(--text-body);
+            font-size: 1rem;
+        }
+        .menu-card .price {
+            font-weight: 600;
+            color: var(--brand-color);
+            margin-top: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Why Choose Us Section */
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .choose-us-card h3 {
+            color: var(--brand-color);
+            margin-bottom: 1rem;
+        }
+        .choose-us-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .testimonial-card .quote {
+            font-family: var(--font-heading);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 1.2rem;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-wrapper {
+            background-color: rgba(255,255,255,0.01); /* Slightly lighter background */
+        }
+        .location-info h3 {
+            color: var(--text-heading);
+            margin-bottom: 1rem;
+        }
+        .location-info p {
+            margin-bottom: 0.5rem;
+        }
+        .location-info a {
+            color: var(--brand-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .location-info a:hover {
+            color: var(--text-heading);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+        .hours-table th, .hours-table td {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            color: var(--text-body);
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 35%;
+        }
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(84, 8, 10, 0.7) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+            color: var(--text-heading);
+        }
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .final-cta .btn-primary {
+            border-color: var(--text-heading); /* White border for contrast */
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            font-size: 1.1rem;
+            padding: 1.2rem 3rem;
+        }
+        .final-cta .btn-primary:hover {
+            background-color: var(--brand-heading);
+            color: var(--text-heading);
+            filter: brightness(1.2);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d;
+            padding: 50px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .footer .logo img {
+            height: 50px;
+            margin-bottom: 1rem;
+        }
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 0.8rem;
+            transition: color 0.3s ease;
+        }
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        .footer .copyright {
+            margin-top: 2rem;
+        }
+
+        /* Animations (Fade-in-up) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: clamp(3rem, 7vw, 5rem); }
+            .hero .tagline { font-size: clamp(1rem, 2.5vw, 1.3rem); }
+            h2 { font-size: 2.2rem; }
+            .grid-2-col { grid-template-columns: 1fr; }
+            .flex-group { flex-direction: column; gap: 1.5rem; }
+            .hero-cta-group { flex-direction: column; gap: 1rem; }
+            .btn { padding: 0.8rem 1.5rem; }
+            .header nav { display: none; } /* Hide nav on smaller screens */
+            .header .container { justify-content: space-between; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(2.5rem, 10vw, 4rem); }
+            h2 { font-size: 1.8rem; }
+            p { font-size: 1rem; }
+            .hero { height: auto; min-height: 80vh; padding-top: var(--header-height) + 40px; padding-bottom: 40px;}
+            .section { padding: 60px 0; }
+            .hero-cta-group { flex-direction: column; }
+            .header .logo img { height: 35px; }
+            .quote-card { padding: 1.5rem; }
+            .quote-card p { font-size: 1.1rem; }
+            .stat-card { padding: 1.5rem; }
+            .stat-card .value { font-size: 2rem; }
+            .menu-card { padding: 1.5rem; }
+            .choose-us-card { padding: 1.5rem; }
+            .testimonial-card { padding: 1.5rem; }
+            .final-cta h2 { font-size: 2.5rem; }
+            .final-cta .btn-primary { padding: 1rem 2rem; font-size: 1rem; }
+            .social-proof-item .value { font-size: 1.8rem; }
+            .social-proof-item .label { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://popmenucloud.com/cdn-cgi/image/width=300,height=300,format=auto,fit=scale-down/mrxvnozk/6a915457-9633-4a2e-b2a4-f9888897aa70.png" alt="The Winery Restaurant & Wine Bar Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:(949) 999-6622" class="btn btn-call">CALL (949) 999-6622</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content fade-in-up">
+            <p class="location text-uppercase">Tustin, NC</p>
+            <h1>The Winery Restaurant & Wine Bar</h1>
+            <p class="tagline font-light">The Winery Restaurant in Newport Beach, CA. Call us at (949) 999-6622. Check out our location and hours, and latest menu with photos and reviews</p>
+            <p class="text-small text-muted">Highly Rated Fine Dining Experience</p>
+            <div class="hero-cta-group">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof">
+        <div class="container flex-group flex-group-center fade-in-up">
+            <div class="social-proof-item">
+                <div class="value">5-Star</div>
+                <div class="label">Highly Rated</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="value">Thousands</div>
+                <div class="label">Satisfied Guests</div>
+            </div>
+            <div class="social-proof-item">
+                <div class="value">The</div>
+                <div class="label">Local Favorite</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container fade-in-up">
+            <div class="story-content">
+                <p class="text-brand text-uppercase font-bold">Our Heritage</p>
+                <h2>A Culinary Journey, Refined for You</h2>
+                <p>We blend contemporary regional cuisine with a vibrant, upscale vibe—delivering fine dining without the fuss. Guided by our master chefs, the menu showcases culinary artistry at its finest.</p>
+                <p>From sommelier-curated wines to handcrafted cocktails, every detail is designed to elevate your experience and deliver Michelin-level excellence in every bite and sip. We invite you to discover a dining experience where passion meets perfection.</p>
+            </div>
+            <div class="quote-card fade-in-up">
+                <p>&ldquo;Every visit to The Winery is an experience in itself. The ambiance is perfect for a special evening, and the culinary team consistently delivers dishes that surprise and delight. A true gem in Tustin!&rdquo;</p>
+                <div class="author">&mdash; A Satisfied Diner</div>
+            </div>
+            <div class="grid-3-col">
+                <div class="stat-card fade-in-up">
+                    <div class="value">15+</div>
+                    <div class="label">Years of Culinary Excellence</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="value">Awarded</div>
+                    <div class="label">For Outstanding Cuisine</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="value">Expert</div>
+                    <div class="label">Sommelier Team</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container fade-in-up">
+            <p class="text-brand text-uppercase font-bold text-center">Our Offerings</p>
+            <h2 class="text-center">Discover Our Exquisite Menu</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Chef's Selection Amuse Bouche</h3>
+                    <p class="description">Choose one item from each section to begin your culinary journey. A delightful prelude crafted daily by our master chefs.</p>
+                    <!-- <p class="price">Seasonal Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Pan-Seared Scallops</h3>
+                    <p class="description">Perfectly seared scallops, served with a delicate lemon-butter sauce and microgreens.</p>
+                    <!-- <p class="price">Market Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Dry-Aged Ribeye</h3>
+                    <p class="description">Aged to perfection, our prime ribeye offers unparalleled flavor and tenderness.</p>
+                    <!-- <p class="price">Market Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Truffle Risotto</h3>
+                    <p class="description">Creamy Arborio rice infused with black truffle oil and freshly shaved Parmesan.</p>
+                    <!-- <p class="price">Seasonal Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Roasted Duck Breast</h3>
+                    <p class="description">Crispy skin, tender meat, served with a cherry reduction and seasonal vegetables.</p>
+                    <!-- <p class="price">Seasonal Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Seasonal Catch</h3>
+                    <p class="description">Our daily selection of fresh, sustainable seafood prepared with exquisite flair.</p>
+                    <!-- <p class="price">Market Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Artisanal Cheese Board</h3>
+                    <p class="description">A curated selection of local and imported cheeses, served with accoutrements.</p>
+                    <!-- <p class="price">Seasonal Price</p> -->
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Decadent Chocolate Lava Cake</h3>
+                    <p class="description">Warm, rich chocolate cake with a molten center, paired with vanilla bean ice cream.</p>
+                    <!-- <p class="price">Dessert Price</p> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container fade-in-up">
+            <p class="text-brand text-uppercase font-bold text-center">Our Commitment</p>
+            <h2 class="text-center">Experience The Winery Difference</h2>
+            <div class="grid-3-col">
+                <div class="choose-us-card fade-in-up">
+                    <h3>Michelin-Level Excellence</h3>
+                    <p>Every dish, from our signature <strong>Chef's Selection Amuse Bouche</strong> to our main courses, is crafted with precision and passion, aiming for a truly unforgettable culinary journey.</p>
+                </div>
+                <div class="choose-us-card fade-in-up">
+                    <h3>Sommelier-Curated Wines</h3>
+                    <p>Our extensive wine list features rare vintages and local favorites, expertly chosen by our sommelier to perfectly complement our contemporary regional cuisine.</p>
+                </div>
+                <div class="choose-us-card fade-in-up">
+                    <h3>Vibrant, Upscale Vibe</h3>
+                    <p>Enjoy fine dining without the fuss. Our ambiance is sophisticated yet inviting, perfect for special occasions or a memorable evening out in Tustin, NC.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="menu-section">
+        <div class="container fade-in-up">
+            <p class="text-brand text-uppercase font-bold text-center">What Our Guests Say</p>
+            <h2 class="text-center">Hear From Our Valued Diners</h2>
+            <div class="grid-3-col">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">&ldquo;The <strong>Chef's Selection Amuse Bouche</strong> was an incredible start, a true taste of artistry. Every course was impeccable, a real Michelin-level experience!&rdquo;</p>
+                    <p class="author">&mdash; Sarah L., Tustin Resident</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">&ldquo;I highly recommend the <strong>Dry-Aged Ribeye</strong>! It was cooked to perfection and melted in my mouth. The wine pairing suggested by our server was spot on.&rdquo;</p>
+                    <p class="author">&mdash; Mark P., Visiting Food Critic</p>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">&ldquo;The ambiance is stunning, and the service is truly exceptional. We celebrated our anniversary here, and the <strong>Decadent Chocolate Lava Cake</strong> was the perfect ending!&rdquo;</p>
+                    <p class="author">&mdash; Emily & David R., Celebrated Couple</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="location-hours-wrapper">
+        <div class="container fade-in-up">
+            <p class="text-brand text-uppercase font-bold text-center">Visit Us</p>
+            <h2 class="text-center">Find Us & Our Hours</h2>
+            <div class="grid-2-col">
+                <div class="location-info">
+                    <h3>Our Tustin Location</h3>
+                    <p>Discover The Winery Restaurant & Wine Bar nestled in the heart of Tustin, NC. We're proud to be a vibrant part of the local community, offering an escape into culinary excellence.</p>
+                    <p><strong>Address:</strong> <br> Tustin, NC</p>
+                    <p><strong>Phone:</strong> <a href="tel:(949) 999-6622">(949) 999-6622</a></p>
+                    <p class="text-small text-muted">Please call for reservations and specific directions.</p>
+                </div>
+                <div class="hours-info">
+                    <h3>Operating Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday - Sunday</td>
+                                <td><span class="text-brand">Call for hours</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-small text-muted">We encourage you to call ahead to confirm our current operating hours and make a reservation for an unforgettable dining experience.</p>
+                    <a href="tel:(949) 999-6622" class="btn btn-primary btn-call">CALL TO ORDER / RESERVE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Indulge?</h2>
+            <p class="font-light" style="font-size: 1.3rem; margin-bottom: 3rem; color: rgba(255,255,255,0.8);">Secure your table for an unparalleled fine dining experience today.</p>
+            <a href="tel:(949) 999-6622" class="btn btn-primary">MAKE A RESERVATION</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://popmenucloud.com/cdn-cgi/image/width=300,height=300,format=auto,fit=scale-down/mrxvnozk/6a915457-9633-4a2e-b2a4-f9888897aa70.png" alt="The Winery Restaurant & Wine Bar Logo">
+            </div>
+            <p class="tagline">The Winery Restaurant & Wine Bar - Tustin. Fine Dining, Unforgettable Moments.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><span class="icon">&#x1F4F1;</span></a> <!-- Placeholder for social icon, e.g., using phone emoji as an example for now -->
+                <a href="#" aria-label="Instagram"><span class="icon">&#x1F4F7;</span></a> <!-- Placeholder for social icon, e.g., using camera emoji for now -->
+                <a href="#" aria-label="Twitter"><span class="icon">&#x1F4E7;</span></a> <!-- Placeholder for social icon, e.g., using email emoji for now -->
+            </div>
+            <p class="copyright">&copy; 2026 The Winery Restaurant & Wine Bar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
