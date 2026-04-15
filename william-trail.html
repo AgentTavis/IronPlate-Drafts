@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Trail – Mocksville's Award-Winning Bar & Grill</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-main: #1a1310;
+            --color-bg-light: #1d1613;
+            --color-brand: #6B4226;
+            --color-accent: #E8923A;
+            --color-text-heading: #ffffff;
+            --color-text-body: #cccccc;
+            --color-text-secondary: #888888;
+            --color-card-bg: rgba(255,255,255,0.03);
+            --color-card-border: rgba(255,255,255,0.08);
+
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding-y: 100px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--color-text-body);
+            background-color: var(--color-bg-main);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--color-text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.8em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-brand {
+            color: var(--color-brand);
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--color-brand);
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-brand);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-text-heading);
+            border: 2px solid var(--color-brand);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--color-brand);
+            transform: scale(1.02);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Fade-in-up effect (JS will add 'is-visible' class) */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(26, 19, 16, 0.95); /* Semi-transparent dark background */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--color-text-body);
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--color-brand);
+        }
+
+        .header-cta .btn {
+            padding: 8px 18px;
+            font-size: 0.95rem;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(26,19,16,0.95) 0%, rgba(107,66,38,0.2) 50%, rgba(26,19,16,0.95) 100%), var(--color-bg-main);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive */
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            line-height: 1;
+            padding: 0 20px;
+        }
+
+        .hero .location {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            color: var(--color-text-body);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .tagline {
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--color-text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(232, 146, 58, 0.2);
+            color: var(--color-accent);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .hero .rating-badge svg {
+            margin-right: 8px;
+            color: var(--color-accent);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof {
+            background-color: rgba(107, 66, 38, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            border-top: 1px solid var(--color-card-border);
+            border-bottom: 1px solid var(--color-card-border);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--color-accent);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            font-weight: 300;
+        }
+        .social-proof-item svg {
+            color: var(--color-accent);
+            margin-right: 5px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story {
+            background-color: var(--color-bg-light);
+        }
+
+        .story-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .story-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .story-text .section-label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--color-brand);
+        }
+
+        .story-text h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .story-testimonial {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        .story-testimonial p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--color-text-heading);
+        }
+
+        .story-testimonial cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--color-accent);
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--color-bg-main);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-item-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand); /* Brand color left border */
+            border-radius: 8px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--color-text-heading);
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--color-text-body);
+            line-height: 1.6;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us {
+            background-color: var(--color-bg-light);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-radius: 8px;
+            padding: 35px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        .why-card h3 {
+            font-size: 2rem;
+            color: var(--color-brand);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            font-size: 1.05rem;
+            color: var(--color-text-body);
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--color-bg-main);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--color-card-bg);
+            border: 1px solid var(--color-card-border);
+            border-left: 5px solid var(--color-brand);
+            border-radius: 8px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            color: var(--color-text-heading);
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--color-accent);
+            font-size: 1rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours {
+            background-color: var(--color-bg-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .location-info h3,
+        .hours-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--color-text-heading);
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .location-info .phone-number {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--color-brand);
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .location-info .phone-number:hover {
+            color: var(--color-accent);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            padding: 12px 0;
+            text-align: left;
+            border-bottom: 1px solid var(--color-card-border);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--color-text-heading);
+            font-weight: 600;
+            width: 120px;
+        }
+
+        .hours-table td {
+            color: var(--color-text-body);
+        }
+
+        .hours-info .btn {
+            margin-top: 40px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta {
+            background: linear-gradient(135deg, var(--color-brand) 0%, var(--color-accent) 100%);
+            padding: var(--section-padding-y) 20px;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--color-text-heading);
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        .final-cta .btn {
+            background-color: var(--color-bg-main);
+            color: var(--color-brand);
+            border-color: var(--color-bg-main);
+        }
+
+        .final-cta .btn:hover {
+            background-color: var(--color-card-bg);
+            border-color: var(--color-card-bg);
+            color: var(--color-accent);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--color-bg-main);
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid var(--color-card-border);
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-text-heading);
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--color-text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--color-brand);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .story-content, .location-hours-content {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .story-text, .story-testimonial {
+                min-width: unset;
+                width: 100%;
+            }
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .location-info .btn {
+                width: 100%;
+            }
+            .hours-table {
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 400px;
+            }
+            .hours-table th, .hours-table td {
+                text-align: center;
+            }
+            .hours-table th {
+                width: auto;
+            }
+            .final-cta h2 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+            }
+            .main-nav {
+                display: none; /* Hide nav links on mobile, could add a hamburger menu */
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-cta .btn {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding: 80px 0;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 1rem;
+            }
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .section-padding {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+            h2 {
+                font-size: 2rem !important;
+            }
+            .story-text h2 {
+                font-size: 2.2rem;
+            }
+            .stats-grid, .menu-grid, .why-grid, .testimonials-grid, .social-proof-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            .social-proof-item h3 {
+                font-size: 1.8rem;
+            }
+            .social-proof-item p {
+                font-size: 0.9rem;
+            }
+            .story-text h2 {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#" class="header-logo">William Trail</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:3369984224" class="btn btn-primary">CALL (336) 998-4224</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="hero">
+        <p class="location fade-in-up">Mocksville, NC</p>
+        <h1 class="fade-in-up">William Trail</h1>
+        <p class="tagline fade-in-up">Located in beautiful downtown Mocksville NC. Voted BEST place to eat 5 years in row. Outdoor seating.</p>
+        <div class="rating-badge fade-in-up">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            4.9 Stars (Google Rating)
+        </div>
+        <div class="hero-ctas fade-in-up">
+            <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+            <a href="#find-us" class="btn btn-secondary">FIND US</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof section-padding">
+        <div class="container social-proof-grid fade-in-up">
+            <div class="social-proof-item">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>4.9/5 Stars</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="social-proof-item">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>50,000+</h3>
+                <p>Happy Guests Served</p>
+            </div>
+            <div class="social-proof-item">
+                <h3><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Voted Best 5 Years Running</h3>
+                <p>Mocksville's Local Favorite</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story section-padding">
+        <div class="container">
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p class="section-label uppercase text-brand">Our Heritage</p>
+                    <h2>Where Flavor Meets <span class="text-brand">Mocksville Heart</span></h2>
+                    <p>William Trail isn't just a restaurant; it's a Mocksville institution. Nestled in the heart of beautiful downtown, we've proudly served our community for years, earning the title of 'BEST place to eat' five years running.</p>
+                    <p>Our warm, inviting atmosphere, complete with cozy fireplaces and comfortable seating, makes every visit feel like coming home. Whether you're gathering with family or friends, we promise an unforgettable dining experience built on great food and genuine hospitality.</p>
+                </div>
+                <div class="story-testimonial fade-in-up">
+                    <p>"Every time we come to William Trail, it feels like a special occasion. The food is incredible, and the staff always makes us feel like family. Truly the best spot in town!"</p>
+                    <cite>— Eleanor V., Longtime Customer</cite>
+                </div>
+            </div>
+            <div class="stats-grid fade-in-up">
+                <div class="stat-card card">
+                    <h3>5+ Years</h3>
+                    <p>Voted Best Restaurant</p>
+                </div>
+                <div class="stat-card card">
+                    <h3>Local Gem</h3>
+                    <p>Serving Downtown Mocksville</p>
+                </div>
+                <div class="stat-card card">
+                    <h3>Warm Welcome</h3>
+                    <p>For Every Guest</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section section-padding text-center">
+        <div class="container">
+            <p class="section-label uppercase text-brand fade-in-up">Our Specialties</p>
+            <h2 class="fade-in-up">Taste the <span class="text-brand">William Trail Difference</span></h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 0 auto 50px;">From our hearty classics to fresh, seasonal delights, our menu is crafted to satisfy every craving. No prices needed – just pure, delicious flavor.</p>
+
+            <div class="menu-grid">
+                <div class="menu-item-card fade-in-up">
+                    <h3>William's Signature Burger</h3>
+                    <p>Our classic juicy patty, melted cheddar, crisp lettuce, ripe tomato, and secret sauce on a toasted brioche bun.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Smoked Ribeye Steak</h3>
+                    <p>Tender, perfectly smoked ribeye, seasoned to perfection and served with your choice of savory sides.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Crispy Chicken Sandwich</h3>
+                    <p>Golden fried chicken breast, zesty slaw, pickles, and a touch of spicy mayo on a fresh brioche bun.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Local Catch of the Day</h3>
+                    <p>Fresh, responsibly sourced seafood, expertly prepared with seasonal ingredients and a chef's special touch.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Classic Wings</h3>
+                    <p>Crispy, flavorful chicken wings tossed in your choice of Buffalo, BBQ, or Lemon Pepper. Perfect to share!</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Farmhouse Salad</h3>
+                    <p>Fresh mixed greens, seasonal vegetables, local cheese, and our house-made vinaigrette.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Loaded Mac & Cheese</h3>
+                    <p>Creamy, rich macaroni and cheese baked to perfection, topped with savory bacon and green onions.</p>
+                </div>
+                <div class="menu-item-card fade-in-up">
+                    <h3>Decadent Chocolate Lava Cake</h3>
+                    <p>A warm, rich chocolate cake with a molten center, served with a scoop of vanilla bean ice cream.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us section-padding text-center">
+        <div class="container">
+            <p class="section-label uppercase text-brand fade-in-up">More Than Just Food</p>
+            <h2 class="fade-in-up">Why William Trail is Mocksville's <span class="text-brand">Favorite Escape</span></h2>
+
+            <div class="why-grid">
+                <div class="why-card fade-in-up">
+                    <h3>Cozy Comfort</h3>
+                    <p>Escape the everyday in our warm, inviting dining room, featuring crackling fireplaces and plush, comfortable seating. The perfect ambiance for a relaxed meal or a special occasion.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Award-Winning Flavor</h3>
+                    <p>Experience why Mocksville has voted us 'BEST place to eat' five years running! From our William's Signature Burger to our tender Smoked Ribeye, every dish is crafted with passion and local pride.</p>
+                </div>
+                <div class="why-card fade-in-up">
+                    <h3>Outdoor Seating Oasis</h3>
+                    <p>Enjoy the beautiful Mocksville weather on our charming outdoor patio. Perfect for al fresco dining, a refreshing drink, and soaking in the downtown atmosphere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section section-padding text-center">
+        <div class="container">
+            <p class="section-label uppercase text-brand fade-in-up">Hear From Our Guests</p>
+            <h2 class="fade-in-up">What Our <span class="text-brand">Community Says</span></h2>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up">
+                    <p>"Absolutely loved the Smoked Ribeye Steak – perfectly cooked and so flavorful! The cozy fireplace made for a wonderful evening. William Trail never disappoints!"</p>
+                    <cite>— Sarah L.</cite>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"The William's Signature Burger is hands down the best burger in Mocksville! Paired with the fantastic outdoor seating, it's our go-to spot for family dinners."</p>
+                    <cite>— Mark T.</cite>
+                </div>
+                <div class="testimonial-card fade-in-up">
+                    <p>"Tried the Local Catch of the Day and it was incredible! So fresh and expertly prepared. Plus, the service is always top-notch and the atmosphere is so welcoming."</p>
+                    <cite>— Jessica R.</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours section-padding">
+        <div class="container location-hours-content">
+            <div class="location-info fade-in-up">
+                <h3>Find Us <span class="text-brand">In Mocksville</span></h3>
+                <p>William Trail Bar And Grill</p>
+                <p>Mocksville, NC 27028, USA</p>
+                <p>Located in beautiful downtown Mocksville, we're easy to find and always ready to welcome you.</p>
+                <a href="tel:3369984224" class="phone-number">(336) 998-4224</a>
+                <a href="https://www.google.com/maps/search/William+Trail+Mocksville,+NC" target="_blank" class="btn btn-primary">GET DIRECTIONS</a>
+            </div>
+            <div class="hours-info fade-in-up">
+                <h3>Our <span class="text-brand">Operating Hours</span></h3>
+                <table class="hours-table">
+                    <tbody>
+                        <tr><th>Monday:</th><td>Closed</td></tr>
+                        <tr><th>Tuesday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Wednesday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Thursday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Friday:</th><td>Closed</td></tr>
+                        <tr><th>Saturday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                        <tr><th>Sunday:</th><td>8:00 AM – 11:00 PM</td></tr>
+                    </tbody>
+                </table>
+                <a href="tel:3369984224" class="btn btn-primary">CALL TO ORDER</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2 class="fade-in-up">Ready to Experience Mocksville's <span style="color: var(--color-bg-main);">Best Bar & Grill?</span></h2>
+            <a href="tel:3369984224" class="btn fade-in-up">CALL US TODAY</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#" class="footer-logo">William Trail</a>
+            <p>Located in beautiful downtown Mocksville NC. Voted BEST place to eat 5 years in row. Outdoor seating.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.812c-3.268 0-4.188 1.586-4.188 4.001v2.999z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.585-.012-4.85-.07c-3.252-.148-4.77-1.691-4.919-4.919-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.058 1.644-.07 4.85-.07zm0 2.163c-3.205 0-3.584.012-4.85.07-2.731.124-3.513.979-3.666 3.667-.057 1.266-.07 1.644-.07 4.85s.013 3.583.07 4.85c.153 2.687.935 3.542 3.667 3.666 1.265.057 1.644.07 4.85.07s3.583-.013 4.85-.07c2.687-.153 3.542-.935 3.666-3.667.057-1.266.07-1.644.07-4.85s-.012-3.584-.07-4.85c-.153-2.687-.935-3.542-3.667-3.666-1.266-.057-1.644-.07-4.85-.07zm0 1.218c-3.617 0-6.551 2.934-6.551 6.551s2.934 6.551 6.551 6.551 6.551-2.934 6.551-6.551-2.934-6.551-6.551-6.551zm0 2.163c2.42 0 4.388 1.968 4.388 4.388s-1.968 4.388-4.388 4.388-4.388-1.968-4.388-4.388 1.968-4.388 4.388-4.388zm6.57-4.275c-.755 0-1.368.613-1.368 1.368s.613 1.368 1.368 1.368 1.368-.613 1.368-1.368-.613-1.368-1.368-1.368z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 William Trail. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple Intersection Observer for fade-in-up effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, // Element is 10% in view
+                rootMargin: "0px 0px -50px 0px" // Start loading 50px before it's fully in view
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
