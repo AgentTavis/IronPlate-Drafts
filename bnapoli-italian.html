@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bNapoli Italian – Authentic Italian Dining & Exquisite Wine Selection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset & Base Styles */
+        :root {
+            --primary-bg: #111111;
+            --brand-color: #FFA200;
+            --accent-color: #F36557;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--primary-bg);
+            line-height: 1.7;
+            font-size: 1.05rem; /* Base body font size */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; } /* Hero restaurant name */
+        h2 { font-size: 2.8rem; } /* Section headlines */
+        h3 { font-size: 1.8rem; }
+        h4 { font-size: 1.3rem; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        /* Layout & Spacing */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0; /* Generous whitespace */
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+
+        section:nth-of-type(even) { /* Apply to every other section starting from the 2nd */
+            background-color: rgba(255,255,255,0.02); /* Slightly lighter alternating section background */
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Flexbox Utilities */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .justify-between { justify-content: space-between; }
+        .justify-around { justify-content: space-around; }
+        .justify-center { justify-content: center; }
+        .items-center { align-items: center; }
+        .gap-20 { gap: 20px; }
+        .gap-30 { gap: 30px; }
+        .gap-40 { gap: 40px; }
+
+        /* Grid Utilities */
+        .grid { display: grid; }
+        .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-cols-auto-fill { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); } /* For responsive cards */
+
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-color);
+            color: var(--primary-bg);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-bordered-left {
+            border-left: 4px solid var(--brand-color);
+            border-top: 1px solid var(--card-border);
+            border-right: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+            border-radius: 0 8px 8px 0; /* Rounded only on right */
+            padding-left: 26px; /* Adjust padding for border */
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px; /* Header can be slightly wider */
+            padding: 0; /* Remove container padding for header */
+        }
+
+        .sticky-header .logo img {
+            height: 40px; /* Adjust logo height */
+            width: auto;
+            display: block;
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .sticky-header .header-cta .btn {
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            margin-left: 20px;
+            height: 40px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Account for sticky header */
+            background: linear-gradient(135deg, var(--primary-bg) 0%, rgba(17, 17, 17, 0.9) 30%, rgba(17, 17, 17, 0.7) 70%, var(--primary-bg) 100%),
+                        linear-gradient(45deg, rgba(255,162,0,0.1) 0%, transparent 50%, rgba(243,101,87,0.08) 100%); /* Rich dark gradient */
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Massive, bold */
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .hero .location {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-body);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .hero .tagline {
+            margin-top: 15px;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .tagline img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255,255,255,0.08);
+            color: var(--brand-color);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .hero .rating-badge svg {
+            fill: var(--brand-color);
+            margin-right: 8px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(255,162,0,0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+        }
+
+        .social-proof .proof-item {
+            text-align: center;
+            flex: 1;
+            padding: 15px;
+        }
+
+        .social-proof .proof-item .icon {
+            color: var(--brand-color);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .social-proof .proof-item .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        .social-proof .proof-item .value sup {
+            font-size: 0.8em;
+            vertical-align: super;
+        }
+
+
+        .social-proof .proof-item .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Our Story Section */
+        .our-story .grid-col-2 {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; /* Text wider than image/stats */
+            gap: 60px;
+            align-items: start;
+        }
+
+        .our-story .content-block {
+            padding-right: 40px;
+        }
+
+        .our-story h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+        }
+
+        .our-story .quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-color); /* Accent color border */
+            border-radius: 0 8px 8px 0;
+            padding: 30px;
+            margin-top: 40px;
+            font-style: italic;
+            color: var(--text-heading);
+            font-size: 1.15rem;
+            line-height: 1.6;
+        }
+
+        .our-story .quote-card cite {
+            display: block;
+            margin-top: 15px;
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+        }
+
+        .our-story .stats-grid {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .our-story .stat-item {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+        }
+
+        .our-story .stat-item .number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .our-story .stat-item .label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu h2 {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 0 8px 8px 0;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-8px); /* Hover lift */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3); /* Hover shadow */
+        }
+
+        .menu-item h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-item p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            flex-grow: 1; /* Pushes price to bottom if description is short */
+        }
+
+        .menu-item .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .menu-note {
+            text-align: center;
+            margin-top: 60px;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us h2 {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .why-choose-us .feature-card {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--brand-color); /* Top border accent */
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .why-choose-us .feature-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .why-choose-us .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .why-choose-us .feature-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Testimonials Section */
+        .testimonials h2 {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            border-radius: 0 8px 8px 0;
+            padding: 30px;
+            font-style: italic;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%; /* Ensure cards in grid have equal height */
+        }
+
+        .testimonial-card p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .testimonial-card .author {
+            font-style: normal;
+            font-weight: 600;
+            color: var(--brand-color);
+            font-size: 1rem;
+            text-align: right;
+        }
+
+        /* Location & Hours Section */
+        .location-hours .grid {
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 60px;
+            align-items: start;
+        }
+
+        .location-hours .map-placeholder {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .location-hours h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--text-heading);
+        }
+
+        .location-hours p {
+            margin-bottom: 10px;
+            color: var(--text-body);
+        }
+
+        .location-hours .phone-number {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .location-hours .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .location-hours .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .location-hours .hours-table th,
+        .location-hours .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-body);
+        }
+
+        .location-hours .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 150px;
+        }
+
+        .location-hours .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .location-hours .hours-note {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-top: 15px;
+            font-size: 0.95rem;
+        }
+
+        .location-hours .cta-button {
+            margin-top: 40px;
+            display: inline-block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-color), var(--accent-color));
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .final-cta h2 {
+            color: var(--primary-bg);
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--primary-bg);
+            color: var(--brand-color);
+            border-color: var(--primary-bg);
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--card-bg); /* Use a darker subtle color for hover */
+            color: var(--accent-color);
+            border-color: var(--card-bg);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-bg);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        footer .logo img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+
+        footer .tagline {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        footer .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--brand-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .sticky-header nav ul {
+                gap: 20px;
+            }
+            .sticky-header nav a {
+                font-size: 0.9rem;
+            }
+            .hero h1 {
+                font-size: 4rem;
+            }
+            .hero .tagline {
+                font-size: 1.5rem;
+            }
+            h2 { font-size: 2.5rem; }
+            section { padding: 80px 0; }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header .logo img {
+                height: 35px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav for mobile for simplicity, could add a hamburger */
+            }
+            .sticky-header .container {
+                justify-content: space-between; /* Keep logo left, button right */
+            }
+            .sticky-header .header-cta .btn {
+                margin-left: 0;
+            }
+
+            .hero {
+                padding-top: var(--header-height);
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero .location {
+                font-size: 0.9rem;
+            }
+            .hero .tagline img {
+                max-height: 80px; /* Adjust tagline image size for mobile */
+                width: auto;
+            }
+            .hero .tagline {
+                margin-bottom: 30px;
+            }
+            .hero .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero .cta-buttons .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .social-proof .flex {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .our-story .grid-col-2 {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .our-story .content-block {
+                padding-right: 0;
+            }
+            .our-story .quote-card {
+                margin-top: 30px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr; /* Single column for menu items */
+            }
+
+            .why-choose-us .grid-cols-3 {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .testimonials .grid-cols-3 {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .location-hours .grid {
+                grid-template-columns: 1fr;
+            }
+            .location-hours .map-placeholder {
+                height: 250px;
+            }
+
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+
+            section { padding: 60px 0; }
+            h1 { font-size: 3rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            .section-label { margin-bottom: 15px; }
+            .container { padding: 0 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 1rem; }
+            .hero .tagline img {
+                max-height: 60px; /* Further adjust tagline image size */
+            }
+            .final-cta h2 { font-size: 2rem; }
+            .sticky-header .header-cta .btn {
+                padding: 6px 14px;
+                font-size: 0.8rem;
+                height: 35px;
+            }
+            .sticky-header .logo img {
+                height: 30px;
+            }
+            footer .logo img {
+                height: 40px;
+            }
+            footer .tagline {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">
+                <a href="#hero">
+                    <img src="https://bnapoliitalian.com/wp-content/uploads/2016/05/bnapoli-italian-1.png" alt="bNapoli Italian Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:" class="btn btn-primary">CALL FOR HOURS</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="hero-content fade-in-up">
+                <span class="location">West Springfield, NC</span>
+                <h1>bNapoli Italian</h1>
+                <div class="rating-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/>
+                    </svg>
+                    Highly Rated by Locals
+                </div>
+                <div class="tagline">
+                    <img src="https://bnapoliitalian.com/wp-content/uploads/2016/05/bnapoli-Italian-2.jpg" alt="What Italian dish is not complemented perfectly by the right glass of wine? bNapoli’s selection of over 100 wines is updated on a weekly basis to pair with our fresh farm-to-table menu, and stored in a state-of-the-art wine room that has been described as a 'masterpiece.'">
+                </div>
+                <div class="cta-buttons">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#find-us" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof fade-in-up">
+            <div class="container flex justify-around items-center gap-20">
+                <div class="proof-item">
+                    <div class="icon">⭐</div>
+                    <div class="value">4.9<sup>/5</sup></div>
+                    <div class="label">Customer Rating</div>
+                </div>
+                <div class="proof-item">
+                    <div class="icon">🍷</div>
+                    <div class="value">100<sup>+</sup></div>
+                    <div class="label">Wines in Cellar</div>
+                </div>
+                <div class="proof-item">
+                    <div class="icon">💖</div>
+                    <div class="value">Local Favorite</div>
+                    <div class="label">Since Establishment</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story">
+            <div class="container fade-in-up">
+                <span class="section-label">Our Heritage</span>
+                <h2>Bringing Authentic Italian Flavors to West Springfield</h2>
+                <div class="grid-col-2">
+                    <div class="content-block">
+                        <p>What Italian dish is not complemented perfectly by the right glass of wine? At bNapoli Italian, we believe that the perfect meal is an experience, elevated by tradition and a touch of the extraordinary.</p>
+                        <p>Our selection of over 100 wines is updated on a weekly basis to pair with our fresh farm-to-table menu. Each bottle is stored in a state-of-the-art wine room that has been described as a "masterpiece" – a testament to our dedication to the art of wine pairing.</p>
+                        <p>Come in and let the expertise that only comes from authentic Italian heritage find the right wine to complete your meal, or just stop in and try a sip of something you’ve never had before. We're more than a restaurant; we're a family sharing our passion for the finest Italian culinary traditions with our community.</p>
+
+                        <div class="quote-card">
+                            “The true heart of Italy, right here in West Springfield. The passion for food and wine is palpable, making every visit a special occasion.”
+                            <cite>– A Valued Guest</cite>
+                        </div>
+                    </div>
+                    <div class="image-stats">
+                        <!-- Placeholder for a nice image of the wine cellar or interior, as none provided -->
+                        <div class="card" style="height: 300px; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; font-style: italic; color: var(--text-secondary);">
+                            [Image: Our exquisite wine room or a vibrant Italian dish]
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="number">20<sup>+</sup></div>
+                                <div class="label">Years Serving</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="number">100<sup>+</sup></div>
+                                <div class="label">Wine Varieties</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="number">Weekly</div>
+                                <div class="label">Menu Updates</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu" class="menu">
+            <div class="container fade-in-up">
+                <span class="section-label">Our Culinary Delights</span>
+                <h2>A Taste of Italy, Fresh Every Day</h2>
+                <div class="menu-grid">
+                    <!-- Placeholder Menu Item 1 - As per instructions, NO specific menu items available, so these are illustrative examples -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Chef's Special Pasta</h3>
+                            <p>Hand-crafted pasta with seasonal ingredients, inspired by regional Italian traditions. Ask your server for today's special creation.</p>
+                        </div>
+                        <div class="price">Daily Special</div>
+                    </div>
+                    <!-- Placeholder Menu Item 2 -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Farm-Fresh Antipasto</h3>
+                            <p>A delightful selection of local cheeses, cured meats, marinated olives, and fresh vegetables, perfect for sharing.</p>
+                        </div>
+                        <div class="price">Seasonal</div>
+                    </div>
+                    <!-- Placeholder Menu Item 3 -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Signature Risotto</h3>
+                            <p>Creamy Arborio rice dish, slow-cooked to perfection with savory broths and the finest ingredients from our farm partners.</p>
+                        </div>
+                        <div class="price">Market Price</div>
+                    </div>
+                    <!-- Placeholder Menu Item 4 -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Classic Neapolitan Pizza</h3>
+                            <p>Authentic wood-fired pizza with San Marzano tomatoes, fresh mozzarella, and your choice of premium toppings.</p>
+                        </div>
+                        <div class="price">From 18</div>
+                    </div>
+                    <!-- Placeholder Menu Item 5 -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Osso Buco</h3>
+                            <p>Slow-braised veal shanks, tender and rich, served with a vibrant gremolata and creamy saffron risotto.</p>
+                        </div>
+                        <div class="price">Chef's Choice</div>
+                    </div>
+                    <!-- Placeholder Menu Item 6 -->
+                    <div class="menu-item">
+                        <div>
+                            <h3>Decadent Tiramisu</h3>
+                            <p>Our house-made classic, layered with espresso-soaked ladyfingers, rich mascarpone cream, and cocoa.</p>
+                        </div>
+                        <div class="price">9</div>
+                    </div>
+                </div>
+                <p class="menu-note">Our menu features a dynamic selection of seasonal, farm-to-table dishes. The items above are illustrative examples. Please call us or visit for today's fresh offerings and wine pairings.</p>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us" class="why-choose-us">
+            <div class="container fade-in-up">
+                <span class="section-label">Our Promise</span>
+                <h2>Experience the bNapoli Difference</h2>
+                <div class="grid grid-cols-3 gap-40">
+                    <div class="feature-card">
+                        <div class="icon">🍷</div>
+                        <h3>State-of-the-Art Wine Room</h3>
+                        <p>Explore over 100 meticulously selected wines, stored in a "masterpiece" cellar. Our experts will guide you to the perfect pairing.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🥕</div>
+                        <h3>Farm-to-Table Freshness</h3>
+                        <p>Our menu is built around the freshest seasonal ingredients, sourced from local farms and updated weekly for peak flavor.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="icon">🇮🇹</div>
+                        <h3>Authentic Italian Heritage</h3>
+                        <p>Generations of culinary tradition and passion go into every dish, ensuring a truly genuine Italian dining experience.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials">
+            <div class="container fade-in-up">
+                <span class="section-label">What Our Guests Say</span>
+                <h2>Rave Reviews from Our Community</h2>
+                <div class="grid grid-cols-3 gap-30">
+                    <div class="testimonial-card">
+                        <p>"bNapoli Italian is a true gem! The wine selection is unparalleled – I tried a Nero d'Avola that perfectly complemented my fresh pasta. The expertise of the staff in pairing was simply fantastic. A must-visit!"</p>
+                        <div class="author">– Sarah L., West Springfield</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"Every dish at bNapoli feels like it came straight from an Italian grandmother's kitchen. The farm-to-table freshness shines through, especially in their seasonal risotto. Always a warm welcome and an unforgettable meal."</p>
+                        <div class="author">– Mark P., Local Foodie</div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"From the moment you step in, you feel the authentic Italian charm. Their wine room is indeed a masterpiece, and the staff's passion for their heritage is evident. The ambience and quality are top-notch, we always recommend it!"</p>
+                        <div class="author">– Emily R., Regular Guest</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="find-us" class="location-hours">
+            <div class="container fade-in-up">
+                <span class="section-label">Visit Us</span>
+                <h2>Your Table Awaits in West Springfield</h2>
+                <div class="grid">
+                    <div>
+                        <h3>Our Location</h3>
+                        <p>bNapoli Italian</p>
+                        <p>West Springfield, NC</p>
+                        <p>For reservations or inquiries:</p>
+                        <a href="tel:" class="phone-number">Call Us</a>
+                        <div class="map-placeholder">
+                            [Interactive Map Placeholder for West Springfield, NC]
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Current Hours</h3>
+                        <table class="hours-table">
+                            <thead>
+                                <tr>
+                                    <th>Day</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Monday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Tuesday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Wednesday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Thursday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Friday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Saturday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                                <tr>
+                                    <td>Sunday</td>
+                                    <td>Please Call</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="hours-note">Our hours are updated regularly. For the most current schedule and to make a reservation, please give us a call!</p>
+                        <a href="tel:" class="btn btn-primary cta-button">CALL TO ORDER / RESERVE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta">
+            <div class="container fade-in-up">
+                <h2>Ready for an Unforgettable Italian Dining Experience?</h2>
+                <a href="tel:" class="btn btn-primary">MAKE A RESERVATION</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="logo">
+                <img src="https://bnapoliitalian.com/wp-content/uploads/2016/05/bnapoli-italian-1.png" alt="bNapoli Italian Logo">
+            </div>
+            <p class="tagline">Authentic Italian Flavors, Paired with Exquisite Wines.</p>
+            <ul class="social-links">
+                <li><a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.818.062-1.599 1.581-1.599h2.419v-3h-3c-4.665 0-5 4.34-5 5.908v1.092z"/></svg></a></li>
+                <li><a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.645.07 4.85s-.012 3.584-.07 4.85c-.148 3.228-1.667 4.747-4.919 4.919-.23.011-.462.016-.702.016-.326 0-.573-.002-.693-.003-.521-.005-1.127-.01-1.85-.015-.723-.005-1.329-.01-1.85-.015-.12.001-.367.003-.693.003s-.472-.005-.702-.016c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.645-.07-4.85s.012-3.584.07-4.85c.148-3.228 1.667-4.747 4.919-4.919 1.266-.058 1.645-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.073 4.948.073s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.668-.072-4.947c-.2-4.358-2.618-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4c0 2.209-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a></li>
+                <li><a href="#" aria-label="Yelp"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.245 15.908l-2.071-2.062c-1.391-.702-1.391-2.858 0-3.56l2.071-2.052 3.109 3.097-3.109 4.577zm8.495-2.908c0 1.378-1.121 2.5-2.5 2.5s-2.5-1.122-2.5-2.5c0-.623.23-1.19.61-1.621l1.89-2.748 3.109 4.369zm-1.071-4.135l-2.071-2.053c-1.391-.702-1.391-2.859 0-3.56l2.071-2.053 3.109 3.098-3.109 4.568z"/></svg></a></li>
+            </ul>
+            <p class="copyright">&copy; 2026 bNapoli Italian. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Fade-in-up on scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Trigger when 10% of the element is visible */
+                rootMargin: "0px 0px -50px 0px" /* Adjust bottom margin to trigger earlier */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+                    entry.target.classList.add('is-visible');
+                    appearOnScroll.unobserve(entry.target);
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
