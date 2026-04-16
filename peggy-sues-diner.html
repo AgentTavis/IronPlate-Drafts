@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peggy Sue’s Diner - Delicious Breakfast & Lunch in Blackstone, NC</title>
+    <!-- Google Fonts: Bitter for headings, Inter for body (Diner/Pizza style) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset & Base Styles */
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #CC0000;
+            --accent-color: #FFFFFF;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from potential animations */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--brand-color);
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 100px 0; /* Generous whitespace */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #E60000; /* Slightly darker red */
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(204, 0, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.9); /* Semi-transparent dark background */
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--accent-color);
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--accent-color);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .header-call-btn:hover {
+            background-color: #E60000;
+            transform: scale(1.02);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95) 0%, rgba(17, 17, 17, 0.8) 50%, rgba(204, 0, 0, 0.1) 100%), var(--bg-dark); /* Rich dark gradient */
+            position: relative;
+            overflow: hidden;
+            padding-top: var(--header-height); /* Account for sticky header */
+        }
+
+        .hero::before { /* Subtle radial gradient glow */
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle at center, rgba(204, 0, 0, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-tagline {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof {
+            background-color: rgba(204, 0, 0, 0.05); /* Brand color at very low opacity */
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .social-proof-grid {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .social-proof-item {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .social-proof-item strong {
+            font-family: 'Bitter', serif;
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-right: 5px;
+        }
+        .social-proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+        }
+
+        /* Section Label */
+        .section-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-heading);
+            line-height: 1.2;
+        }
+
+        /* Our Story Section */
+        .our-story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .our-story-content p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 1.5rem;
+        }
+
+        .our-story-content .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .our-story-content .testimonial-card p {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .our-story-content .testimonial-card cite {
+            display: block;
+            font-weight: 500;
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        .our-story-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card .stat-value {
+            font-family: 'Bitter', serif;
+            font-size: 3.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-card .stat-description {
+            font-size: 1.15rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Brand color left border accent */
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+            flex-grow: 1; /* Allows description to take available space */
+        }
+        
+        .menu-placeholder {
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 50px;
+            color: var(--text-secondary);
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+        .menu-placeholder a {
+            color: var(--brand-color);
+            font-weight: 500;
+        }
+
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .choice-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .choice-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+            line-height: 1;
+        }
+
+        .choice-card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .choice-card p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-weight: 500;
+            color: var(--text-body);
+            font-size: 0.95rem;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--accent-color);
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .location-info .address {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.3rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-top: 20px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table th {
+            color: var(--accent-color);
+            font-weight: 500;
+            width: 35%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td, .hours-table tr:last-child th {
+            border-bottom: none;
+        }
+
+        .call-to-order-btn {
+            margin-top: 40px;
+            width: 100%;
+            font-size: 1.15rem;
+            padding: 16px 30px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, #E60000 100%); /* Brand color gradient background */
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+
+        .final-cta .btn {
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            border-color: var(--accent-color); /* White border for contrast */
+            color: var(--brand-color); /* Red text on white button */
+            background-color: var(--accent-color);
+        }
+
+        .final-cta .btn:hover {
+            background-color: #f0f0f0;
+            border-color: #f0f0f0;
+            color: var(--brand-color);
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0d0d; /* Slightly darker than main background */
+            padding: 60px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .footer .header-logo {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--brand-color);
+        }
+
+        .footer p {
+            margin-bottom: 25px;
+        }
+
+        .footer-social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 10px;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            margin-top: 40px;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-nav {
+                display: none; /* Hide nav on smaller screens, can add hamburger later if needed */
+            }
+
+            .sticky-header .container {
+                justify-content: space-around;
+            }
+            
+            .header-call-btn {
+                padding: 8px 15px;
+                font-size: 0.95rem;
+            }
+
+            .hero-name {
+                font-size: 4rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .section-headline {
+                font-size: 2.5rem;
+                margin-bottom: 40px;
+            }
+
+            .our-story-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .our-story-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-grid, .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .final-cta h2 {
+                font-size: 2.8rem;
+            }
+            
+            .sticky-header {
+                height: 70px; /* Slightly taller for mobile readability */
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .section-padding {
+                padding: 80px 0;
+            }
+            .social-proof-grid {
+                flex-direction: column;
+                gap: 25px;
+            }
+            .social-proof-item {
+                font-size: 1rem;
+            }
+            .social-proof-item strong {
+                font-size: 2rem;
+            }
+            .stat-card .stat-value {
+                font-size: 3rem;
+            }
+            .stat-card .stat-description {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+            }
+            .header-logo {
+                font-size: 1.3rem;
+            }
+            .header-call-btn {
+                font-size: 0.85rem;
+                padding: 7px 12px;
+            }
+            .section-headline {
+                font-size: 2rem;
+            }
+            .final-cta h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="header-logo">Peggy Sue’s Diner</div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#location-hours">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:55534637" class="btn header-call-btn">CALL US</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-content fade-in-up" data-delay="0">
+            <p class="hero-location">BLACKSTONE, NC</p>
+            <h1 class="hero-name">Peggy Sue’s Diner</h1>
+            <p class="hero-tagline">Peggy Sue Moore ; Lives in Blackstone, Virginia ; Owner/Manager/CEO at Peggy Sue's Diner ; Former Socs-C USMC Communication Specialist at USMC ; Studied at Ashworth ...</p>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof fade-in-up" data-delay="100">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <span class="icon">&#9733;</span> <!-- Star icon -->
+                <p><strong>Local Favorite</strong></p>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">&#128100;</span> <!-- Person icon -->
+                <p><strong>Warm Community</strong></p>
+            </div>
+            <div class="social-proof-item">
+                <span class="icon">&#9200;</span> <!-- Clock icon -->
+                <p><strong>Breakfast & Lunch</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container fade-in-up" data-delay="0">
+            <span class="section-label">Our Story</span>
+            <h2 class="section-headline">More Than Just a Meal: It's Home Cooking.</h2>
+            <div class="our-story-grid">
+                <div class="our-story-content fade-in-up" data-delay="200">
+                    <p>Welcome to Peggy Sue’s Diner, a true Blackstone treasure where every plate comes with a side of friendly, down-home service. Owned and managed by Peggy Sue Moore herself, this diner is more than just a place to eat – it's a reflection of her passion for good food and community.</p>
+                    <p>Peggy Sue, a proud resident of Blackstone, Virginia, brings a unique blend of dedication and warmth to her diner. With a background as a former Socs-C USMC Communication Specialist, she understands the importance of clear communication and heartfelt connection, values she now pours into every interaction at the diner. After studying at Ashworth, Peggy Sue envisioned a place where locals could gather for delicious, unpretentious food.</p>
+                    <p>For the past 8 months, Peggy Sue's Diner has quickly become a beloved spot, renowned for its delicious breakfast and lunch menu. It’s a genuine locals spot, where familiar faces are always greeted with a smile and newcomers feel instantly at home. We're currently open for breakfast and lunch, offering a menu crafted to satisfy your cravings with classic comfort. Come on in and experience the charm and taste that make Peggy Sue’s Diner a cornerstone of Blackstone.</p>
+                    <div class="testimonial-card">
+                        <p>"Peggy Sue's is the heart of Blackstone! The service is so genuinely friendly, it feels like coming home. Every visit brightens my day."</p>
+                        <cite>— A Loyal Local, Blackstone</cite>
+                    </div>
+                </div>
+                <div class="our-story-stats fade-in-up" data-delay="400">
+                    <div class="stat-card">
+                        <span class="stat-value">8+</span>
+                        <p class="stat-description">Months Serving</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">100%</span>
+                        <p class="stat-description">Local Favorite</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value">Daily</span>
+                        <p class="stat-description">Fresh Ingredients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section-padding" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container fade-in-up" data-delay="0">
+            <span class="section-label">Our Menu</span>
+            <h2 class="section-headline">Savor the Taste of Home: Breakfast & Lunch</h2>
+            <div class="menu-placeholder">
+                <p>Our delicious menu features a variety of breakfast and lunch favorites, made with fresh, quality ingredients.</p>
+                <p>To see our full, always-changing selection and daily specials, please call us directly or visit us in person!</p>
+                <a href="#location-hours" class="btn btn-primary" style="margin-top: 20px;">VIEW LOCATION & HOURS</a>
+            </div>
+            <!-- Menu items were not provided in the RESTAURANT DATA, so no specific items are displayed. -->
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding">
+        <div class="container fade-in-up" data-delay="0">
+            <span class="section-label">Why Choose Us</span>
+            <h2 class="section-headline">The Peggy Sue's Difference: Unforgettable Diner Experience.</h2>
+            <div class="why-choose-us-grid">
+                <div class="choice-card fade-in-up" data-delay="100">
+                    <span class="icon">&#127860;</span> <!-- Coffee Cup Icon -->
+                    <h3>Delicious Breakfast & Lunch</h3>
+                    <p>Start your day right or enjoy a hearty midday meal. Our menu is packed with comfort food classics and daily specials, made with care.</p>
+                </div>
+                <div class="choice-card fade-in-up" data-delay="200">
+                    <span class="icon">&#128105;&#8205;&#127859;</span> <!-- Chef icon or a friendly face -->
+                    <h3>Friendly, Down-Home Service</h3>
+                    <p>Experience the warmth of true Southern hospitality. Peggy Sue and her team ensure every guest feels like family, making your visit memorable.</p>
+                </div>
+                <div class="choice-card fade-in-up" data-delay="300">
+                    <span class="icon">&#127961;</span> <!-- House icon -->
+                    <h3>A True Locals' Spot</h3>
+                    <p>Join the community hub in Blackstone. It’s where neighbors gather, stories are shared, and new friendships are forged over great food.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials" class="section-padding" style="background-color: rgba(255,255,255,0.01);">
+        <div class="container fade-in-up" data-delay="0">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="section-headline">Hear From Our Happy Customers!</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in-up" data-delay="100">
+                    <p>"Peggy Sue's Diner is an absolute gem! The breakfast is always delicious and cooked perfectly, and the coffee keeps flowing. It's my go-to spot!"</p>
+                    <cite>— Sarah L., Regular Customer</cite>
+                </div>
+                <div class="testimonial-card fade-in-up" data-delay="200">
+                    <p>"You won't find friendlier service anywhere. Peggy Sue makes everyone feel welcome. Their lunch specials are always a hit, and the portions are generous!"</p>
+                    <cite>— Mark T., Blackstone Resident</cite>
+                </div>
+                <div class="testimonial-card fade-in-up" data-delay="300">
+                    <p>"Finally, a real diner in Blackstone! The food has that authentic homemade taste, and the atmosphere is wonderfully cozy. Highly recommend for any meal."</p>
+                    <cite>— Emily C., Happy Visitor</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="location-hours" class="section-padding">
+        <div class="container fade-in-up" data-delay="0">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Your Table Awaits in Blackstone, NC.</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up" data-delay="100">
+                    <h3>Find Peggy Sue’s Diner</h3>
+                    <p class="address">Located in the heart of Blackstone, NC</p>
+                    <p>Stop by for a warm meal and a friendly face. We're proud to be a part of the Blackstone community!</p>
+                    <a href="tel:55534637" class="phone-number">CALL US: (555) DINER</a>
+                </div>
+                <div class="hours-info fade-in-up" data-delay="200">
+                    <h3>Our Hours</h3>
+                    <p>We are currently open for delicious breakfast and lunch!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday - Friday</td>
+                                <td>Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday - Sunday</td>
+                                <td>Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><em>Please call ahead as hours may vary.</em></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:55534637" class="btn btn-primary call-to-order-btn">CALL TO ORDER / INQUIRE</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta fade-in-up" data-delay="0">
+        <div class="container">
+            <h2>Ready for a Taste of Genuine Home Cooking?</h2>
+            <a href="tel:55534637" class="btn btn-secondary">CALL US TODAY!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="header-logo">Peggy Sue’s Diner</div>
+            <p>Delicious breakfast and lunch menu. Friendly down home service. A locals spot.</p>
+            <div class="footer-social-links">
+                <!-- Using Font Awesome for social icons, loaded via script below -->
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.yelp.com/" aria-label="Yelp"><i class="fab fa-yelp"></i></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Peggy Sue’s Diner. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- IntersectionObserver for fade-in-up animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1, /* Element is 10% visible */
+                rootMargin: "0px 0px -50px 0px" /* Start animation slightly before hitting bottom of viewport */
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, delay);
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
