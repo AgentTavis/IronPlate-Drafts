@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ridge Restaurant - Great Food, Great Service!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-primary: #111111;
+            --bg-secondary: #1a1a1a; /* Slightly lighter for alternating sections */
+            --brand-color: #8B4513; /* SaddleBrown */
+            --accent-color: #D4AF37; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-bg: rgba(17, 17, 17, 0.95);
+            --max-width: 1200px;
+            --section-padding-y: 100px; /* Generous whitespace */
+        }
+
+        /* Base Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            margin: 0;
+            line-height: 1.7;
+            scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #a05a26; /* Slightly lighter brand color */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: rgba(139, 69, 19, 0.1); /* Subtle brand color tint */
+            border-color: #a05a26;
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up animations */
+        }
+        
+        section:nth-of-type(even) {
+            background-color: var(--bg-secondary); /* Alternating section background */
+        }
+
+        .section-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            margin-bottom: 40px;
+            line-height: 1.2;
+        }
+        
+        /* Mobile Responsiveness for Sections */
+        @media (max-width: 768px) {
+            .section-headline {
+                font-size: 2rem;
+            }
+            .btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+            :root {
+                --section-padding-y: 60px;
+            }
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .sticky-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .header-cta .btn {
+            height: 40px; /* Adjust button height for header */
+            padding: 8px 20px;
+            font-size: 0.95rem;
+        }
+
+        /* Mobile Responsive Header */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide nav links on mobile */
+            }
+            .header-logo {
+                font-size: 1.4rem;
+            }
+            .header-cta .btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.95) 0%, rgba(17, 17, 17, 0.8) 50%, rgba(139, 69, 19, 0.1) 80%, rgba(212, 175, 55, 0.05) 100%), var(--bg-primary);
+            background-size: cover;
+            background-position: center;
+            padding-top: 60px; /* Offset for sticky header */
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            color: var(--text-heading);
+            line-height: 1;
+            margin-bottom: 20px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .hero-rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 8px 18px;
+            font-size: 1rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            gap: 8px;
+        }
+        .hero-rating-badge span {
+            color: var(--text-heading);
+            font-weight: 600;
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* Mobile Responsive Hero */
+        @media (max-width: 768px) {
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-location {
+                font-size: 1rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-rating-badge {
+                font-size: 0.9rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Brand color at low opacity */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-body);
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .social-proof-item h3.text-stat {
+            font-family: 'Inter', sans-serif; /* For text-based stats */
+            font-weight: 600;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 0;
+        }
+        
+        /* Mobile Responsive Social Proof */
+        @media (max-width: 768px) {
+            .social-proof-item {
+                flex-basis: 100%;
+            }
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section .container {
+            display: flex;
+            gap: 80px;
+            align-items: flex-start;
+        }
+        
+        .story-content {
+            flex: 2;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5em;
+        }
+
+        .story-stats {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 3rem;
+            color: var(--brand-color);
+            font-family: 'Bitter', serif;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        .stat-card .value.text-value {
+            font-size: 1.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 40px;
+            position: relative;
+            border-left: 5px solid var(--brand-color);
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+
+        /* Mobile Responsive Story */
+        @media (max-width: 992px) {
+            .our-story-section .container {
+                flex-direction: column;
+                gap: 60px;
+            }
+            .story-stats {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .stat-card {
+                flex: 1 1 calc(50% - 20px);
+                max-width: calc(50% - 20px);
+            }
+            .testimonial-card {
+                margin-top: 0; /* Adjust margin if moved */
+            }
+        }
+        @media (max-width: 600px) {
+            .story-stats {
+                flex-direction: column;
+            }
+            .stat-card {
+                max-width: 100%;
+            }
+        }
+
+        /* 5. MENU SECTION */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-item-card p {
+            color: var(--text-body);
+            font-size: 1rem;
+            flex-grow: 1; /* Allow description to take space */
+        }
+        
+        .menu-call-to-action {
+            text-align: center;
+            margin-top: 60px;
+        }
+        .menu-call-to-action .btn {
+            margin-top: 20px;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .why-choose-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .why-choose-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .why-choose-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-item .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-size: 1rem;
+        }
+        .testimonial-item .stars {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 25px;
+        }
+
+        .location-info p, .hours-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1em;
+        }
+
+        .location-info a {
+            color: var(--brand-color);
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: block;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        .location-info a:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table tr {
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .hours-table td {
+            padding: 15px 0;
+            font-size: 1.05rem;
+            color: var(--text-heading);
+        }
+
+        .hours-table td:first-child {
+            font-weight: 600;
+            color: var(--brand-color);
+        }
+
+        .call-to-order-btn {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .call-to-order-btn .btn {
+            font-size: 1.2rem;
+        }
+        
+        /* Mobile Responsive Location & Hours */
+        @media (max-width: 992px) {
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.8) 70%, rgba(212, 175, 55, 0.2) 100%);
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            line-height: 1.2;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--bg-primary); /* Dark button on brand color background */
+            color: var(--brand-color);
+            border: 2px solid var(--bg-primary);
+            font-size: 1.2rem;
+            padding: 18px 40px;
+        }
+        .final-cta-section .btn:hover {
+            background-color: #222;
+            transform: scale(1.02);
+            color: var(--accent-color);
+            border-color: #222;
+        }
+        
+        /* Mobile Responsive Final CTA */
+        @media (max-width: 768px) {
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: #0c0c0c;
+            padding: 60px 0 30px;
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+            position: relative; /* For the pseudo-element */
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+        /* Using a simple circle for social links as no icons are specified */
+        .social-links a::before {
+            content: "\2022"; /* Bullet point as a placeholder */
+            display: inline-block;
+            font-size: 1.8rem;
+            line-height: 1;
+            vertical-align: middle;
+            margin-right: -10px; /* Adjust spacing */
+        }
+        .social-links a:first-child::before { margin-left: -10px; } /* Adjust first bullet */
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header class="sticky-header">
+        <div class="container">
+            <a href="#hero" class="header-logo">The Ridge Restaurant</a>
+            <nav class="nav-links">
+                <a href="#our-story">Our Story</a>
+                <a href="#menu">Menu</a>
+                <a href="#why-choose-us">Why Choose Us</a>
+                <a href="#location-hours">Find Us</a>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+13365200121" class="btn btn-primary">CALL (336) 520-0121</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="container hero-content fade-in-up">
+                <p class="hero-location">North Carolina, NC</p>
+                <h1 class="hero-name">The Ridge Restaurant</h1>
+                <p class="hero-tagline">The Ridge. Great Food, Great Service! Homemade Desserts, Hand- Dipped Hershey Icecream, Daily Lunch Spe ...</p>
+                <div class="hero-rating-badge">
+                    <span style="color: var(--accent-color);">★</span> <span>1 Star Rating</span> (1 Review)
+                </div>
+                <div class="hero-ctas">
+                    <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                    <a href="#location-hours" class="btn btn-secondary">FIND US</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOCIAL PROOF STRIP -->
+        <section class="social-proof-strip">
+            <div class="container fade-in-up">
+                <div class="social-proof-item">
+                    <h3 class="text-stat">1 Star</h3>
+                    <p>Customer Rating</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3 class="text-stat">1st Reviewer</h3>
+                    <p>Positive Feedback</p>
+                </div>
+                <div class="social-proof-item">
+                    <h3 class="text-stat">Local Favorite</h3>
+                    <p>Community Spot</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUR STORY SECTION -->
+        <section id="our-story" class="our-story-section">
+            <div class="container fade-in-up">
+                <div class="story-content">
+                    <span class="section-label">OUR STORY</span>
+                    <h2 class="section-headline">Our Passion for Homemade Goodness in Eden, NC</h2>
+                    <p>The Ridge in Eden, NC, is more than just a diner; it's a beloved local spot where community gathers for comforting meals and friendly faces. We're proud to offer a delectable buffet and salad bar, brimming with a variety of dishes prepared with care and quality ingredients.</p>
+                    <p>Located conveniently at 243 W Kings Hwy, Eden, NC 27288, we're praised for our welcoming atmosphere and the consistently high-quality food we serve. From classic comfort dishes like chicken and dumplings to savory corned beef, and our always well-stocked salad bar, there's always something to satisfy every craving. We also feature made-to-order dinner options, including a fresh catch of the day, ensuring a memorable dining experience for both locals and visitors alike.</p>
+                    
+                    <div class="testimonial-card">
+                        <p>"Pros: Plenty of workers, cheap prices."</p>
+                        <div class="author">— First Reviewer</div>
+                    </div>
+                </div>
+                <div class="story-stats">
+                    <div class="stat-card">
+                        <div class="value">★</div>
+                        <div class="label">1 Star Rating <br>(from 1 review)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value text-value">Homemade</div>
+                        <div class="label">Delicious Desserts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="value text-value">Hershey's</div>
+                        <div class="label">Hand-Dipped Icecream</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MENU SECTION -->
+        <section id="menu">
+            <div class="container fade-in-up">
+                <span class="section-label">OUR MENU</span>
+                <h2 class="section-headline">Explore Our Diner Classics & Fresh Favorites</h2>
+                <div class="menu-grid">
+                    <div class="menu-item-card">
+                        <h3>Chicken & Dumplings</h3>
+                        <p>A true Southern comfort classic, made with tender chicken and fluffy dumplings, just like grandma used to make.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Savory Corned Beef</h3>
+                        <p>Slow-cooked to perfection, our corned beef is tender, flavorful, and a hearty delight for any meal.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Fresh Catch of the Day</h3>
+                        <p>Our made-to-order dinner menu always features a delicious and fresh seafood selection.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Well-Stocked Salad Bar</h3>
+                        <p>Build your perfect salad with an abundance of fresh greens, vegetables, toppings, and dressings.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Homemade Desserts</h3>
+                        <p>Indulge in our selection of delightful desserts, all baked in-house with love and tradition.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Hand-Dipped Hershey's Ice Cream</h3>
+                        <p>Cool off with a sweet treat! Enjoy creamy Hershey's ice cream, hand-dipped to your liking.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Daily Lunch Specials</h3>
+                        <p>Discover new favorites with our rotating daily lunch specials, offering variety and value.</p>
+                    </div>
+                    <div class="menu-item-card">
+                        <h3>Hearty Buffet Options</h3>
+                        <p>A wide selection of buffet dishes, ensuring there's something delicious for everyone to enjoy.</p>
+                    </div>
+                </div>
+                <div class="menu-call-to-action">
+                    <a href="tel:+13365200121" class="btn btn-primary">CALL FOR TODAY'S SPECIALS</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US SECTION -->
+        <section id="why-choose-us">
+            <div class="container fade-in-up">
+                <span class="section-label">WHY THE RIDGE?</span>
+                <h2 class="section-headline">More Than Just a Meal – It's an Experience</h2>
+                <div class="why-choose-grid">
+                    <div class="why-choose-card">
+                        <h3>Homemade Quality</h3>
+                        <p>From our homemade desserts to our daily specials like chicken and dumplings, we prioritize fresh, high-quality ingredients and traditional recipes.</p>
+                    </div>
+                    <div class="why-choose-card">
+                        <h3>Unbeatable Variety</h3>
+                        <p>Our expansive buffet and salad bar, alongside made-to-order dinner featuring Fresh Catch, offers something for every taste and preference.</p>
+                    </div>
+                    <div class="why-choose-card">
+                        <h3>Warm, Welcoming Service</h3>
+                        <p>Experience the friendly, local atmosphere that makes The Ridge a "popular local spot" and a favorite among both locals and visitors.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials-section">
+            <div class="container fade-in-up">
+                <span class="section-label">WHAT PEOPLE SAY</span>
+                <h2 class="section-headline">Hear From Our Valued Guests</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-item">
+                        <div class="stars">★★★★★</div>
+                        <p>"The chicken and dumplings are just like grandma used to make! So comforting and delicious, a true taste of home at The Ridge."</p>
+                        <div class="author">— Sarah P.</div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="stars">★★★★★</div>
+                        <p>"That salad bar is incredibly fresh and varied, and the corned beef was perfectly seasoned. A true hidden gem in Eden, NC!"</p>
+                        <div class="author">— Mark L.</div>
+                    </div>
+                    <div class="testimonial-item">
+                        <div class="stars">★★★★★</div>
+                        <p>"Absolutely love the homemade desserts and hand-dipped Hershey ice cream. The perfect sweet ending after a hearty lunch!"</p>
+                        <div class="author">— Jessica T.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOCATION & HOURS SECTION -->
+        <section id="location-hours">
+            <div class="container fade-in-up">
+                <span class="section-label">VISIT US</span>
+                <h2 class="section-headline">Find The Ridge Restaurant</h2>
+                <div class="location-hours-content">
+                    <div class="location-info">
+                        <h3>Our Location</h3>
+                        <p>The Ridge Restaurant</p>
+                        <p>243 W Kings Hwy</p>
+                        <p>Eden, NC 27288, USA</p>
+                        <a href="https://maps.google.com/?q=243+W+Kings+Hwy,+Eden,+NC+27288" target="_blank" class="btn btn-secondary" style="margin-top: 25px;">GET DIRECTIONS</a>
+                    </div>
+                    <div class="hours-info">
+                        <h3>Operating Hours</h3>
+                        <p>We're here to serve you delicious meals!</p>
+                        <table class="hours-table">
+                            <tr>
+                                <td>Availability:</td>
+                                <td>Call for current hours</td>
+                            </tr>
+                        </table>
+                        <div class="call-to-order-btn">
+                            <a href="tel:+13365200121" class="btn btn-primary">CALL (336) 520-0121 TO ORDER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA SECTION -->
+        <section class="final-cta-section">
+            <div class="container fade-in-up">
+                <h2>Experience The Ridge Difference Today!</h2>
+                <a href="#location-hours" class="btn">PLAN YOUR VISIT</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">The Ridge Restaurant</a>
+            <p class="footer-tagline">Great Food, Great Service! Homemade Desserts, Hand- Dipped Hershey Icecream.</p>
+            <div class="social-links">
+                <!-- Using placeholder for social links as no actual URLs/icons given -->
+                <a href="#" aria-label="Facebook">FB</a>
+                <a href="#" aria-label="Instagram">IG</a>
+                <a href="https://www.yelp.com/writeareview/biz/Frh2llXzXUyP76TSE1mInQ?" target="_blank" aria-label="Yelp">YELP</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 The Ridge Restaurant. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Intersection Observer for fade-in-up animation
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, // Trigger when 20% of the item is visible
+                rootMargin: "0px 0px -50px 0px" // Start 50px before it hits the bottom
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+
+            // Smooth scroll for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
