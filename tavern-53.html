@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tavern 53 – Pickens' Premier Bar & Grill</title>
+    <meta name="description" content="Tavern 53, Pickens. Where flavor meets the fairway. Enjoy grilled to perfection dishes, our famous Sunday Buffet, and a warm, inviting atmosphere at the historic Pickens Golf Club.">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111111;
+            --brand-color: #8B4513; /* Saddle Brown */
+            --accent-color: #D4AF37; /* Goldenrod */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+            --max-width: 1200px;
+            --section-padding: 100px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-color);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1em;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styling */
+        section {
+            padding: var(--section-padding) 0;
+            position: relative;
+            opacity: 0; /* For fade-in-up */
+            transform: translateY(40px); /* For fade-in-up */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+
+        .section-headline {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text-heading);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+
+        /* Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .main-nav a {
+            color: var(--text-body);
+            font-family: 'Source Sans 3', sans-serif;
+            font-weight: 400;
+            font-size: 1.05rem;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .main-nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .main-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-phone-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            border-radius: 5px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header-phone-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.03);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at top left, rgba(139, 69, 19, 0.15) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(212, 175, 55, 0.1) 0%, transparent 40%),
+                        var(--bg-dark);
+            padding-top: var(--header-height);
+            position: relative;
+        }
+
+        .hero-location {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero-name {
+            font-size: 5rem; /* Massive, bold */
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            line-height: 1;
+            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-tagline {
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 1.6rem;
+            color: var(--text-body);
+            font-weight: 300;
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .hero-rating-badge {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(139, 69, 19, 0.05); /* Low opacity brand color */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-proof-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            flex: 1;
+            min-width: 250px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-proof-item h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin: 0;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-align: center;
+        }
+
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .story-testimonial {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            font-style: italic;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .story-testimonial p {
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .story-testimonial .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            font-size: 1rem;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .menu-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+
+        .menu-cta {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .choose-us-card .icon {
+            font-size: 3rem;
+            color: var(--brand-color);
+            margin-bottom: 20px;
+        }
+
+        .choose-us-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            border-radius: 8px;
+            padding: 30px;
+            font-style: italic;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .testimonial-card .author {
+            font-weight: 600;
+            color: var(--accent-color);
+            font-style: normal;
+            font-size: 1rem;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .location-map, .hours-details {
+            padding: 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+        }
+
+        .location-map h3, .hours-details h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+        }
+
+        .location-map p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+
+        .location-map a {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .location-map iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+        }
+
+        .hours-details .phone-number {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .hours-details .call-button-wrapper {
+            text-align: center;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(135deg, var(--brand-color) 0%, rgba(139, 69, 19, 0.7) 100%);
+            padding: var(--section-padding) 0;
+            text-align: center;
+            border-top: 1px solid var(--brand-color);
+            border-bottom: 1px solid var(--brand-color);
+        }
+
+        .final-cta h2 {
+            font-size: 3.5rem;
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            font-size: 1.2rem;
+            padding: 18px 40px;
+        }
+
+        .final-cta .btn-primary:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            padding: 80px 0 40px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            color: var(--text-heading);
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .social-links a {
+            color: var(--text-body);
+            font-size: 1.6rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-name {
+                font-size: 4rem;
+            }
+            .section-headline {
+                font-size: 2.2rem;
+            }
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .social-proof-strip {
+                padding: 30px 0;
+            }
+            .social-proof-item {
+                flex-basis: 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sticky-header {
+                padding: 0 20px;
+                height: 70px; /* Slightly taller for mobile */
+            }
+            .main-nav {
+                display: none; /* Hide navigation on small screens, could add hamburger menu */
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+            .header-phone-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+            .hero-name {
+                font-size: 3rem;
+            }
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            .section-padding {
+                padding: 80px 0;
+            }
+            .section-headline {
+                font-size: 2rem;
+                margin-bottom: 40px;
+            }
+            .social-proof-items {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .social-proof-item {
+                min-width: unset;
+                flex-basis: auto;
+            }
+            .our-story-content {
+                gap: 40px;
+            }
+            .menu-grid, .choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-map, .hours-details {
+                padding: 20px;
+            }
+            .final-cta h2 {
+                font-size: 2.5rem;
+            }
+            .footer {
+                padding: 60px 0 30px;
+            }
+            .footer-logo {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-name {
+                font-size: 2.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.1rem;
+            }
+            .hero-rating-badge {
+                font-size: 0.8rem;
+                padding: 6px 15px;
+            }
+            .section-headline {
+                font-size: 1.8rem;
+            }
+            .final-cta h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">Tavern 53</a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <a href="tel:8648786083" class="btn header-phone-btn">Call (864) 878-6083</a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <p class="hero-location">Pickens, NC</p>
+        <h1 class="hero-name">Tavern 53</h1>
+        <p class="hero-tagline">Where flavor meets the fairway.</p>
+        <div class="hero-rating-badge">Highly Recommended by Locals</div>
+        <div class="hero-ctas">
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#find-us" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-items">
+            <div class="social-proof-item">
+                <h3>Local Favorite</h3>
+                <p>A beloved spot in Pickens</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Highly Rated</h3>
+                <p>Praised for quality and atmosphere</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Warm Hospitality</h3>
+                <p>Where every guest feels at home</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="section">
+        <div class="container">
+            <span class="section-label">Our Heritage</span>
+            <h2 class="section-headline">A Taste of Tradition, Crafted with Passion.</h2>
+            <div class="our-story-content">
+                <div class="story-text">
+                    <p>Nestled at the heart of the historic Pickens Golf Club, Tavern 53 has become a cherished gathering place for locals and visitors alike. We believe in good food, great company, and the timeless charm of Southern hospitality.</p>
+                    <p>From the moment you step through our doors, you're not just a customer – you're family. We pride ourselves on creating memorable dining experiences, whether you're joining us for a casual lunch, a lively dinner, or our famous Sunday Buffet.</p>
+                    <p>Our commitment to "grilled to perfection" dishes and a welcoming atmosphere is what truly sets us apart. Come, savor the flavor, and become a part of the Tavern 53 story.</p>
+                </div>
+                <div class="story-testimonial">
+                    <p>"Every visit to Tavern 53 feels like coming home. The Sunday Buffet is a must-try, and their grilled dishes are always spot on. The atmosphere is just what Pickens needed!"</p>
+                    <span class="author">— A Loyal Local, Pickens Resident</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="section">
+        <div class="container">
+            <span class="section-label">Explore Our Flavors</span>
+            <h2 class="section-headline">Simple Ingredients, Exceptional Taste.</h2>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <h3>The Tavern Burger</h3>
+                    <p>A classic done right. Juicy patty, fresh toppings, served with crispy fries. Simply irresistible.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Grilled Chicken Sandwich</h3>
+                    <p>Tender grilled chicken breast, perfectly seasoned, served on a toasted bun with fresh greens.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Signature Ribs</h3>
+                    <p>Slow-cooked to fall-off-the-bone perfection, basted in our house BBQ sauce. A true local favorite.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Sunday Buffet Selection</h3>
+                    <p>A rotating array of comforting Southern classics and grilled specialties, available every Sunday.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Fairway Salad</h3>
+                    <p>Fresh mixed greens, seasonal vegetables, and your choice of grilled protein. Light and refreshing.</p>
+                </div>
+                <div class="menu-card">
+                    <h3>Crispy Fried Pickles</h3>
+                    <p>A southern staple, perfectly breaded and fried golden brown. Served with a zesty dipping sauce.</p>
+                </div>
+            </div>
+            <div class="menu-cta">
+                <a href="https://www.yelp.com/biz_redir?cachebuster=1776334246&s=ff53011dfb15798cd1e952db8030387b62da2f6a04ddfb3a0aaae89da85bc044&src_bizid=exDG" target="_blank" class="btn btn-primary">View Full Menu Online</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section why-choose-us">
+        <div class="container">
+            <span class="section-label">Our Promise</span>
+            <h2 class="section-headline">More Than Just a Meal: An Experience.</h2>
+            <div class="choose-us-grid">
+                <div class="choose-us-card">
+                    <span class="icon">&#9971;&#65039;</span> <!-- Golf icon -->
+                    <h3>Historic Golf Club Setting</h3>
+                    <p>Enjoy picturesque views and a relaxed atmosphere right at the heart of the Pickens Golf Club. Perfect for post-round dining or a scenic meal.</p>
+                </div>
+                <div class="choose-us-card">
+                    <span class="icon">&#127830;</span> <!-- Grilled food icon -->
+                    <h3>Signature Grilled Dishes</h3>
+                    <p>From tender steaks to juicy burgers, our "grilled to perfection" philosophy ensures every dish is a masterpiece of flavor and quality.</p>
+                </div>
+                <div class="choose-us-card">
+                    <span class="icon">&#127869;&#65039;</span> <!-- Buffet icon -->
+                    <h3>Beloved Sunday Buffet</h3>
+                    <p>Join us every Sunday for a delectable buffet featuring a wide array of homemade Southern favorites and fresh, seasonal selections.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="section">
+        <div class="container">
+            <span class="section-label">What Our Guests Say</span>
+            <h2 class="section-headline">Genuine Reviews from Our Valued Community.</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"I can't get enough of their grilled chicken sandwich! Always fresh, perfectly cooked, and the staff are incredibly friendly. Tavern 53 is my go-to spot."</p>
+                    <span class="author">— Emily R., Pickens</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"The Sunday Buffet is an absolute gem! So many delicious options, and the quality is always top-notch. It's truly a highlight of my week."</p>
+                    <span class="author">— David M., Local Golfer</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Fantastic bar and grill! The atmosphere is welcoming, the Tavern Burger is consistently excellent, and it's great to have such a wonderful place right at the golf club."</p>
+                    <span class="author">— Sarah L., Visitor</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section">
+        <div class="container">
+            <span class="section-label">Visit Us</span>
+            <h2 class="section-headline">Your Table Awaits in Pickens.</h2>
+            <div class="location-hours-grid">
+                <div class="location-map">
+                    <h3>Find Us Here</h3>
+                    <p>Tavern 53 is conveniently located at the historic Pickens Golf Club. Easy to find, with plenty of parking.</p>
+                    <p><strong>Address:</strong> Pickens, NC</p>
+                    <p><a href="https://www.google.com/maps/search/Pickens,+NC" target="_blank" rel="noopener noreferrer">Get Directions on Google Maps</a></p>
+                    <iframe src="https://www.google.com/maps?q=Pickens,+NC&output=embed" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <div class="hours-details">
+                    <h3>Our Hours</h3>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Sunday</td>
+                                <td>11am - 3pm</td>
+                            </tr>
+                            <tr>
+                                <td>Monday</td>
+                                <td>CLOSED</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday - Saturday</td>
+                                <td>11am - 9pm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Have questions or want to make a reservation?</p>
+                    <a href="tel:8648786083" class="phone-number">(864) 878-6083</a>
+                    <div class="call-button-wrapper">
+                        <a href="tel:8648786083" class="btn btn-primary">Call to Order Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready to Taste the Best of Pickens?</h2>
+            <a href="tel:8648786083" class="btn btn-primary">Make Your Reservation Today!</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">Tavern 53</a>
+            <p class="footer-tagline">Where flavor meets the fairway.</p>
+            <ul class="social-links">
+                <li><a href="https://www.facebook.com/Tavern53/" target="_blank" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.812c-3.235 0-4.188 1.503-4.188 4.004v2.996z"/></svg></a></li>
+                <li><a href="https://www.instagram.com/carolinacampcedar/" target="_blank" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.07 4.85-1.148 3.252-1.691 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.85-.07-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.849 0-3.204.012-3.584.07-4.85 1.148-3.252 1.691-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98.281.013.31.016.947.016 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-.323-.012-.353-.015-.947-.015zm0 7.375c-2.815 0-5.089 2.274-5.089 5.089s2.274 5.089 5.089 5.089 5.089-2.274 5.089-5.089c0-2.815-2.274-5.089-5.089-5.089zm0 8.293c-1.764 0-3.189-1.425-3.189-3.189s1.425-3.189 3.189-3.189 3.189 1.425 3.189 3.189c0 1.764-1.425 3.189-3.189 3.189zm5.64-7.078c-.642 0-1.161.519-1.161 1.161s.519 1.161 1.161 1.161 1.161-.519 1.161-1.161-.519-1.161-1.161-1.161z"/></svg></a></li>
+            </ul>
+            <p class="footer-copyright">&copy; 2026 Tavern 53. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    } else {
+                        // Optional: remove 'is-visible' class if you want sections to fade out when scrolled away
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, { threshold: 0.2 }); // Trigger when 20% of the section is visible
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
