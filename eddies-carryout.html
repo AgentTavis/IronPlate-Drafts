@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddie's Carryout | Fort Washington, MD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111111;
+            --bg-light-variant: #1a1a1a;
+            --brand-primary: #1B5E20; /* Dark Green */
+            --brand-accent: #FFD700; /* Gold */
+            --text-light: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Bitter', serif;
+            color: var(--text-light);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--brand-accent);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-primary { color: var(--brand-primary); }
+        .text-accent { color: var(--brand-accent); }
+        .uppercase { text-transform: uppercase; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mb-2 { margin-bottom: 1rem; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            font-size: 1.05rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+            background-color: #2e7d32; /* Slightly darker green */
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-primary);
+            border: 2px solid var(--brand-primary);
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.02);
+            background-color: var(--brand-primary);
+            color: var(--text-light);
+        }
+
+        .btn-gold {
+            background-color: var(--brand-accent);
+            color: var(--bg-dark); /* Dark text on gold */
+            border: 2px solid var(--brand-accent);
+        }
+
+        .btn-gold:hover {
+            transform: scale(1.02);
+            background-color: #e6c200; /* Slightly darker gold */
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header-logo {
+            font-family: 'Bitter', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .header-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .header-nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .header-nav a:hover {
+            color: var(--text-light);
+        }
+
+        .header-nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-primary);
+            transition: width 0.3s ease;
+        }
+
+        .header-nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta .btn {
+            font-size: 1rem;
+            padding: 8px 18px;
+            white-space: nowrap;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(27, 94, 32, 0.2) 0%, rgba(255, 215, 0, 0.05) 50%, rgba(17, 17, 17, 1) 100%), var(--bg-dark);
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+        }
+
+        .hero-content {
+            padding: 20px;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem); /* Responsive font size */
+            font-weight: 700;
+            margin-bottom: 0.2em;
+            color: var(--text-light);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .hero .location {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 2rem;
+        }
+
+        .hero-rating-badge {
+            display: inline-block;
+            background-color: var(--brand-accent);
+            color: var(--bg-dark);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .hero-ctas {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(27, 94, 32, 0.05); /* Very low opacity brand color */
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .social-proof-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .social-proof-item {
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--brand-primary);
+            border-radius: 8px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .social-proof-item h3 {
+            font-size: 2rem;
+            color: var(--brand-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header .section-label {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--brand-primary);
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+
+        .our-story-text {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .our-story-text p {
+            margin-bottom: 1.5em;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+
+        .story-testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-accent);
+            padding: 30px;
+            border-radius: 8px;
+            margin: 40px auto;
+            max-width: 700px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .story-testimonial-card blockquote {
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .story-testimonial-card cite {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid var(--brand-primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 3rem;
+            color: var(--brand-accent);
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .menu-item-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-primary);
+            padding: 25px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .menu-item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .menu-item-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-item-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .reason-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px 30px;
+            border-radius: 8px;
+            border-top: 4px solid var(--brand-accent);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .reason-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .reason-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .reason-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-primary);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-card p {
+            font-size: 1.05rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card cite {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 60px;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--brand-primary);
+            padding-bottom: 10px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-body);
+        }
+
+        .location-info a {
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: var(--brand-primary);
+            font-weight: 600;
+        }
+        .location-info a:hover {
+            color: var(--brand-accent);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 12px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .hours-table th {
+            color: var(--text-light);
+            font-weight: 600;
+            width: 40%;
+            font-size: 1.05rem;
+        }
+
+        .hours-table td {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(90deg, var(--brand-primary) 0%, rgba(27, 94, 32, 0.7) 50%, var(--brand-primary) 100%);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: var(--text-light);
+            margin-bottom: 40px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Bitter', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 15px;
+        }
+
+        .footer-tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            font-size: 1.2rem; /* Using a placeholder for icons */
+            color: var(--text-body);
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sticky-header {
+                height: auto;
+                padding: 10px 20px;
+            }
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .header-nav ul {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .header-nav {
+                width: 100%;
+            }
+            .header-cta {
+                width: 100%;
+                text-align: center;
+            }
+            .header-cta .btn {
+                width: 100%;
+            }
+
+            .hero {
+                padding-top: calc(var(--header-height) + 20px); /* Adjust hero padding for stacked header */
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.4rem;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-ctas .btn {
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+
+            .social-proof-grid, .stats-grid, .menu-grid, .why-choose-grid, .testimonials-grid, .location-hours-content {
+                grid-template-columns: 1fr;
+            }
+
+            .location-info, .hours-info {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero .tagline {
+                font-size: 1.2rem;
+            }
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            .social-proof-item h3, .stat-card h3 {
+                font-size: 2.5rem;
+            }
+            .menu-item-card h3, .reason-card h3 {
+                font-size: 1.5rem;
+            }
+            .story-testimonial-card blockquote {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content container">
+            <div class="header-logo">
+                <a href="#hero">Eddie's Carryout</a>
+            </div>
+            <nav class="header-nav">
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <div class="header-cta">
+                <a href="tel:+13012651808" class="btn btn-primary">CALL (301) 265-1808</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero is-visible">
+        <div class="hero-content">
+            <span class="location">Fort Washington, MD</span>
+            <h1>Eddie's Carryout</h1>
+            <p class="tagline">Your Go-To for Classic Pizza & Fast Carryout in Fort Washington, MD – Open Late!</p>
+            <div class="hero-rating-badge">Local Favorite • Open Until 1 AM</div>
+            <div class="hero-ctas">
+                <a href="#menu" class="btn btn-gold">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container social-proof-grid">
+            <div class="social-proof-item">
+                <h3>Trusted by Locals</h3>
+                <p>Generations of happy customers</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Open Until 1 AM</h3>
+                <p>Satisfying late-night cravings daily</p>
+            </div>
+            <div class="social-proof-item">
+                <h3>Delivery & Take-Out</h3>
+                <p>Convenient options for every order</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label uppercase">Our Story</p>
+                <h2>Crafting Delicious Moments, One Order at a Time</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="our-story-text">
+                    <p>At Eddie's Carryout, we've been proudly serving the Fort Washington community for years, building a reputation for delicious, no-fuss meals made with care. We believe in good, honest food – from our classic pizzas piled high with fresh toppings to our savory Steak and Cheese subs, and even our refreshing milkshakes. We’re your local spot for a quick bite, a satisfying dinner, or that essential late-night craving.</p>
+                    <p>Convenient, friendly, and always fresh, Eddie's is more than just a carryout; it's a neighborhood tradition. Come on down and taste the difference that dedication and a love for great food makes!</p>
+                </div>
+                <div class="story-testimonial-card">
+                    <blockquote>"Eddie's is a true gem in Fort Washington! Their commitment to quality and friendly service shines through every time. Absolutely love their food!"</blockquote>
+                    <cite>— A Valued Local Customer</cite>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>1 AM</h3>
+                        <p>Open Until</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Delivery & Takeout</h3>
+                        <p>Convenient Options</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Credit Cards</h3>
+                        <p>Accepted Here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label uppercase">Explore Our Flavor</p>
+                <h2>What's Cooking at Eddie's?</h2>
+            </div>
+            <div class="menu-grid">
+                <div class="menu-item-card">
+                    <h3>Classic Pepperoni Pizza</h3>
+                    <p>A timeless favorite with rich tomato sauce, melted mozzarella, and generous slices of savory pepperoni.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Supreme Veggie Pizza</h3>
+                    <p>Fresh mushrooms, crisp bell peppers, sweet onions, black olives, and juicy tomatoes on our signature crust.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Loaded Meat Lovers Pizza</h3>
+                    <p>Packed with pepperoni, savory sausage, ham, and crispy bacon for the ultimate carnivorous feast.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Steak and Cheese Sub</h3>
+                    <p>Thinly sliced grilled steak, melted provolone cheese, and your choice of fresh toppings on a toasted roll.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>The Original Steak Sub</h3>
+                    <p>Our classic grilled steak sandwich, seasoned to perfection and served simply, letting the flavor shine.</p>
+                </div>
+                <div class="menu-item-card">
+                    <h3>Creamy Milk Shakes</h3>
+                    <p>Hand-spun milkshakes in classic flavors, the perfect sweet treat to complement any meal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label uppercase">Our Promise</p>
+                <h2>Why Eddie's Is Your Best Choice</h2>
+            </div>
+            <div class="why-choose-grid">
+                <div class="reason-card">
+                    <h3>Late-Night Cravings Solved</h3>
+                    <p>Craving a delicious pizza or a hearty Steak and Cheese after hours? Eddie's Carryout is open until 1:00 AM, making us your perfect late-night snack destination in Fort Washington.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>More Than Just Pizza</h3>
+                    <p>While we're known for our classic pizzas, don't miss our legendary Steak and Cheese subs or our refreshing milkshakes – a true carryout experience beyond the ordinary.</p>
+                </div>
+                <div class="reason-card">
+                    <h3>Speed & Convenience</h3>
+                    <p>Whether it's a quick lunch or a family dinner, enjoy fast service with convenient take-out and delivery options. We accept credit cards for a seamless ordering experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label uppercase">What Our Customers Say</p>
+                <h2>Real Reviews from Happy Locals</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"The Classic Pepperoni Pizza from Eddie's is an absolute game-changer. Crispy crust, perfect sauce, and loaded with pepperoni – my go-to every Friday night!"</p>
+                    <cite>— Alex F. (5-Star Rating)</cite>
+                </div>
+                <div class="testimonial-card">
+                    <p>"You haven't lived until you've tried their Steak and Cheese! Tender steak, gooey cheese, and exactly what you need after a long day. And that milkshake? Perfection."</p>
+                    <cite>— Brenda K. (Good Vibes)</cite>
+                </div>
+                <div class="testimonial-card">
+                    <p>"I love that Eddie's is open so late! Their Supreme Veggie Pizza is always fresh and hot, even at midnight. It's truly a Fort Washington gem."</p>
+                    <cite>— Carlos D. (Great Service)</cite>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-label uppercase">Visit & Contact</p>
+                <h2>Find Us in Fort Washington</h2>
+            </div>
+            <div class="location-hours-content">
+                <div class="location-info">
+                    <h3>Our Location</h3>
+                    <p>You can find Eddie's Carryout conveniently located for all your carryout and delivery needs:</p>
+                    <p><strong>9116 Livingston Rd,<br>Fort Washington, MD</strong></p>
+                    <a href="https://www.google.com/maps/search/9116+Livingston+Rd,+Fort+Washington,+MD" target="_blank">Get Directions on Google Maps</a>
+                    <a href="tel:+13012651808">Call Us: (301) 265-1808</a>
+                </div>
+                <div class="hours-info">
+                    <h3>Operating Hours</h3>
+                    <p>We're here to serve you fresh food, even late into the night. Please call ahead for the most current operating hours.</p>
+                    <table class="hours-table">
+                        <tr>
+                            <th>Monday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Tuesday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Wednesday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Thursday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Friday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Saturday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                        <tr>
+                            <th>Sunday</th>
+                            <td>Call for Hours</td>
+                        </tr>
+                    </table>
+                    <a href="tel:+13012651808" class="btn btn-primary mt-2">CALL TO ORDER NOW</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Ready for a Taste of Fort Washington's Best?</h2>
+            <a href="tel:+13012651808" class="btn btn-gold">ORDER NOW - (301) 265-1808</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">
+                Eddie's Carryout
+            </div>
+            <p class="footer-tagline">Your Go-To for Classic Pizza & Fast Carryout in Fort Washington, MD – Open Late!</p>
+            <div class="social-links">
+                <a href="#">Facebook</a> | 
+                <a href="#">Instagram</a> | 
+                <a href="#">Yelp</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 Eddie's Carryout. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const sections = document.querySelectorAll('section');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // 10% of the section is visible
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once it's visible
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            if (section.id !== 'hero') { // Hero is visible by default
+                sectionObserver.observe(section);
+            }
+        });
+    </script>
+</body>
+</html>
