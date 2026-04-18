@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engine House - Mt Clemens Diner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-main: #111111;
+            --bg-lighter: #1a1a1a;
+            --brand-color: #0000EE;
+            --accent-color: #CC0000;
+            --brand-color-subtle: rgba(0, 0, 238, 0.1);
+            --accent-color-subtle: rgba(204, 0, 0, 0.1);
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --section-padding-y: 100px;
+        }
+
+        /* Base Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 5rem; font-weight: 700; }
+        h2 { font-size: 3rem; font-weight: 700; }
+        h3 { font-size: 1.8rem; font-weight: 700; }
+        h4 { font-size: 1.4rem; font-weight: 600; }
+        p { margin-bottom: 1em; }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        /* Layout & Utilities */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding-y) 0;
+            position: relative;
+            overflow: hidden; /* For fade-in-up animation */
+        }
+
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+
+        .flex-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .grid-3-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #0000CC; /* Slightly darker blue */
+            border-color: #0000CC;
+            transform: scale(1.02);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+        }
+        
+        .btn-accent {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            border: 2px solid var(--accent-color);
+        }
+        .btn-accent:hover {
+            background-color: #B20000; /* Slightly darker red */
+            border-color: #B20000;
+            transform: scale(1.02);
+        }
+
+        /* Section Headers */
+        .section-label {
+            color: var(--brand-color);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .section-headline {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        /* Specific Components */
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(17, 17, 17, 0.9); /* Dark semi-transparent */
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .sticky-header .header-content {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .sticky-header .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -1px;
+        }
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        .sticky-header nav a {
+            color: var(--text-body);
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+            padding: 5px 0;
+        }
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+        .sticky-header .call-button {
+            padding: 8px 18px;
+            font-size: 1rem;
+            border-radius: 5px;
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: none;
+        }
+        .sticky-header .call-button:hover {
+            background-color: #0000CC;
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: 
+                linear-gradient(rgba(17,17,17,0.95), rgba(17,17,17,0.95)), /* Dark overlay */
+                radial-gradient(circle at top left, var(--brand-color-subtle) 0%, transparent 40%), /* Subtle brand color glow */
+                radial-gradient(circle at bottom right, var(--accent-color-subtle) 0%, transparent 40%); /* Subtle accent color glow */
+            background-color: var(--bg-main);
+            position: relative;
+            padding-top: 60px; /* Offset for sticky header */
+        }
+        #hero h1 {
+            font-size: clamp(3rem, 10vw, 6rem); /* Massive, responsive text */
+            margin-bottom: 15px;
+            line-height: 1;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        #hero .location {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        #hero .tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+        #hero .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Social Proof Strip */
+        #social-proof {
+            background-color: var(--brand-color-subtle); /* Brand color at low opacity */
+            padding: 50px 0;
+        }
+        #social-proof .proof-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            text-align: center;
+        }
+        #social-proof .proof-item .icon {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+        #social-proof .proof-item .value {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+        #social-proof .proof-item .label {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Our Story Section */
+        #our-story {
+            background-color: var(--bg-lighter);
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        #our-story .story-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 60px;
+        }
+        #our-story .story-text p {
+            font-size: 1.15rem;
+            color: var(--text-body);
+            margin-bottom: 1.5em;
+        }
+        #our-story .testimonial-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: relative;
+            margin-top: 40px;
+        }
+        #our-story .testimonial-card p {
+            font-size: 1.25rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-heading);
+        }
+        #our-story .testimonial-card .author {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--brand-color);
+            text-align: right;
+            display: block;
+        }
+
+        /* Menu Section (Placeholder due to no data) */
+        #menu {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        #menu .menu-placeholder-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #menu .menu-placeholder-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #menu .menu-placeholder-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+        #menu .menu-placeholder-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            max-width: 400px;
+        }
+        #menu .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        /* Why Choose Us Section */
+        #why-choose-us {
+            background-color: var(--bg-lighter);
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        #why-choose-us .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 200px;
+        }
+        #why-choose-us .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #why-choose-us .feature-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 0;
+        }
+        #why-choose-us .feature-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+        #why-choose-us .icon-large {
+            font-size: 2.5rem;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        /* Testimonials Section */
+        #testimonials {
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        #testimonials .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        #testimonials .testimonial-card .quote {
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--text-body);
+            margin-bottom: 20px;
+        }
+        #testimonials .testimonial-card .author {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+            margin-top: auto; /* Pushes author to bottom */
+        }
+        #testimonials .testimonial-card .author span {
+            display: block;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Location & Hours Section */
+        #find-us {
+            background-color: var(--bg-lighter);
+            padding-top: var(--section-padding-y);
+            padding-bottom: var(--section-padding-y);
+        }
+        #find-us .location-card,
+        #find-us .hours-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            height: 100%;
+        }
+        #find-us .location-card h3,
+        #find-us .hours-card h3 {
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--brand-color);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+        #find-us .location-card p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        #find-us .hours-card .hours-info {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+        }
+        #find-us .hours-card .hours-info span {
+            display: block;
+            color: var(--text-body);
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+        #find-us .map-placeholder {
+            width: 100%;
+            height: 250px;
+            background-color: var(--bg-main);
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            margin-top: 20px;
+            font-size: 0.9rem;
+            overflow: hidden; /* Ensure rounded corners apply */
+        }
+        #find-us .map-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+        }
+        #find-us .map-placeholder a {
+            position: absolute;
+            color: var(--brand-color);
+            font-weight: 600;
+            padding: 10px 20px;
+            background-color: rgba(17, 17, 17, 0.7);
+            border-radius: 5px;
+            backdrop-filter: blur(3px);
+            border: 1px solid var(--card-border);
+        }
+        #find-us .phone-link {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-bottom: 20px;
+        }
+        #find-us .phone-link:hover {
+            color: var(--text-heading);
+        }
+
+        /* Final CTA Section */
+        #final-cta {
+            background: linear-gradient(to right, var(--brand-color), var(--accent-color));
+            padding: var(--section-padding-y) 0;
+            text-align: center;
+        }
+        #final-cta h2 {
+            color: var(--text-heading);
+            margin-bottom: 40px;
+            font-size: 3.5rem;
+        }
+        #final-cta .btn-cta {
+            background-color: var(--bg-main); /* Dark button on bright background */
+            color: var(--brand-color);
+            border: 2px solid var(--bg-main);
+        }
+        #final-cta .btn-cta:hover {
+            background-color: #000000; /* Even darker on hover */
+            color: var(--text-heading);
+            border-color: #000000;
+            transform: scale(1.03);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-main);
+            color: var(--text-secondary);
+            padding: 60px 0 30px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        footer .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+        footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        footer .social-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+        }
+        footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+        footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Intersection Observer Fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            h1 { font-size: clamp(3rem, 10vw, 4.5rem); }
+            h2 { font-size: 2.2rem; }
+            .section-headline { font-size: 2rem; }
+            #hero .tagline { font-size: 1.1rem; }
+            .sticky-header nav ul { gap: 20px; }
+            .sticky-header nav a { font-size: 0.95rem; }
+            .sticky-header .call-button { padding: 6px 12px; font-size: 0.9rem; }
+            .section-padding-y { padding-top: 80px; padding-bottom: 80px; }
+        }
+
+        @media (max-width: 768px) {
+            .flex-group { flex-direction: column; text-align: center; gap: 40px; }
+            .sticky-header .header-content { flex-direction: column; justify-content: center; gap: 15px; padding: 10px 20px; }
+            .sticky-header { height: auto; padding: 15px 0; }
+            .sticky-header nav ul { display: none; /* Hide nav links on mobile, could be a hamburger menu */ }
+            .sticky-header .logo { margin-bottom: 10px; }
+            .sticky-header .call-button { width: 100%; max-width: 200px; }
+            #hero { min-height: 80vh; padding-top: 120px; } /* Adjust for expanded header */
+            h1 { font-size: clamp(2.5rem, 12vw, 4rem); }
+            #hero .cta-buttons { flex-direction: column; gap: 15px; }
+            .btn { width: 100%; max-width: 300px; }
+            .grid-3-col, .grid-2-col { grid-template-columns: 1fr; }
+            .section-padding-y { padding-top: 60px; padding-bottom: 60px; }
+            #final-cta h2 { font-size: 2.5rem; }
+            #our-story .testimonial-card { margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <div class="logo">Engine House</div>
+            <nav>
+                <ul>
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:(555) 123-4567" class="btn call-button">CALL US</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="fade-in-up">
+        <div class="container">
+            <p class="location fade-in-up">Mt Clemens, NC</p>
+            <h1 class="fade-in-up" style="transition-delay: 0.1s;">Engine House</h1>
+            <p class="tagline fade-in-up" style="transition-delay: 0.2s;">The Engine House sports bar and firehouse theme restaurant in Mt. Clemens, NC</p>
+            <div class="cta-buttons fade-in-up" style="transition-delay: 0.3s;">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section id="social-proof" class="fade-in-up">
+        <div class="container flex-group">
+            <div class="proof-item fade-in-up">
+                <span class="icon">&#9733;</span> <!-- Star icon -->
+                <p class="value">Local Favorite</p>
+                <p class="label">Beloved by Locals</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <span class="icon">&#128100;</span> <!-- Person icon -->
+                <p class="value">Community Hub</p>
+                <p class="label">Gathering Place</p>
+            </div>
+            <div class="proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <span class="icon">&#127869;</span> <!-- Food icon -->
+                <p class="value">Unique Experience</p>
+                <p class="label">Unforgettable Moments</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Heritage</p>
+            <h2 class="section-headline text-center fade-in-up">More Than Just a Meal, It's an Experience.</h2>
+            <div class="story-content">
+                <div class="story-text fade-in-up">
+                    <p>At Engine House, we've crafted a unique diner experience that combines classic comfort food with the thrilling ambiance of a fire station. Our doors are always open, welcoming friends, families, and local heroes alike to enjoy a memorable time.</p>
+                    <p>Wednesdays are Firefighter Days, when The Engine House truly comes alive. It feels even more like a proper fire station as local personnel stop by to socialize, share stories, and yes, occasionally hose down patrons who are speaking too heatedly – all in good fun, of course! It's a tradition that's become a cornerstone of our community.</p>
+                    <p>Together, firefighters and their fellow diners can also play tunes on the digital jukebox, ensuring the perfect soundtrack for every visit, or catch a game on the restaurant's large projection screen and copious plasma and flat-screen TVs. Engine House is where good food, good company, and great entertainment converge.</p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"Engine House isn't just a diner; it's a vibrant hub where every visit feels like a celebration. The atmosphere is electric, especially on Firefighter Days!"</p>
+                    <span class="author">— A Happy Regular, Mt Clemens</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Flavors</p>
+            <h2 class="section-headline fade-in-up">Diner Classics & Firehouse Favorites.</h2>
+            <p class="fade-in-up" style="max-width: 800px; margin: 0 auto 60px auto;">
+                While our full menu is best experienced in person, expect hearty diner classics and unique specials that capture the spirit of the Engine House. We invite you to discover your new favorite on your next visit!
+            </p>
+            <div class="menu-grid">
+                <div class="menu-placeholder-card fade-in-up">
+                    <h3>Signature Diner Plates</h3>
+                    <p>Comfort food at its finest. From classic breakfast to satisfying dinners, our kitchen serves up delicious, homemade meals designed to fuel your day.</p>
+                    <a href="#find-us" class="btn btn-secondary">See In-House Menu</a>
+                </div>
+                <div class="menu-placeholder-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Firehouse Specials</h3>
+                    <p>Bold flavors and unique twists inspired by our fire station theme. Ask about our daily specials, crafted with fresh, local ingredients.</p>
+                    <a href="#find-us" class="btn btn-secondary">Ask Our Staff</a>
+                </div>
+                <div class="menu-placeholder-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Drinks & Refreshments</h3>
+                    <p>Quench your thirst with our selection of beverages, from classic sodas to fresh-brewed coffee, and a full bar for those over 21.</p>
+                    <a href="#find-us" class="btn btn-secondary">View Drink List</a>
+                </div>
+            </div>
+            <div class="fade-in-up" style="margin-top: 60px;">
+                <a href="tel:(555) 123-4567" class="btn btn-primary">CALL FOR TODAY'S SPECIALS</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Our Promise</p>
+            <h2 class="section-headline fade-in-up">Experience the Unique Charm of Engine House.</h2>
+            <div class="grid-3-col">
+                <div class="feature-card fade-in-up">
+                    <span class="icon-large">&#128293;</span> <!-- Fire emoji as a theme icon -->
+                    <h3>The Firehouse Experience</h3>
+                    <p>Step into a lively atmosphere where the spirit of the fire station comes alive. Especially on Wednesdays, our Firefighter Days bring local heroes for camaraderie and, occasionally, a refreshing 'hose down' for those getting a little too passionate.</p>
+                </div>
+                <div class="feature-card fade-in-up" style="transition-delay: 0.1s;">
+                    <span class="icon-large">&#127909;</span> <!-- TV icon -->
+                    <h3>Entertainment for All</h3>
+                    <p>Catch the big game on our massive projection screen or enjoy a variety of content on our copious plasma and flat-screen TVs. With a digital jukebox, you'll always find the perfect soundtrack for your visit.</p>
+                </div>
+                <div class="feature-card fade-in-up" style="transition-delay: 0.2s;">
+                    <span class="icon-large">&#128104;&#8205;&#127859;</span> <!-- Chef icon or similar for community -->
+                    <h3>Community & Connection</h3>
+                    <p>More than just a diner, Engine House is a hub for community. Share laughs, stories, and make new memories in an environment built for connection. It's where Mt Clemens gathers, fostering a true sense of belonging.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section id="testimonials">
+        <div class="container text-center">
+            <p class="section-label fade-in-up">Hear From Us</p>
+            <h2 class="section-headline fade-in-up">What People Say About Engine House.</h2>
+            <div class="grid-3-col">
+                <div class="testimonial-card fade-in-up">
+                    <p class="quote">"Engine House is simply the best spot in Mt Clemens! The atmosphere on Firefighter Wednesdays is truly unique, and I love catching a game on their huge screens. It's an experience you won't find anywhere else."</p>
+                    <p class="author">Sarah M. <span>- Regular Guest</span></p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.1s;">
+                    <p class="quote">"Came in for the first time and was blown away by the welcoming vibe. The staff are fantastic, and the digital jukebox kept the energy high. Definitely my new go-to place for good times!"</p>
+                    <p class="author">David P. <span>- First-Timer Turned Fan</span></p>
+                </div>
+                <div class="testimonial-card fade-in-up" style="transition-delay: 0.2s;">
+                    <p class="quote">"You haven't truly lived until you've been 'hosed down' at Engine House on a Firefighter Day! What a laugh! This place embodies fun and community. Highly recommend it!"</p>
+                    <p class="author">Jessica L. <span>- Thrilled Patron</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us">
+        <div class="container">
+            <p class="section-label fade-in-up">Visit Us</p>
+            <h2 class="section-headline text-center fade-in-up">Your Table Awaits in Mt Clemens.</h2>
+            <div class="grid-2-col" style="margin-top: 60px;">
+                <div class="location-card fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Engine House Diner</p>
+                    <p>Mt Clemens, NC</p>
+                    <div class="map-placeholder">
+                        <img src="https://maps.googleapis.com/maps/api/staticmap?center=Mt+Clemens,NC&zoom=14&size=600x250&maptype=roadmap&markers=color:red%7Clabel:A%7CMt+Clemens,NC&key=YOUR_API_KEY" alt="Map of Mt Clemens, NC">
+                        <a href="https://www.google.com/maps/search/Mt+Clemens,+NC" target="_blank" rel="noopener noreferrer">View on Google Maps</a>
+                    </div>
+                </div>
+                <div class="hours-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Hours & Contact</h3>
+                    <p class="hours-info">Call us for our current operating hours.</p>
+                    <a href="tel:(555) 123-4567" class="phone-link">(555) 123-4567</a>
+                    <a href="tel:(555) 123-4567" class="btn btn-primary" style="margin-top: 20px;">CALL FOR HOURS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section id="final-cta" class="fade-in-up">
+        <div class="container">
+            <h2 class="fade-in-up">Don't Miss Out on the Engine House Experience!</h2>
+            <a href="#hero" class="btn btn-cta fade-in-up" style="transition-delay: 0.1s;">PLAN YOUR VISIT NOW</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="logo fade-in-up">Engine House</div>
+            <p class="tagline fade-in-up">The Engine House sports bar and firehouse theme restaurant in Mt. Clemens, NC.</p>
+            <ul class="social-links fade-in-up">
+                <li><a href="#" aria-label="Facebook">&#x1F44D;</a></li> <!-- Thumbs up for Facebook -->
+                <li><a href="#" aria-label="Instagram">&#x1F4F8;</a></li> <!-- Camera for Instagram -->
+                <li><a href="#" aria-label="Twitter">&#x1F426;</a></li> <!-- Bird for Twitter -->
+            </ul>
+            <p class="copyright fade-in-up">&copy; 2026 Engine House. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Intersection Observer Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.2, // When 20% of the item is in view
+                rootMargin: "0px 0px -50px 0px" // Start showing slightly before it's fully in view
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                entries, 
+                appearOnScroll
+            ) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+
+</body>
+</html>
