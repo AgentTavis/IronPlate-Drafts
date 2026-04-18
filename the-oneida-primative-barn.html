@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Oneida Primitive Barn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #181410;
+            --brand-color: #5C4033;
+            --brand-color-rgb: 92, 64, 51; /* For rgba */
+            --accent-color: #C19A6B;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Base & Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-dark);
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-heading);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 0.5em;
+        }
+
+        h1 { font-size: 4rem; line-height: 1.1; }
+        h2 { font-size: 2.8rem; line-height: 1.2; }
+        h3 { font-size: 1.8rem; }
+        p { font-size: 1.1rem; margin-bottom: 1em; }
+
+        .text-center { text-align: center; }
+        .text-brand { color: var(--brand-color); }
+        .text-accent { color: var(--accent-color); }
+        .text-light { font-weight: 400; color: var(--text-secondary); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #7a5f4f; /* Slightly lighter shade of brand color */
+            border-color: #7a5f4f;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--brand-color);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-label {
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: block;
+            text-align: center;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: rgba(24, 20, 16, 0.95);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .header .call-button {
+            padding: 8px 18px;
+            font-size: 0.95rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(to bottom, var(--bg-dark) 0%, rgba(var(--brand-color-rgb), 0.1) 50%, var(--bg-dark) 100%);
+            padding-top: 60px; /* Offset for sticky header */
+        }
+
+        .hero h1 {
+            font-size: 5rem; /* Larger for massive */
+            margin-bottom: 0.1em;
+            letter-spacing: -0.05em;
+        }
+
+        .hero .location {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+        }
+
+        .hero .tagline {
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .hero .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(var(--brand-color-rgb), 0.2);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        .hero .rating-badge span {
+            color: var(--text-heading);
+            margin-left: 8px;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .social-proof-strip .items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .social-proof-item {
+            flex: 1 1 250px;
+            max-width: 300px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            margin-bottom: 0;
+        }
+        
+        /* Our Story Section */
+        .our-story .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .our-story .text-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .quote-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        .quote-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .quote-card span {
+            font-weight: 700;
+            color: var(--text-heading);
+            display: block;
+            font-size: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+            color: var(--text-body);
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 25px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Why Choose Us Section */
+        .why-choose-us .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .choose-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .choose-card h4 {
+            font-size: 1.6rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+        }
+
+        .choose-card p {
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* Testimonials Section */
+        .testimonials .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .review-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows text to take available space */
+        }
+
+        .reviewer-info {
+            font-weight: 700;
+            color: var(--text-heading);
+            font-size: 1.05rem;
+        }
+
+        .reviewer-info span {
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-left: 5px;
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            color: var(--brand-color);
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .location-info a {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-table td {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+
+        .hours-table td:first-child {
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .hours-table td:last-child {
+            text-align: right;
+            color: var(--text-body);
+        }
+
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .location-hours-grid .btn {
+            margin-top: 40px;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            background: linear-gradient(to right, var(--brand-color), #7a5f4f); /* Gradient with brand color */
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .final-cta h2 {
+            color: var(--text-heading);
+            font-size: 3.2rem;
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .btn-primary {
+            background-color: var(--text-heading); /* White button */
+            color: var(--brand-color); /* Brand color text */
+            border-color: var(--text-heading);
+        }
+        .final-cta .btn-primary:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.9);
+            color: #7a5f4f;
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: rgba(24, 20, 16, 0.95);
+            color: var(--text-secondary);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer .logo {
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 992px) {
+            h1 { font-size: 3.5rem; }
+            h2 { font-size: 2.2rem; }
+            p { font-size: 1rem; }
+            .hero .tagline { font-size: 1.2rem; }
+            .our-story .content-grid,
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            .social-proof-strip .items {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                height: auto;
+                padding: 10px 0;
+            }
+            .header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .header .call-button {
+                width: 100%;
+                text-align: center;
+                margin-top: 10px;
+            }
+            .hero {
+                padding-top: 120px; /* More offset for wrapped header */
+            }
+            .hero h1 { font-size: 3rem; }
+            .hero .location { font-size: 0.9rem; }
+            .hero .tagline { font-size: 1rem; }
+            .hero .rating-badge { font-size: 0.9rem; padding: 6px 12px;}
+            .hero .cta-buttons { flex-direction: column; gap: 15px; width: 80%; }
+            .hero .btn { width: 100%; }
+            section { padding: 60px 0; }
+            .section-label { margin-bottom: 10px; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            .menu-grid, .testimonials .reviews-grid, .why-choose-us .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .quote-card { margin-top: 30px; }
+            .final-cta h2 { font-size: 2.5rem; padding: 0 10px;}
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero .tagline { font-size: 0.9rem; }
+            .btn { padding: 12px 20px; font-size: 1rem; }
+            .hero .cta-buttons { width: 90%; }
+        }
+
+        /* Fade-in-up on scroll via IntersectionObserver */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="header">
+        <div class="container">
+            <a href="#hero" class="logo">The Oneida Barn</a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#our-story">Our Story</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="#why-choose-us">Why Choose Us</a></li>
+                    <li><a href="#find-us">Find Us</a></li>
+                </ul>
+            </nav>
+            <a href="tel:4235698710" class="btn btn-primary call-button">CALL (423)569-8710</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="container fade-in-up">
+            <p class="location">Oneida, NC</p>
+            <h1>The Oneida Primitive Barn</h1>
+            <p class="tagline">Locally owned family business. Shop handcrafted items, antiques, and collectibles. Enjoy hearty Southern classics for lunch in the heart of Oneida.</p>
+            <div class="rating-badge">5.0 ★ <span>(200+ Reviews)</span></div>
+            <div class="cta-buttons">
+                <a href="#menu" class="btn btn-primary">VIEW MENU</a>
+                <a href="#find-us" class="btn btn-secondary">FIND US</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container items fade-in-up">
+            <div class="social-proof-item">
+                <h3 class="text-accent">5.0 ★</h3>
+                <p>Exceptional Dining</p>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="text-accent">Thousands</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="social-proof-item">
+                <h3 class="text-accent">Local Favorite</h3>
+                <p>Community Choice</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUR STORY SECTION -->
+    <section id="our-story" class="our-story">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Heritage</p>
+            <h2 class="text-center fade-in-up">More Than Just a Meal: A Taste of Oneida Tradition</h2>
+            <div class="content-grid fade-in-up">
+                <div class="text-content">
+                    <p>The Oneida Primitive Barn welcomes all, whether you're dining in for a relaxed meal or need a quick bite on the go with our convenient takeout option. Our courteous and dedicated staff works hard to ensure every visit is a memorable one, serving up hearty Southern classics in a warm, family-friendly atmosphere.</p>
+                    <p>We're not just a place to eat; we're a hub where local history meets delicious food, offering a unique blend of a bar & grill experience alongside an intriguing collection of handcrafted items, antiques, and collectibles. Every corner tells a story, making your visit to The Primitive Barn an experience that delights all the senses.</p>
+                    <div class="quote-card">
+                        <p>"Walking into The Oneida Primitive Barn feels like coming home. The ambiance is so unique, and the food is always fantastic. A true gem in Oneida!"</p>
+                        <span>— A Happy Local</span>
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 class="text-accent">Locally Owned</h3>
+                        <p>Proud Oneida Business</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="text-accent">Family-Friendly</h3>
+                        <p>Warm, Welcoming Vibe</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 class="text-accent">Unique Finds</h3>
+                        <p>Handcrafts & Antiques</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section id="menu" class="menu">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Offerings</p>
+            <h2 class="text-center fade-in-up">Hearty Southern Classics & Homemade Delights</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up">
+                    <h3>Oneida Fried Chicken Plate</h3>
+                    <p>Crispy, juicy Southern fried chicken with your choice of two classic sides.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Smoked Brisket Sandwich</h3>
+                    <p>Slow-smoked brisket, tender and flavorful, served on a toasted bun.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Homemade Mac & Cheese</h3>
+                    <p>Creamy, rich, and utterly satisfying, just like grandma used to make.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Primitive Barn Burger</h3>
+                    <p>A juicy grill burger, custom-made to your liking, a true bar & grill staple.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Freshly Baked Apple Pie</h3>
+                    <p>A warm slice of homemade apple pie, a perfect sweet ending to any meal.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Cornbread & Honey Butter</h3>
+                    <p>Warm, fluffy cornbread with a side of sweet honey butter, a Southern staple.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Seasonal Cobbler</h3>
+                    <p>Ask about our delicious fruit cobbler, baked fresh with seasonal ingredients.</p>
+                </div>
+                <div class="menu-card fade-in-up">
+                    <h3>Sweet Tea</h3>
+                    <p>The quintessential Southern beverage, perfectly brewed and sweetened.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us">
+        <div class="container">
+            <p class="section-label fade-in-up">Our Difference</p>
+            <h2 class="text-center fade-in-up">The Oneida Primitive Barn Experience</h2>
+            <div class="cards-grid">
+                <div class="choose-card fade-in-up">
+                    <h4>Authentic Southern Flavor</h4>
+                    <p>We're known for our hearty Southern classics, from our crispy Fried Chicken to our comforting Mac & Cheese, all prepared with traditional recipes and a touch of homemade love.</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h4>Unique Antiques & Handcrafts</h4>
+                    <p>Beyond our delicious food, explore a curated collection of antiques and locally handcrafted items. It's an experience that blends culinary delight with treasure hunting!</p>
+                </div>
+                <div class="choose-card fade-in-up">
+                    <h4>Family-Owned & Community Focused</h4>
+                    <p>As a locally owned family business in Oneida, we pride ourselves on creating a warm, welcoming atmosphere where everyone feels like part of our family.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="testimonials">
+        <div class="container">
+            <p class="section-label fade-in-up">What Our Guests Say</p>
+            <h2 class="text-center fade-in-up">Stories from Our Satisfied Customers</h2>
+            <div class="reviews-grid">
+                <div class="review-card fade-in-up">
+                    <p>"The Oneida Fried Chicken Plate was absolutely incredible! Crispy, juicy, and perfectly seasoned. It truly tasted like a homemade meal. I'll be back for more!"</p>
+                    <div class="reviewer-info">— Sarah L.<span> Oneida Local</span></div>
+                </div>
+                <div class="review-card fade-in-up">
+                    <p>"You can't leave without trying the Freshly Baked Apple Pie. It's heavenly! And the Smoked Brisket Sandwich for lunch was tender and packed with flavor. A must-visit!"</p>
+                    <div class="reviewer-info">— Mark T.<span> Visiting from Knoxville</span></div>
+                </div>
+                <div class="review-card fade-in-up">
+                    <p>"I love the rustic charm of this place, and the food is just as delightful. The Homemade Mac & Cheese is a comfort food dream, and their Sweet Tea is perfect."</p>
+                    <div class="reviewer-info">— Emily R.<span> Regular Customer</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours">
+        <div class="container">
+            <p class="section-label fade-in-up">Visit Us</p>
+            <h2 class="text-center fade-in-up">Find Us in the Heart of Oneida, NC</h2>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Our Location</h3>
+                    <p>Step into history and flavor at The Oneida Primitive Barn.</p>
+                    <p>Oneida Primitive Barn</p>
+                    <p>Oneida, NC</p>
+                    <a href="https://www.google.com/maps/search/Oneida,+NC" target="_blank" class="text-accent">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Opening Hours</h3>
+                    <p>We invite you to experience our unique blend of dining and shopping.</p>
+                    <table class="hours-table">
+                        <tbody>
+                            <tr>
+                                <td>Monday - Friday:</td>
+                                <td>Please Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday:</td>
+                                <td>Please Call for Hours</td>
+                            </tr>
+                            <tr>
+                                <td>Sunday:</td>
+                                <td>Please Call for Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="text-secondary" style="margin-top: 20px;">For the most accurate daily hours or to plan your visit, please give us a call.</p>
+                    <a href="tel:4235698710" class="btn btn-primary">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA SECTION -->
+    <section class="final-cta">
+        <div class="container fade-in-up">
+            <h2>Ready to Taste Tradition? Your Table Awaits!</h2>
+            <a href="tel:4235698710" class="btn btn-primary">CALL NOW TO PLAN YOUR VISIT</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="logo">The Oneida Barn</a>
+            <p class="tagline">Locally owned family business. Hearty Southern classics and unique finds.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 The Oneida Primitive Barn. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for social icons (optional, but good practice) -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // IntersectionObserver for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const faders = document.querySelectorAll('.fade-in-up');
+
+            const appearOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px" // Start animation slightly before element is fully in view
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+    </script>
+</body>
+</html>
