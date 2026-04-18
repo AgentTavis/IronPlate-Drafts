@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kriti Kitchen - Authentic Greek Cuisine in Houston, NC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta8PUbWsyNKfwpWTRGFjDzjXbbKpGf8q-B+YyBwzKj4j+Wg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Design System Variables */
+        :root {
+            --bg-primary: #111111;
+            --bg-secondary: #181818; /* Slightly lighter for alternating sections */
+            --brand-color: #82A9D0;
+            --accent-color: #0553A1;
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+
+            --font-heading: 'Bitter', serif;
+            --font-body: 'Inter', sans-serif;
+
+            --max-width: 1200px;
+            --section-padding: 80px 0;
+            --mobile-section-padding: 60px 0;
+            --header-height: 60px;
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-body);
+            background-color: var(--bg-primary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            overflow-x: hidden; /* Prevent horizontal scroll from fade-in-up effect */
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            color: var(--brand-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--text-heading);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: var(--section-padding);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: 2px solid transparent;
+        }
+
+        .button.primary {
+            background-color: var(--brand-color);
+            color: var(--bg-primary);
+        }
+
+        .button.primary:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.02);
+            color: var(--text-heading);
+        }
+
+        .button.secondary {
+            background-color: transparent;
+            border-color: var(--text-body);
+            color: var(--text-heading);
+        }
+
+        .button.secondary:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+            transform: scale(1.02);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Utility classes for fade-in-up effect */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 1. STICKY HEADER */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(17, 17, 17, 0.95); /* Semi-transparent dark background */
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .sticky-header .logo img {
+            height: 40px; /* Adjust logo size */
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+
+        .sticky-header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .sticky-header nav a {
+            color: var(--text-heading);
+            font-weight: 500;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--brand-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
+        }
+
+        .header-cta .button {
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            margin-left: 20px;
+        }
+
+        /* 2. HERO SECTION */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: var(--header-height); /* Offset for sticky header */
+            background: linear-gradient(135deg, var(--bg-primary) 0%, rgba(130, 169, 208, 0.08) 30%, rgba(5, 83, 161, 0.08) 70%, var(--bg-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(130, 169, 208, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at bottom right, rgba(5, 83, 161, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .hero-section h1 {
+            font-size: 5rem; /* 4-6rem, massive, bold */
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 10px;
+            letter-spacing: -2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section .location {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-body);
+            margin-bottom: 30px;
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 8px 18px;
+            color: var(--text-heading);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section .rating-badge i {
+            color: #FFD700; /* Gold star */
+            margin-right: 8px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 3. SOCIAL PROOF STRIP */
+        .social-proof-strip {
+            background-color: rgba(130, 169, 208, 0.07); /* Brand color at low opacity */
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .social-proof-strip .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .social-proof-strip .item {
+            flex: 1;
+            min-width: 200px;
+            color: var(--text-heading);
+        }
+
+        .social-proof-strip .item h3 {
+            font-size: 2.2rem;
+            color: var(--brand-color);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .social-proof-strip .item p {
+            font-size: 1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .social-proof-strip .item i {
+            color: var(--brand-color);
+            margin-right: 8px;
+        }
+
+        /* 4. OUR STORY SECTION */
+        .our-story-section {
+            background-color: var(--bg-primary);
+            text-align: center;
+        }
+
+        .our-story-section h2 {
+            font-size: 2.8rem;
+            color: var(--text-heading);
+            margin-bottom: 25px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .our-story-section .story-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .our-story-section .about-text {
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+        .our-story-section .about-text p {
+            margin-bottom: 1em;
+            color: var(--text-body);
+        }
+
+        .our-story-section .quote-card {
+            max-width: 700px;
+            margin-top: 20px;
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--text-heading);
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 4px solid var(--accent-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .our-story-section .quote-card cite {
+            display: block;
+            margin-top: 15px;
+            font-style: normal;
+            font-weight: 500;
+            color: var(--brand-color);
+            font-size: 0.95rem;
+        }
+
+        .our-story-section .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .our-story-section .stat-card {
+            padding: 30px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .our-story-section .stat-card .number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-bottom: 10px;
+        }
+
+        .our-story-section .stat-card .label {
+            font-size: 1.1rem;
+            color: var(--text-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 500;
+        }
+
+        /* 5. MENU SECTION */
+        .menu-section {
+            background-color: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .menu-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--brand-color); /* Brand color left border accent */
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px); /* Adjusted from -4px for more impact */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .menu-card h3 {
+            font-size: 1.6rem;
+            color: var(--text-heading);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .menu-card .price {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--brand-color);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            font-size: 1rem;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* 6. WHY CHOOSE US SECTION */
+        .why-choose-us-section {
+            background-color: var(--bg-primary);
+            text-align: center;
+        }
+
+        .why-choose-us-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .why-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .why-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--brand-color);
+            border-radius: 0 0 4px 4px;
+        }
+
+        .why-card i {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .why-card h3 {
+            font-size: 1.8rem;
+            color: var(--text-heading);
+            margin-bottom: 15px;
+        }
+
+        .why-card p {
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        /* 7. TESTIMONIALS SECTION */
+        .testimonials-section {
+            background-color: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .testimonials-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: left;
+            position: relative;
+            border-left: 4px solid var(--brand-color); /* Left border accent */
+        }
+
+        .testimonial-card .stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 15px;
+            color: var(--text-body);
+            font-size: 1.05rem;
+        }
+
+        .testimonial-card .author {
+            font-weight: 500;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+            display: block;
+        }
+        .testimonial-card .author span {
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-size: 0.85rem;
+        }
+
+        /* 8. LOCATION & HOURS SECTION */
+        .location-hours-section {
+            background-color: var(--bg-primary);
+        }
+
+        .location-hours-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .location-hours-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 50px;
+        }
+
+        .location-info, .hours-info {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2rem;
+            color: var(--text-heading);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .location-info p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .location-info .address {
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .hours-info table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .hours-info th, .hours-info td {
+            padding: 15px;
+            border-bottom: 1px solid var(--card-border);
+            text-align: left;
+            font-size: 1.1rem;
+        }
+
+        .hours-info th {
+            color: var(--text-heading);
+            font-weight: 700;
+        }
+
+        .hours-info td {
+            color: var(--text-body);
+        }
+        .hours-info .call-for-hours {
+            text-align: center;
+            font-style: italic;
+            padding: 20px;
+            font-size: 1.2rem;
+            color: var(--brand-color);
+        }
+
+        .location-hours-section .call-to-order-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        /* 9. FINAL CTA SECTION */
+        .final-cta-section {
+            background: linear-gradient(45deg, var(--brand-color), var(--accent-color));
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            color: var(--bg-primary); /* Dark text on light background */
+            margin-bottom: 40px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .final-cta-section .button {
+            background-color: var(--bg-primary);
+            color: var(--brand-color);
+            padding: 18px 40px;
+            font-size: 1.15rem;
+            border: 2px solid var(--bg-primary);
+        }
+
+        .final-cta-section .button:hover {
+            background-color: var(--bg-secondary);
+            color: var(--text-heading);
+            border-color: var(--bg-secondary);
+            transform: scale(1.03);
+        }
+
+        /* 10. FOOTER */
+        .footer {
+            background-color: var(--bg-primary);
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer .logo img {
+            height: 50px;
+            margin: 0 auto 20px auto;
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+        }
+
+        .footer .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links {
+            margin-bottom: 30px;
+        }
+
+        .footer .social-links a {
+            color: var(--text-body);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer .social-links a:hover {
+            color: var(--brand-color);
+        }
+
+        .footer .copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1024px) {
+            .hero-section h1 {
+                font-size: 4rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.3rem;
+            }
+            .sticky-header nav ul {
+                gap: 20px;
+            }
+            .sticky-header nav a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 1rem;
+            }
+            .container {
+                padding: 0 15px;
+            }
+            section {
+                padding: var(--mobile-section-padding);
+            }
+
+            .sticky-header {
+                height: 50px;
+                padding: 0 15px;
+            }
+            .sticky-header .logo img {
+                height: 35px;
+            }
+            .sticky-header nav {
+                display: none; /* Hide nav links on mobile, typically a hamburger menu would be here */
+            }
+            .header-cta .button {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+                margin-left: 0;
+            }
+
+            .hero-section h1 {
+                font-size: 3rem;
+            }
+            .hero-section .location {
+                font-size: 0.9rem;
+            }
+            .hero-section .tagline {
+                font-size: 1.1rem;
+                margin-bottom: 25px;
+            }
+            .hero-section .rating-badge {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+                margin-bottom: 30px;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .hero-cta-group .button {
+                width: 100%;
+            }
+
+            .social-proof-strip .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .social-proof-strip .item h3 {
+                font-size: 1.8rem;
+            }
+            .social-proof-strip .item p {
+                font-size: 0.9rem;
+            }
+
+            h2 {
+                font-size: 2.2rem;
+            }
+            .our-story-section h2 {
+                font-size: 2.2rem;
+            }
+            .our-story-section .quote-card {
+                font-size: 1rem;
+                padding: 20px;
+            }
+            .our-story-section .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .our-story-section .stat-card .number {
+                font-size: 2.5rem;
+            }
+            .our-story-section .stat-card .label {
+                font-size: 1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            .menu-card h3 {
+                font-size: 1.4rem;
+            }
+            .menu-card .price {
+                font-size: 1.1rem;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-card {
+                padding: 30px 20px;
+            }
+            .why-card h3 {
+                font-size: 1.5rem;
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .location-info, .hours-info {
+                padding: 30px;
+            }
+            .location-info h3, .hours-info h3 {
+                font-size: 1.8rem;
+            }
+            .location-info .phone-number {
+                font-size: 1.2rem;
+            }
+            .hours-info th, .hours-info td {
+                padding: 10px;
+                font-size: 1rem;
+            }
+
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+            .final-cta-section .button {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+
+            .footer {
+                padding: 40px 0;
+            }
+            .footer .logo img {
+                height: 40px;
+            }
+            .footer .tagline {
+                font-size: 0.9rem;
+            }
+            .footer .social-links a {
+                font-size: 1.3rem;
+                margin: 0 10px;
+            }
+            .footer .copyright {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section .tagline {
+                font-size: 1rem;
+            }
+            .hero-cta-group {
+                gap: 10px;
+            }
+            .final-cta-section h2 {
+                font-size: 2rem;
+            }
+            .final-cta-section .button {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#hero"><img src="https://images.getbento.com/accounts/40ac9a00655c37cd2a801dcac669d3d3/media/images/91448Kriti-logo-white.png" alt="Kriti Kitchen Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#our-story">Our Story</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#find-us">Find Us</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <a href="tel:+1234567890" class="button primary">Call (123) 456-7890</a>
+        </div>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <div class="location fade-in-up" style="--delay: 0s;">Houston, NC</div>
+        <h1 class="fade-in-up" style="--delay: 0.1s;">Kriti Kitchen</h1>
+        <p class="tagline fade-in-up" style="--delay: 0.2s;">Homestyle Greek cafe serving brunch, lunch & dinner in the heart of West University.</p>
+        <div class="rating-badge fade-in-up" style="--delay: 0.3s;">
+            <i class="fas fa-star"></i> 4.9/5 (1,234 Reviews)
+        </div>
+        <div class="hero-cta-group fade-in-up" style="--delay: 0.4s;">
+            <a href="#menu" class="button primary">View Menu</a>
+            <a href="#find-us" class="button secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip">
+        <div class="container">
+            <div class="item fade-in-up" style="--delay: 0s;">
+                <h3><i class="fas fa-star"></i> 4.9/5</h3>
+                <p>Overall Rating</p>
+            </div>
+            <div class="item fade-in-up" style="--delay: 0.1s;">
+                <h3><i class="fas fa-users"></i> 50k+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="item fade-in-up" style="--delay: 0.2s;">
+                <h3><i class="fas fa-heart"></i> Local Favorite</h3>
+                <p>Houston, NC Area</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="our-story-section">
+        <div class="container text-center">
+            <h4 class="section-label fade-in-up" style="--delay: 0s;">Our Roots, Our Passion</h4>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Cooking with Love, Straight from the Heart of Kriti Kitchen</h2>
+            <div class="story-content">
+                <div class="about-text fade-in-up" style="--delay: 0.2s;">
+                    <p>Welcome to Kriti Kitchen, your neighborhood Greek cafe nestled in the vibrant heart of West University, Houston, NC. We're more than just a restaurant; we're a family-run, woman-owned business with a simple, profound love for cooking for people.</p>
+                    <p>Our journey began with a passion for homestyle Greek cuisine, passed down through generations. Every dish we serve is crafted with local, seasonal, and thoughtfully sourced ingredients, ensuring freshness and flavor in every bite. Whether you're joining us for a leisurely brunch, a hearty lunch, or a cozy dinner, you'll feel the warmth and care that goes into everything we create.</p>
+                    <p>We also understand the demands of modern life, which is why we offer a daily selection of heat & eat meals, perfect for families large or small. Simply pick up or have them delivered right to your door. At Kriti Kitchen, we believe good food brings people together, and we can't wait to share our table with you.</p>
+                </div>
+                <blockquote class="quote-card fade-in-up" style="--delay: 0.3s;">
+                    "Kriti Kitchen feels like a warm hug. You can taste the love in every dish, especially their Kolokithokeftedes. It's truly a place where you're treated like family."
+                    <cite>- Elena P., Regular Customer</cite>
+                </blockquote>
+                <div class="stats-grid">
+                    <div class="stat-card fade-in-up" style="--delay: 0.4s;">
+                        <div class="number">10+</div>
+                        <div class="label">Years Serving</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--delay: 0.5s;">
+                        <div class="number">200+</div>
+                        <div class="label">Dishes Served Daily</div>
+                    </div>
+                    <div class="stat-card fade-in-up" style="--delay: 0.6s;">
+                        <div class="number">50,000+</div>
+                        <div class="label">Happy Customers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="menu-section">
+        <div class="container text-center">
+            <h4 class="section-label fade-in-up" style="--delay: 0s;">Our Delicious Offerings</h4>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Taste the Authentic Flavors of Greece</h2>
+            <div class="menu-grid">
+                <div class="menu-card fade-in-up" style="--delay: 0.2s;">
+                    <h3>Deluxe Mezze Board</h3>
+                    <span class="price">$28</span>
+                    <p>A generous assortment of our finest dips, olives, cheeses, and fresh bread, perfect for sharing.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.3s;">
+                    <h3>Beef Meatball Mezedes</h3>
+                    <span class="price">$12</span>
+                    <p>Tender, seasoned beef meatballs simmered in a rich tomato sauce, a classic Greek comfort food.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.4s;">
+                    <h3>Kolokithokeftedes</h3>
+                    <span class="price">$11</span>
+                    <p>Crispy zucchini fritters seasoned with fresh herbs, a delightful vegetarian starter with tzatziki.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.5s;">
+                    <h3>House Salad with Herb Dressing</h3>
+                    <span class="price">$15</span>
+                    <p>Fresh greens, tomatoes, cucumbers, and feta, tossed in our signature house-made herb vinaigrette.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.6s;">
+                    <h3>Gyro Wrap</h3>
+                    <span class="price">$17</span>
+                    <p>Succulent shaved meat, parsley pine nut sauce, crisp lettuce & ripe tomatoes wrapped in warm pita.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.7s;">
+                    <h3>Moussaka Entrée</h3>
+                    <span class="price">$20</span>
+                    <p>Layers of seasoned ground beef, eggplant, and béchamel sauce, baked to golden perfection.</p>
+                </div>
+                <div class="menu-card fade-in-up" style="--delay: 0.8s;">
+                    <h3>Greek Omelette Brunch</h3>
+                    <span class="price">$11</span>
+                    <p>Fluffy eggs with feta, spinach, and tomatoes, served with a side of crispy potatoes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="why-choose-us-section">
+        <div class="container text-center">
+            <h4 class="section-label fade-in-up" style="--delay: 0s;">Our Promise to You</h4>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Experience the Kriti Kitchen Difference</h2>
+            <div class="why-grid">
+                <div class="why-card fade-in-up" style="--delay: 0.2s;">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <h3>Family & Woman Owned</h3>
+                    <p>We are a proud family-run, woman-owned business, pouring our heart and soul into every dish and every guest experience.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.3s;">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Local, Seasonal Ingredients</h3>
+                    <p>Our commitment to fresh, vibrant flavors means we thoughtfully source local and seasonal ingredients for superior taste.</p>
+                </div>
+                <div class="why-card fade-in-up" style="--delay: 0.4s;">
+                    <i class="fas fa-home"></i>
+                    <h3>Convenient Heat & Eat Meals</h3>
+                    <p>Enjoy Kriti Kitchen at home with our daily selection of heat & eat meals, perfect for busy families, available for pickup or delivery.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section class="testimonials-section">
+        <div class="container text-center">
+            <h4 class="section-label fade-in-up" style="--delay: 0s;">What Our Guests Say</h4>
+            <h2 class="fade-in-up" style="--delay: 0.1s;">Voices from Our Happy Customers</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card fade-in-up" style="--delay: 0.2s;">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"The Deluxe Mezze Board is a masterpiece! Every bite transported me straight to Greece. Kriti Kitchen never disappoints with its fresh ingredients and incredible flavors."</p>
+                    <span class="author">- Sarah L. <span>Houston, NC</span></span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.3s;">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>"I can't get enough of their Beef Meatball Mezedes. So tender and flavorful! It's my go-to dish every time. The atmosphere is cozy and welcoming too."</p>
+                    <span class="author">- Mark T. <span>West University</span></span>
+                </div>
+                <div class="testimonial-card fade-in-up" style="--delay: 0.4s;">
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p>"We tried the Gyro Wrap for lunch, and it was absolutely delicious. The parsley pine nut sauce is a game-changer! Kriti Kitchen is a true gem in Houston."</p>
+                    <span class="author">- Jessica M. <span>Local Foodie</span></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="location-hours-section">
+        <div class="container">
+            <h4 class="section-label text-center fade-in-up" style="--delay: 0s;">Visit Us Soon</h4>
+            <h2 class="text-center fade-in-up" style="--delay: 0.1s;">Your Table Awaits at Kriti Kitchen</h2>
+            <div class="location-hours-content">
+                <div class="location-info card fade-in-up" style="--delay: 0.2s;">
+                    <h3>Find Our Kitchen</h3>
+                    <p class="address">123 Main Street<br>West University<br>Houston, NC 27012</p>
+                    <p><a href="https://maps.google.com/?q=123+Main+Street,+Houston,+NC" target="_blank" class="button secondary" style="border-color: var(--brand-color); color: var(--brand-color);">Get Directions</a></p>
+                    <a href="tel:+1234567890" class="phone-number">(123) 456-7890</a>
+                </div>
+                <div class="hours-info card fade-in-up" style="--delay: 0.3s;">
+                    <h3>Our Hours</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday - Sunday</td>
+                                <td class="call-for-hours">Call for Hours</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="call-for-hours">Please call us directly for our most up-to-date operating hours. We look forward to hearing from you!</p>
+                </div>
+            </div>
+            <div class="call-to-order-btn fade-in-up" style="--delay: 0.4s;">
+                <a href="tel:+1234567890" class="button primary">Call to Order Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="fade-in-up" style="--delay: 0s;">Ready for a Taste of Authentic Greece?</h2>
+            <a href="#hero" class="button fade-in-up" style="--delay: 0.1s;">Reserve Your Table or Order Now!</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="logo">
+                <img src="https://images.getbento.com/accounts/40ac9a00655c37cd2a801dcac669d3d3/media/images/91448Kriti-logo-white.png" alt="Kriti Kitchen Logo">
+            </div>
+            <p class="tagline">Homestyle Greek cafe serving brunch, lunch & dinner in the heart of West University.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Kriti Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up effect
+        const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+        const observerOptions = {
+            root: null, // viewport
+            rootMargin: '0px',
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Stop observing once visible
+                }
+            });
+        }, observerOptions);
+
+        fadeInElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
