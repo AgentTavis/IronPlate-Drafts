@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>622 Eatery - Your Local Bar & Grill in Moriah, NC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-main: #1a1510;
+            --brand-color: #8B5E3C;
+            --brand-color-rgb: 139, 94, 60; /* For rgba usage */
+            --accent-color: #D4A04A;
+            --accent-color-rgb: 212, 160, 74; /* For rgba usage */
+            --text-heading: #ffffff;
+            --text-body: #cccccc;
+            --text-secondary: #888888;
+            --card-bg: rgba(255,255,255,0.03);
+            --card-border: rgba(255,255,255,0.08);
+
+            --header-height: 60px;
+            --section-padding-y: 80px; /* Base for section padding */
+        }
+
+        /* Base Styles & Resets */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            color: var(--text-body);
+            background-color: var(--bg-main);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-heading);
+            line-height: 1.2;
+            margin-bottom: 0.5em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: var(--section-padding-y) 0;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            border: 2px solid var(--brand-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--brand-color-rgb), 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-color);
+            color: var(--text-heading);
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(var(--accent-color-rgb), 0.2);
+        }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background-color: rgba(26, 21, 16, 0.95); /* Semi-transparent dark background */
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .sticky-header.scrolled {
+            transform: translateY(0);
+        }
+
+        .header-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a {
+            color: var(--text-body);
+            font-weight: 600;
+            margin-left: 35px;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .header-call-btn {
+            background-color: var(--brand-color);
+            color: var(--text-heading);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-call-btn:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+        .header-call-btn svg {
+            margin-right: 8px;
+            height: 1em; /* Adjust icon size relative to font size */
+            width: 1em;
+            fill: currentColor; /* Make icon color match text color */
+        }
+
+
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: linear-gradient(135deg, 
+                var(--bg-main) 0%, 
+                rgba(var(--brand-color-rgb), 0.08) 35%, 
+                rgba(var(--accent-color-rgb), 0.08) 65%, 
+                var(--bg-main) 100%
+            );
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            padding-top: var(--header-height); /* Offset for fixed header */
+        }
+
+        .hero-location {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .hero-name {
+            font-size: 5.5rem; /* Massive, bold */
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--text-heading), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-tagline {
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--text-body);
+            max-width: 800px;
+            margin-bottom: 40px;
+        }
+        
+        .hero-cta-group {
+            display: flex;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        /* Social Proof Strip */
+        .social-proof-strip {
+            background-color: rgba(var(--brand-color-rgb), 0.05);
+            padding: 40px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+            border-top: 1px solid rgba(var(--card-border));
+            border-bottom: 1px solid rgba(var(--card-border));
+        }
+
+        .social-proof-item {
+            flex: 1;
+            padding: 0 15px;
+        }
+
+        .social-proof-item h3 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .social-proof-item p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+        
+        /* General Section Styling */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        /* Our Story Section */
+        .our-story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+            font-size: 1.15rem;
+            color: var(--text-body);
+        }
+        .story-text p:last-child {
+            margin-bottom: 0;
+        }
+
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
+            margin-top: 40px; /* Space from story text */
+        }
+        .testimonial-card::before {
+            content: "“";
+            font-family: serif;
+            font-size: 4rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            opacity: 0.6;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-left: 20px;
+            color: var(--text-body);
+        }
+
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 1rem;
+            text-align: right;
+            padding-right: 10px;
+        }
+        .testimonial-card footer span {
+            color: var(--brand-color);
+        }
+
+        /* Menu Section (Placeholder due to no data) */
+        .menu-placeholder {
+            text-align: center;
+            padding: 80px 0;
+            background-color: rgba(var(--brand-color-rgb), 0.03);
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .menu-placeholder h3 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+        .menu-placeholder p {
+            font-size: 1.2rem;
+            color: var(--text-body);
+            margin-bottom: 30px;
+        }
+        .menu-placeholder .btn {
+            font-size: 1.1rem;
+        }
+
+
+        /* Why Choose Us Section */
+        .why-choose-us-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .choose-us-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .choose-us-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--brand-color), var(--accent-color));
+        }
+
+        .choose-us-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+        }
+
+        .choose-us-card h3 {
+            font-size: 1.8rem;
+            color: var(--brand-color);
+            margin-bottom: 15px;
+            letter-spacing: 0.03em;
+        }
+
+        .choose-us-card p {
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-item {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--brand-color); /* Accent border */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            color: var(--text-body);
+        }
+
+        .testimonial-item footer {
+            font-weight: 600;
+            color: var(--text-heading);
+            font-size: 0.95rem;
+        }
+        .testimonial-item footer span {
+            color: var(--brand-color);
+        }
+
+        /* Location & Hours Section */
+        .location-hours-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .location-info h3, .hours-info h3 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .location-info p {
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+        }
+
+        .location-info .phone-number {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            margin-top: 20px;
+            display: block;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+        .location-info .phone-number:hover {
+            color: var(--accent-color);
+        }
+
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .hours-table th, .hours-table td {
+            text-align: left;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--card-border);
+            font-size: 1.1rem;
+        }
+        .hours-table th {
+            color: var(--text-heading);
+            font-weight: 700;
+            background-color: rgba(var(--brand-color-rgb), 0.1);
+        }
+        .hours-table td {
+            color: var(--text-body);
+        }
+        .hours-table tr:last-child td {
+            border-bottom: none;
+        }
+        .hours-table tr.highlight td {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+        .hours-table .call-for-hours-note {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* Final CTA Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, 
+                var(--brand-color) 0%, 
+                rgba(var(--brand-color-rgb), 0.8) 50%, 
+                rgba(var(--accent-color-rgb), 0.8) 100%
+            );
+            padding: 100px 20px;
+            text-align: center;
+            color: var(--text-heading);
+        }
+
+        .final-cta-section h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            line-height: 1.2;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.3);
+        }
+
+        .final-cta-section .btn {
+            background-color: var(--bg-main);
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+        }
+
+        .final-cta-section .btn:hover {
+            background-color: var(--text-heading);
+            color: var(--brand-color);
+            border-color: var(--text-heading);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #0d0b09; /* Slightly darker than main background */
+            padding: 60px 0;
+            text-align: center;
+            border-top: 1px solid rgba(var(--card-border));
+        }
+
+        .footer-logo {
+            font-family: 'Oswald', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            margin-bottom: 30px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 15px;
+            color: var(--text-secondary);
+            font-size: 1.6rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+        }
+        
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none; /* Hide nav for smaller screens, implement a hamburger menu if necessary */
+            }
+            .sticky-header {
+                justify-content: center;
+                padding: 0 20px;
+            }
+            .header-call-btn {
+                position: absolute;
+                right: 20px;
+            }
+            .header-logo {
+                font-size: 1.5rem;
+            }
+
+            .hero-name {
+                font-size: 3.5rem;
+            }
+            .hero-tagline {
+                font-size: 1.2rem;
+            }
+            .hero-cta-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+            }
+
+            .social-proof-strip {
+                flex-direction: column;
+                padding: 30px 0;
+            }
+            .social-proof-item {
+                margin-bottom: 20px;
+            }
+            .social-proof-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .our-story-content {
+                grid-template-columns: 1fr;
+            }
+            .story-image {
+                order: -1; /* Image first on mobile */
+                margin-bottom: 40px;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .why-choose-us-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-hours-grid {
+                grid-template-columns: 1fr;
+            }
+            .location-info, .hours-info {
+                text-align: center;
+            }
+            .location-info .phone-number {
+                text-align: center;
+            }
+            
+            .final-cta-section h2 {
+                font-size: 2.5rem;
+            }
+        }
+        @media (max-width: 768px) {
+            :root {
+                --section-padding-y: 60px;
+            }
+            .sticky-header {
+                height: 50px;
+            }
+            .hero-name {
+                font-size: 2.8rem;
+            }
+            .hero-tagline {
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+            .header-call-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Fade-in-up animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 1. STICKY HEADER -->
+    <header class="sticky-header">
+        <a href="#hero" class="header-logo">622 Eatery</a>
+        <nav class="nav-links">
+            <a href="#our-story">Our Story</a>
+            <a href="#menu">Menu</a>
+            <a href="#why-choose-us">Why Choose Us</a>
+            <a href="#find-us">Find Us</a>
+        </nav>
+        <a href="tel:(203) 743-6541" class="header-call-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1v3.5c0 .55-.45 1-1 1C12.75 21 3 11.25 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.24.2 2.45.57 3.57.11.35.03.75-.24 1.02l-2.2 2.2z"/></svg>
+            CALL (203) 743-6541
+        </a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero-section">
+        <p class="hero-location fade-in-up">Moriah, NC</p>
+        <h1 class="hero-name fade-in-up">622 Eatery</h1>
+        <p class="hero-tagline fade-in-up">622 Eatery, Moriah. · this · . Wednesday-Sunday 1130/730pm 622 Eatery is a family owned and operated restaurant....</p>
+        <div class="hero-cta-group fade-in-up">
+            <a href="#menu" class="btn btn-primary">View Menu</a>
+            <a href="#find-us" class="btn btn-secondary">Find Us</a>
+        </div>
+    </section>
+
+    <!-- 3. SOCIAL PROOF STRIP -->
+    <section class="social-proof-strip section-padding">
+        <div class="container">
+            <div class="social-proof-item fade-in-up">
+                <h3>Highly Rated</h3>
+                <p>Community Choice</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.1s;">
+                <h3>Loyal Customers</h3>
+                <p>Family & Friends</p>
+            </div>
+            <div class="social-proof-item fade-in-up" style="transition-delay: 0.2s;">
+                <h3>Local Favorite</h3>
+                <p>Since Day One</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. OUR STORY SECTION -->
+    <section id="our-story" class="section-padding">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Heritage</span>
+                <h2>Taste the Tradition, Feel the Family</h2>
+            </div>
+            <div class="our-story-content">
+                <div class="story-text fade-in-up">
+                    <p>622 Eatery is more than just a place to eat; it's a beloved local spot in Moriah, NC, where every meal tells a story. We believe in good food, great company, and the kind of warm hospitality that makes you feel right at home.</p>
+                    <p>As a family-owned and operated restaurant, we pour our heart into every dish, ensuring a dining experience that's both comforting and memorable. From our kitchen to your table, we strive to create moments that bring people together, one delicious bite at a time.</p>
+                    <p>Come join our family at 622 Eatery. We're proud to be a cornerstone of the Moriah community, serving up smiles and satisfying appetites. It's where friends gather and new memories are made, Wednesday through Sunday.</p>
+                </div>
+                <div class="story-image fade-in-up">
+                    <div class="testimonial-card">
+                        <p>“622 Eatery is truly a gem in Moriah! The family atmosphere is palpable, and every visit feels like coming home. The dedication to quality is clear in everything they do. A must-visit for anyone looking for a genuine local experience.”</p>
+                        <footer>— <span>A Satisfied Local</span></footer>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. MENU SECTION -->
+    <section id="menu" class="section-padding">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Offerings</span>
+                <h2>Explore Our Delicious Selection</h2>
+            </div>
+            <div class="menu-placeholder fade-in-up">
+                <h3>Our Menu is Under Construction!</h3>
+                <p>We're constantly perfecting our dishes to bring you the best bar and grill experience in Moriah. For our current daily specials and full menu availability, please give us a call.</p>
+                <a href="tel:(203) 743-6541" class="btn btn-primary">Call for Daily Specials</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. WHY CHOOSE US SECTION -->
+    <section id="why-choose-us" class="section-padding" style="background-color: rgba(var(--brand-color-rgb), 0.03);">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Our Promise</span>
+                <h2>Why Moriah Chooses 622 Eatery</h2>
+            </div>
+            <div class="why-choose-us-grid">
+                <div class="choose-us-card fade-in-up">
+                    <h3>Genuine Hospitality</h3>
+                    <p>Experience the warmth of a true family-owned establishment, where every guest is treated like a part of our extended family. Our friendly team is here to make your visit special.</p>
+                </div>
+                <div class="choose-us-card fade-in-up" style="transition-delay: 0.1s;">
+                    <h3>Comfort Food Classics</h3>
+                    <p>We pride ourselves on serving up satisfying bar and grill favorites, crafted with care and a focus on comforting, delicious flavors that keep you coming back for more.</p>
+                </div>
+                <div class="choose-us-card fade-in-up" style="transition-delay: 0.2s;">
+                    <h3>Community Hub</h3>
+                    <p>More than just food, we're a gathering place for friends, families, and neighbors. Join us for good times, great company, and a lively atmosphere that reflects the heart of Moriah.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. TESTIMONIALS SECTION -->
+    <section id="testimonials" class="section-padding">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Hear From Our Guests</span>
+                <h2>What Our Moriah Family Says</h2>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-item fade-in-up">
+                    <p>"Every time I visit 622 Eatery, I'm impressed by the welcoming vibe. It's the perfect spot for a casual dinner with friends, and the service is always top-notch. Truly a cornerstone of our community!"</p>
+                    <footer>— Alex P. <span>(Local Resident)</span></footer>
+                </div>
+                <div class="testimonial-item fade-in-up" style="transition-delay: 0.1s;">
+                    <p>"You can tell this place is family-owned. The care and attention to detail make such a difference. I love bringing my kids here; it's always a pleasant and delicious experience for everyone."</p>
+                    <footer>— Sarah J. <span>(Happy Parent)</span></footer>
+                </div>
+                <div class="testimonial-item fade-in-up" style="transition-delay: 0.2s;">
+                    <p>"Finding a reliable, friendly spot like 622 Eatery in Moriah has been a blessing. The atmosphere is just right, and they truly make you feel like part of the family. Highly recommend for any occasion!"</p>
+                    <footer>— Michael K. <span>(Regular Patron)</span></footer>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. LOCATION & HOURS SECTION -->
+    <section id="find-us" class="section-padding">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <span class="section-label">Visit Us</span>
+                <h2>Your Table Awaits in Moriah</h2>
+            </div>
+            <div class="location-hours-grid">
+                <div class="location-info fade-in-up">
+                    <h3>Find Our Spot</h3>
+                    <p>622 Eatery is conveniently located in the heart of Moriah, NC. We're easy to find and always ready to welcome you with open arms and delicious food.</p>
+                    <p><strong>Address:</strong> Moriah, NC</p>
+                    <a href="tel:(203) 743-6541" class="phone-number">(203) 743-6541</a>
+                    <a href="https://maps.google.com/?q=622+Eatery+Moriah+NC" target="_blank" class="btn btn-primary">Get Directions</a>
+                </div>
+                <div class="hours-info fade-in-up">
+                    <h3>Our Welcoming Hours</h3>
+                    <p>We're open most days to serve you. Come join us for lunch and dinner, Wednesday through Sunday!</p>
+                    <table class="hours-table">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>Service Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="highlight">
+                                <td>Wednesday - Sunday</td>
+                                <td>11:30 AM - 7:30 PM</td>
+                            </tr>
+                            <tr>
+                                <td>Monday - Tuesday</td>
+                                <td>Closed (Call for Private Events)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="call-for-hours-note">Always best to call ahead for current hours and holiday schedules!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="tel:(203) 743-6541" class="btn btn-primary" style="margin-top: 30px;">CALL TO ORDER</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. FINAL CTA SECTION -->
+    <section class="final-cta-section">
+        <div class="container">
+            <h2 class="fade-in-up">Ready for a Taste of Moriah's Best?</h2>
+            <p class="fade-in-up" style="max-width: 700px; margin: 0 auto 40px; font-size: 1.2rem;">Don't miss out on the incredible flavors and warm atmosphere at 622 Eatery. Plan your visit or give us a call today!</p>
+            <a href="tel:(203) 743-6541" class="btn fade-in-up">DINE IN OR CALL AHEAD</a>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <a href="#hero" class="footer-logo">622 Eatery</a>
+            <p class="footer-tagline">622 Eatery, Moriah. · this · . Wednesday-Sunday 1130/730pm 622 Eatery is a family owned and operated restaurant....</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.908c0-.817.092-1.592 1.588-1.592h2.412v-5h-3.974c-3.668 0-4.026 2.057-4.026 4.093v2.907z"/></svg></a>
+                <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.204-.012 3.584-.07 4.85-0.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.85-.07-3.252-0.148-4.771-1.691-4.919-4.919-0.058-1.265-0.069-1.645-0.069-4.849 0-3.204.012-3.584.07-4.85 0.148-3.227 1.663-4.771 4.919-4.919 1.266-0.057 1.645-0.069 4.85-0.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-0.059 1.281-0.073 1.689-0.073 4.948 0 3.259.014 3.668.072 4.948 0.2 4.358 2.618 6.78 6.98 6.98 1.281 0.058 1.689 0.072 4.948 0.072 3.259 0 3.668-0.014 4.948-0.072 4.354-0.2 6.782-2.618 6.979-6.98 0.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-0.196-4.354-2.617-6.78-6.979-6.98-1.281-0.059-1.69-0.073-4.949-0.073zM12 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.792-1.574 2.163-2.723-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.071 1.623-4.662 2.59-7.03 2.59-4.591 0-7.02-.444-7.02-.444 2.985 1.769 6.598 2.83 10.45 2.83 12.669 0 18.559-10.537 18.559-19.636 0-.314-.015-.62-.04-.92.85-.615 1.588-1.385 2.163-2.269z"/></svg></a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 622 Eatery. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in-up animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeInElements = document.querySelectorAll('.fade-in-up');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Adjust as needed
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
