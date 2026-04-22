@@ -40,7 +40,7 @@
   }
 
   // ---------- Reveal animations ----------
-  const revealTargets = document.querySelectorAll('.reveal, [data-stagger], [data-hero-reveal]');
+  const revealTargets = document.querySelectorAll('.reveal, [data-stagger], [data-hero-reveal], [data-hero-stats]');
   if ('IntersectionObserver' in window && revealTargets.length) {
     const io = new IntersectionObserver(
       (entries) => {
