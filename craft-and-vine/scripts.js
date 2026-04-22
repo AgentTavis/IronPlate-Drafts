@@ -11,17 +11,32 @@
     progressBar.style.width = (scrolled * 100) + '%';
   };
 
-  // ---------- Nav scroll state + back-to-top ----------
+  // ---------- Nav scroll state + back-to-top + hero parallax ----------
   const nav = document.querySelector('.nav');
   const toTop = document.querySelector('.to-top');
+  const heroBg = document.querySelector('.hero-bg');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   const onScroll = () => {
     const y = window.scrollY;
     if (nav) nav.classList.toggle('scrolled', y > 12);
     if (toTop) toTop.classList.toggle('show', y > 480);
+    if (heroBg && !prefersReducedMotion && y < window.innerHeight) {
+      heroBg.style.transform = `translate3d(0, ${y * 0.35}px, 0)`;
+    }
     updateProgress();
   };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  // ---------- Hero intro fade-up (stagger) ----------
+  const heroInner = document.querySelector('.hero-inner');
+  if (heroInner) {
+    requestAnimationFrame(() => {
+      // double-RAF so initial styles commit before the class triggers transition
+      requestAnimationFrame(() => heroInner.classList.add('in'));
+    });
+  }
 
   if (toTop) {
     toTop.addEventListener('click', () => {
