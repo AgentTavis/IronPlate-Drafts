@@ -40,7 +40,7 @@
   }
 
   // ---------- Reveal animations ----------
-  const revealTargets = document.querySelectorAll('.reveal, [data-stagger]');
+  const revealTargets = document.querySelectorAll('.reveal, [data-stagger], [data-hero-reveal]');
   if ('IntersectionObserver' in window && revealTargets.length) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -56,6 +56,29 @@
     revealTargets.forEach((el) => io.observe(el));
   } else {
     revealTargets.forEach((el) => el.classList.add('is-visible'));
+  }
+
+  // ---------- Hero parallax (image scrolls slower than foreground) ----------
+  const heroImg = document.querySelector('.hero__img');
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (heroImg && !prefersReducedMotion) {
+    let ticking = false;
+    const updateParallax = () => {
+      const y = window.scrollY;
+      // Cap parallax to hero section only — no work once scrolled past
+      if (y > window.innerHeight * 1.2) { ticking = false; return; }
+      // Move image down at 30% of scroll speed; image has ~12% headroom
+      const shift = Math.min(y * 0.3, window.innerHeight * 0.1);
+      heroImg.style.transform = 'translate3d(0,' + shift.toFixed(1) + 'px,0)';
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+    updateParallax();
   }
 
   // ---------- Stat counters ----------
