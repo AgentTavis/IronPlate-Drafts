@@ -32,10 +32,8 @@
   // ---------- Hero intro fade-up (stagger) ----------
   const heroInner = document.querySelector('.hero-inner');
   if (heroInner) {
-    requestAnimationFrame(() => {
-      // double-RAF so initial styles commit before the class triggers transition
-      requestAnimationFrame(() => heroInner.classList.add('in'));
-    });
+    // Use setTimeout (RAF can be throttled in background/preview contexts)
+    setTimeout(() => heroInner.classList.add('in'), 30);
   }
 
   if (toTop) {
@@ -146,17 +144,198 @@
     });
   });
 
-  // ---------- Contact form (no backend — friendly UX) ----------
+  // ---------- Contact form (no backend, friendly UX) ----------
   const form = document.querySelector('.js-contact-form');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const status = form.querySelector('.form-status');
       if (status) {
-        status.textContent = 'Thanks — we got your message. We\'ll get back within a day or two.';
+        status.textContent = 'Thanks, we got your message. We\'ll get back within a day or two.';
         status.style.color = 'var(--wine)';
       }
       form.reset();
     });
+  }
+
+  // =========================================================
+  // ENHANCED MOTION PASS — candlelit ambient animations
+  // Every effect respects prefers-reduced-motion
+  // =========================================================
+
+  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+  // ---------- Word-by-word hero headline reveal ----------
+  // Wraps each word in the hero h1 in a span with a staggered fade-up.
+  const heroHeadline = document.querySelector('.hero-headline');
+  if (heroHeadline && !prefersReducedMotion) {
+    const wrapWords = (node) => {
+      // Walk child nodes, replacing text with word-spans (preserves inline tags like <em>)
+      const children = Array.from(node.childNodes);
+      children.forEach(child => {
+        if (child.nodeType === 3) { // text
+          const frag = document.createDocumentFragment();
+          const parts = child.textContent.split(/(\s+)/);
+          parts.forEach(part => {
+            if (/^\s+$/.test(part)) {
+              frag.appendChild(document.createTextNode(part));
+            } else if (part.length) {
+              const span = document.createElement('span');
+              span.className = 'word';
+              span.textContent = part;
+              frag.appendChild(span);
+            }
+          });
+          node.replaceChild(frag, child);
+        } else if (child.nodeType === 1) { // element
+          // Preserve element but wrap its inner text words too
+          wrapWords(child);
+          child.classList.add('word-group');
+        }
+      });
+    };
+    wrapWords(heroHeadline);
+    const words = heroHeadline.querySelectorAll('.word');
+    words.forEach((w, i) => {
+      w.style.transitionDelay = (60 + i * 70) + 'ms';
+    });
+    // setTimeout is more reliable than RAF in background/preview contexts
+    setTimeout(() => heroHeadline.classList.add('words-in'), 30);
+  }
+
+  // ---------- Headline hairline draw-in on scroll ----------
+  // Any h2 inside .section--cream, .section--dark, .page-hero, .home-section
+  // gets a brass hairline under it that animates in when visible.
+  const headlineTargets = document.querySelectorAll(
+    '.home-section h2, .what-we-are h2, .drinks-preview h2, .live-music-wine h2, .visit-us h2, ' +
+    '.page-hero h1, .page-header h1, section h2.display-huge, section h2.display-serif, section h2.display-candle'
+  );
+  if ('IntersectionObserver' in window) {
+    const headlineIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('hairline-drawn');
+          headlineIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.35, rootMargin: '0px 0px -80px 0px' });
+    headlineTargets.forEach(h => {
+      h.classList.add('js-hairline');
+      headlineIo.observe(h);
+    });
+  }
+
+  // ---------- Cursor candlelight spotlight on dark sections ----------
+  // A soft amber radial follows the cursor on .section--dark / .live-music-wine.
+  // Desktop pointers only; respects reduced-motion.
+  const darkSections = document.querySelectorAll(
+    '.section--dark, .live-music-wine, body:not(.home) .page-hero, ' +
+    '.drinks-page .page-hero, .events-page .page-hero, .visit-page .page-hero'
+  );
+  if (darkSections.length && !prefersReducedMotion && !isCoarsePointer) {
+    darkSections.forEach(sec => {
+      sec.classList.add('candle-spotlight');
+      let raf = 0, tx = 0.5, ty = 0.5;
+      const move = (e) => {
+        const rect = sec.getBoundingClientRect();
+        tx = (e.clientX - rect.left) / rect.width;
+        ty = (e.clientY - rect.top) / rect.height;
+        if (!raf) raf = requestAnimationFrame(() => {
+          sec.style.setProperty('--spot-x', (tx * 100) + '%');
+          sec.style.setProperty('--spot-y', (ty * 100) + '%');
+          raf = 0;
+        });
+      };
+      const enter = () => sec.classList.add('spot-active');
+      const leave = () => sec.classList.remove('spot-active');
+      sec.addEventListener('mousemove', move);
+      sec.addEventListener('mouseenter', enter);
+      sec.addEventListener('mouseleave', leave);
+    });
+  }
+
+  // ---------- Magnetic primary CTA on hover ----------
+  // Button translates slightly toward cursor (max 4px each axis).
+  const magneticBtns = document.querySelectorAll(
+    '.hero-cta, .btn-elegant--primary, .btn-candle-primary, .btn.btn-primary'
+  );
+  if (magneticBtns.length && !prefersReducedMotion && !isCoarsePointer) {
+    magneticBtns.forEach(btn => {
+      let raf = 0;
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const dx = ((e.clientX - r.left) / r.width - 0.5) * 8;
+        const dy = ((e.clientY - r.top) / r.height - 0.5) * 6;
+        if (!raf) raf = requestAnimationFrame(() => {
+          btn.style.setProperty('--mag-x', dx.toFixed(2) + 'px');
+          btn.style.setProperty('--mag-y', dy.toFixed(2) + 'px');
+          raf = 0;
+        });
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.setProperty('--mag-x', '0px');
+        btn.style.setProperty('--mag-y', '0px');
+      });
+    });
+  }
+
+  // ---------- Image blur-up reveal ----------
+  // Applies to figures/images in hero, image-pair, poster, page-hero-visual, story images.
+  const blurables = document.querySelectorAll(
+    '.image-pair__main, .image-pair__inset, .poster, .page-hero-visual, ' +
+    '.story-img, .about-hero-img, .hero-bg, .image-brass'
+  );
+  if (blurables.length && 'IntersectionObserver' in window) {
+    const blurIo = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('img-in');
+          blurIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    blurables.forEach(el => {
+      el.classList.add('img-blur-up');
+      blurIo.observe(el);
+    });
+  }
+
+  // ---------- Subtle parallax on hero stamp + home story images ----------
+  const stamp = document.querySelector('.hero-stamp');
+  const parallaxImgs = document.querySelectorAll(
+    '.image-pair__main, .image-pair__inset, .poster img, .page-hero-visual img'
+  );
+  if (!prefersReducedMotion && (stamp || parallaxImgs.length)) {
+    let pxScheduled = false;
+    const updatePx = () => {
+      const y = window.scrollY;
+      if (stamp && y < window.innerHeight * 1.2) {
+        stamp.style.transform = `translate3d(0, ${y * -0.08}px, 0) rotate(-4deg)`;
+      }
+      parallaxImgs.forEach(img => {
+        const rect = img.getBoundingClientRect();
+        const vh = window.innerHeight;
+        if (rect.top > -rect.height && rect.top < vh) {
+          const progress = (rect.top + rect.height / 2 - vh / 2) / vh;
+          const shift = progress * -18;
+          img.style.transform = `translate3d(0, ${shift.toFixed(2)}px, 0)`;
+        }
+      });
+      pxScheduled = false;
+    };
+    // Use rAF when available, but fall back to a short setTimeout so it still fires
+    // in throttled/hidden contexts. Either way, we debounce to one call per frame.
+    const schedule = () => {
+      if (pxScheduled) return;
+      pxScheduled = true;
+      if (window.requestAnimationFrame) {
+        const rafId = requestAnimationFrame(updatePx);
+        setTimeout(() => { if (pxScheduled) { cancelAnimationFrame(rafId); updatePx(); } }, 120);
+      } else {
+        setTimeout(updatePx, 16);
+      }
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    updatePx();
   }
 })();
