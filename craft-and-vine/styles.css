@@ -511,17 +511,22 @@ section {
 .hero-cta .arrow { display: inline-block; transition: transform var(--t-med) var(--spring); }
 .hero-cta:hover .arrow { transform: translateX(6px); }
 
-/* Hero fade-up children */
-.hero-inner > * {
+/* Hero fade-up children (superseded by word-by-word reveal; keep non-headline children visible by default) */
+.hero-inner > .lead,
+.hero-inner > .hero-actions,
+.hero-inner > .hero-signoff,
+.hero-inner > .section-tag,
+.hero-inner > .eyebrow {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(14px);
+  transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1), transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
 }
-.hero-inner.in > *:nth-child(1) { transition-delay: 0.05s; }
-.hero-inner.in > *:nth-child(2) { transition-delay: 0.15s; }
-.hero-inner.in > *:nth-child(3) { transition-delay: 0.25s; }
-.hero-inner.in > *:nth-child(4) { transition-delay: 0.35s; }
-.hero-inner.in > * { opacity: 1; transform: translateY(0); }
+.hero-inner.in > .lead { opacity: 1; transform: translateY(0); transition-delay: 520ms; }
+.hero-inner.in > .hero-actions { opacity: 1; transform: translateY(0); transition-delay: 640ms; }
+.hero-inner.in > .hero-signoff { opacity: 1; transform: translateY(0); transition-delay: 760ms; }
+.hero-inner.in > .section-tag,
+.hero-inner.in > .eyebrow { opacity: 1; transform: translateY(0); transition-delay: 120ms; }
+.hero-headline { opacity: 1 !important; transform: none !important; }
 
 @media (max-width: 880px) {
   .hero { min-height: 80vh; padding-top: 6rem; padding-bottom: 3rem; }
@@ -4439,4 +4444,177 @@ body:not(.home) .page-hero .chip {
 @media (max-width: 720px) {
   .btn-candle-primary, .btn-candle-secondary, .btn-candle { padding: 14px 24px; font-size: 0.8rem; min-height: 48px; }
   .eyebrow-seal { width: 64px; height: 64px; }
+}
+
+/* ============================================================
+   ENHANCED MOTION PASS — candlelit ambient animations
+   ============================================================ */
+
+/* Word-by-word hero headline reveal */
+.hero-headline .word,
+.hero-headline .word-group {
+  display: inline-block;
+}
+.hero-headline .word {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(6px);
+  transition:
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+.hero-headline.words-in .word {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  filter: blur(0) !important;
+}
+
+/* Headline hairline draw-in under any major h2/h1 */
+.js-hairline {
+  position: relative;
+  padding-bottom: 0.35em;
+}
+.js-hairline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, var(--brass), transparent);
+  transition: width 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  max-width: 220px;
+  opacity: 0.7;
+}
+.section--cream .js-hairline::after,
+.visit-us .js-hairline::after,
+.drinks-preview .js-hairline::after,
+.bg-cream .js-hairline::after { background: linear-gradient(90deg, var(--brass), transparent); }
+.section--dark .js-hairline::after,
+.live-music-wine .js-hairline::after,
+.bg-dark .js-hairline::after,
+.what-we-are .js-hairline::after { background: linear-gradient(90deg, var(--candle), transparent); }
+.js-hairline.hairline-drawn::after { width: 220px; }
+.page-hero .js-hairline::after,
+.page-header .js-hairline::after { left: 50%; transform: translateX(-50%); }
+.page-hero .js-hairline.hairline-drawn::after,
+.page-header .js-hairline.hairline-drawn::after { width: 160px; }
+
+/* Candlelight cursor spotlight on dark sections */
+.candle-spotlight {
+  position: relative;
+}
+.candle-spotlight::before {
+  /* Custom glow that follows cursor — layered over the existing ::after paper-grain */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(232, 182, 101, 0.22),
+    rgba(232, 182, 101, 0.1) 30%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+.candle-spotlight.spot-active::before { opacity: 1; }
+.candle-spotlight > * { position: relative; z-index: 2; }
+
+/* Magnetic button translate (works with existing hover transforms) */
+.hero-cta,
+.btn-elegant--primary,
+.btn-candle-primary,
+.btn.btn-primary {
+  --mag-x: 0px;
+  --mag-y: 0px;
+  transform: translate3d(var(--mag-x), var(--mag-y), 0);
+  transition: transform 260ms cubic-bezier(0.34, 1.3, 0.64, 1),
+              background 280ms cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1),
+              color 200ms;
+}
+.hero-cta:hover,
+.btn-elegant--primary:hover,
+.btn-candle-primary:hover,
+.btn.btn-primary:hover {
+  transform: translate3d(var(--mag-x), calc(var(--mag-y) - 2px), 0) scale(1.015);
+}
+
+/* Image blur-up reveal (applied by JS when images enter viewport) */
+.img-blur-up {
+  opacity: 0;
+  transform: scale(1.015);
+  filter: blur(8px);
+  transition:
+    opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1200ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.img-blur-up.img-in {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+/* Hero background: shorter duration so it's visible when page loads */
+.hero-bg.img-blur-up {
+  transition-duration: 700ms;
+}
+
+/* Candle flicker on amber glow elements (very subtle ambient breathing) */
+@keyframes candleFlicker {
+  0%, 100% { opacity: 1; }
+  20% { opacity: 0.94; }
+  40% { opacity: 1; }
+  55% { opacity: 0.97; }
+  70% { opacity: 1; }
+  85% { opacity: 0.92; }
+}
+.home .hero-signoff .hairline,
+.eyebrow-seal,
+.section--dark .divider-emblem .emblem,
+.hero-stamp {
+  animation: candleFlicker 6s ease-in-out infinite;
+}
+
+/* Scroll progress bar upgrade — brass on dark */
+.scroll-progress {
+  background: linear-gradient(90deg, var(--brass), var(--candle));
+  height: 2px;
+  box-shadow: 0 0 10px rgba(232, 182, 101, 0.4);
+}
+
+/* Back-to-top refinement */
+.to-top {
+  background: var(--espresso);
+  color: var(--brass);
+  border: 1px solid var(--brass);
+}
+.to-top:hover {
+  background: var(--brass);
+  color: var(--espresso);
+}
+
+/* Reduced motion kill-switch */
+@media (prefers-reduced-motion: reduce) {
+  .hero-headline .word,
+  .img-blur-up {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .js-hairline.hairline-drawn::after { transition: none !important; }
+  .candle-spotlight::before { display: none !important; }
+  .home .hero-signoff .hairline,
+  .eyebrow-seal,
+  .section--dark .divider-emblem .emblem,
+  .hero-stamp,
+  .nav-cta,
+  .nav-cta::after { animation: none !important; }
 }
