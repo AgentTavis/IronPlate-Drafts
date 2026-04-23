@@ -165,9 +165,10 @@
 
   const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
-  // ---------- Word-by-word hero headline reveal ----------
-  // Wraps each word in the hero h1 in a span with a staggered fade-up.
-  const heroHeadline = document.querySelector('.hero-headline');
+  // ---------- Word-by-word h1 reveal (hero + all page banners) ----------
+  // Wraps each word in the main h1 in a span with a staggered fade-up.
+  const primaryH1 = document.querySelector('.hero-headline, .page-banner h1');
+  const heroHeadline = primaryH1;
   if (heroHeadline && !prefersReducedMotion) {
     const wrapWords = (node) => {
       // Walk child nodes, replacing text with word-spans (preserves inline tags like <em>)
@@ -197,7 +198,12 @@
     wrapWords(heroHeadline);
     const words = heroHeadline.querySelectorAll('.word');
     words.forEach((w, i) => {
-      w.style.transitionDelay = (60 + i * 70) + 'ms';
+      w.style.transitionDelay = (80 + i * 110) + 'ms';
+      // Italic script word gets extra beat of delay + a touch of scale-in
+      if (w.closest('.script-em, em, .script')) {
+        w.classList.add('word--script');
+        w.style.transitionDelay = (80 + i * 110 + 220) + 'ms';
+      }
     });
     // setTimeout is more reliable than RAF in background/preview contexts
     setTimeout(() => heroHeadline.classList.add('words-in'), 30);
@@ -298,6 +304,85 @@
       el.classList.add('img-blur-up');
       blurIo.observe(el);
     });
+  }
+
+  // ---------- Auto-count numeric stats (banner-stats, hero-stats-line) ----------
+  // Finds leading numeric patterns in stat spans and transforms them
+  // into animated counters without modifying source HTML.
+  const autoCountContainers = document.querySelectorAll('.banner-stats, .hero-stats-line, .review-footer');
+  autoCountContainers.forEach(container => {
+    const spans = container.querySelectorAll(':scope > span, :scope .stars');
+    spans.forEach(span => {
+      if (span.classList.contains('dot')) return;
+      if (span.querySelector('[data-count]')) return;
+      const text = span.textContent.trim();
+      // Match leading number (int or decimal) + optional + sign, optionally followed by space and rest
+      const m = text.match(/^(\d+(?:\.\d+)?)([+]?)(\s*[★]?)(\s*.*)$/);
+      if (!m) return;
+      const numStr = m[1];
+      const plus = m[2] || '';
+      const starPart = m[3] || '';
+      const rest = m[4] || '';
+      const numeric = parseFloat(numStr);
+      if (isNaN(numeric) || numeric < 2) return;
+      const decimals = numStr.includes('.') ? numStr.split('.')[1].length : 0;
+      const suffix = (plus + starPart).trim();
+      const numSpan = document.createElement('span');
+      numSpan.className = 'count-num';
+      numSpan.setAttribute('data-count', numStr);
+      numSpan.setAttribute('data-decimals', decimals);
+      if (suffix) numSpan.setAttribute('data-suffix', suffix.startsWith('+') ? '+' : (suffix || ''));
+      numSpan.textContent = '0' + (decimals ? '.' + '0'.repeat(decimals) : '') + (suffix.startsWith('+') ? '+' : '');
+      span.innerHTML = '';
+      span.appendChild(numSpan);
+      if (starPart.includes('★')) {
+        const starSpan = document.createElement('span');
+        starSpan.textContent = ' ★';
+        starSpan.className = 'count-star';
+        span.appendChild(starSpan);
+      }
+      if (rest.trim()) {
+        span.appendChild(document.createTextNode(' ' + rest.trim()));
+      }
+    });
+  });
+  // Re-observe any newly-created [data-count] elements
+  if ('IntersectionObserver' in window) {
+    const newCounters = document.querySelectorAll('.count-num[data-count]');
+    if (newCounters.length) {
+      const reIo = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          const target = parseFloat(el.getAttribute('data-count'));
+          const suffix = el.getAttribute('data-suffix') || '';
+          const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+          const duration = 1500;
+          const start = performance.now();
+          const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const v = target * eased;
+            el.textContent = v.toFixed(decimals) + suffix;
+            if (t < 1) requestAnimationFrame(tick);
+            else el.textContent = target.toFixed(decimals) + suffix;
+          };
+          requestAnimationFrame(tick);
+          reIo.unobserve(el);
+        });
+      }, { threshold: 0.4 });
+      newCounters.forEach(c => reIo.observe(c));
+    }
+  }
+
+  // ---------- Page-load cream overlay fade ----------
+  if (!prefersReducedMotion) {
+    const overlay = document.createElement('div');
+    overlay.className = 'page-load-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.classList.add('is-hidden'), 40);
+    setTimeout(() => overlay.remove(), 900);
   }
 
   // ---------- Subtle parallax on hero stamp + home story images ----------
