@@ -6498,6 +6498,432 @@ body.visit-page .page-banner-image--secondary figcaption {
   z-index: 3;
 }
 
+/* ============================================================
+   PROMPT 11 — FULL SITE VISUAL POLISH
+   Cinematic motion, layered depth, typography drama,
+   micro-interactions. CSS + JS only. All motion guarded
+   by prefers-reduced-motion.
+   ============================================================ */
+
+/* ---------- 1. CINEMATIC HERO: Ken Burns + drifting glow ---------- */
+@keyframes kenBurns {
+  0%   { transform: scale(1) translate3d(0, 0, 0); }
+  50%  { transform: scale(1.035) translate3d(-0.8%, -0.5%, 0); }
+  100% { transform: scale(1.025) translate3d(0.8%, 0.5%, 0); }
+}
+.hero-bg img { animation: kenBurns 26s ease-in-out infinite alternate; }
+
+@keyframes heroGlowDrift {
+  0%   { transform: translate3d(-4%, -2%, 0); opacity: 0.55; }
+  50%  { transform: translate3d(4%, 2%, 0); opacity: 0.75; }
+  100% { transform: translate3d(-4%, -2%, 0); opacity: 0.55; }
+}
+.home .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(60% 50% at 15% 85%, rgba(232, 182, 101, 0.28), transparent 60%),
+    radial-gradient(50% 60% at 85% 15%, rgba(107, 31, 42, 0.2), transparent 60%);
+  animation: heroGlowDrift 30s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* ---------- 2. STAGED HERO REVEAL (hero + page banners) ---------- */
+body.home .hero-inner,
+body.home .page-banner .section-head {
+  --reveal-initial-delay: 80ms;
+}
+body.home .page-banner .section-head > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1), transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+body.home .page-banner .section-head.reveal.in > *:nth-child(1) { transition-delay: 100ms; }
+body.home .page-banner .section-head.reveal.in > *:nth-child(2) { transition-delay: 260ms; }
+body.home .page-banner .section-head.reveal.in > *:nth-child(3) { transition-delay: 420ms; }
+body.home .page-banner .section-head.reveal.in > * { opacity: 1; transform: translateY(0); }
+
+body.home .banner-stats {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1) 620ms, transform 900ms cubic-bezier(0.22, 1, 0.36, 1) 620ms;
+}
+body.home .banner-stats.reveal.in,
+body.home .banner-stats.in { opacity: 1; transform: translateY(0); }
+
+/* Word reveal script-em extra flourish */
+.hero-headline .word--script,
+.page-banner h1 .word--script {
+  transform: translateY(22px) scale(0.96);
+  transition: opacity 1000ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1000ms cubic-bezier(0.34, 1.3, 0.64, 1),
+              filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.words-in .word--script { transform: translateY(0) scale(1); }
+
+/* Extend word reveal styles to .page-banner h1 (beyond .hero-headline) */
+.page-banner h1 .word,
+.page-banner h1 .word-group { display: inline-block; }
+.page-banner h1 .word {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(6px);
+  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+              transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+              filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform, filter;
+}
+.page-banner h1.words-in .word {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  filter: blur(0) !important;
+}
+
+/* ---------- 3. STAT COUNTERS (star fill + brass tone) ---------- */
+.count-num {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+.count-star {
+  display: inline-block;
+  margin-left: 2px;
+}
+
+/* ---------- 4. LAYERED DEPTH: brass shadow block behind images ---------- */
+/* Home image-pair already has its own shadow — add a brass offset block for page hero images */
+body.home .page-banner-image,
+body.home .page-banner-image--primary {
+  position: relative;
+}
+body.home .page-banner-image::before,
+body.home .page-banner-image--primary::before {
+  content: "";
+  position: absolute;
+  inset: 12px -12px -12px 12px;
+  background: var(--brass);
+  z-index: -1;
+  opacity: 0.28;
+  transition: inset 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms;
+}
+body.home .page-banner-image:hover::before,
+body.home .page-banner-image--primary:hover::before {
+  inset: 16px -16px -16px 16px;
+  opacity: 0.45;
+}
+
+/* Drink panel hero gets a colored shadow offset */
+.drink-panel__hero {
+  position: relative;
+}
+.drink-panel__hero::before {
+  content: "";
+  position: absolute;
+  inset: 10px -10px -10px 10px;
+  background: var(--burgundy-primary);
+  z-index: -1;
+  opacity: 0.18;
+  transition: inset 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms;
+}
+.drink-panel__hero:hover::before { inset: 14px -14px -14px 14px; opacity: 0.28; }
+
+/* Events live-music-feature hero colored shadow */
+.whats-on-hero {
+  position: relative;
+}
+.whats-on-hero::before {
+  content: "";
+  position: absolute;
+  inset: 12px -12px -12px 12px;
+  background: var(--candle);
+  z-index: -1;
+  opacity: 0.2;
+}
+
+/* ---------- 5. CARD ASYMMETRY: middle card offset ---------- */
+.home .bars-grid .bar-card {
+  transform: rotate(var(--rot, 0deg)) translateY(var(--offset-y, 0px));
+}
+@media (min-width: 960px) {
+  .home .bars-grid .bar-card:nth-child(2) { --offset-y: 28px; }
+  .home .bars-grid .bar-card:nth-child(1) { --offset-y: 0px; }
+  .home .bars-grid .bar-card:nth-child(3) { --offset-y: -10px; }
+}
+.home .bars-grid .bar-card:hover {
+  transform: rotate(0deg) translateY(calc(var(--offset-y, 0px) - 6px)) scale(1.015);
+}
+
+/* ---------- 6. TYPOGRAPHY DRAMA (bigger sizes) ---------- */
+.home .hero-headline {
+  font-size: clamp(3rem, 7.5vw, 6rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.03em !important;
+}
+.home .display-candle {
+  font-size: clamp(2.25rem, 5vw, 4.25rem);
+}
+body.home .page-banner h1.display-candle {
+  font-size: clamp(2.5rem, 5.5vw, 4.75rem);
+}
+/* Script emphasis sized up */
+.home em.script-em,
+.home .script-em {
+  font-size: 1.35em !important;
+  vertical-align: baseline !important;
+  line-height: 0.8 !important;
+}
+
+/* Stat callout numerals larger */
+.home .stat-callout__num {
+  font-size: clamp(3rem, 5.5vw, 4.5rem) !important;
+}
+.home .stat-callout__num--text {
+  font-size: clamp(2.5rem, 4.5vw, 3.5rem) !important;
+}
+
+/* Body line height */
+.home .section-subhead,
+.home .drink-panel__body,
+.home .about-story-body,
+.home p.lead {
+  line-height: 1.65;
+}
+
+/* ---------- 7. MICRO-INTERACTIONS ---------- */
+/* Primary button: subtle inner amber glow pulse on hover */
+@keyframes amberPulse {
+  0%, 100% { box-shadow: 0 10px 28px rgba(107, 31, 42, 0.4), 0 0 0 rgba(232, 182, 101, 0.2), inset 0 0 0 1px var(--candle); }
+  50%      { box-shadow: 0 14px 34px rgba(107, 31, 42, 0.5), 0 0 32px rgba(232, 182, 101, 0.35), inset 0 0 0 1px var(--candle); }
+}
+.home .btn-elegant--primary:hover,
+.home .btn.btn-primary:hover,
+.home .hero-cta:hover,
+.home .nav-cta:hover {
+  animation: amberPulse 2.2s ease-in-out infinite;
+}
+
+/* Link brass underline draw animation */
+.home .menu-placeholder__link,
+.home .hero-link,
+.footer a {
+  position: relative;
+}
+.home .hero-link::after {
+  transition: right 400ms cubic-bezier(0.22, 1, 0.36, 1), background 240ms;
+}
+
+/* Image hover: zoom within brass frame (image scales, frame holds) */
+.image-brass {
+  overflow: hidden;
+  transition: box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1), border-color 500ms;
+}
+.image-brass img {
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.image-brass:hover img { transform: scale(1.03); }
+.image-brass:hover {
+  border-color: var(--candle);
+  box-shadow: 0 22px 44px rgba(42, 31, 26, 0.28), 0 0 30px rgba(232, 182, 101, 0.25);
+}
+
+/* CTA arrow slide-on-hover (reinforces) */
+.home .btn-elegant .arrow,
+.home .btn.btn-primary .arrow,
+.home .btn.btn-secondary .arrow {
+  transition: transform 380ms cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.home .btn-elegant:hover .arrow,
+.home .btn.btn-primary:hover .arrow,
+.home .btn.btn-secondary:hover .arrow { transform: translateX(6px); }
+
+/* ---------- 8. AMBIENT MOTION ---------- */
+/* Candle flicker on dark-section amber glow */
+@keyframes candleFlickerSlow {
+  0%, 100% { opacity: 1; }
+  18% { opacity: 0.94; }
+  32% { opacity: 1; }
+  50% { opacity: 0.88; }
+  68% { opacity: 0.97; }
+  82% { opacity: 1; }
+}
+.home .whats-on,
+.home .pull-quote-section,
+.home .visit-placard-section,
+body.events-page main > .live-music-feature,
+body.visit-page main > .visit-placard-section {
+  position: relative;
+}
+.home .whats-on::before,
+.home .pull-quote-section::before,
+.home .visit-placard-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(600px 400px at 50% 50%, rgba(232, 182, 101, 0.12), transparent 70%);
+  animation: candleFlickerSlow 7s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+/* Brass filigree shimmer across footer top bar */
+@keyframes brassShimmer {
+  0%   { background-position: -200% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.footer::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--brass) 40%,
+    var(--candle) 50%,
+    var(--brass) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0.7;
+  animation: brassShimmer 16s ease-in-out infinite;
+}
+
+/* Scroll progress brass sweep */
+.scroll-progress { background: linear-gradient(90deg, var(--brass), var(--candle)); }
+
+/* ---------- 9. NAV POLISH ---------- */
+/* Current page brass dot beneath link */
+.nav-links a.active::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--brass);
+  box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.2);
+  animation: candleFlicker 4s ease-in-out infinite;
+}
+
+/* Logo breathe */
+@keyframes logoBreathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.015); }
+}
+.nav .brand-logo {
+  animation: logoBreathe 5s ease-in-out infinite;
+  will-change: transform;
+}
+.nav .brand:hover .brand-logo { animation-play-state: paused; }
+
+/* Sticky nav already set; strengthen the brass hairline on scroll */
+.nav::after {
+  transition: opacity 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0.3;
+}
+.nav.scrolled::after { opacity: 0.85; }
+
+/* ---------- 10. PAGE-LOAD CREAM OVERLAY ---------- */
+.page-load-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--cream-warm);
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity 650ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.page-load-overlay.is-hidden { opacity: 0; }
+
+/* ---------- 11. STAT CALLOUT CARD LIFT (home On Tap) ---------- */
+.home .stat-callout {
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.home .stat-callout:hover { transform: translateY(-3px); }
+
+/* ---------- 12. REVIEW CARDS: hover depth ---------- */
+.home .review-quote {
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1), border-color 400ms;
+}
+.home .review-quote:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(42, 31, 26, 0.18), 0 0 28px rgba(232, 182, 101, 0.14);
+}
+
+/* ---------- 13. SECTION DIVIDER DRAW-IN (pull-quote flourishes) ---------- */
+@keyframes flourishDrawIn {
+  from { transform: scaleX(0); opacity: 0; }
+  to   { transform: scaleX(1); opacity: 0.75; }
+}
+.home .pull-quote-flourish {
+  transform-origin: center;
+  transform: scaleX(0);
+  opacity: 0;
+}
+.home .pull-quote-section .reveal.in .pull-quote-flourish,
+.home .reveal.in .pull-quote-flourish {
+  animation: flourishDrawIn 1100ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
+}
+.home .reveal.in .pull-quote-flourish--bottom {
+  animation-delay: 900ms;
+}
+
+/* ---------- 14. GLOBAL REDUCED-MOTION KILL-SWITCH ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg img,
+  .home .hero::before,
+  .home .whats-on::before,
+  .home .pull-quote-section::before,
+  .home .visit-placard-section::before,
+  .nav .brand-logo,
+  .nav-links a.active::before,
+  .footer::before,
+  .home .btn-elegant--primary:hover,
+  .home .btn.btn-primary:hover,
+  .home .hero-cta:hover,
+  .home .nav-cta:hover,
+  .page-banner h1 .word,
+  .hero-headline .word,
+  .page-load-overlay {
+    animation: none !important;
+    transition: opacity 200ms ease, transform 200ms ease !important;
+  }
+  .hero-bg img { transform: none !important; }
+  .page-banner h1.words-in .word,
+  .hero-headline.words-in .word {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+  .page-load-overlay { display: none !important; }
+}
+
+/* ---------- 15. RESPONSIVE GUARDS ---------- */
+@media (max-width: 960px) {
+  /* Disable card asymmetry offset on mobile (they stack) */
+  .home .bars-grid .bar-card {
+    --offset-y: 0px !important;
+  }
+  body.home .page-banner-image::before,
+  body.home .page-banner-image--primary::before,
+  .drink-panel__hero::before,
+  .whats-on-hero::before {
+    inset: 8px -8px -8px 8px;
+  }
+}
+@media (max-width: 640px) {
+  .home .hero-headline { font-size: clamp(2.5rem, 10vw, 4rem) !important; }
+  body.home .page-banner h1.display-candle { font-size: clamp(2.25rem, 9vw, 3.25rem); }
+  /* Disable brass shadow blocks on very small to avoid overflow */
+  body.home .page-banner-image::before,
+  body.home .page-banner-image--primary::before,
+  .drink-panel__hero::before,
+  .whats-on-hero::before {
+    display: none;
+  }
+}
+
 /* -------- Review layout with feature image (home page) -------- */
 .home .review-layout {
   display: grid;
