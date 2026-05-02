@@ -81,6 +81,19 @@
   );
   counters.forEach((c) => cio.observe(c));
 
+  // Video play overlays
+  document.querySelectorAll('.sr-video').forEach((wrap) => {
+    const video = wrap.querySelector('video');
+    const overlay = wrap.querySelector('.video-play');
+    if (!video || !overlay) return;
+    overlay.addEventListener('click', () => {
+      wrap.classList.add('playing');
+      video.setAttribute('controls', '');
+      video.play().catch(() => {});
+    });
+    video.addEventListener('play', () => wrap.classList.add('playing'));
+  });
+
   // Form fake submit
   const form = document.querySelector('.contact-form');
   if (form) {
