@@ -1371,3 +1371,236 @@ section { padding: 2.75rem 0; }
 .divider--center { margin-left: auto; margin-right: auto; }
 
 .tel { white-space: nowrap; }
+
+/* ============================================================
+   MOBILE OPTIMIZATION (≤1023px) — desktop ≥1024px untouched
+   Breakpoints: 0–480, 481–767, 768–1023
+   ============================================================ */
+
+/* Sticky mobile call bar — visible only ≤767px */
+.mobile-call-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 88;
+  display: none;
+  padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0));
+  background: rgba(10, 10, 15, 0.92);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border-top: 1px solid rgba(212, 168, 83, 0.25);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+  transform: translateY(0);
+  transition: transform 320ms var(--ease-out);
+}
+.mobile-call-bar.is-hidden { transform: translateY(110%); }
+.mobile-call-bar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.85rem 1rem;
+  border-radius: 999px;
+  background: var(--color-amber);
+  color: #0a0a0f;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-variant-numeric: tabular-nums;
+  transition: background 240ms var(--ease-out), transform 220ms var(--spring);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.mobile-call-bar a:active { transform: scale(0.98); background: var(--color-amber-bright); }
+.mobile-call-bar svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* Tablet & landscape phones (≤1023px) */
+@media (max-width: 1023px) {
+  body { word-break: break-word; -webkit-text-size-adjust: 100%; }
+}
+
+/* Phones in any orientation (≤767px) */
+@media (max-width: 767px) {
+  .mobile-call-bar { display: block; }
+
+  /* Body padding so content clears the sticky bar */
+  main { padding-bottom: 5.5rem; }
+
+  /* Hero — smoother typography and full-width CTA */
+  .hero__title { line-height: 1.05; }
+  .hero__sub { font-size: 1rem; line-height: 1.6; }
+  .hero__eyebrow {
+    font-size: 0.62rem;
+    padding: 0.35rem 0.8rem;
+    letter-spacing: 0.22em;
+  }
+  .hero__content { padding: 5rem 1.5rem 3rem; }
+  .hero__ctas { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+  .hero__ctas .btn { width: 100%; }
+  .hero__meta {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    gap: 0.6rem 1.5rem;
+  }
+  .hero__meta-item { gap: 0; }
+  .hero__meta-item strong { font-size: 1rem; }
+  .hero__meta-item span { font-size: 0.7rem; letter-spacing: 0.1em; }
+
+  /* Page header (non-home) — tighter */
+  .page-header {
+    min-height: 42vh;
+    padding: calc(var(--nav-height) + 2rem) 0 2rem;
+  }
+  .page-header h1 { font-size: clamp(2rem, 7vw, 2.75rem); line-height: 1.1; }
+  .page-header p { font-size: 0.95rem; }
+
+  /* Section header — single column on mobile so heading + lead stack */
+  .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.75rem;
+  }
+  .section-lead { font-size: 1rem; }
+  .section-title { font-size: clamp(1.85rem, 6vw, 2.5rem); }
+
+  /* Image split — cap image height, image-first for visual rhythm */
+  .image-split { gap: 1.5rem; margin: 1rem 0; }
+  .image-split__media {
+    aspect-ratio: 4/3;
+    max-height: 360px;
+  }
+
+  /* Image banner — better aspect for tall phones */
+  .image-banner {
+    aspect-ratio: 16/11;
+    max-height: 380px;
+    margin: 1.5rem 0 0;
+  }
+  .image-banner__caption { padding: 1.25rem 1.25rem; gap: 0.5rem; }
+  .image-banner__caption h3 { font-size: 1.25rem; }
+  .image-banner__caption p { font-size: 0.85rem; }
+
+  /* Floor cards — reasonable height ceiling */
+  .floor { aspect-ratio: 4/3; }
+  .floor__body { padding: 1.5rem; }
+  .floor__num { font-size: 2.6rem; }
+  .floor__title { font-size: 1.1rem; }
+  .floor__desc { font-size: 0.9rem; }
+
+  /* Drinks tabs — horizontal scroll if wrapping is awkward */
+  .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 2rem;
+    padding-bottom: 0.4rem;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex-shrink: 0; }
+
+  /* Stats grid — tighter padding */
+  .stats { padding: 2rem 1.5rem; gap: 1.75rem; margin-bottom: 2rem; }
+  .stat__num { font-size: clamp(2rem, 6vw, 2.75rem); }
+
+  /* CTA block — full-width buttons, less padding */
+  .cta-block { padding: 2.5rem 1.5rem; }
+  .cta-block h2 { font-size: clamp(1.65rem, 5.5vw, 2.25rem); margin-bottom: 0.75rem; }
+  .cta-block p { font-size: 0.95rem; margin-bottom: 1.75rem; }
+  .cta-block__actions { flex-direction: column; align-items: stretch; gap: 0.65rem; }
+  .cta-block__actions .btn { width: 100%; }
+
+  /* Reviews + drinks grid — single column, tighter */
+  .reviews-grid { gap: 1rem; }
+  .review { padding: 2rem 1.5rem 1.5rem; }
+  .review__text { font-size: 1.05rem; }
+
+  /* Visit grid stays single column — keep map readable */
+  .visit-grid { gap: 1.5rem; }
+  .info-card { padding: 1.75rem; }
+
+  /* Hours rows — tighter font */
+  .hours-row { font-size: 0.88rem; padding: 0.6rem 0; }
+  .hours-row__time { font-size: 0.85rem; }
+
+  /* Events list */
+  .event { padding: 1.25rem; }
+  .event__title { font-size: 1.05rem; }
+
+  /* Footer — single column with clear order */
+  .footer { padding: 3rem 0 2rem; margin-top: 0; }
+  .footer__grid { grid-template-columns: 1fr; gap: 2.25rem; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; gap: 0.5rem; padding-top: 1.5rem; }
+
+  /* Back-to-top — lift above the sticky call bar */
+  .back-top { bottom: 5.5rem; right: 1rem; width: 44px; height: 44px; }
+
+  /* Reveal animations — tighten travel distance for less jank */
+  .reveal { transform: translateY(16px); }
+  [data-stagger] > * { transform: translateY(14px); }
+
+  /* Disable parallax visual: image stays anchored (JS also short-circuits) */
+  .hero__img { transform: translate3d(0, 0, 0) !important; }
+
+  /* Lights overlay slightly less prominent on small screens */
+  .hero__lights { opacity: 0.25; }
+
+  /* About floor-row — tighter spacing */
+  .floor-row { padding: 1.1rem 0; }
+  .floor-row__title { font-size: 0.98rem; }
+  .floor-row__desc { font-size: 0.88rem; }
+}
+
+/* Small phones (≤480px) */
+@media (max-width: 480px) {
+  .container { padding: 0 1.25rem; }
+  .nav__inner { padding: 0 1rem; gap: 0.5rem; }
+
+  /* Hero typography step-down */
+  .hero__title { font-size: clamp(2.2rem, 9vw, 2.8rem); }
+
+  /* Section title slightly tighter */
+  .section-title { font-size: clamp(1.7rem, 6.5vw, 2.2rem); }
+
+  /* Eyebrow — keep readable */
+  .eyebrow { font-size: 0.68rem; }
+  .eyebrow::before { width: 24px; }
+
+  /* Tabs slightly smaller */
+  .tab { padding: 0.7rem 1.1rem; font-size: 0.72rem; }
+
+  /* Drinks card stack better at narrow widths */
+  .drinks-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .drink { padding: 1.25rem 1.4rem; }
+
+  /* Tap cards stack nicely */
+  .taps { grid-template-columns: 1fr; }
+
+  /* Floor cards — slightly shorter */
+  .floor { aspect-ratio: 5/4; }
+
+  /* Image split media — cap shorter */
+  .image-split__media { aspect-ratio: 3/2; max-height: 300px; }
+
+  /* Image banner — even shorter on small phones */
+  .image-banner { aspect-ratio: 4/3; max-height: 320px; }
+
+  /* Stats single column */
+  .stats { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.75rem 1.5rem; }
+
+  /* Mobile call bar — adapt label */
+  .mobile-call-bar a { font-size: 0.78rem; letter-spacing: 0.1em; }
+
+  /* Page header */
+  .page-header { padding: calc(var(--nav-height) + 1.5rem) 0 1.5rem; min-height: 38vh; }
+
+  /* Make buttons full-width within blocks (excluding compact event__cta) */
+  .hero__ctas .btn,
+  .cta-block__actions .btn { width: 100%; }
+}
+
