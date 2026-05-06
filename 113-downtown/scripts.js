@@ -61,7 +61,9 @@
   // ---------- Hero parallax (image scrolls slower than foreground) ----------
   const heroImg = document.querySelector('.hero__img');
   const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (heroImg && !prefersReducedMotion) {
+  const smallScreen = window.matchMedia && window.matchMedia('(max-width: 767px)').matches;
+  // Disable parallax on small screens (battery / jank) and when reduced-motion is set.
+  if (heroImg && !prefersReducedMotion && !smallScreen) {
     let ticking = false;
     const updateParallax = () => {
       const y = window.scrollY;
@@ -79,6 +81,36 @@
       }
     }, { passive: true });
     updateParallax();
+  }
+
+  // ---------- Mobile sticky call bar ----------
+  if (!document.querySelector('.mobile-call-bar')) {
+    const bar = document.createElement('div');
+    bar.className = 'mobile-call-bar';
+    bar.setAttribute('role', 'complementary');
+    bar.setAttribute('aria-label', 'Call ONETHIRTEEN');
+    bar.innerHTML =
+      '<a href="tel:+13368085309" aria-label="Call ONETHIRTEEN at (336) 808-5309">' +
+      '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">' +
+      '<path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.4 0 .8-.3 1.1l-2.2 2.1z"/>' +
+      '</svg>Call (336) 808-5309</a>';
+    document.body.appendChild(bar);
+
+    // Optional polish: hide on scroll down, reveal on scroll up
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (Math.abs(y - lastY) > 6) {
+        if (y > lastY && y > 240) bar.classList.add('is-hidden');
+        else bar.classList.remove('is-hidden');
+        lastY = y;
+      }
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive: true });
   }
 
   // ---------- Stat counters ----------
