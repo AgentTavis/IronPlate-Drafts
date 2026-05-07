@@ -344,10 +344,28 @@ nav.nav-compact .nav-inner { height: 40px; }
   50%      { background-position: 100% 50%, 0% 50%, 100% 100%; }
 }
 
-/* VIDEO — uncomment and add src when ready */
-/*
-.hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; z-index: 0; }
-*/
+/* HERO VIDEO — environment video that plays behind logo + CTAs */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.65;
+  z-index: 1;
+  pointer-events: none;
+  /* Subtle warm tint to keep brand feel even before overlay */
+  filter: saturate(1.05) contrast(0.98);
+}
+/* Bump overlay above video so text stays legible */
+.hero-overlay { z-index: 2; }
+.hero::before, .hero::after { z-index: 3; }
+.hero-corner { z-index: 3; }
+.hero-content { z-index: 4; }
+.hero-scroll { z-index: 4; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-video { display: none; }
+}
 
 .hero-overlay {
   position: absolute; inset: 0; z-index: 1;
@@ -2283,10 +2301,324 @@ footer::after {
   .reveal-right { transform: translateX(30px); }
 }
 
+/* =====================================================
+   MOBILE OPTIMIZATION PASS
+   All rules below apply ONLY at 1023px and under.
+   Desktop (1024px+) is untouched.
+   ===================================================== */
+
+/* Sticky mobile CTA bar — hidden by default, shown under 768px */
+.mobile-cta-bar { display: none; }
+
+/* ── TABLET RANGE (768–1023px) ───────────────────── */
+@media (max-width: 1023px) {
+  /* Tighter section rhythm than desktop */
+  .section-breathe { padding: 5rem 2rem; }
+  .stat-band { padding: 4rem 2rem; }
+  .trust-row { padding: 2.5rem 1.5rem; }
+
+  /* Editorial headings scale down proportionally */
+  .editorial-heading {
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
+    line-height: 1.1;
+  }
+
+  /* Hero brand-line tighter */
+  .hero-brandline { font-size: 0.7rem; letter-spacing: 3.5px; }
+
+  /* Marquee — smaller phrase, tighter */
+  .marquee { padding: 1rem 0; }
+  .marquee-item { font-size: 1.25rem; gap: 2.75rem; }
+  .marquee-track { gap: 2.75rem; }
+}
+
+/* ── MOBILE (≤767px) ─────────────────────────────── */
+@media (max-width: 767px) {
+  /* Body padding-bottom so content isn't hidden by sticky CTA bar */
+  body { padding-bottom: 64px; }
+
+  /* Sticky CTA bar — appears */
+  .mobile-cta-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 95;
+    background: var(--maroon);
+    border-top: 1px solid rgba(201, 161, 74, 0.4);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .mobile-cta-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 56px;
+    padding: 0.75rem 0.5rem;
+    color: var(--cream);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-cta-btn + .mobile-cta-btn {
+    border-left: 1px solid rgba(245, 240, 232, 0.18);
+  }
+  .mobile-cta-btn:active { background: var(--maroon-deep); }
+  .mobile-cta-btn svg {
+    width: 18px; height: 18px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+  }
+  .mobile-cta-btn.primary {
+    background: rgba(201, 161, 74, 0.1);
+    color: var(--cream);
+  }
+  .mobile-cta-btn.primary:active { background: rgba(201, 161, 74, 0.2); }
+
+  /* Lift back-to-top above sticky bar */
+  .back-to-top {
+    bottom: 5rem;
+    right: 1rem;
+    width: 44px; height: 44px;
+  }
+
+  /* HERO — readable at 360px, no horizontal overflow */
+  .hero { min-height: 580px; }
+  .hero-minimal .hero-logo { height: 80px; margin-bottom: 1rem; }
+  .hero-brandline {
+    font-size: 0.62rem;
+    letter-spacing: 2.5px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    gap: 0.75rem;
+  }
+  .hero-buttons .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-content { padding: 0 1.25rem 4rem; }
+
+  /* Hero corners — only show top, smaller */
+  .hero-corner { width: 32px; height: 32px; opacity: 0.5; }
+  .hero-corner.tl { top: 0.6rem; left: 0.6rem; }
+  .hero-corner.tr { top: 0.6rem; right: 0.6rem; }
+
+  /* PAGE HEADERS (interior pages) — tighter */
+  .page-header { padding: 8rem 1.25rem 2.5rem; }
+  .page-header h1 { font-size: clamp(1.85rem, 8vw, 2.4rem); }
+  .page-header p { font-size: 0.95rem; }
+  .breadcrumb { font-size: 0.65rem; letter-spacing: 1.5px; }
+
+  /* MARQUEE — tighter on phone */
+  .marquee { padding: 0.85rem 0; }
+  .marquee-item { font-size: 1.05rem; gap: 2rem; }
+  .marquee-track { gap: 2rem; animation-duration: 28s; }
+  .marquee::before, .marquee::after { width: 60px; }
+
+  /* STAT BAND — proper 2x2 grid with tight rhythm */
+  .stat-band { padding: 3rem 1.25rem; }
+  .stat-band-inner { grid-template-columns: repeat(2, 1fr); gap: 2rem 0.5rem; }
+  .stat-num { font-size: clamp(2.2rem, 9vw, 2.8rem); }
+  .stat-label { font-size: 0.65rem; letter-spacing: 2px; }
+  .stat-item:nth-child(odd):not(:last-child)::after { display: none; }
+  .stat-item:nth-child(even)::after { display: none; }
+
+  /* SECTIONS — generous but not bloated */
+  section { padding: 3.5rem 1.25rem; }
+  .section-breathe { padding: 4rem 1.25rem; }
+  .section-title, .editorial-heading {
+    font-size: clamp(1.7rem, 7vw, 2.2rem);
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  /* EDITORIAL SPLITS — already stack, but tighten image cap */
+  .about-split, .bourbon-split { gap: 1.75rem; }
+  .about-image { max-height: 360px; }
+
+  /* HIGHLIGHT CARDS (about page) — single column */
+  .highlights-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .highlight-card { padding: 1.5rem 1.25rem; }
+
+  /* MENU — touch-friendly tabs and items */
+  .menu-cats { gap: 0.4rem; margin: 1.25rem 0; }
+  .menu-cat-btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 1.2px;
+    min-height: 44px;
+  }
+  .menu-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .menu-item { padding: 1.35rem 1.25rem; }
+  .menu-item-name { font-size: 1rem; }
+  .menu-item-price { font-size: 0.95rem; }
+  .menu-item-desc { font-size: 0.85rem; }
+
+  /* BAR / BOURBON cards */
+  .bourbon-list { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .bourbon-card { padding: 1rem 0.6rem; }
+  .bourbon-name { font-size: 0.85rem; }
+  .bourbon-image { min-height: 160px; }
+
+  /* QUOTE BREAKS — shorter on phone */
+  .quote-break { height: 220px; }
+  .quote-break-text p { font-size: clamp(1.4rem, 6vw, 1.85rem); }
+
+  /* EVENTS / cards */
+  .events-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .event-card { padding: 1.35rem 1.25rem; }
+  .lineup-panel { padding: 1.5rem 1rem; margin-top: 2rem; }
+
+  /* SPECIALS */
+  .specials-grid { grid-template-columns: 1fr; gap: 1rem; max-width: none; }
+  .special-card { padding: 1.5rem 1.25rem; }
+
+  /* REVIEWS */
+  .reviews-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 480px;
+    margin: 0 auto 1.5rem !important;
+  }
+  .reviews-rating { flex-wrap: wrap; gap: 0.5rem; }
+  .reviews-score { font-size: 1.7rem; }
+
+  /* TRUST ROW — wrap into 2x2 at small widths */
+  .trust-row { padding: 2rem 1.25rem; }
+  .trust-badges { gap: 1.5rem 1.25rem; }
+  .trust-badge { flex: 0 0 calc(50% - 0.625rem); min-width: 130px; }
+  .trust-badge-icon { width: 36px; height: 36px; }
+  .trust-badge-value { font-size: 0.95rem; }
+
+  /* CTA BANNER — buttons stack */
+  .cta-banner { padding: 3rem 1.25rem; }
+  .cta-banner h2 { font-size: clamp(1.5rem, 6vw, 2rem); }
+  .cta-banner p { font-size: 0.95rem; }
+  .cta-banner .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+    gap: 0.75rem;
+  }
+  .cta-banner .btn {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* CONTACT page — cards full width */
+  .contact-cards { grid-template-columns: 1fr; gap: 0.85rem; }
+  .contact-card { padding: 1.5rem 1.25rem; }
+  .hours-table { max-width: none; }
+  .hours-table td { padding: 0.75rem 0.5rem; font-size: 1rem; }
+  .open-indicator { font-size: 0.78rem; }
+  .map-wrap { min-height: 220px; }
+  .map-wrap iframe { min-height: 220px; }
+  .directions-box { margin-top: 1.75rem; padding: 1.25rem 1rem; }
+
+  /* CONTACT FORM — already had its own breakpoint, just ensure inputs are 16px+ */
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 16px;  /* prevents iOS auto-zoom on focus */
+    min-height: 48px;
+  }
+  .contact-form textarea { min-height: 140px; }
+  .contact-form .btn {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* IMAGE STRIPS — proper aspect ratios so no endless scroll */
+  .img-strip-4 .img-cell,
+  .img-strip-3 .img-cell,
+  .img-strip-2 .img-cell { aspect-ratio: 16/10; }
+  .img-cell.banner { aspect-ratio: 21/9; }
+
+  /* Show image-cell labels on mobile (no hover available) */
+  .img-cell-overlay { transform: translateY(0); opacity: 1; }
+
+  /* FOOTER — tighter line-height for compact mobile (other footer rules already exist) */
+  .footer-tagline { font-size: 1.2rem; max-width: 100%; }
+  .footer-nav a { font-size: 1rem; padding: 0.4rem 0; min-height: 44px; align-items: center; }
+  .footer-social a { width: 44px; height: 44px; }
+
+  /* Scroll progress bar — thinner on mobile */
+  .scroll-progress { height: 2px; }
+
+  /* Smooth tap highlight removal on key UI */
+  nav a, .btn, .menu-cat-btn, .footer-nav a, .back-to-top, .mobile-cta-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Long phone numbers / URLs — never overflow */
+  .footer-visit a, .contact-card-value, .footer-text { word-break: break-word; }
+}
+
+/* ── MOBILE PORTRAIT (≤480px) — fine-tuning ─────── */
+@media (max-width: 480px) {
+  /* Hero gets a smidge tighter on tiny screens */
+  .hero { min-height: 540px; }
+  .hero-minimal .hero-logo { height: 72px; }
+  .hero-brandline { font-size: 0.58rem; letter-spacing: 2px; }
+
+  /* Marquee even tighter */
+  .marquee-item { font-size: 0.95rem; gap: 1.5rem; }
+  .marquee-track { gap: 1.5rem; animation-duration: 24s; }
+
+  /* Stat band numbers smaller still */
+  .stat-num { font-size: clamp(2rem, 8.5vw, 2.4rem); }
+  .stat-label { font-size: 0.6rem; }
+
+  /* Editorial headings cap so they don't break awkwardly at 360px */
+  .editorial-heading { font-size: clamp(1.55rem, 7.5vw, 1.95rem); }
+  .section-title { font-size: clamp(1.5rem, 7vw, 1.95rem); }
+
+  /* Trust row goes to single column */
+  .trust-badge { flex: 0 0 100%; }
+
+  /* Bourbon cards single column */
+  .bourbon-list { grid-template-columns: 1fr; gap: 0.6rem; }
+
+  /* Tighter horizontal padding in tight quarters */
+  section, .section-breathe { padding-left: 1rem; padding-right: 1rem; }
+  .page-header { padding-left: 1rem; padding-right: 1rem; }
+
+  /* Quote-break shorter */
+  .quote-break { height: 180px; }
+
+  /* Mobile CTA bar slightly smaller */
+  .mobile-cta-btn { font-size: 0.72rem; min-height: 52px; }
+  body { padding-bottom: 60px; }
+  .back-to-top { bottom: 4.5rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
   body { opacity: 1; }
+  .marquee-track { animation: none !important; }
 }
