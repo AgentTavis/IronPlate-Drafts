@@ -181,10 +181,11 @@ const BAR = {
   ]
 };
 
+/* Each entry: either { src, alt } for a real photo, or { placeholder: "..." } for a TODO */
 const BAR_IMAGES = {
-  bourbon: "PHOTO NEEDED: Full bourbon shelf. Show all 50+ bottles lined up on the backbar shelves. Wide enough to see the depth of the collection. Warm lighting.",
-  tequila: "PHOTO NEEDED: Tequila collection display. Show the tequila bottles -- Clase Azul, Don Julio 1942, and the rest. Should feel premium and curated.",
-  drafts:  "PHOTO NEEDED: Draft tap handles in a row. Show the tap setup with multiple handles. Maybe a fresh pour in progress. Should convey variety and freshness."
+  bourbon: { src: "assets/images/bourbon-shelf.jpg", alt: "Premium bourbon — Eagle Rare 10Y, Buffalo Trace, Blanton's" },
+  tequila: { placeholder: "Tequila collection display. Show the tequila bottles — Clase Azul, Don Julio 1942, and the rest. Should feel premium and curated." },
+  drafts:  { placeholder: "Draft tap handles in a row. Show the tap setup with multiple handles. Maybe a fresh pour in progress. Should convey variety and freshness." }
 };
 
 function showBar(cat, btn) {
@@ -199,7 +200,12 @@ function showBar(cat, btn) {
   ).join('');
   const imgArea = document.getElementById('barImage');
   if (imgArea) {
-    imgArea.innerHTML = `<div class="img-placeholder" style="height:100%"><span class="ph-label">Photo Coming Soon</span>${BAR_IMAGES[cat] || ''}</div>`;
+    const img = BAR_IMAGES[cat];
+    if (img && img.src) {
+      imgArea.innerHTML = `<img src="${img.src}" alt="${img.alt || ''}" loading="lazy">`;
+    } else {
+      imgArea.innerHTML = `<div class="img-placeholder" style="height:100%"><span class="ph-label">Photo Coming Soon</span>${img?.placeholder || ''}</div>`;
+    }
   }
   btn.parentElement.querySelectorAll('.menu-cat-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
