@@ -1003,16 +1003,28 @@ section { padding: 5rem 2rem; position: relative; }
 .bourbon-image {
   background: var(--charcoal);
   overflow: hidden;
-  min-height: 200px;
   position: relative;
+  min-height: 0;     /* let grid stretch determine height; don't push the row taller */
+  align-self: stretch;
 }
 .bourbon-image::after {
   content: '';
   position: absolute; inset: 0;
   pointer-events: none;
   box-shadow: inset 0 0 0 1px rgba(201,161,74,0.2);
+  z-index: 1;
 }
-.bourbon-image img { width: 100%; height: 100%; object-fit: cover; }
+/* Image fills the grid-stretched box without dictating its own height —
+   works for the static <img>, the JS-injected <img> on tab switch, and the
+   placeholder shown for tequila/drafts tabs. */
+.bourbon-image > img,
+.bourbon-image > .img-placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .bourbon-note {
   margin-top: 1.25rem;
   font-size: 0.72rem;
