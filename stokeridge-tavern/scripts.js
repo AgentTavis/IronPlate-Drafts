@@ -183,7 +183,7 @@ const BAR = {
 
 /* Each entry: either { src, alt } for a real photo, or { placeholder: "..." } for a TODO */
 const BAR_IMAGES = {
-  bourbon: { src: "assets/images/bourbon-shelf.jpg", alt: "Premium bourbon — Eagle Rare 10Y, Buffalo Trace, Blanton's" },
+  bourbon: { src: "assets/images/bourbon-closeup.jpg", alt: "Eagle Rare and Buffalo Trace bourbon bottles on the shelf" },
   tequila: { placeholder: "Tequila collection display. Show the tequila bottles — Clase Azul, Don Julio 1942, and the rest. Should feel premium and curated." },
   drafts:  { placeholder: "Draft tap handles in a row. Show the tap setup with multiple handles. Maybe a fresh pour in progress. Should convey variety and freshness." }
 };
