@@ -199,6 +199,12 @@ const BAR_IMAGES = {
   drafts:  { src: "assets/images/wide.jpg", alt: "Wide shot of the StokeRidge bar" }
 };
 
+/* Downloadable PDFs per bar category. Drafts has no PDF. */
+const BAR_PDFS = {
+  bourbon: { href: "assets/documents/bourbon-menu.pdf", label: "Download Bourbon Menu" },
+  tequila: { href: "assets/documents/tequila-menu.pdf", label: "Download Tequila Menu" }
+};
+
 function showBar(cat, btn) {
   const grid = document.getElementById('barGrid');
   if (!grid) return;
@@ -216,6 +222,18 @@ function showBar(cat, btn) {
       imgArea.innerHTML = `<img src="${img.src}" alt="${img.alt || ''}" loading="lazy">`;
     } else {
       imgArea.innerHTML = `<div class="img-placeholder" style="height:100%"><span class="ph-label">Photo Coming Soon</span>${img?.placeholder || ''}</div>`;
+    }
+  }
+  // Swap the download link to match the active category. Hide for drafts.
+  const pdfLink = document.getElementById('barMenuLink');
+  if (pdfLink) {
+    const pdf = BAR_PDFS[cat];
+    if (pdf) {
+      pdfLink.href = pdf.href;
+      pdfLink.innerHTML = pdf.label + ' →';
+      pdfLink.style.display = '';
+    } else {
+      pdfLink.style.display = 'none';
     }
   }
   btn.parentElement.querySelectorAll('.menu-cat-btn').forEach(b => b.classList.remove('active'));
