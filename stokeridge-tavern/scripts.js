@@ -1,5 +1,5 @@
 /* =====================================================
-   STOKERIDGE TAVERN & GRILL — SHARED SCRIPTS
+   STOKERIDGE TAVERN & GRILL - SHARED SCRIPTS
    Handles: nav, scroll reveals, parallax, menu tabs,
             bar tabs, open-now indicator, back-to-top,
             scroll progress, mobile nav, form validation
@@ -110,7 +110,7 @@ const FEATURED_ITEMS = [
 ];
 
 /* ── MENU TAB SWITCHER ───────────────────────────── */
-function showCat(c, b) {
+function showCat(c, b, silent) {
   const g = document.getElementById('menuGrid');
   if (!g) return;
   g.classList.add('switching');
@@ -128,6 +128,17 @@ function showCat(c, b) {
   }, 200);
   document.querySelectorAll('.menu-cat-btn').forEach(x => x.classList.remove('active'));
   if (b) b.classList.add('active');
+
+  // Scroll the category tabs to the top of the viewport so the user lands at the
+  // start of the freshly-selected list. Skip on the initial page-load call (silent).
+  if (!silent) {
+    const cats = document.querySelector('.menu-cats');
+    if (cats) {
+      const offset = 72; // breathing room under nav bar
+      const y = cats.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
 }
 
 /* Render featured items for home page */
@@ -404,7 +415,7 @@ function initContactForm() {
   const fields = form.querySelectorAll('input[required], textarea[required]');
   const status = document.getElementById('formStatus');
 
-  // Inline validation on blur (not keystroke) — matches MD guidance
+  // Inline validation on blur (not keystroke) - matches MD guidance
   fields.forEach(field => {
     field.addEventListener('blur', () => {
       field.classList.add('touched');
@@ -445,7 +456,7 @@ function initContactForm() {
     }
 
     if (status) {
-      status.textContent = "Thanks — we got it. We'll get back to you soon. Or give us a call at (336) 298-4942.";
+      status.textContent = "Thanks, we got it. We'll get back to you soon. Or give us a call at (336) 298-4942.";
       status.className = 'form-status success';
     }
     form.reset();
@@ -456,10 +467,10 @@ function initContactForm() {
 
 /* ── INIT ─────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-  // Home page — default menu tab
+  // Home page - default menu tab
   const firstMenuBtn = document.querySelector('.menu-cat-btn');
   if (firstMenuBtn && document.getElementById('menuGrid')) {
-    showCat('starters', firstMenuBtn);
+    showCat('starters', firstMenuBtn, true);
   }
 
   renderFeatured();
