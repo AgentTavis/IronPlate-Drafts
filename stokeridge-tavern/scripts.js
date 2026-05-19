@@ -425,6 +425,18 @@ function initCountUp() {
   nums.forEach(n => io.observe(n));
 }
 
+/* ── WANGSDAY HIGHLIGHT (Wednesdays only) ────────── */
+function initWangsdayHighlight() {
+  const callout = document.querySelector('.wangsday-callout');
+  if (!callout) return;
+  // Day 3 = Wednesday (Sun=0, Mon=1, ..., Wed=3)
+  if (new Date().getDay() === 3) {
+    callout.classList.add('is-today');
+    const badge = callout.querySelector('.wangsday-badge');
+    if (badge) badge.removeAttribute('hidden');
+  }
+}
+
 /* ── CONTACT FORM (local only) ───────────────────── */
 function initContactForm() {
   const form = document.getElementById('contactForm');
@@ -501,4 +513,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initOpenNow();
   initContactForm();
   initCountUp();
+  initWangsdayHighlight();
 });
